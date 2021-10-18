@@ -7,5 +7,6 @@ We will be using [Github flow](https://guides.github.com/introduction/flow/):
 2. Work on the branch.
 3. When you want to merge your branch into `main`, create a pull request.
 4. Review the changes and merge.
+
 If there are conflicts, discuss a solution with the rest of the team.
 Remember to keep your branches up to date.
