@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1758054998159331211}
   - component: {fileID: 1758054998159331220}
-  - component: {fileID: 1758054998159331221}
+  - component: {fileID: 4371670697902008431}
   m_Layer: 0
   m_Name: SampleElfenBoot
   m_TagString: Untagged
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1758054998159331221
+--- !u!114 &4371670697902008431
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +92,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1758054998159331222}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56a68692fe74f024fa73ff453c6d2068, type: 3}
+  m_Script: {fileID: 11500000, guid: e41392aefd4223644b07a9d257fbe245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Boot: {fileID: 1758054998159331222}

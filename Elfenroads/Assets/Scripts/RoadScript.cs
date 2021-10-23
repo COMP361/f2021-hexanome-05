@@ -38,4 +38,10 @@ public class RoadScript : MonoBehaviour
     public GameObject getCity2(){
         return city2;
     }
+
+    public void onClick(){
+        //This road was clicked. Inform the MoveBootsManager, who will verify that it was a valid road to click on for movement.
+        //(I suppose I could take out this middle man and just pass the road object to an onClick() in the GameManager, but then the manager would have very many onClick() functions.)
+        MoveBootsManager.instance.roadClicked(gameObject);
+    }
 }

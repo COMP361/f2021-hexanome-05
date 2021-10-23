@@ -8,15 +8,11 @@ public class BootScript : MonoBehaviour
 {
     private GameObject currentCity;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public void setCurrentCity(GameObject city){
+        currentCity = city;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public GameObject getCurrentCity(){
+        return currentCity;
     }
 }

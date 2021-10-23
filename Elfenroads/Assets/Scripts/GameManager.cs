@@ -11,7 +11,7 @@ public enum BroadGameState{
 
 public class GameManager : MonoBehaviour
 {
-    public BroadGameState broadGameState;
+    private BroadGameState broadGameState;
     public static event Action<BroadGameState> onBroadStateChange;
 
     //Game manager is a singleton object, so make the appropriate field/function here. Can be called from other scripts via "GameManager.instance".
@@ -41,10 +41,11 @@ public class GameManager : MonoBehaviour
 
 
 
+    public GameObject bootPrefab;
+
     private List<GameObject> cities = new List<GameObject>();
     private List<GameObject> roads = new List<GameObject>();
     private List<GameObject> boots = new List<GameObject>();
-
 
     void Start()
     {
@@ -52,13 +53,24 @@ public class GameManager : MonoBehaviour
         //it will just create a  boot, and place it on the starting city (Elvenhold)
 
         //First though, we get the initial state. For now, start at MoveBoot (if we have extra time, include SelectBoot ***).
-        UpdateState(BroadGameState.MoveBoot);
+        //UpdateState(BroadGameState.MoveBoot);
 
         //First, we update each city, so that they can keep track of all their connected roads.
         foreach(GameObject road in roads){
             road.GetComponent<RoadScript>().getCity1().GetComponent<CityScript>().updateRoads(road);
             road.GetComponent<RoadScript>().getCity2().GetComponent<CityScript>().updateRoads(road);
         }
+
+        var instantiatedBoot = Instantiate(bootPrefab) as GameObject;
+        GameObject startingCity = GameObject.Find("Elfenhold");
+        instantiatedBoot.transform.position = startingCity.transform.position;
+        instantiatedBoot.GetComponent<BootScript>().setCurrentCity(startingCity);
+        boots.Add(instantiatedBoot);
+
+        MoveBootsManager.instance.passBoots(boots);
+        MoveBootsManager.instance.passRoads(roads);
+
+        UpdateState(BroadGameState.MoveBoot);
 
         //NOTE: Roads, Cities and the Manager may be too tightly coupled - Depending on order of Start() functions, we may get unintended results. For now, it works.
     }
@@ -71,11 +83,5 @@ public class GameManager : MonoBehaviour
     public void addRoad(GameObject roadToAdd)
     {
         this.roads.Add(roadToAdd);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
