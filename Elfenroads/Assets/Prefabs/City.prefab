@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cityName: Elfenhold
-  isStartingCity: 1
+  isStartingCity: 0
 --- !u!212 &8072134380740383195
 SpriteRenderer:
   m_ObjectHideFlags: 0
