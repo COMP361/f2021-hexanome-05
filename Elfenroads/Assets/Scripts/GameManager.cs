@@ -71,6 +71,7 @@ public class GameManager : MonoBehaviour
         MoveBootsManager.instance.passRoads(roads);
 
         UpdateState(BroadGameState.MoveBoot);
+        Cursor.lockState = CursorLockMode.Confined;
 
         //NOTE: Roads, Cities and the Manager may be too tightly coupled - Depending on order of Start() functions, we may get unintended results. For now, it works.
     }
