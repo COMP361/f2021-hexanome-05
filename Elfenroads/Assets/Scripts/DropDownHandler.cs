@@ -9,7 +9,7 @@ public class DropDownHandler : MonoBehaviour
     void Start()
     {
         var dropdown = transform.GetComponent<Dropdown>();
-        List<string> items = new List<string>() { "Chris' saved game 1" , "Elfenroads saved file #2"};
+        List<string> items = new List<string>() { "","Chris' saved game 1" , "Elfenroads saved file #2"};
         
         foreach(var item in items)
         {
