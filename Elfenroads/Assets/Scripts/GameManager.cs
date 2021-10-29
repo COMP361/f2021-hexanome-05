@@ -71,9 +71,14 @@ public class GameManager : MonoBehaviour
         MoveBootsManager.instance.passRoads(roads);
 
         UpdateState(BroadGameState.MoveBoot);
+        Invoke("callHighlightRoads", 0.05f);
         Cursor.lockState = CursorLockMode.Confined;
 
         //NOTE: Roads, Cities and the Manager may be too tightly coupled - Depending on order of Start() functions, we may get unintended results. For now, it works.
+    }
+
+    void callHighlightRoads(){
+        MoveBootsManager.instance.highlightRoads();
     }
 
     public void addCity(GameObject cityToAdd)

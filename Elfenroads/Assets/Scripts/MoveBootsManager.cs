@@ -37,7 +37,8 @@ public class MoveBootsManager : MonoBehaviour
         {
             Debug.Log("Time for MoveBoots!");
             //For now, with just one boot, we'll just check the road highlighting here. We'll need to implement this with a more sophisticated turn-based setting later.
-            highlightRoads(boots[0]);
+            //highlightRoads(boots[0]);
+            //highlightRoads();
 
         }
     }
@@ -47,9 +48,9 @@ public class MoveBootsManager : MonoBehaviour
         boot.transform.position = boot.GetComponent<BootScript>().getCurrentCity().transform.position;
     }
 
-    void highlightRoads(GameObject boot){
+    public void highlightRoads(){
         
-        GameObject curCity = boot.GetComponent<BootScript>().getCurrentCity();
+        GameObject curCity = boots[0].GetComponent<BootScript>().getCurrentCity();
         
         foreach(GameObject road in roads){
             GameObject city1 = road.GetComponent<RoadScript>().getCity1();
@@ -77,7 +78,7 @@ public class MoveBootsManager : MonoBehaviour
             }
 
             moveBoot(boot);
-            highlightRoads(boot);
+            highlightRoads();
         }
     }
 
