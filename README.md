@@ -1,6 +1,6 @@
 # f2021-hexanome-05
 ## Installation
-Use Unity version 2020.3.20f1 LTS (64-bit). Select `Elfenroads` as the project root during import.
+Use Unity version 2020.3.21f1 LTS (64-bit). Select `Elfenroads` as the project root during import.
 ## Workflow
 We will be using [Github flow](https://guides.github.com/introduction/flow/):
 1. Create a branch for the topic/feature you want to work on (or check if it exists already).
