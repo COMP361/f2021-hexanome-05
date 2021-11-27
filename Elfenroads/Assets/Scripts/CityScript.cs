@@ -7,6 +7,8 @@ public class CityScript : MonoBehaviour
 {
     public string cityName;
     public bool isStartingCity;
+
+    public List<GameObject> townPiecesOnCity = new List<GameObject>();
     
     private List<GameObject> attachedRoads = new List<GameObject>();
 
@@ -20,6 +22,11 @@ public class CityScript : MonoBehaviour
     public void updateRoads(GameObject road){
         attachedRoads.Add(road);
         Debug.Log("Road added to city " + cityName);
+    }
+
+    public void updateTownPieces(GameObject tPiece){
+        townPiecesOnCity.Add(tPiece);
+        Debug.Log("Townpiece added to city " + cityName);
     }
 
     // Update is called once per frame

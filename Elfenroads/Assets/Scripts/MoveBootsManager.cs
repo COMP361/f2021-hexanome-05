@@ -44,8 +44,19 @@ public class MoveBootsManager : MonoBehaviour
     }
 
     void moveBoot(GameObject boot){
-
+        // move boot
         boot.transform.position = boot.GetComponent<BootScript>().getCurrentCity().transform.position + boot.GetComponent<BootScript>().Offset;
+
+        // disable(for now) townpieces
+        BootColor color = boot.GetComponent<BootScript>().color;
+        List<GameObject> townPiecesList = boot.GetComponent<BootScript>().getCurrentCity().GetComponent<CityScript>().townPiecesOnCity;
+
+        foreach(GameObject townPiece in townPiecesList){
+            if (townPiece.GetComponent<TownPieceManager>().color == boot.GetComponent<BootScript>().color){
+                townPiece.SetActive(false);
+            }
+        }
+
     }
 
     public void highlightRoads(){

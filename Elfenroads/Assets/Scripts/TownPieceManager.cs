@@ -7,6 +7,7 @@ public class TownPieceManager : MonoBehaviour
     public Sprite blueSprite;
     public Sprite YellowSprite;
     public GameObject town;
+    public BootColor color;
 
     private GameObject owner;
     // Start is called before the first frame update
