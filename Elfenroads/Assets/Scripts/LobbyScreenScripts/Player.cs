@@ -6,7 +6,8 @@ public class Player
 {
     private string name;
     private string password;
-    private string authToken;
+    private string accessToken;
+    private string refreshToken;
 
     public Player(){
 
@@ -20,8 +21,12 @@ public class Player
         return password;
     }
 
-    public string getToken(){
-        return authToken;
+    public string getAccToken(){
+        return accessToken;
+    }
+
+    public string getRefToken(){
+        return refreshToken;
     }
 
     public void setName(string s){
@@ -32,8 +37,11 @@ public class Player
         password = s;
     }
 
-    public void setToken(string s){
-        authToken = s;
+    public void setAccToken(string s){
+        accessToken = s;
     }
 
+    public void setRefToken(string s){
+        refreshToken = s;
+    }
 }
