@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
 
 
     public GameObject bootPrefab;
+    public GameObject townPiecePrefab;
 
     private List<GameObject> cities = new List<GameObject>();
     private List<GameObject> roads = new List<GameObject>();
@@ -59,6 +60,16 @@ public class GameManager : MonoBehaviour
         foreach(GameObject road in roads){
             road.GetComponent<RoadScript>().getCity1().GetComponent<CityScript>().updateRoads(road);
             road.GetComponent<RoadScript>().getCity2().GetComponent<CityScript>().updateRoads(road);
+        }
+
+        // Initialize TownPieces for every city
+        foreach(GameObject city in cities){
+            var townPiece_RED = Instantiate(townPiecePrefab) as GameObject;
+            townPiece_RED.transform.position = city.transform.position + new Vector3(-1,0,0);
+
+            var townPiece_BLUE = Instantiate(townPiecePrefab) as GameObject;
+            townPiece_BLUE.GetComponent<SpriteRenderer>().sprite = townPiece_BLUE.GetComponent<TownPieceManager>().blueSprite;
+            townPiece_BLUE.transform.position = city.transform.position + new Vector3(1,0,0);
         }
 
         var instantiatedBoot_RED = Instantiate(bootPrefab) as GameObject;
