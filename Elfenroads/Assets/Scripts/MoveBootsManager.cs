@@ -45,7 +45,7 @@ public class MoveBootsManager : MonoBehaviour
 
     void moveBoot(GameObject boot){
 
-        boot.transform.position = boot.GetComponent<BootScript>().getCurrentCity().transform.position;
+        boot.transform.position = boot.GetComponent<BootScript>().getCurrentCity().transform.position + boot.GetComponent<BootScript>().Offset;
     }
 
     public void highlightRoads(){

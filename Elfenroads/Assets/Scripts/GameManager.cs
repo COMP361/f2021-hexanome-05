@@ -61,11 +61,19 @@ public class GameManager : MonoBehaviour
             road.GetComponent<RoadScript>().getCity2().GetComponent<CityScript>().updateRoads(road);
         }
 
-        var instantiatedBoot = Instantiate(bootPrefab) as GameObject;
+        var instantiatedBoot_RED = Instantiate(bootPrefab) as GameObject;
+        instantiatedBoot_RED.GetComponent<BootScript>().Offset = new Vector3(-1,0,0);
         GameObject startingCity = GameObject.Find("Elfenhold");
-        instantiatedBoot.transform.position = startingCity.transform.position;
-        instantiatedBoot.GetComponent<BootScript>().setCurrentCity(startingCity);
-        boots.Add(instantiatedBoot);
+        instantiatedBoot_RED.transform.position = startingCity.transform.position + instantiatedBoot_RED.GetComponent<BootScript>().Offset;
+        instantiatedBoot_RED.GetComponent<BootScript>().setCurrentCity(startingCity);
+        boots.Add(instantiatedBoot_RED);
+
+        var instantiatedBoot_BLUE = Instantiate(bootPrefab) as GameObject;
+        instantiatedBoot_BLUE.GetComponent<SpriteRenderer>().sprite = instantiatedBoot_BLUE.GetComponent<BootScript>().blueSprite;
+        instantiatedBoot_BLUE.GetComponent<BootScript>().Offset = new Vector3(1,0,0);
+        instantiatedBoot_BLUE.transform.position = startingCity.transform.position + instantiatedBoot_BLUE.GetComponent<BootScript>().Offset;
+        instantiatedBoot_BLUE.GetComponent<BootScript>().setCurrentCity(startingCity);
+        boots.Add(instantiatedBoot_BLUE);
 
         MoveBootsManager.instance.passBoots(boots);
         MoveBootsManager.instance.passRoads(roads);

@@ -1,0 +1,250 @@
+[33mcommit e6b907a78b84fb0b8fbe0961a96b708ae4f5d95b[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Xiang Meng <xiang.meng2@mail.mcgill.ca>
+Date:   Tue Oct 26 15:32:30 2021 -0400
+
+    Added ? button (draggable)
+
+[33mcommit e5969a2494ed62bf86b22709627f7e17ef6645b7[m
+Author: Luis <luis0619@naver.com>
+Date:   Mon Oct 25 19:07:55 2021 -0400
+
+    Changed Boot texture
+
+[33mcommit 28fbc46596f97501cd35b45d9f563d298c681c14[m
+Author: Max <maxboucher45@gmail.com>
+Date:   Mon Oct 25 16:40:00 2021 -0400
+
+    Created main game board with rudimentary roads + new camera
+
+[33mcommit 8854ea88fecfa6cf35c1a369c1013b3a77909144[m
+Author: danial23 <5867710+danial23@users.noreply.github.com>
+Date:   Sun Oct 24 21:26:59 2021 -0400
+
+    Organize assets into Texture folder
+
+[33mcommit 9cae2315bdf2b4f050c7519ea511e253047bf3bd[m
+Merge: 84674c2 de8712a
+Author: Max <67290498+Thorzag@users.noreply.github.com>
+Date:   Sun Oct 24 19:17:26 2021 -0600
+
+    Merge pull request #6 from COMP361/Assets
+    
+    adding MyCourses assets to main
+
+[33mcommit 84674c29fd859be76763f8ab25e3f54a02e77ddb[m
+Merge: 951a87c d8caa63
+Author: danial23 <5867710+danial23@users.noreply.github.com>
+Date:   Sun Oct 24 21:14:33 2021 -0400
+
+    Merge branch 'main' of https://github.com/COMP361/f2021-hexanome-05
+
+[33mcommit 951a87c2635fa67eb276136c215c3845d4969968[m
+Author: danial23 <5867710+danial23@users.noreply.github.com>
+Date:   Sun Oct 24 21:13:52 2021 -0400
+
+    Connect MenuScene with MainScene
+    
+    Added SceneLoader.cs
+
+[33mcommit d8caa63ae2d6d727d74f3096611053b20b2e8895[m
+Author: Max <67290498+Thorzag@users.noreply.github.com>
+Date:   Sun Oct 24 21:09:33 2021 -0400
+
+    Create 2021-10-25.md
+
+[33mcommit 22a1ff33a2ab6295ddf1fd3124b32a315bfc0d85[m
+Merge: a8b31d8 fb127c2
+Author: Max <67290498+Thorzag@users.noreply.github.com>
+Date:   Sun Oct 24 18:52:45 2021 -0600
+
+    Merge pull request #5 from COMP361/moveBoots
+    
+    Move boots merged into main
+
+[33mcommit fb127c26e61fdcce12debb4a949c4968afef09dd[m
+Merge: 4cca019 a8b31d8
+Author: Max <67290498+Thorzag@users.noreply.github.com>
+Date:   Sun Oct 24 18:52:01 2021 -0600
+
+    Merge branch 'main' into moveBoots
+
+[33mcommit de8712a83c06d1a7645e4a0e559fb87e960ab11c[m
+Merge: 21f1bf2 a8b31d8
+Author: adjabeepboop <65283692+adjabeepboop@users.noreply.github.com>
+Date:   Sun Oct 24 15:52:15 2021 -0400
+
+    Merge branch 'main' into Assets
+
+[33mcommit 21f1bf230bb5d426f6e8fce384b156c394263806[m
+Author: adjabeepboop <65283692+adjabeepboop@users.noreply.github.com>
+Date:   Sun Oct 24 15:47:12 2021 -0400
+
+    Created as scene to hold the config
+
+[33mcommit a8b31d8a96c1ba6fe870790154d8b626689b5924[m
+Merge: b40caa4 b2274e2
+Author: Christopher Cui <46657850+chriscui47@users.noreply.github.com>
+Date:   Sun Oct 24 14:46:13 2021 -0400
+
+    Merge pull request #4 from COMP361/main-menu
+    
+    Main menu and lobby screen
+
+[33mcommit ce0cc8cdecabf22a8fa52da860f3e3ce98dc5c39[m
+Author: adjabeepboop <65283692+adjabeepboop@users.noreply.github.com>
+Date:   Sun Oct 24 14:45:42 2021 -0400
+
+    Added the map, boots, and doppler to the assets folder. And adjusted the camera.
+    
+    Boots should be scaled at .5. Currently there's a script on the map sprite so it fits the camera all the way, but it looks weird. These sprites can be used to replace placeholder sprites.
+
+[33mcommit b2274e20661889f2e0068faa325924de753125e7[m
+Author: CAMPUS\ccui10 <chriscui47@yahoo.com>
+Date:   Sun Oct 24 14:40:45 2021 -0400
+
+    Added lobby select
+
+[33mcommit 4cca019f7443d4836b5f199eafdc08dd1521caed[m
+Author: Thorzag <maxboucher45@gmail.com>
+Date:   Sat Oct 23 18:57:01 2021 -0400
+
+    Finished basic road movement using placeholder assets
+
+[33mcommit f29a6d2600eb783d877af68cdd75999e67bd0a7e[m
+Author: danial23 <5867710+danial23@users.noreply.github.com>
+Date:   Sat Oct 23 18:53:02 2021 -0400
+
+    Create login screen, Main Menu renamed
+    
+    A login screen was added to the canvas hierarchy. The start button's OnClick event now triggers a screen transition.
+    "Main Menu" renamed to "Main Menu Screen".
+
+[33mcommit b10a70f9aaab495362f50ee4b7cccd29ec917aa4[m
+Author: danial23 <5867710+danial23@users.noreply.github.com>
+Date:   Sat Oct 23 16:43:48 2021 -0400
+
+    Add main menu buttons
+    
+    Note: I changed the editor's play mode settings to run in 1080p. Afaik this is local but I'm not 100% sure.
+
+[33mcommit e67e00caa1b676d03451ac1cf6b9432b7ee06b82[m
+Author: danial23 <5867710+danial23@users.noreply.github.com>
+Date:   Sat Oct 23 15:39:32 2021 -0400
+
+    Change canvas scaling mode
+    
+    The canvas is now responsive to different resolutions. Title position, size and font was modified.
+
+[33mcommit 797734d9a5e3490aa58f54c973b7be0588c99252[m
+Author: danial23 <5867710+danial23@users.noreply.github.com>
+Date:   Sat Oct 23 15:27:22 2021 -0400
+
+    Add Title
+
+[33mcommit 0a60d79616a40f3e7c959b1b0a603270f862167c[m
+Author: danial23 <5867710+danial23@users.noreply.github.com>
+Date:   Sat Oct 23 15:03:54 2021 -0400
+
+    Add canvas
+
+[33mcommit 580b75fc1f03e81e15c458ca7ed34cff587728da[m
+Author: danial23 <5867710+danial23@users.noreply.github.com>
+Date:   Sat Oct 23 14:55:39 2021 -0400
+
+    Create MenuScene
+    
+    The MenuScene will contain the main menu and the login screen, along with future implementation of the lobby screen.
+    TextMeshPro package was imported to be used instead of the legacy text elements.
+
+[33mcommit 16137909c1016b942030f8af2c59cfa9b8a27d22[m
+Author: Xiang Meng <xiang.meng2@mail.mcgill.ca>
+Date:   Fri Oct 22 22:26:10 2021 -0400
+
+    refined prefabs & set boot to spawn at start city
+
+[33mcommit fe31af0538e4e919121889f5e90774c57eb5993a[m
+Author: Xiang Meng <xiang.meng2@mail.mcgill.ca>
+Date:   Fri Oct 22 18:45:43 2021 -0400
+
+    Added city/road/elfenboot prefabs
+
+[33mcommit 83210136f40bfa97ce0c0f3cc96784858bea2ed3[m
+Author: Thorzag <maxboucher45@gmail.com>
+Date:   Fri Oct 22 16:44:58 2021 -0400
+
+    Created some basic scripts and game structure
+
+[33mcommit b40caa46623d355490892feb2fb3b735208a987d[m
+Author: Danial M <5867710+danial23@users.noreply.github.com>
+Date:   Mon Oct 18 19:57:56 2021 -0400
+
+    Fix typo in README.md
+
+[33mcommit b541f5dc930369da512fc8fe49c59f13adcc154e[m
+Author: Danial M <5867710+danial23@users.noreply.github.com>
+Date:   Mon Oct 18 19:49:41 2021 -0400
+
+    Update README.md
+    
+    Installation and Workflow sections added.
+
+[33mcommit 61a10810ba181f378338200151a35faf41cb86b2[m
+Author: danial23 <5867710+danial23@users.noreply.github.com>
+Date:   Sun Oct 17 23:28:59 2021 -0400
+
+    Create Unity project
+    
+    Unity version 2020.3.20f1 LTS (64-bit).
+    Added .gitignore file.
+
+[33mcommit e3efa632d47d1272be0bc3e2dbddc249c3ebadf6[m
+Author: Max <67290498+Thorzag@users.noreply.github.com>
+Date:   Sun Oct 17 20:04:55 2021 -0400
+
+    Create 2021-10-18.md
+
+[33mcommit 4abcbb34ff3f49b3c4f9e2e3630e58a89a0ae3a3[m
+Author: xm2j <90661630+xm2j@users.noreply.github.com>
+Date:   Sat Oct 16 19:37:26 2021 -0400
+
+    Delete M2_Phase35_Xiang.pdf
+
+[33mcommit 8f8719ae1a80fb1e32d28185eec73511314ca9ec[m
+Author: adjabeepboop <65283692+adjabeepboop@users.noreply.github.com>
+Date:   Sun Oct 10 19:39:27 2021 -0400
+
+    Update 2021-10-11.md
+
+[33mcommit 88d55bc02a0b1eb8f1a7ee5a6c1651bf50baade2[m
+Author: xm2j <90661630+xm2j@users.noreply.github.com>
+Date:   Sun Oct 10 19:30:31 2021 -0400
+
+    Update and rename 2021-10-11 to 2021-10-11.md
+
+[33mcommit 1d1fabd958a62a73b209240acfd6d368d0206520[m
+Author: xm2j <90661630+xm2j@users.noreply.github.com>
+Date:   Sun Oct 10 19:14:40 2021 -0400
+
+    Create 2021-10-11
+
+[33mcommit 1050003299d0901f8edf9ba5b0fc1eed97ec887b[m
+Author: xm2j <90661630+xm2j@users.noreply.github.com>
+Date:   Tue Oct 5 16:55:21 2021 -0400
+
+    Add files via upload
+    
+    Version where each phase -> a single use case
+
+[33mcommit 826f881fe2372285b254fe382cc80dffa72b1f0b[m
+Author: xm2j <90661630+xm2j@users.noreply.github.com>
+Date:   Tue Oct 5 16:26:56 2021 -0400
+
+    Delete test
+
+[33mcommit 646d9a66c395269d1111e9d50aa1979dcce7741d[m
+Author: xm2j <90661630+xm2j@users.noreply.github.com>
+Date:   Tue Oct 5 16:26:48 2021 -0400
+
+    Add files via upload
+    
+    First d
