@@ -12,6 +12,18 @@ public class LobbyService
     public delegate void LoginFailure(string error);
     public event LoginFailure LoginFailureEvent;
 
+    public delegate void RoleSuccess(string result);
+    public event RoleSuccess RoleSuccessEvent;
+
+    public delegate void RoleFailure(string result);
+    public event RoleFailure RoleFailureEvent;
+
+    public delegate void CreateSuccess(string result);
+    public event CreateSuccess CreateSuccessEvent;
+
+    public delegate void CreateFailure(string error);
+    public event CreateFailure CreateFailureEvent;
+
     const string LS_PATH = "https://mysandbox.icu/LobbyService";
 
     // Status code reference:
@@ -37,17 +49,38 @@ public class LobbyService
 
     //Called when web request is completed.
     private void OnLoginCompleted(AsyncOperation operation){
+
         UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
         if (request.responseCode == STATUS_OK) {
             Debug.Log("Login success!");
             LoginSuccessEvent(request.downloadHandler.text);
         }
         else {
-            Debug.Log("Login failed!");
-            //LoginFailureEvent(request.error + "\n" + request.downloadHandler.text); //Don't need this as part of the demo functionality so I left it out.
+            LoginFailureEvent(request.error + "\n" + request.downloadHandler.text); //Don't need this as part of the demo functionality so I left it out.
         }
 
         // mark the request for garbage collection
         request.Dispose();
     }
+
+    public void getRole(string token){
+        UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/oauth/role?access_token=" + token);
+        UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+        operation.completed += OnRoleCompleted;
+    }
+
+    private void OnRoleCompleted(AsyncOperation operation){
+
+        UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
+        if (request.responseCode == STATUS_OK) {
+            RoleSuccessEvent(request.downloadHandler.text);
+        }
+        else {
+            RoleFailureEvent(request.error + "\n" + request.downloadHandler.text); //Don't need this as part of the demo functionality so I left it out.
+        }
+
+        // mark the request for garbage collection
+        request.Dispose();
+    }
+    
 }

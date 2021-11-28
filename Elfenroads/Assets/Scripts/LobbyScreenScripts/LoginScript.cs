@@ -24,7 +24,8 @@ public class LoginScript : MonoBehaviour
         //Add onclick listener to button for "login" function.
         loginButton.onClick.AddListener(login);
 
-        thisClient.LoginSuccessEvent += loginResult;
+        thisClient.LoginSuccessEvent += loginSuccessResult;
+        thisClient.LoginFailureEvent += loginFailure;
     }
 
     //Function mostly just ensure fields are filled, and then calls the "LobbyService"'s script through the client.
@@ -38,16 +39,24 @@ public class LoginScript : MonoBehaviour
     }
 
     //This is called by a LoginSuccessEvent, it stores the token into the Client's Player and moves on to the next screen.
-    void loginResult(string token){
+    void loginSuccessResult(string token){
         Debug.Log(token);
 
-        thisClient.thisPlayer.setAccToken(token.Substring(17, 28));
-        thisClient.thisPlayer.setRefToken(token.Substring(86,28));
+        //Need function here that replaces '+' with '%2B'
+
+        thisClient.thisPlayer.setAccToken(token.Substring(17, 28).Replace("+", "%2B"));
+        thisClient.thisPlayer.setRefToken(token.Substring(86,28).Replace("+", "%2B"));
         Debug.Log("Player acc token: " + thisClient.thisPlayer.getAccToken());
         Debug.Log("Player ref token: " + thisClient.thisPlayer.getRefToken());
 
+        thisClient.getRole();
+
         loginScreen.SetActive(false);
         lobbyScreen.SetActive(true);
+    }
+
+    void loginFailure(string error){
+        Debug.Log("Login failed with error: " + error);
     }
 
 
