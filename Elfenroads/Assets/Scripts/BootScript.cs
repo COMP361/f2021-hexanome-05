@@ -30,8 +30,4 @@ public class BootScript : MonoBehaviour
     public GameObject getInventory(){
         return aInventory;
     }
-
-    public int countTownPiece(){
-        return this.aInventory.GetComponent<InventoryManager>().countTownPiece();
-    }
 }

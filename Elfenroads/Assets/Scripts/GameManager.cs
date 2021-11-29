@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
         var inventory_RED = Instantiate(inventoryPrefab) as GameObject;
         inventories.Add(inventory_BLUE);
         inventories.Add(inventory_RED);
+        inventory_BLUE.GetComponent<InventoryManager>().setTownPieceCounter(GameObject.Find("TPCounter_Blue"));
+        inventory_RED.GetComponent<InventoryManager>().setTownPieceCounter(GameObject.Find("TPCounter_RED"));
 
         // Initialize RedBoot
         var instantiatedBoot_RED = Instantiate(bootPrefab) as GameObject;
