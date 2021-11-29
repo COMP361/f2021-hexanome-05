@@ -5,15 +5,15 @@ using UnityEngine;
 public class QuestionMarkButtonManager : MonoBehaviour
 {
 	public GameObject button;
-	public GameObject grid;
+	public GameObject HelpMenu;
 
 	void Start()
 	{
-		grid.SetActive(false);
+		HelpMenu.SetActive(false);
 	}
 
 	public void OnMouseDown()
 	{
-		grid.SetActive(true);
+		HelpMenu.SetActive(true);
 	}
 }

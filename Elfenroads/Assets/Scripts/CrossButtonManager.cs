@@ -5,10 +5,10 @@ using UnityEngine;
 public class CrossButtonManager : MonoBehaviour
 {
 	public GameObject button;
-	public GameObject grid;
+	public GameObject HelpMenu;
 
 	public void OnMouseDown()
 	{
-		grid.SetActive(false);
+		HelpMenu.SetActive(false);
 	}
 }
