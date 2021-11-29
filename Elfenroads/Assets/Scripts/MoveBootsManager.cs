@@ -57,6 +57,8 @@ public class MoveBootsManager : MonoBehaviour
             }
         }
 
+        boot.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().incrementTownPiece();
+
     }
 
     public void highlightRoads(){

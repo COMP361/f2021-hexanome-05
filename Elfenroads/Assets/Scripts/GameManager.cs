@@ -43,10 +43,12 @@ public class GameManager : MonoBehaviour
 
     public GameObject bootPrefab;
     public GameObject townPiecePrefab;
+    public GameObject inventoryPrefab;
 
     private List<GameObject> cities = new List<GameObject>();
     private List<GameObject> roads = new List<GameObject>();
     private List<GameObject> boots = new List<GameObject>();
+    private List<GameObject> inventories = new List<GameObject>();
 
     void Start()
     {
@@ -66,12 +68,19 @@ public class GameManager : MonoBehaviour
 
         Invoke("instantiatePieces", 0.05f);
 
+        // Initialize Inventory
+        var inventory_BLUE = Instantiate(inventoryPrefab) as GameObject;
+        var inventory_RED = Instantiate(inventoryPrefab) as GameObject;
+        inventories.Add(inventory_BLUE);
+        inventories.Add(inventory_RED);
+
         // Initialize RedBoot
         var instantiatedBoot_RED = Instantiate(bootPrefab) as GameObject;
         instantiatedBoot_RED.GetComponent<BootScript>().Offset = new Vector3(-1,0,0);
         instantiatedBoot_RED.GetComponent<BootScript>().color = BootColor.RED;
         instantiatedBoot_RED.transform.position = startingCity.transform.position + instantiatedBoot_RED.GetComponent<BootScript>().Offset;
         instantiatedBoot_RED.GetComponent<BootScript>().setCurrentCity(startingCity);
+        instantiatedBoot_RED.GetComponent<BootScript>().setInventory(inventory_RED);
         boots.Add(instantiatedBoot_RED);
 
         // Initialize BlueBoot
@@ -81,6 +90,7 @@ public class GameManager : MonoBehaviour
         instantiatedBoot_BLUE.GetComponent<BootScript>().color = BootColor.BLUE;
         instantiatedBoot_BLUE.transform.position = startingCity.transform.position + instantiatedBoot_BLUE.GetComponent<BootScript>().Offset;
         instantiatedBoot_BLUE.GetComponent<BootScript>().setCurrentCity(startingCity);
+        instantiatedBoot_BLUE.GetComponent<BootScript>().setInventory(inventory_BLUE);
         boots.Add(instantiatedBoot_BLUE);
 
         MoveBootsManager.instance.passBoots(boots);
