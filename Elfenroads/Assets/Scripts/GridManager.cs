@@ -2,21 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HelpMenu : MonoBehaviour
+public class GridManager : MonoBehaviour
 {
     private bool dragging;
     public GameObject Grid;
-    public GameObject Canvas;
     public Vector3 originalPosition;
-    // Start is called before the first frame update
-    void Awake()
-    {
-        transform.position = originalPosition;
-        Grid.SetActive(true);
-        Canvas.gameObject.SetActive(true);
-    }
 
-    // Update is called once per frame
     void Update()
     {
         if (dragging)
@@ -24,6 +15,11 @@ public class HelpMenu : MonoBehaviour
             Vector2 position = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
             transform.Translate(position);
         }
+    }
+
+    void Start()
+    {
+        Grid.transform.position = originalPosition;
     }
 
     public void OnMouseDown()
@@ -35,4 +31,6 @@ public class HelpMenu : MonoBehaviour
     {
         dragging = false;
     }
+
+
 }

@@ -54,7 +54,6 @@ public class MoveBootsManager : MonoBehaviour
         foreach(GameObject townPiece in townPiecesList){
             if (townPiece.GetComponent<TownPieceManager>().color == boot.GetComponent<BootScript>().color){
                 townPiece.SetActive(false);
-                boot.GetComponent<BootScript>().getInventory().GetComponent<InventoriesManager>().incrementTownPieceCount();
             }
         }
 

@@ -43,12 +43,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject bootPrefab;
     public GameObject townPiecePrefab;
-    public GameObject inventoryPrefab;
 
     private List<GameObject> cities = new List<GameObject>();
     private List<GameObject> roads = new List<GameObject>();
     private List<GameObject> boots = new List<GameObject>();
-    private List<GameObject> inventories = new List<GameObject>();
 
     void Start()
     {
@@ -74,7 +72,6 @@ public class GameManager : MonoBehaviour
         instantiatedBoot_RED.GetComponent<BootScript>().color = BootColor.RED;
         instantiatedBoot_RED.transform.position = startingCity.transform.position + instantiatedBoot_RED.GetComponent<BootScript>().Offset;
         instantiatedBoot_RED.GetComponent<BootScript>().setCurrentCity(startingCity);
-        instantiatedBoot_RED.GetComponent<BootScript>().setTownPieceCounter(GameObject.Find("Player_RED_TownPieceCounter"));
         boots.Add(instantiatedBoot_RED);
 
         // Initialize BlueBoot
@@ -84,23 +81,7 @@ public class GameManager : MonoBehaviour
         instantiatedBoot_BLUE.GetComponent<BootScript>().color = BootColor.BLUE;
         instantiatedBoot_BLUE.transform.position = startingCity.transform.position + instantiatedBoot_BLUE.GetComponent<BootScript>().Offset;
         instantiatedBoot_BLUE.GetComponent<BootScript>().setCurrentCity(startingCity);
-        instantiatedBoot_BLUE.GetComponent<BootScript>().setTownPieceCounter(GameObject.Find("Player_BLUE_TownPieceCounter"));
         boots.Add(instantiatedBoot_BLUE);
-
-        // Initialize Inventory_RED
-        var inventory_RED = Instantiate(inventoryPrefab) as GameObject;
-        inventory_RED.transform.position = new Vector3(11,18,-0.1f);
-        inventories.Add(inventory_RED);
-        inventory_RED.GetComponent<InventoriesManager>().setBoot(instantiatedBoot_RED);
-        instantiatedBoot_RED.GetComponent<BootScript>().setInventory(inventory_RED);
-
-        // Initialize Inventory_BLUE
-        var inventory_BLUE = Instantiate(inventoryPrefab) as GameObject;
-        inventory_BLUE.transform.position = new Vector3(11,18,-0.1f);
-        inventories.Add(inventory_BLUE);
-        inventory_BLUE.GetComponent<InventoriesManager>().setBoot(instantiatedBoot_BLUE);
-        instantiatedBoot_BLUE.GetComponent<BootScript>().setInventory(inventory_BLUE);
-
 
         MoveBootsManager.instance.passBoots(boots);
         MoveBootsManager.instance.passRoads(roads);
@@ -135,7 +116,6 @@ public class GameManager : MonoBehaviour
         foreach(GameObject tPiece in townPiecesList){
             tPiece.SetActive(false);
         }
-
         }
     }
 
