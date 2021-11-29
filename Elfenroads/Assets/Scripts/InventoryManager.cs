@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class InventoryManager : MonoBehaviour
 {
-    public int townPieceCounter = 1;
+    public GameObject CounterManagerObserver;
+    private int intTownPieceCounter = 1;
+    private GameObject TMPTownPieceCounter;
     // Start is called before the first frame update
     void Start()
     {
-        
+        TMPTownPieceCounter.GetComponent<TextMeshProUGUI>().SetText("1");
     }
 
     // Update is called once per frame
@@ -18,10 +21,11 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void incrementTownPiece(){
-        this.townPieceCounter = this.townPieceCounter + 1;
+        this.intTownPieceCounter = this.intTownPieceCounter + 1;
+        TMPTownPieceCounter.GetComponent<TextMeshProUGUI>().SetText(intTownPieceCounter.ToString());
     }
 
-    public int countTownPiece(){
-        return townPieceCounter;
+    public void setTownPieceCounter(GameObject tpCounter){
+        this.TMPTownPieceCounter = tpCounter;
     }
 }
