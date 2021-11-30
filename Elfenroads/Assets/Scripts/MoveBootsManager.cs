@@ -2,11 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Firesplash.UnityAssets.SocketIO;
 
 public class MoveBootsManager : MonoBehaviour
 {
 
     public static MoveBootsManager instance = null;
+    public SocketIOCommunicator sioCom;
+
     void Awake(){
         if(instance == null){
             instance = this;
@@ -15,6 +18,10 @@ public class MoveBootsManager : MonoBehaviour
         }else if (instance != this){
             Destroy(gameObject);
         }
+
+        sioCom.Instance.On("unityConnection", (string payload) => {
+            Debug.Log("SERVER: " + payload);
+        });
         
     }
 
@@ -58,6 +65,12 @@ public class MoveBootsManager : MonoBehaviour
         }
 
         boot.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().incrementTownPiece();
+
+
+        ////////////////////////////////////////////////////////
+        sioCom.Instance.Emit("unityConnection", "Hello", true);
+        ////////////////////////////////////////////////////////
+
 
     }
 
