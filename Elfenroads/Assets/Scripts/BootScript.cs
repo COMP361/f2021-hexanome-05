@@ -14,6 +14,7 @@ public class BootScript : MonoBehaviour
     public Sprite blueSprite;
     public BootColor color;
     private GameObject aInventory;
+    private string playerName;
 
     public void setCurrentCity(GameObject city){
         currentCity = city;
@@ -29,5 +30,13 @@ public class BootScript : MonoBehaviour
 
     public GameObject getInventory(){
         return aInventory;
+    }
+
+    public void setName(string name){
+        playerName = name;
+    }
+
+    public string getname(){
+        return playerName;
     }
 }

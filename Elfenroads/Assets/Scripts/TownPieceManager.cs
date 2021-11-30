@@ -10,14 +10,5 @@ public class TownPieceManager : MonoBehaviour
     public BootColor color;
 
     private GameObject owner;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -54,17 +54,36 @@ public class MoveBootsManager : MonoBehaviour
         // move boot
         boot.transform.position = boot.GetComponent<BootScript>().getCurrentCity().transform.position + boot.GetComponent<BootScript>().Offset;
 
-        // disable(for now) townpieces
+        // remove townpieces and add into player
         BootColor color = boot.GetComponent<BootScript>().color;
         List<GameObject> townPiecesList = boot.GetComponent<BootScript>().getCurrentCity().GetComponent<CityScript>().townPiecesOnCity;
 
-        foreach(GameObject townPiece in townPiecesList){
+        /*for(var i = 0; 0 < townPiecesList.Count; i++){
+            Debug.Log(townPiecesList.Count.ToString());
+            GameObject townPiece = townPiecesList[i];
             if (townPiece.GetComponent<TownPieceManager>().color == boot.GetComponent<BootScript>().color){
+                boot.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().addTownPiece(townPiece);
                 townPiece.SetActive(false);
+                townPiecesList.Remove(townPiece);
+            }
+        }
+        */
+        GameObject toRemove = null;
+
+        foreach (GameObject townPiece in townPiecesList){
+            if (townPiece.GetComponent<TownPieceManager>().color == boot.GetComponent<BootScript>().color){
+                boot.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().addTownPiece(townPiece);
+                townPiece.SetActive(false);
+                toRemove = townPiece;
             }
         }
 
-        boot.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().incrementTownPiece();
+        if (toRemove != null){
+            townPiecesList.Remove(toRemove);
+        }
+
+
+
 
 
         ////////////////////////////////////////////////////////
