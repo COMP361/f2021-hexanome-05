@@ -76,7 +76,7 @@ public class LobbyScript : MonoBehaviour
         }
         thisClient.sessions = foundSessions; //Set the client's new list of found sessions.
         
-        //Call something to update the rows of the table based on the client info at this point (excluding launched sessions).
+        //Call something here to visually update the rows of the table based on the client info (excluding launched sessions). These rows should include a "Launch" button if it is the current client's session, and a "join" button otherwise.
 
     }
 
