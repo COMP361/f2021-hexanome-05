@@ -7,8 +7,16 @@ public class TownPieceManager : MonoBehaviour
     public Sprite blueSprite;
     public Sprite YellowSprite;
     public GameObject town;
-    public BootColor color;
+    private BootColor aColor;
 
     private GameObject owner;
+
+    public void setColor(BootColor pColor){
+        aColor = pColor;
+    }
+
+    public BootColor getColor(){
+        return aColor;
+    }
 
 }

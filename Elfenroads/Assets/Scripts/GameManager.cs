@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
         // Initialize RedBoot
         var instantiatedBoot_RED = Instantiate(bootPrefab) as GameObject;
         instantiatedBoot_RED.GetComponent<BootScript>().Offset = new Vector3(-1,0,0);
-        instantiatedBoot_RED.GetComponent<BootScript>().color = BootColor.RED;
+        instantiatedBoot_RED.GetComponent<BootScript>().setColor(BootColor.RED);
         instantiatedBoot_RED.transform.position = startingCity.transform.position + instantiatedBoot_RED.GetComponent<BootScript>().Offset;
         instantiatedBoot_RED.GetComponent<BootScript>().setCurrentCity(startingCity);
         instantiatedBoot_RED.GetComponent<BootScript>().setInventory(inventory_RED);
@@ -89,11 +89,22 @@ public class GameManager : MonoBehaviour
         var instantiatedBoot_BLUE = Instantiate(bootPrefab) as GameObject;
         instantiatedBoot_BLUE.GetComponent<SpriteRenderer>().sprite = instantiatedBoot_BLUE.GetComponent<BootScript>().blueSprite;
         instantiatedBoot_BLUE.GetComponent<BootScript>().Offset = new Vector3(1,0,0);
-        instantiatedBoot_BLUE.GetComponent<BootScript>().color = BootColor.BLUE;
+        instantiatedBoot_BLUE.GetComponent<BootScript>().setColor(BootColor.BLUE);
         instantiatedBoot_BLUE.transform.position = startingCity.transform.position + instantiatedBoot_BLUE.GetComponent<BootScript>().Offset;
         instantiatedBoot_BLUE.GetComponent<BootScript>().setCurrentCity(startingCity);
         instantiatedBoot_BLUE.GetComponent<BootScript>().setInventory(inventory_BLUE);
         boots.Add(instantiatedBoot_BLUE);
+
+        // remove townpieces at the starting city and put them into inventory, for now it is Elfenhold
+        foreach(GameObject townPiece in startingCity.GetComponent<CityScript>().townPiecesOnCity){
+            if (townPiece.GetComponent<TownPieceManager>().getColor() == instantiatedBoot_RED.GetComponent<BootScript>().getColor()){
+                instantiatedBoot_RED.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().addTownPiece(townPiece);
+            }
+            else if (townPiece.GetComponent<TownPieceManager>().getColor() == instantiatedBoot_BLUE.GetComponent<BootScript>().getColor()){
+                instantiatedBoot_BLUE.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().addTownPiece(townPiece);
+            }
+        }
+        startingCity.GetComponent<CityScript>().townPiecesOnCity.Clear();
 
         MoveBootsManager.instance.passBoots(boots);
         MoveBootsManager.instance.passRoads(roads);
@@ -110,24 +121,17 @@ public class GameManager : MonoBehaviour
         foreach(GameObject city in cities){
             var townPiece_RED = Instantiate(townPiecePrefab) as GameObject;
             townPiece_RED.GetComponent<TownPieceManager>().town = city;
-            townPiece_RED.GetComponent<TownPieceManager>().color = BootColor.RED;
+            townPiece_RED.GetComponent<TownPieceManager>().setColor(BootColor.RED);
             townPiece_RED.transform.position = city.transform.position + new Vector3(-1,0,0);
 
             var townPiece_BLUE = Instantiate(townPiecePrefab) as GameObject;
             townPiece_BLUE.GetComponent<SpriteRenderer>().sprite = townPiece_BLUE.GetComponent<TownPieceManager>().blueSprite;
             townPiece_BLUE.GetComponent<TownPieceManager>().town = city;
-            townPiece_BLUE.GetComponent<TownPieceManager>().color = BootColor.BLUE;
+            townPiece_BLUE.GetComponent<TownPieceManager>().setColor(BootColor.BLUE);
             townPiece_BLUE.transform.position = city.transform.position + new Vector3(1,0,0);
 
             city.GetComponent<CityScript>().updateTownPieces(townPiece_RED);
             city.GetComponent<CityScript>().updateTownPieces(townPiece_BLUE);
-
-        // remove townpieces at the starting city, for now it is Elfenhold
-        GameObject startingCity = GameObject.Find("Elfenhold");
-        List<GameObject> townPiecesList = startingCity.GetComponent<CityScript>().townPiecesOnCity;
-        foreach(GameObject tPiece in townPiecesList){
-            tPiece.SetActive(false);
-        }
         }
     }
 

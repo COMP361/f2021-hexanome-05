@@ -17,7 +17,7 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        TownPieceCounter.GetComponent<TextMeshProUGUI>().SetText(countTownPiece().ToString());
     }
 
     public void setTownPieceCounter(GameObject tpCounter){
@@ -26,7 +26,6 @@ public class InventoryManager : MonoBehaviour
 
     public void addTownPiece(GameObject townPiece){
         this.townPieceList.Add(townPiece);
-        TownPieceCounter.GetComponent<TextMeshProUGUI>().SetText(countTownPiece().ToString());
     }
 
     public int countTownPiece(){

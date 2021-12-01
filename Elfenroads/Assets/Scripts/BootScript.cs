@@ -12,7 +12,7 @@ public class BootScript : MonoBehaviour
     private GameObject currentCity;
     public Vector3 Offset;
     public Sprite blueSprite;
-    public BootColor color;
+    private BootColor aColor;
     private GameObject aInventory;
     private string playerName;
 
@@ -38,5 +38,13 @@ public class BootScript : MonoBehaviour
 
     public string getname(){
         return playerName;
+    }
+
+    public void setColor(BootColor pColor){
+        aColor = pColor;
+    }
+
+    public BootColor getColor(){
+        return aColor;
     }
 }
