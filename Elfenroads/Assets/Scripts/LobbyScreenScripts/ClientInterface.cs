@@ -7,6 +7,9 @@ public delegate void RefreshFailure(string error);
 public delegate void CreateSuccess(string responseText);
 public delegate void CreateFailure(string error);
 
+public delegate void JoinSuccess(string responseText); //Joining doesn't seem to return anything... But will at least try to use this to test whether or not it works.
+public delegate void JoinFailure(string error);
+
 public interface ClientInterface
 {
     event LoginSuccess LoginSuccessEvent;
@@ -17,6 +20,8 @@ public interface ClientInterface
     event RefreshFailure RefreshFailureEvent;
     event CreateSuccess CreateSuccessEvent;
     event CreateFailure CreateFailureEvent;
+    event JoinSuccess JoinSuccessEvent;
+    event JoinFailure JoinFailureEvent;
     
     void Login(string username, string password);
     

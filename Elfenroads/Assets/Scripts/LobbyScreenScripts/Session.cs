@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.UI;
 using System.Text.RegularExpressions;
 
 public class Session 
@@ -8,7 +8,7 @@ public class Session
     public string sessionID;
     public string hostPlayerName;
     public List<string> players;
-    public bool launched;
+    public bool launched; 
 
     public Session(string aSessionID, string aHostName, string aPlayers, string aLaunchState){
         sessionID = aSessionID;

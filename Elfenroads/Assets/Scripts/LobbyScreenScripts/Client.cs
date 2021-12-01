@@ -16,10 +16,11 @@ public class Client : ClientInterface
     }
 
     private LobbyService lobbyService;
-    private string serverPath = "https://fierce-plateau-19887.herokuapp.com/";
+    private string serverPath = "https://fierce-plateau-19887.herokuapp.com/"; // Did this get changed? ***
     private bool isAdmin = false;
     public bool hasSessionCreated = false;
     public Player thisPlayer;
+
     public event LoginSuccess LoginSuccessEvent;
     public event LoginFailure LoginFailureEvent;
     public event RoleSuccess RoleSuccessEvent;
@@ -28,6 +29,8 @@ public class Client : ClientInterface
     public event RefreshFailure RefreshFailureEvent;
     public event CreateSuccess CreateSuccessEvent;
     public event CreateFailure CreateFailureEvent;
+    public event JoinSuccess JoinSuccessEvent;
+    public event JoinFailure JoinFailureEvent;
     public List<Session> sessions = new List<Session>();
 
     public Client(){
@@ -42,9 +45,13 @@ public class Client : ClientInterface
         lobbyService.RefreshFailureEvent += (data) => RefreshFailureEvent(data);
         lobbyService.CreateSuccessEvent += (data) => CreateSuccessEvent(data);
         lobbyService.CreateFailureEvent += (data) => CreateFailureEvent(data);
+        lobbyService.JoinSuccessEvent += (data) => JoinSuccessEvent(data);
+        lobbyService.JoinFailureEvent += (data) => JoinFailureEvent(data);
 
         this.RoleSuccessEvent += roleSuccess;
         this.RoleFailureEvent += roleFailure;
+        this.JoinSuccessEvent += joinSuccess;
+        this.JoinFailureEvent += joinFailure;
     }
 
     public void Login(string username, string password){
@@ -72,6 +79,18 @@ public class Client : ClientInterface
 
     public void refreshSessions(){
         lobbyService.refresh();
+    }
+
+    public void join(Session aSession){
+        lobbyService.join(aSession, thisPlayer);
+    }
+
+    public void joinSuccess(string input){
+
+    }
+
+    public void joinFailure(string error){
+
     }
 
     public void createSession(){
