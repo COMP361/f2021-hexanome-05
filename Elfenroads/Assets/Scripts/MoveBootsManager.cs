@@ -104,6 +104,7 @@ public class MoveBootsManager : MonoBehaviour
         GameObject city2 = road.GetComponent<RoadScript>().getCity2();
 
         foreach(GameObject boot in boots){
+
             if(boot.GetComponent<BootScript>().getCurrentCity() == city1){
                 boot.GetComponent<BootScript>().setCurrentCity(city2);
             }else if(boot.GetComponent<BootScript>().getCurrentCity() == city2){
@@ -112,7 +113,9 @@ public class MoveBootsManager : MonoBehaviour
                 Debug.Log("Invalid operation!");
             }
 
-            moveBoot(boot);
+            if (boot.GetComponent<BootScript>().getColor() == GameObject.Find("GameManager").GetComponent<GameManager>().myBootColor){
+                moveBoot(boot);
+            }
             highlightRoads();
         }
     }

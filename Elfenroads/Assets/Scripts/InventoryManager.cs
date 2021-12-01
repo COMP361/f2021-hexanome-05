@@ -11,7 +11,7 @@ public class InventoryManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TownPieceCounter.GetComponent<TextMeshProUGUI>().SetText("1");
+        TownPieceCounter.GetComponent<TextMeshProUGUI>().SetText("0");
     }
 
     // Update is called once per frame

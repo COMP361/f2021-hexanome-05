@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
     public GameObject townPiecePrefab;
     public GameObject inventoryPrefab;
 
+    public BootColor myBootColor;
+
     private List<GameObject> cities = new List<GameObject>();
     private List<GameObject> roads = new List<GameObject>();
     private List<GameObject> boots = new List<GameObject>();
@@ -95,7 +97,52 @@ public class GameManager : MonoBehaviour
         instantiatedBoot_BLUE.GetComponent<BootScript>().setInventory(inventory_BLUE);
         boots.Add(instantiatedBoot_BLUE);
 
-        // remove townpieces at the starting city and put them into inventory, for now it is Elfenhold
+
+         // initialize townpieces of starting city and put them into inventory, for now it is Elfenhold
+        foreach(GameObject boot in boots){
+            var townPiece = Instantiate(townPiecePrefab) as GameObject;
+                townPiece.GetComponent<TownPieceManager>().town = startingCity;
+                townPiece.GetComponent<TownPieceManager>().setColor(boot.GetComponent<BootScript>().getColor());
+                boot.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().addTownPiece(townPiece);
+            
+        }
+
+        MoveBootsManager.instance.passBoots(boots);
+        MoveBootsManager.instance.passRoads(roads);
+
+        UpdateState(BroadGameState.MoveBoot);
+        Invoke("callHighlightRoads", 0.05f);
+
+        Cursor.lockState = CursorLockMode.Confined;
+
+        //NOTE: Roads, Cities and the Manager may be too tightly coupled - Depending on order of Start() functions, we may get unintended results. For now, it works.
+    }
+
+    void instantiatePieces(){
+        GameObject startingCity = GameObject.Find("Elfenhold");
+        // Initialize TownPieces for every city
+        foreach(GameObject city in cities){
+            if (city != startingCity){
+                var townPiece_RED = Instantiate(townPiecePrefab) as GameObject;
+                townPiece_RED.GetComponent<TownPieceManager>().town = city;
+                townPiece_RED.GetComponent<TownPieceManager>().setColor(BootColor.RED);
+                townPiece_RED.transform.position = city.transform.position + new Vector3(-1,0,0);
+
+                var townPiece_BLUE = Instantiate(townPiecePrefab) as GameObject;
+                townPiece_BLUE.GetComponent<SpriteRenderer>().sprite = townPiece_BLUE.GetComponent<TownPieceManager>().blueSprite;
+                townPiece_BLUE.GetComponent<TownPieceManager>().town = city;
+                townPiece_BLUE.GetComponent<TownPieceManager>().setColor(BootColor.BLUE);
+                townPiece_BLUE.transform.position = city.transform.position + new Vector3(1,0,0);
+
+                city.GetComponent<CityScript>().updateTownPieces(townPiece_RED);
+                city.GetComponent<CityScript>().updateTownPieces(townPiece_BLUE);
+            }
+        }
+    }
+
+    void removeStartingTownPiece(GameObject instantiatedBoot_RED, GameObject instantiatedBoot_BLUE){
+        GameObject startingCity = GameObject.Find("Elfenhold");
+         // remove townpieces at the starting city and put them into inventory, for now it is Elfenhold
         foreach(GameObject townPiece in startingCity.GetComponent<CityScript>().townPiecesOnCity){
             if (townPiece.GetComponent<TownPieceManager>().getColor() == instantiatedBoot_RED.GetComponent<BootScript>().getColor()){
                 instantiatedBoot_RED.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().addTownPiece(townPiece);
@@ -104,35 +151,8 @@ public class GameManager : MonoBehaviour
                 instantiatedBoot_BLUE.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().addTownPiece(townPiece);
             }
         }
+
         startingCity.GetComponent<CityScript>().townPiecesOnCity.Clear();
-
-        MoveBootsManager.instance.passBoots(boots);
-        MoveBootsManager.instance.passRoads(roads);
-
-        UpdateState(BroadGameState.MoveBoot);
-        Invoke("callHighlightRoads", 0.05f);
-        Cursor.lockState = CursorLockMode.Confined;
-
-        //NOTE: Roads, Cities and the Manager may be too tightly coupled - Depending on order of Start() functions, we may get unintended results. For now, it works.
-    }
-
-    void instantiatePieces(){
-        // Initialize TownPieces for every city
-        foreach(GameObject city in cities){
-            var townPiece_RED = Instantiate(townPiecePrefab) as GameObject;
-            townPiece_RED.GetComponent<TownPieceManager>().town = city;
-            townPiece_RED.GetComponent<TownPieceManager>().setColor(BootColor.RED);
-            townPiece_RED.transform.position = city.transform.position + new Vector3(-1,0,0);
-
-            var townPiece_BLUE = Instantiate(townPiecePrefab) as GameObject;
-            townPiece_BLUE.GetComponent<SpriteRenderer>().sprite = townPiece_BLUE.GetComponent<TownPieceManager>().blueSprite;
-            townPiece_BLUE.GetComponent<TownPieceManager>().town = city;
-            townPiece_BLUE.GetComponent<TownPieceManager>().setColor(BootColor.BLUE);
-            townPiece_BLUE.transform.position = city.transform.position + new Vector3(1,0,0);
-
-            city.GetComponent<CityScript>().updateTownPieces(townPiece_RED);
-            city.GetComponent<CityScript>().updateTownPieces(townPiece_BLUE);
-        }
     }
 
     void callHighlightRoads(){
