@@ -42,15 +42,13 @@ public class LoginScript : MonoBehaviour
     void loginSuccessResult(string token){
         Debug.Log(token);
 
-        //Need function here that replaces '+' with '%2B'
-
         thisClient.thisPlayer.setAccToken(token.Substring(17, 28).Replace("+", "%2B"));
         thisClient.thisPlayer.setRefToken(token.Substring(86,28).Replace("+", "%2B"));
         Debug.Log("Player acc token: " + thisClient.thisPlayer.getAccToken());
         Debug.Log("Player ref token: " + thisClient.thisPlayer.getRefToken());
 
-        thisClient.getRole();
-
+        //thisClient.getRole(); Registration is done outside of the game, so this is now obsolete.
+        thisClient.refreshSessions();
         loginScreen.SetActive(false);
         lobbyScreen.SetActive(true);
     }

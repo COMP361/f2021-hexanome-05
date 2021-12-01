@@ -2,8 +2,8 @@ public delegate void LoginSuccess(string responseText);
 public delegate void LoginFailure(string error);
 public delegate void RoleSuccess(string responseText);
 public delegate void RoleFailure(string error);
-public delegate void RegisterSuccess(string responseText);
-public delegate void RegisterFailure(string error);
+public delegate void RefreshSuccess(string responseText);
+public delegate void RefreshFailure(string error);
 public delegate void CreateSuccess(string responseText);
 public delegate void CreateFailure(string error);
 
@@ -13,8 +13,8 @@ public interface ClientInterface
     event LoginFailure LoginFailureEvent;
     event RoleSuccess RoleSuccessEvent;
     event RoleFailure RoleFailureEvent;
-    event RegisterSuccess RegisterSuccessEvent;
-    event RegisterFailure RegisterFailureEvent;
+    event RefreshSuccess RefreshSuccessEvent;
+    event RefreshFailure RefreshFailureEvent;
     event CreateSuccess CreateSuccessEvent;
     event CreateFailure CreateFailureEvent;
     

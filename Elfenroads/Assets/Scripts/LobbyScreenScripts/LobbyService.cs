@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System.Text;
 
 public class LobbyService
 {
@@ -17,6 +18,12 @@ public class LobbyService
 
     public delegate void RoleFailure(string result);
     public event RoleFailure RoleFailureEvent;
+
+    public delegate void RefreshSuccess(string result);
+    public event RefreshSuccess RefreshSuccessEvent;
+
+    public delegate void RefreshFailure(string result);
+    public event RefreshFailure RefreshFailureEvent;
 
     public delegate void CreateSuccess(string result);
     public event CreateSuccess CreateSuccessEvent;
@@ -76,11 +83,65 @@ public class LobbyService
             RoleSuccessEvent(request.downloadHandler.text);
         }
         else {
-            RoleFailureEvent(request.error + "\n" + request.downloadHandler.text); //Don't need this as part of the demo functionality so I left it out.
+            RoleFailureEvent(request.error + "\n" + request.downloadHandler.text); 
         }
 
         // mark the request for garbage collection
         request.Dispose();
     }
     
+    public void refresh(){
+        UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
+        UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+        operation.completed += OnRefreshCompleted;
+    }
+
+    private void OnRefreshCompleted(AsyncOperation operation){
+        UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
+        if (request.responseCode == STATUS_OK) {
+            RefreshSuccessEvent(request.downloadHandler.text);
+        }
+        else {
+            RefreshFailureEvent(request.error + "\n" + request.downloadHandler.text); 
+        }
+
+        // mark the request for garbage collection
+        request.Dispose();
+    }
+
+    public void createSession(string playerName, string token){ //POST /api/sessions. Request body is a json.
+        //Doing this differently than in Login bc the LobbyService is goofy sometimes and wouldn't allow it.
+        SessionCreator jsonObj = new SessionCreator();
+        jsonObj.creator = playerName;
+        string bodyJsonString = JsonUtility.ToJson(jsonObj);
+        Debug.Log(bodyJsonString);
+        var request = new UnityWebRequest(LS_PATH + "/api/sessions?access_token=" + token, "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(bodyJsonString);
+        request.uploadHandler = (UploadHandler) new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = (DownloadHandler) new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SendWebRequest().completed += OnCreateCompleted;
+    }
+
+    private void OnCreateCompleted(AsyncOperation operation){
+
+        UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
+        if (request.responseCode == STATUS_OK) {
+            CreateSuccessEvent(request.downloadHandler.text);
+        }
+        else {
+            CreateFailureEvent(request.error + "\n" + request.downloadHandler.text); 
+        }
+
+        // mark the request for garbage collection
+        request.Dispose();
+    }
+
 }
+
+public class SessionCreator{
+    public string creator;
+    public string game = "Elfenroads";
+    public string savegame = "";
+}
+

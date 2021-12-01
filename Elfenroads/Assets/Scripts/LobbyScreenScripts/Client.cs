@@ -17,18 +17,18 @@ public class Client : ClientInterface
 
     private LobbyService lobbyService;
     private string serverPath = "https://fierce-plateau-19887.herokuapp.com/";
-    private bool hasRegisteredServer = false;
     private bool isAdmin = false;
-    private bool hasSessionCreated = false;
+    public bool hasSessionCreated = false;
     public Player thisPlayer;
     public event LoginSuccess LoginSuccessEvent;
     public event LoginFailure LoginFailureEvent;
     public event RoleSuccess RoleSuccessEvent;
     public event RoleFailure RoleFailureEvent;
-    public event RegisterSuccess RegisterSuccessEvent;
-    public event RegisterFailure RegisterFailureEvent;
+    public event RefreshSuccess RefreshSuccessEvent;
+    public event RefreshFailure RefreshFailureEvent;
     public event CreateSuccess CreateSuccessEvent;
     public event CreateFailure CreateFailureEvent;
+    public List<Session> sessions = new List<Session>();
 
     public Client(){
         this.lobbyService = new LobbyService();
@@ -38,12 +38,18 @@ public class Client : ClientInterface
         lobbyService.LoginFailureEvent += (error) => LoginFailureEvent(error);
         lobbyService.RoleSuccessEvent += (data) => RoleSuccessEvent(data);
         lobbyService.RoleFailureEvent += (data) => RoleFailureEvent(data);
+        lobbyService.RefreshSuccessEvent += (data) => RefreshSuccessEvent(data);
+        lobbyService.RefreshFailureEvent += (data) => RefreshFailureEvent(data);
+        lobbyService.CreateSuccessEvent += (data) => CreateSuccessEvent(data);
+        lobbyService.CreateFailureEvent += (data) => CreateFailureEvent(data);
 
         this.RoleSuccessEvent += roleSuccess;
         this.RoleFailureEvent += roleFailure;
     }
 
     public void Login(string username, string password){
+        thisPlayer.setName(username);
+        thisPlayer.setPassword(password);
         lobbyService.Login(username, password);
     }
 
@@ -64,26 +70,23 @@ public class Client : ClientInterface
         Debug.Log("Getting the role failed with error: "  + error);
     }
 
+    public void refreshSessions(){
+        lobbyService.refresh();
+    }
+
     public void createSession(){
         
         //First, we must get the registration status of the Server, and store it into hasRegisteredServer.
         //       *call Server for registration status here*
 
 
-        if(hasRegisteredServer && !hasSessionCreated){ //If the server is registered, we can call the LS to create a session.
-
-            //hasSessionCreated = true;
+        if(!hasSessionCreated){ //If the client doesn't already have a created session, we can create one.
+            lobbyService.createSession(thisPlayer.getName(), thisPlayer.getAccToken());
+            hasSessionCreated = true;
             return;
-        }
-        //If server is not registered and Client has an admin token, send registration request to the Server.
-        if(isAdmin){
-            //  *call Server for registration request here*
-            //createSession(); //Call this again, where we will hopefully reach the first case this time.
-            CreateFailureEvent("You're the admin, but this functionality isn't done yet :)"); //Remove later.
-
-        }else{ //If server is not registered and Client has no admin token, we can't do anything so we just return.
-            CreateFailureEvent("Server has not registered a game service, and you do not have the permissions to register it!");
-            return;
+        }else{
+            Debug.Log("You already have a session!");
+            return; //Otherwise, we don't want to allow someone to create a bunch of sessions so we just return.
         }
     }
 }
