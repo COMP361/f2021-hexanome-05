@@ -111,10 +111,12 @@ public class LobbyScript : MonoBehaviour
             //Based on session attributes, decide what button (if any) should be added.
             if (Client.Instance().thisPlayer.getName() == session.hostPlayerName && session.players.Count >= 2) {
                 GameObject instantiatedButton = Instantiate(launchButton, instantiatedRow.transform);
-            } else if (Client.Instance().thisPlayer.getName() == session.hostPlayerName && session.players.Count < 2) {
+                instantiatedButton.GetComponent<LaunchScript>().setSession(session);
+            } else if ((Client.Instance().thisPlayer.getName() == session.hostPlayerName && session.players.Count < 2) || session.players.Contains(Client.Instance().thisPlayer.getName())) {
 
             } else {
                 GameObject instantiatedButton = Instantiate(joinButton, instantiatedRow.transform);
+                instantiatedButton.GetComponent<JoinScript>().setSession(session);
             }
         }
     }

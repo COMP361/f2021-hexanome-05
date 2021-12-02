@@ -91,7 +91,7 @@ public class Client : ClientInterface
     }
 
     public void joinSuccess(string input){
-        Debug.Log("Join success: " + input);
+        Debug.Log("Join success: " + input); // CALL REFRESH HERE ***
     }
 
     public void joinFailure(string error){

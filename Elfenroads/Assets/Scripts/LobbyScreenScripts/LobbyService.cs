@@ -150,7 +150,10 @@ public class LobbyService
     }
 
     public void join(Session aSession, Player aPlayer){
-        UnityWebRequest request = UnityWebRequest.Put(LS_PATH + "/api/sessions/" + aSession.sessionID + "/players/" + aPlayer.getName() + "?access_token=" + aPlayer.getAccToken(), ""); //Hopefully this works. *** Otherwise "body" is from ? onwards?
+        
+        //This shit is so fucking wack, but you gotta make this null and not simply an empty list/string for it to work. It is the reason I cry myself to sleep at night.
+        byte[] bodyRaw = null;
+        UnityWebRequest request = UnityWebRequest.Put(LS_PATH + "/api/sessions/" + aSession.sessionID + "/players/" + aPlayer.getName() + "?access_token=" + aPlayer.getAccToken(), bodyRaw ); 
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();
         operation.completed += OnJoinCompleted;
     }
@@ -170,7 +173,7 @@ public class LobbyService
 
 
     public void launch(Session aSession, Player aPlayer){
-        UnityWebRequest request = UnityWebRequest.Post(LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aPlayer.getAccToken(), ""); //Hopefully this works. *** Otherwise "body" is from ? onwards?
+        UnityWebRequest request = UnityWebRequest.Post(LS_PATH + "/api/sessions/" + aSession.sessionID, "?access_token=" + aPlayer.getAccToken()); 
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();
         operation.completed += OnLaunchCompleted;
     }
