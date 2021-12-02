@@ -10,6 +10,9 @@ public class LobbyScript : MonoBehaviour
     public TMPro.TMP_Text infoText;
     public Button createSessionButton;
     public Button refreshButton;
+    
+    public GameObject tableRow;
+    public GameObject tableRowPrefab;
 
     private Client thisClient;
     
@@ -80,5 +83,23 @@ public class LobbyScript : MonoBehaviour
 
     }
 
+    /*
+    public void enableButton(onButton) {
+        onButton.setActive(true)
+    }
+
+    public void disableButton(offButton) {
+        offButton.setActive(false)
+    }
+    */
+    
+    private void displaySessions() {
+        foreach(Session session in foundSessions) {
+        GameObject sessionRow = GameObject.instantiate
+        sessionRow.getChildbyName(Host) =
+        Button joinButton =
+
+        }
+    }
 
 }
