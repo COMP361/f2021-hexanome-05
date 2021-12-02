@@ -19,9 +19,16 @@ public class MoveBootsManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        sioCom.Instance.On("unityConnection", (string payload) => {
-            Debug.Log("SERVER: " + payload);
-        });
+        //////////////////////////////////////////////////////////////////
+        // sioCom.Instance.On("unityConnection", (string payload) => {  //
+        //    Debug.Log("SERVER: " + payload);                          //
+        // });                                                          //
+        //////////////////////////////////////////////////////////////////
+
+        // Listening for JSON updates from the server and deserializing
+        String serverUpdateString;
+        sioCom.Instance.On("JSON",serverUpdateString);
+        Game serverUpdate = JsonConvert.DeserializeObject<Game>(serverUpdateString);
         
     }
 
@@ -72,15 +79,18 @@ public class MoveBootsManager : MonoBehaviour
             townPiecesList.Remove(toRemove);
         }
 
+        // Gathering the update info into a JSON format and sending it to the socket
+        PlayerInfo playerUpdate;
 
+        playerUpdate.username = "Bob";
+        playerUpdate.bootColor = boot.GetComponent<BootScript>().getColor();
+        playerUpdate.currentTown = boot.GetComponent<BootScript>().getCurrentCity;
 
+        sioCom.Instance.Emit(JsonConvert.SerializeObject(playerUpdate));
 
-
-        ////////////////////////////////////////////////////////
-        sioCom.Instance.Emit("unityConnection", "Hello", true);
-        ////////////////////////////////////////////////////////
-
-
+        /////////////////////////////////////////////////////////////
+        // sioCom.Instance.Emit("unityConnection", "Hello", true); //
+        /////////////////////////////////////////////////////////////
     }
 
     public void highlightRoads(){
@@ -118,6 +128,19 @@ public class MoveBootsManager : MonoBehaviour
             }
             highlightRoads();
         }
+    }
+
+    public class Game{
+        public string _id {get; set;}
+        public string gameType {get; set;}
+        public int game_id {get; set;}
+        public List<PlayerInfo> playerList {get; set;}
+    }
+
+    public class PlayerInfo{
+        public string username {get; set;}
+        public string bootColor {get; set;}
+        public string currentTown {get; set;}
     }
 
 }
