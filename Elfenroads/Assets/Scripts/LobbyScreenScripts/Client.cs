@@ -31,6 +31,8 @@ public class Client : ClientInterface
     public event CreateFailure CreateFailureEvent;
     public event JoinSuccess JoinSuccessEvent;
     public event JoinFailure JoinFailureEvent;
+    public event LaunchSuccess LaunchSuccessEvent;
+    public event LaunchFailure LaunchFailureEvent;
     public List<Session> sessions = new List<Session>();
 
     public Client(){
@@ -47,11 +49,14 @@ public class Client : ClientInterface
         lobbyService.CreateFailureEvent += (data) => CreateFailureEvent(data);
         lobbyService.JoinSuccessEvent += (data) => JoinSuccessEvent(data);
         lobbyService.JoinFailureEvent += (data) => JoinFailureEvent(data);
+        lobbyService.LaunchFailureEvent += (data) => LaunchFailureEvent(data);
 
         this.RoleSuccessEvent += roleSuccess;
         this.RoleFailureEvent += roleFailure;
         this.JoinSuccessEvent += joinSuccess;
         this.JoinFailureEvent += joinFailure;
+        this.LaunchSuccessEvent += launchSuccess;
+        this.LaunchFailureEvent += launchFailure;
     }
 
     public void Login(string username, string password){
@@ -86,11 +91,23 @@ public class Client : ClientInterface
     }
 
     public void joinSuccess(string input){
-
+        Debug.Log("Join success: " + input);
     }
 
     public void joinFailure(string error){
+        Debug.Log("Join failure: " + error);
+    }
 
+    public void launch(Session aSession){
+        lobbyService.launch(aSession, thisPlayer);
+    }
+
+    public void launchSuccess(string input){
+        Debug.Log("Launch success: " + input);
+    }
+
+    public void launchFailure(string error){
+        Debug.Log("Launch failure: " + error);
     }
 
     public void createSession(){

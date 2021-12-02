@@ -37,6 +37,12 @@ public class LobbyService
     public delegate void JoinFailure(string result);
     public event JoinFailure JoinFailureEvent;
 
+    public delegate void LaunchSuccess(string result);
+    public event LaunchSuccess LaunchSuccessEvent;
+
+    public delegate void LaunchFailure(string result);
+    public event LaunchFailure LaunchFailureEvent;
+
     const string LS_PATH = "https://mysandbox.icu/LobbyService";
 
     // Status code reference:
@@ -162,6 +168,25 @@ public class LobbyService
         request.Dispose();
     }
 
+
+    public void launch(Session aSession, Player aPlayer){
+        UnityWebRequest request = UnityWebRequest.Post(LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aPlayer.getAccToken(), ""); //Hopefully this works. *** Otherwise "body" is from ? onwards?
+        UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+        operation.completed += OnLaunchCompleted;
+    }
+
+    private void OnLaunchCompleted(AsyncOperation operation){
+        UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
+        if (request.responseCode == STATUS_OK) {
+            LaunchSuccessEvent(request.downloadHandler.text);
+        }
+        else {
+            LaunchFailureEvent(request.error + "\n" + request.downloadHandler.text); 
+        }
+
+        // mark the request for garbage collection
+        request.Dispose();
+    }
 }
 
 public class SessionCreator{
