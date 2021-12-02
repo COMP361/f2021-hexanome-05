@@ -97,20 +97,26 @@ public class LobbyScript : MonoBehaviour
     */
     
     private void displaySessions(List<Session> foundSessions) {
+        foreach (Transform child in tableRow.transform) {
+            Destroy(child.gameObject);
+        }
+
         foreach(Session session in foundSessions) {
             //Make the new row.
             GameObject instantiatedRow = Instantiate(tableRowPrefab, tableRow.transform); //0 is hostname, 1 is ready players
             //Set the strings for "Hostname" and "readyPlayers"
-            instantiatedRow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "new thing";
-            instantiatedRow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "new thing";
+            instantiatedRow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = session.hostPlayerName;
+            instantiatedRow.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = session.players.Count + "/6";
 
             //Based on session attributes, decide what button (if any) should be added.
-            Client.Instance().thisPlayer.getName();
-            GameObject instantiatedButton = Instantiate(joinButton, instantiatedRow.transform); 
-            
-        }
+            if (Client.Instance().thisPlayer.getName() == session.hostPlayerName && session.players.Count >= 2) {
+                GameObject instantiatedButton = Instantiate(launchButton, instantiatedRow.transform);
+            } else if (Client.Instance().thisPlayer.getName() == session.hostPlayerName && session.players.Count < 2) {
 
-        
+            } else {
+                GameObject instantiatedButton = Instantiate(joinButton, instantiatedRow.transform);
+            }
+        }
     }
 
 }
