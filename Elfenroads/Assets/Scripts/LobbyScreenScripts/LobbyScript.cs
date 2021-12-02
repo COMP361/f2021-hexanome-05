@@ -13,6 +13,8 @@ public class LobbyScript : MonoBehaviour
     
     public GameObject tableRow;
     public GameObject tableRowPrefab;
+    public GameObject launchButton;
+    public GameObject joinButton;
 
     private Client thisClient;
     
@@ -78,6 +80,7 @@ public class LobbyScript : MonoBehaviour
             }
         }
         thisClient.sessions = foundSessions; //Set the client's new list of found sessions.
+        displaySessions(foundSessions);
         
         //Call something here to visually update the rows of the table based on the client info (excluding launched sessions). These rows should include a "Launch" button if it is the current client's session, and a "join" button otherwise.
 
@@ -93,13 +96,21 @@ public class LobbyScript : MonoBehaviour
     }
     */
     
-    private void displaySessions() {
+    private void displaySessions(List<Session> foundSessions) {
         foreach(Session session in foundSessions) {
-        GameObject sessionRow = GameObject.instantiate
-        sessionRow.getChildbyName(Host) =
-        Button joinButton =
+            //Make the new row.
+            GameObject instantiatedRow = Instantiate(tableRowPrefab, tableRow.transform); //0 is hostname, 1 is ready players
+            //Set the strings for "Hostname" and "readyPlayers"
+            instantiatedRow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "new thing";
+            instantiatedRow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "new thing";
 
+            //Based on session attributes, decide what button (if any) should be added.
+            Client.Instance().thisPlayer.getName();
+            GameObject instantiatedButton = Instantiate(joinButton, instantiatedRow.transform); 
+            
         }
+
+        
     }
 
 }
