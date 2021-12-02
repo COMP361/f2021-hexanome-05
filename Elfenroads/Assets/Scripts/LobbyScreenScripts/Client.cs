@@ -132,7 +132,6 @@ public class Client : ClientInterface
 
     public void deleteFailure(string error){
         Debug.Log("Delete failure: " + error);
-        refreshSessions();
     }
 
     public void createSession(){

@@ -203,7 +203,8 @@ public class LobbyService
             DeleteSuccessEvent("Yay!");
         }
         else {
-            DeleteFailureEvent("No!"); 
+            Debug.Log("");
+            DeleteFailureEvent(request.error); 
         }
 
         // mark the request for garbage collection

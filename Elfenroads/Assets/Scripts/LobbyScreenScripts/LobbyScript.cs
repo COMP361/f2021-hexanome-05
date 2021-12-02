@@ -75,7 +75,6 @@ public class LobbyScript : MonoBehaviour
         Debug.Log(result);
 
         var jsonString = result.Replace('"', '\"');
-        //var jsonString = result;
 
         //After getting a bunch of sessions, we need to use the result string to create rows.
         //From the result string, we only need to store the session ID, launch state, host player and players somewhere - parameters will be the same for all games so those don't matter. (THOUGH LATER WILL NEED TO DEAL WITH SAVEFILES HERE)
@@ -104,9 +103,9 @@ public class LobbyScript : MonoBehaviour
 
         foreach(Session session in foundSessions) {
             //Make the new row.
-            if(session.launched){ //If we find a session which was launched, no point to show it.
-                continue;
-            }
+            // if(session.launched){ //If we find a session which was launched, no point to show it.
+            //     continue;
+            // }
 
             GameObject instantiatedRow = Instantiate(tableRowPrefab, tableRow.transform); //0 is hostname, 1 is ready players
             //Set the strings for "Hostname" and "readyPlayers"
