@@ -11,7 +11,7 @@ public class LaunchScript : MonoBehaviour
 
 
     void Start(){
-        launchButton = gameObject.GetComponent<Button>(); //*** Should be fine but slight doubt
+        launchButton = gameObject.GetComponent<Button>(); 
         launchButton.onClick.AddListener(launchGame);
     }
 
@@ -20,11 +20,13 @@ public class LaunchScript : MonoBehaviour
     }
 
     private void launchGame(){
-        if(mySession == null || mySession.players.Count <= 2){
+
+        Debug.Log("Launching. mySession = " + mySession + "\nAnd playercount = " + mySession.players.Count);
+
+        if(mySession == null || mySession.players.Count < 2){
             Debug.Log("Error in LaunchButton, session was never set");
-            Debug.Log("mySession = " + mySession + ", playerCount = " + mySession.players.Count);
         }else{
-            //client.launch();
+            client.launch(mySession);
         }
     }
 }

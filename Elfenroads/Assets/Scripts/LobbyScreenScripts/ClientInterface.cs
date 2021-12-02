@@ -11,6 +11,8 @@ public delegate void JoinSuccess(string responseText); //Joining doesn't seem to
 public delegate void JoinFailure(string error);
 public delegate void LaunchSuccess(string responseText);
 public delegate void LaunchFailure(string error);
+public delegate void DeleteSuccess(string responseText);
+public delegate void DeleteFailure(string error);
 
 public interface ClientInterface
 {
@@ -26,7 +28,9 @@ public interface ClientInterface
     event JoinFailure JoinFailureEvent;
     event LaunchSuccess LaunchSuccessEvent;
     event LaunchFailure LaunchFailureEvent;
-    
+    event DeleteSuccess DeleteSuccessEvent;
+    event DeleteFailure DeleteFailureEvent;
+
     void Login(string username, string password);
     
 }

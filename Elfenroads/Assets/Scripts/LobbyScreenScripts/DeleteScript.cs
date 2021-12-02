@@ -3,27 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class JoinScript : MonoBehaviour
+public class DeleteScript : MonoBehaviour
 {
     private Session mySession = null;
     private Client client = Client.Instance();
-    private Button joinButton;
+    private Button deleteButton;
 
 
     void Start(){
-        joinButton = gameObject.GetComponent<Button>(); //*** Should be fine but slight doubt
-        joinButton.onClick.AddListener(joinGame);
+        deleteButton = gameObject.GetComponent<Button>(); 
+        deleteButton.onClick.AddListener(deleteGame);
     }
 
     public void setSession(Session aSession){
         mySession = aSession;
     }
 
-    private void joinGame(){
+    private void deleteGame(){
         if(mySession == null){
-            Debug.Log("Error in joinButton, session was never set");
+            Debug.Log("Error in DeleteButton, session was never set");
         }else{
-            client.join(mySession);
+            client.delete(mySession);
             client.refreshSessions();
         }
     }

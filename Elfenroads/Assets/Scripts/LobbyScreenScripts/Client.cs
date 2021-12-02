@@ -33,6 +33,9 @@ public class Client : ClientInterface
     public event JoinFailure JoinFailureEvent;
     public event LaunchSuccess LaunchSuccessEvent;
     public event LaunchFailure LaunchFailureEvent;
+    public event DeleteSuccess DeleteSuccessEvent;
+    public event DeleteFailure DeleteFailureEvent;
+
     public List<Session> sessions = new List<Session>();
 
     public Client(){
@@ -49,7 +52,11 @@ public class Client : ClientInterface
         lobbyService.CreateFailureEvent += (data) => CreateFailureEvent(data);
         lobbyService.JoinSuccessEvent += (data) => JoinSuccessEvent(data);
         lobbyService.JoinFailureEvent += (data) => JoinFailureEvent(data);
+        lobbyService.LaunchSuccessEvent += (data) => LaunchSuccessEvent(data);
         lobbyService.LaunchFailureEvent += (data) => LaunchFailureEvent(data);
+        lobbyService.DeleteSuccessEvent += (data) => DeleteSuccessEvent(data);
+        lobbyService.DeleteFailureEvent += (data) => DeleteFailureEvent(data);
+        
 
         this.RoleSuccessEvent += roleSuccess;
         this.RoleFailureEvent += roleFailure;
@@ -57,6 +64,8 @@ public class Client : ClientInterface
         this.JoinFailureEvent += joinFailure;
         this.LaunchSuccessEvent += launchSuccess;
         this.LaunchFailureEvent += launchFailure;
+        this.DeleteSuccessEvent += deleteSuccess;
+        this.DeleteFailureEvent += deleteFailure;
     }
 
     public void Login(string username, string password){
@@ -91,7 +100,8 @@ public class Client : ClientInterface
     }
 
     public void joinSuccess(string input){
-        Debug.Log("Join success: " + input); // CALL REFRESH HERE ***
+        Debug.Log("Join success: " + input);
+        refreshSessions();
     }
 
     public void joinFailure(string error){
@@ -110,6 +120,21 @@ public class Client : ClientInterface
         Debug.Log("Launch failure: " + error);
     }
 
+    public void delete(Session aSession){
+        lobbyService.delete(aSession, thisPlayer);
+    }
+
+    public void deleteSuccess(string input){
+        Debug.Log("Delete success: " + input);
+        hasSessionCreated = false;
+        refreshSessions();
+    }
+
+    public void deleteFailure(string error){
+        Debug.Log("Delete failure: " + error);
+        refreshSessions();
+    }
+
     public void createSession(){
         
         //First, we must get the registration status of the Server, and store it into hasRegisteredServer.
@@ -121,7 +146,7 @@ public class Client : ClientInterface
             hasSessionCreated = true;
             return;
         }else{
-            Debug.Log("You already have a session!");
+            GameObject.Find("CreateButton").GetComponent<LobbyScript>().changeInfoText("You already have a session!");
             return; //Otherwise, we don't want to allow someone to create a bunch of sessions so we just return.
         }
     }

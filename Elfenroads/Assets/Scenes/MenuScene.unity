@@ -5312,3 +5312,4 @@ MonoBehaviour:
   tableRowPrefab: {fileID: 3567458326390708236, guid: 7d8549c3765e75945b7c754e8189fe5a, type: 3}
   launchButton: {fileID: 6543925395679356053, guid: c4bacc1e771061947924dbaec2742b53, type: 3}
   joinButton: {fileID: 4770142730435676018, guid: c18a01f8caedc024b9dd2627549c67e1, type: 3}
+  deleteButton: {fileID: 4770142730435676018, guid: 391f00cb7b62cf34c800a7bd58652174, type: 3}

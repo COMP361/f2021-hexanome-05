@@ -9,39 +9,38 @@ public class LobbyService
 
     public delegate void LoginSuccess(string token);
     public event LoginSuccess LoginSuccessEvent;
-
     public delegate void LoginFailure(string error);
     public event LoginFailure LoginFailureEvent;
 
     public delegate void RoleSuccess(string result);
     public event RoleSuccess RoleSuccessEvent;
-
-    public delegate void RoleFailure(string result);
+    public delegate void RoleFailure(string error);
     public event RoleFailure RoleFailureEvent;
 
     public delegate void RefreshSuccess(string result);
     public event RefreshSuccess RefreshSuccessEvent;
-
-    public delegate void RefreshFailure(string result);
+    public delegate void RefreshFailure(string error);
     public event RefreshFailure RefreshFailureEvent;
 
     public delegate void CreateSuccess(string result);
     public event CreateSuccess CreateSuccessEvent;
-
     public delegate void CreateFailure(string error);
     public event CreateFailure CreateFailureEvent;
 
     public delegate void JoinSuccess(string result);
     public event JoinSuccess JoinSuccessEvent;
-
-    public delegate void JoinFailure(string result);
+    public delegate void JoinFailure(string error);
     public event JoinFailure JoinFailureEvent;
 
     public delegate void LaunchSuccess(string result);
     public event LaunchSuccess LaunchSuccessEvent;
-
-    public delegate void LaunchFailure(string result);
+    public delegate void LaunchFailure(string error);
     public event LaunchFailure LaunchFailureEvent;
+
+    public delegate void DeleteSuccess(string result);
+    public event DeleteSuccess DeleteSuccessEvent;
+    public delegate void DeleteFailure(string error);
+    public event DeleteFailure DeleteFailureEvent;
 
     const string LS_PATH = "https://mysandbox.icu/LobbyService";
 
@@ -151,7 +150,7 @@ public class LobbyService
 
     public void join(Session aSession, Player aPlayer){
         
-        //This shit is so fucking wack, but you gotta make this null and not simply an empty list/string for it to work. It is the reason I cry myself to sleep at night.
+        //This is so fucking wack, but you gotta make this null and not simply an empty list/string for it to work. It is the reason I cry myself to sleep at night.
         byte[] bodyRaw = null;
         UnityWebRequest request = UnityWebRequest.Put(LS_PATH + "/api/sessions/" + aSession.sessionID + "/players/" + aPlayer.getName() + "?access_token=" + aPlayer.getAccToken(), bodyRaw ); 
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();
@@ -173,7 +172,7 @@ public class LobbyService
 
 
     public void launch(Session aSession, Player aPlayer){
-        UnityWebRequest request = UnityWebRequest.Post(LS_PATH + "/api/sessions/" + aSession.sessionID, "?access_token=" + aPlayer.getAccToken()); 
+        UnityWebRequest request = UnityWebRequest.Post(LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aPlayer.getAccToken(), ""); 
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();
         operation.completed += OnLaunchCompleted;
     }
@@ -190,6 +189,27 @@ public class LobbyService
         // mark the request for garbage collection
         request.Dispose();
     }
+
+    public void delete(Session aSession, Player aPlayer){
+        UnityWebRequest request = UnityWebRequest.Delete(LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aPlayer.getAccToken()); 
+        UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+        operation.completed += OnDeleteCompleted;
+    }
+
+    private void OnDeleteCompleted(AsyncOperation operation){
+        UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
+        if (request.responseCode == STATUS_OK) {
+            //Debug.Log("Resulting text is " + request.downloadHandler.text);
+            DeleteSuccessEvent("Yay!");
+        }
+        else {
+            DeleteFailureEvent("No!"); 
+        }
+
+        // mark the request for garbage collection
+        request.Dispose();
+    }
+
 }
 
 public class SessionCreator{

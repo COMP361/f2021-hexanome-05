@@ -7,6 +7,8 @@ using Newtonsoft.Json.Linq;
 public class LobbyScript : MonoBehaviour
 {
 
+    //It's weird as hell this script is attached to the Create button, we should probably put it into its own "manager" gameObject later
+
     public TMPro.TMP_Text infoText;
     public Button createSessionButton;
     public Button refreshButton;
@@ -15,6 +17,7 @@ public class LobbyScript : MonoBehaviour
     public GameObject tableRowPrefab;
     public GameObject launchButton;
     public GameObject joinButton;
+    public GameObject deleteButton;
 
     private Client thisClient;
     
@@ -37,6 +40,15 @@ public class LobbyScript : MonoBehaviour
 
     }
 
+    public void changeInfoText(string input){
+        infoText.text = input;
+        Invoke("clearInfoText", 5f);
+    }
+
+    private void clearInfoText(){
+        infoText.text = "";
+    }
+
     private void createSessionAttempt(){
         thisClient.createSession(); 
     }
@@ -47,6 +59,7 @@ public class LobbyScript : MonoBehaviour
 
     private void createSuccessResult(string result){
         thisClient.hasSessionCreated = true;
+        thisClient.refreshSessions();
         Debug.Log(result);
     }
 
@@ -80,21 +93,9 @@ public class LobbyScript : MonoBehaviour
             }
         }
         thisClient.sessions = foundSessions; //Set the client's new list of found sessions.
-        displaySessions(foundSessions);
-        
         //Call something here to visually update the rows of the table based on the client info (excluding launched sessions). These rows should include a "Launch" button if it is the current client's session, and a "join" button otherwise.
-
+        displaySessions(foundSessions);
     }
-
-    /*
-    public void enableButton(onButton) {
-        onButton.setActive(true)
-    }
-
-    public void disableButton(offButton) {
-        offButton.setActive(false)
-    }
-    */
     
     private void displaySessions(List<Session> foundSessions) {
         foreach (Transform child in tableRow.transform) {
@@ -103,6 +104,10 @@ public class LobbyScript : MonoBehaviour
 
         foreach(Session session in foundSessions) {
             //Make the new row.
+            if(session.launched){ //If we find a session which was launched, no point to show it.
+                continue;
+            }
+
             GameObject instantiatedRow = Instantiate(tableRowPrefab, tableRow.transform); //0 is hostname, 1 is ready players
             //Set the strings for "Hostname" and "readyPlayers"
             instantiatedRow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = session.hostPlayerName;
@@ -114,9 +119,14 @@ public class LobbyScript : MonoBehaviour
                 instantiatedButton.GetComponent<LaunchScript>().setSession(session);
             } else if ((Client.Instance().thisPlayer.getName() == session.hostPlayerName && session.players.Count < 2) || session.players.Contains(Client.Instance().thisPlayer.getName())) {
 
-            } else {
+            } else{
                 GameObject instantiatedButton = Instantiate(joinButton, instantiatedRow.transform);
                 instantiatedButton.GetComponent<JoinScript>().setSession(session);
+            }
+
+            if(Client.Instance().thisPlayer.getName() == session.hostPlayerName){
+                GameObject instantiatedButton = Instantiate(deleteButton, instantiatedRow.transform);
+                instantiatedButton.GetComponent<DeleteScript>().setSession(session);
             }
         }
     }
