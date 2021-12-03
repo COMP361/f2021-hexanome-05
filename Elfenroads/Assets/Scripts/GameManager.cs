@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     public GameObject townPiecePrefab;
     public GameObject inventoryPrefab;
 
-    public BootColor myBootColor;
+    public BootColor myBootColor = BootColor.RED;
 
     private List<GameObject> cities = new List<GameObject>();
     private List<GameObject> roads = new List<GameObject>();

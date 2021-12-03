@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firesplash.UnityAssets.SocketIO;
 
+using Newtonsoft.Json;
+
 public class MoveBootsManager : MonoBehaviour
 {
 
@@ -26,9 +28,19 @@ public class MoveBootsManager : MonoBehaviour
         //////////////////////////////////////////////////////////////////
 
         // Listening for JSON updates from the server and deserializing
-        String serverUpdateString;
-        sioCom.Instance.On("JSON",serverUpdateString);
-        Game serverUpdate = JsonConvert.DeserializeObject<Game>(serverUpdateString);
+        Game serverUpdate = new Game();
+        sioCom.Instance.On("unityConnection", (string payload) => { 
+             serverUpdate = JsonConvert.DeserializeObject<Game>(payload);   
+        }); 
+
+        // Update all boots positions
+        foreach (PlayerInfo playerInfo in serverUpdate.playerList){
+            foreach(GameObject aboot in boots){
+                if (aboot.GetComponent<BootScript>().getColor() == playerInfo.bootColor){
+                    moveBoot(aboot);
+                } 
+            }
+        }
         
     }
 
@@ -58,6 +70,7 @@ public class MoveBootsManager : MonoBehaviour
     }
 
     void moveBoot(GameObject boot){
+        
         // move boot
         boot.transform.position = boot.GetComponent<BootScript>().getCurrentCity().transform.position + boot.GetComponent<BootScript>().Offset;
 
@@ -79,12 +92,14 @@ public class MoveBootsManager : MonoBehaviour
             townPiecesList.Remove(toRemove);
         }
 
+        
+
         // Gathering the update info into a JSON format and sending it to the socket
-        PlayerInfo playerUpdate;
+        PlayerInfo playerUpdate = new PlayerInfo();
 
         playerUpdate.username = "Bob";
         playerUpdate.bootColor = boot.GetComponent<BootScript>().getColor();
-        playerUpdate.currentTown = boot.GetComponent<BootScript>().getCurrentCity;
+        playerUpdate.currentTown = boot.GetComponent<BootScript>().getCurrentCity();
 
         sioCom.Instance.Emit(JsonConvert.SerializeObject(playerUpdate));
 
@@ -112,35 +127,43 @@ public class MoveBootsManager : MonoBehaviour
     public void roadClicked(GameObject road){
         GameObject city1 = road.GetComponent<RoadScript>().getCity1();
         GameObject city2 = road.GetComponent<RoadScript>().getCity2();
+        GameObject boot;
 
-        foreach(GameObject boot in boots){
+       foreach(GameObject aboot in boots){
+            if (aboot.GetComponent<BootScript>().getColor() == GameObject.Find("GameManager").GetComponent<GameManager>().myBootColor){
+                boot = aboot;
 
-            if(boot.GetComponent<BootScript>().getCurrentCity() == city1){
+                 if(boot.GetComponent<BootScript>().getCurrentCity() == city1){
                 boot.GetComponent<BootScript>().setCurrentCity(city2);
-            }else if(boot.GetComponent<BootScript>().getCurrentCity() == city2){
+                }else if(boot.GetComponent<BootScript>().getCurrentCity() == city2){
                 boot.GetComponent<BootScript>().setCurrentCity(city1);
-            }else{
+                }else{
                 Debug.Log("Invalid operation!");
-            }
+                }
 
-            if (boot.GetComponent<BootScript>().getColor() == GameObject.Find("GameManager").GetComponent<GameManager>().myBootColor){
+            // if (boot.GetComponent<BootScript>().getColor() == GameObject.Find("GameManager").GetComponent<GameManager>().myBootColor){
                 moveBoot(boot);
-            }
-            highlightRoads();
+            // }
+            } 
         }
+
+           
+            highlightRoads();
+
+
     }
 
     public class Game{
         public string _id {get; set;}
         public string gameType {get; set;}
         public int game_id {get; set;}
-        public List<PlayerInfo> playerList {get; set;}
+        public PlayerInfo[] playerList {get; set;}
     }
 
     public class PlayerInfo{
         public string username {get; set;}
-        public string bootColor {get; set;}
-        public string currentTown {get; set;}
+        public BootColor bootColor {get; set;}
+        public GameObject currentTown {get; set;}
     }
 
 }
