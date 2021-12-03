@@ -113,7 +113,9 @@ public class GameManager : MonoBehaviour
         UpdateState(BroadGameState.MoveBoot);
         Invoke("callHighlightRoads", 0.05f);
 
+        MoveBootsManager.instance.startListening();
         Cursor.lockState = CursorLockMode.Confined;
+
 
         //NOTE: Roads, Cities and the Manager may be too tightly coupled - Depending on order of Start() functions, we may get unintended results. For now, it works.
     }

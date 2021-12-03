@@ -28,6 +28,10 @@ public class InventoryManager : MonoBehaviour
         this.townPieceList.Add(townPiece);
     }
 
+    public List<GameObject> getTownPieces(){
+        return townPieceList;
+    }
+
     public int countTownPiece(){
         return townPieceList.Count;
     }

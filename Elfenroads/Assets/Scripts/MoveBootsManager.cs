@@ -26,22 +26,23 @@ public class MoveBootsManager : MonoBehaviour
         //    Debug.Log("SERVER: " + payload);                          //
         // });                                                          //
         //////////////////////////////////////////////////////////////////
+    }
 
+    public void startListening(){
         // Listening for JSON updates from the server and deserializing
         Game serverUpdate = new Game();
         sioCom.Instance.On("MoveBoot", (string payload) => { 
-             serverUpdate = JsonConvert.DeserializeObject<Game>(payload);   
+             serverUpdate = JsonConvert.DeserializeObject<Game>(payload);  
+             // Update all boots positions
+            foreach (PlayerInfo playerInfo in serverUpdate.playerList){
+                foreach(GameObject aboot in boots){
+                    if (aboot.GetComponent<BootScript>().getColor() == playerInfo.bootColor){
+                        moveBoot(aboot);
+                    } 
+                }
+            } 
         }); 
 
-        // Update all boots positions
-        foreach (PlayerInfo playerInfo in serverUpdate.playerList){
-            foreach(GameObject aboot in boots){
-                if (aboot.GetComponent<BootScript>().getColor() == playerInfo.bootColor){
-                    moveBoot(aboot);
-                } 
-            }
-        }
-        
     }
 
     private List<GameObject> boots;
@@ -100,6 +101,7 @@ public class MoveBootsManager : MonoBehaviour
         playerUpdate.username = "Bob";
         playerUpdate.bootColor = boot.GetComponent<BootScript>().getColor();
         playerUpdate.currentTown = boot.GetComponent<BootScript>().getCurrentCity();
+        playerUpdate.townPieces = boot.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().getTownPieces();
 
         sioCom.Instance.Emit("MoveBoot", JsonConvert.SerializeObject(playerUpdate), false);
 
@@ -161,9 +163,10 @@ public class MoveBootsManager : MonoBehaviour
     }
 
     public class PlayerInfo{
+        public GameObject currentTown {get; set;}
+        public List<GameObject> townPieces {get; set;}
         public string username {get; set;}
         public BootColor bootColor {get; set;}
-        public GameObject currentTown {get; set;}
     }
 
 }
