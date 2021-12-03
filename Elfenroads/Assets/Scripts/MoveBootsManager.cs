@@ -101,7 +101,7 @@ public class MoveBootsManager : MonoBehaviour
         playerUpdate.bootColor = boot.GetComponent<BootScript>().getColor();
         playerUpdate.currentTown = boot.GetComponent<BootScript>().getCurrentCity();
 
-        sioCom.Instance.Emit(JsonConvert.SerializeObject(playerUpdate));
+        sioCom.Instance.Emit("MoveBoot", JsonConvert.SerializeObject(playerUpdate), false);
 
         /////////////////////////////////////////////////////////////
         // sioCom.Instance.Emit("unityConnection", "Hello", true); //
