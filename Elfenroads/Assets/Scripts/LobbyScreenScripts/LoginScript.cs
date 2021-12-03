@@ -7,8 +7,7 @@ using TMPro;
 public class LoginScript : MonoBehaviour
 {
     private Button loginButton;
-    private Player thisPlayer;
-    private string lobbyServicePath = "https://mysandbox.icu/LobbyService/";
+    private Client thisClient;
 
     public GameObject usernameBox;
     public GameObject passwordBox;
@@ -18,28 +17,45 @@ public class LoginScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Create Player object and get the button.
-        thisPlayer = new Player();
+        //Create Client object and get the button.
+        thisClient = Client.Instance();
         loginButton = this.gameObject.GetComponent<Button>();
 
         //Add onclick listener to button for "login" function.
         loginButton.onClick.AddListener(login);
+
+        thisClient.LoginSuccessEvent += loginSuccessResult;
+        thisClient.LoginFailureEvent += loginFailure;
     }
 
+    //Function mostly just ensure fields are filled, and then calls the "LobbyService"'s script through the client.
     void login(){
         if(usernameBox.GetComponent<TMP_InputField>().text == "" || passwordBox.GetComponent<TMP_InputField>().text == ""){
             return;
         }else{
-            
-            
-            
-            
-            
-            loginScreen.SetActive(false);
-            lobbyScreen.SetActive(true);
+            //Here, we'll call Login() on the Client (and thus the LobbyService).
+            thisClient.Login(usernameBox.GetComponent<TMP_InputField>().text,passwordBox.GetComponent<TMP_InputField>().text);
         }
     }
 
+    //This is called by a LoginSuccessEvent, it stores the token into the Client's Player and moves on to the next screen.
+    void loginSuccessResult(string token){
+        Debug.Log(token);
+
+        thisClient.thisPlayer.setAccToken(token.Substring(17, 28).Replace("+", "%2B"));
+        thisClient.thisPlayer.setRefToken(token.Substring(86,28).Replace("+", "%2B"));
+        Debug.Log("Player acc token: " + thisClient.thisPlayer.getAccToken());
+        Debug.Log("Player ref token: " + thisClient.thisPlayer.getRefToken());
+
+        //thisClient.getRole(); Registration is done outside of the game, so this is now obsolete.
+        thisClient.refreshSessions();
+        loginScreen.SetActive(false);
+        lobbyScreen.SetActive(true);
+    }
+
+    void loginFailure(string error){
+        Debug.Log("Login failed with error: " + error);
+    }
 
 
 
