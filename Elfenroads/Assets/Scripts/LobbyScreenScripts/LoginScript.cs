@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Firesplash.UnityAssets.SocketIO;
 
 public class LoginScript : MonoBehaviour
 {
     private Button loginButton;
     private Client thisClient;
 
+    public SocketIOCommunicator sioCom;
     public GameObject usernameBox;
     public GameObject passwordBox;
     public GameObject loginScreen;
@@ -49,6 +51,7 @@ public class LoginScript : MonoBehaviour
 
         //thisClient.getRole(); Registration is done outside of the game, so this is now obsolete.
         thisClient.refreshSessions();
+        thisClient.setSioCom(sioCom);
         loginScreen.SetActive(false);
         lobbyScreen.SetActive(true);
     }
