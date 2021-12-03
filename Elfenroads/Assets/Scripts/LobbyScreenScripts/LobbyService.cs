@@ -172,6 +172,7 @@ public class LobbyService
 
 
     public void launch(Session aSession, Player aPlayer){
+        Debug.Log("Request looks like: " + LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aPlayer.getAccToken());
         UnityWebRequest request = UnityWebRequest.Post(LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aPlayer.getAccToken(), ""); 
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();
         operation.completed += OnLaunchCompleted;
@@ -203,7 +204,6 @@ public class LobbyService
             DeleteSuccessEvent("Yay!");
         }
         else {
-            Debug.Log("");
             DeleteFailureEvent(request.error); 
         }
 

@@ -86,7 +86,7 @@ public class LobbyScript : MonoBehaviour
         }
         List<Session> foundSessions = new List<Session>();
         foreach(string ID in sessionIDs){
-            foundSessions.Add(new Session(ID, trueObj[ID]["creator"].ToString(), trueObj[ID]["players"].ToString(), trueObj[ID]["launched"].ToString()));
+            foundSessions.Add(new Session(WWW.EscapeURL(ID), trueObj[ID]["creator"].ToString(), trueObj[ID]["players"].ToString(), trueObj[ID]["launched"].ToString()));
             if(trueObj[ID]["creator"].ToString() == thisClient.thisPlayer.getName()){
                 thisClient.hasSessionCreated = true; //If our client is a host in one of the recieved session
             }
@@ -123,7 +123,7 @@ public class LobbyScript : MonoBehaviour
                 instantiatedButton.GetComponent<JoinScript>().setSession(session);
             }
 
-            if(Client.Instance().thisPlayer.getName() == session.hostPlayerName){
+            if(Client.Instance().thisPlayer.getName() == session.hostPlayerName || Client.Instance().thisPlayer.getName() == "Elfenroads"){
                 GameObject instantiatedButton = Instantiate(deleteButton, instantiatedRow.transform);
                 instantiatedButton.GetComponent<DeleteScript>().setSession(session);
             }
