@@ -29,7 +29,7 @@ public class MoveBootsManager : MonoBehaviour
 
         // Listening for JSON updates from the server and deserializing
         Game serverUpdate = new Game();
-        sioCom.Instance.On("unityConnection", (string payload) => { 
+        sioCom.Instance.On("MoveBoot", (string payload) => { 
              serverUpdate = JsonConvert.DeserializeObject<Game>(payload);   
         }); 
 
