@@ -5847,10 +5847,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a51bb71fdd88524994e50b1dd0eb958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketIOAddress: fierce-plateau-19887.herokuapp.com
-  secureConnection: 1
+  socketIOAddress: 108.175.13.172:1337
+  secureConnection: 0
   autoConnect: 1
-  autoReconnect: 1
+  autoReconnect: 0
 --- !u!4 &868311102
 Transform:
   m_ObjectHideFlags: 0

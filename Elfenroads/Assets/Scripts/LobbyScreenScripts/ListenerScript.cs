@@ -8,13 +8,11 @@ public class ListenerScript : MonoBehaviour
 
     public SocketIOCommunicator sioCOM;
 
-    // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         //sioCOM.Instance.Emit("join","game1");
         Debug.Log(sioCOM.Instance.IsConnected());
-        
-        sioCOM.Instance.On("StartGame", callback);
+        sioCOM.Instance.Emit("join","HelloMax",true);
     }
 
     private void callback(string payloadData){
