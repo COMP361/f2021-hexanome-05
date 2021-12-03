@@ -103,7 +103,16 @@ public class MoveBootsManager : MonoBehaviour
         playerUpdate.currentTown = boot.GetComponent<BootScript>().getCurrentCity();
         playerUpdate.townPieces = boot.GetComponent<BootScript>().getInventory().GetComponent<InventoryManager>().getTownPieces();
 
-        sioCom.Instance.Emit("MoveBoot", JsonConvert.SerializeObject(playerUpdate), false);
+        Dictionary<string, string> InfoList = new Dictionary<string, string>();
+        InfoList.Add("game_id", "2159465239968617637");
+        InfoList.Add("name", "maex");
+        InfoList.Add("currentTown", boot.GetComponent<BootScript>().getCurrentCity().GetComponent<CityScript>().cityName);
+
+        sioCom.Instance.Emit("MoveBoot", JsonConvert.SerializeObject(InfoList),false);
+
+        //sioCom.Instance.Emit("MoveBoot", JsonConvert.SerializeObject(playerUpdate),false);
+
+        //sioCom.Instance.Emit("MoveBoot", "Test string", true);
 
         /////////////////////////////////////////////////////////////
         // sioCom.Instance.Emit("unityConnection", "Hello", true); //

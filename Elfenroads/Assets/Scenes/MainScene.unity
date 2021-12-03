@@ -1207,7 +1207,7 @@ MonoBehaviour:
   bootPrefab: {fileID: 1758054998159331222, guid: 094e893439bd84841a1ab96c5fba56be, type: 3}
   townPiecePrefab: {fileID: 7441020426772035190, guid: 1c68fdf2ae03bc945b97bc2e37e05863, type: 3}
   inventoryPrefab: {fileID: 269411663562781463, guid: 047a6598e7537fc4b9b5d480bf1c66c1, type: 3}
-  myBootColor: 1
+  myBootColor: 0
 --- !u!4 &186612397
 Transform:
   m_ObjectHideFlags: 0
