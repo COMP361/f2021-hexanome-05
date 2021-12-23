@@ -1,4 +1,4 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +16,7 @@ public class LoginScript : MonoBehaviour
     public GameObject passwordBox;
     public GameObject loginScreen;
     public GameObject lobbyScreen;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class LoginScript : MonoBehaviour
         //Create Client object and get the button.
         thisClient = Client.Instance();
         loginButton = this.gameObject.GetComponent<Button>();
+
 
         //Add onclick listener to button for "login" function.
         loginButton.onClick.AddListener(login);
@@ -51,9 +53,15 @@ public class LoginScript : MonoBehaviour
         Debug.Log("Player acc token: " + thisClient.thisPlayer.getAccToken());
         Debug.Log("Player ref token: " + thisClient.thisPlayer.getRefToken());
 
-        //thisClient.getRole(); Registration is done outside of the game, so this is now obsolete.
+        //Replace this with the beginning of long-polling.
+        //Need to make an initial call to getSessions (currently called refreshSessions - need to update it so that it can take a hash (or not))
+        //and store the returned string somewhere. Then, get a MD5 hash of the returned string, and call getSessions again with that hash as a
+        //parameter.
+        //The alternative way would be to do regular polling. Just create a loop, and while the return code is 408, ask for the update again.
+        //as soon as the return code is 200, then we can update and then just get back into the loop, as described in a short code snippet here
+        // https://github.com/kartoffelquadrat/AsyncRestLib#client-long-poll-counterpart
+        //You could import System.Security.Cryptography. And then use MD5CryptoServiceProvider(), ComputeHash() and so on. 
         thisClient.refreshSessions();
-
         thisClient.setSioCom(sioCom);
         Debug.Log(sioCom.Instance.IsConnected());
         sioCom.Instance.On("StartGame", callback);
@@ -65,6 +73,7 @@ public class LoginScript : MonoBehaviour
     private void callback(string input){
         //Load the next scene.
         Debug.Log("reached callback method!");
+        //TODO: Here, also add a function which will cancel the long-polling (since, now that we've joined the game, there's no reason to continue polling).
         SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
         //sioCom.Instance.Off("StartGame");
     }
