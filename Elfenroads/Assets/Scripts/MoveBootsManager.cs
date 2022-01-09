@@ -123,8 +123,9 @@ public class MoveBootsManager : MonoBehaviour
     public void highlightRoads(){
         
         GameObject curCity = boots[0].GetComponent<BootScript>().getCurrentCity();
-        
-        foreach(GameObject road in roads){
+
+       // A < --Road1-- > B
+        foreach (GameObject road in roads){
             GameObject city1 = road.GetComponent<RoadScript>().getCity1();
             GameObject city2 = road.GetComponent<RoadScript>().getCity2();
 

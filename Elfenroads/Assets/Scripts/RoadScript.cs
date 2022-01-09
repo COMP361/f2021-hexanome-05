@@ -16,13 +16,20 @@ public enum RoadType
 
 public class RoadScript : MonoBehaviour
 {
-    public GameObject city1;
-    public GameObject city2;
     public RoadType type;
+    public Road road;
+    public GameObject Town1;
+    public GameObject Town2;
+
+
+
     //For M3, leave it at this. Later on though, we'll need to include counter/token functionality.
 
     void Start()
     {
+
+        //Town1.GetComponent
+        Road road = new Road(Town1, Town2);
         GameManager.instance.addRoad(gameObject);
     }
 
@@ -31,6 +38,8 @@ public class RoadScript : MonoBehaviour
     {
         
     }
+
+
 
     public GameObject getCity1(){
         return city1;
