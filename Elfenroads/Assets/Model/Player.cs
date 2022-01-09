@@ -12,9 +12,32 @@ namespace Models
         private string accessToken;
         private string refreshToken;
 
+
+        private GameObject currentCity;
+        public Vector3 Offset;
+        public Sprite blueSprite;
+        private BootColor aColor;
+        private GameObject aInventory;
+        private string playerName;
+
         public Player()
         {
 
+        }
+
+        public void setInventory(GameObject inv)
+        {
+            aInventory = inv;
+        }
+
+        public GameObject getInventory()
+        {
+            return aInventory;
+        }
+
+        public string getname()
+        {
+            return playerName;
         }
 
         public string getName()
@@ -37,9 +60,9 @@ namespace Models
             return refreshToken;
         }
 
-        public void setName(string s)
+        public void setName(string name)
         {
-            name = s;
+            playerName = name;
         }
 
         public void setPassword(string s)
