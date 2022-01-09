@@ -7,11 +7,11 @@ namespace Models
 {
     public enum BootColor
     {
-        Green,
-        Blue,
-        Red,
-        Orange,
-        White,
-        Black
+        RED,
+        BLUE,
+        WHITE,
+        ORANGE,
+        BLACK,
+        GREEN
     }
 }
