@@ -29,9 +29,4 @@ public class CityScript : MonoBehaviour
         Debug.Log("Townpiece added to city " + cityName);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
