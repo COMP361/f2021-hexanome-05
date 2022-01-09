@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json.Linq;
-using Firesplash.UnityAssets.SocketIO;
 using UnityEngine.SceneManagement;
 
 public class LobbyScript : MonoBehaviour
@@ -25,7 +24,6 @@ public class LobbyScript : MonoBehaviour
     public GameObject launchButton;
     public GameObject joinButton;
     public GameObject deleteButton;
-    public SocketIOCommunicator sioCom;
     private Client thisClient;
 
 
@@ -45,11 +43,6 @@ public class LobbyScript : MonoBehaviour
         thisClient.RefreshFailureEvent += refreshFailure;
         thisClient.CreateSuccessEvent += createSuccessResult;
         thisClient.CreateFailureEvent += createFailure;
-
-        //Get the socket to start listening for a "StartGame" message.
-        thisClient.setSioCom(sioCom);
-        sioCom.Instance.On("StartGame", callback);
-        Debug.Log(sioCom.Instance.IsConnected());
 
         //Next, start polling. For now, this coroutine will simply get an update and display it every second. Later on, if time permits, can make this more sophisticated via the scheme described here, checking for return codes 408 and 200.
         //https://github.com/kartoffelquadrat/AsyncRestLib#client-long-poll-counterpart (This would likely require changing the LobbyService.cs script, as well as the refreshSuccess function(s)).
@@ -84,7 +77,6 @@ public class LobbyScript : MonoBehaviour
         Debug.Log("reached callback method!");
         //TODO: Here, also add a function which will cancel the polling coroutine (since, now that we've joined the game, there's no reason to continue polling).
         SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
-        sioCom.Instance.Off("StartGame");
     }
 
     private void refreshSessions(){

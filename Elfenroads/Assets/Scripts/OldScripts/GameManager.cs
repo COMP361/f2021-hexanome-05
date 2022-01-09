@@ -113,7 +113,6 @@ public class GameManager : MonoBehaviour
         UpdateState(BroadGameState.MoveBoot);
         Invoke("callHighlightRoads", 0.05f);
 
-        MoveBootsManager.instance.startListening();
         Cursor.lockState = CursorLockMode.Confined;
 
 
