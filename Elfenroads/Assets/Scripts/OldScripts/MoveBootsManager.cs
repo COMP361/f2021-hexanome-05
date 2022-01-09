@@ -108,15 +108,18 @@ public class MoveBootsManager : MonoBehaviour
         InfoList.Add("name", "maex");
         InfoList.Add("currentTown", boot.GetComponent<BootScript>().getCurrentCity().GetComponent<CityScript>().cityName);
 
-        sioCom.Instance.Emit("MoveBoot", JsonConvert.SerializeObject(InfoList),false);
-
+        
+        //sioCom.Instance.Emit("MoveBoot", JsonConvert.SerializeObject(InfoList),false);
         //sioCom.Instance.Emit("MoveBoot", JsonConvert.SerializeObject(playerUpdate),false);
-
         //sioCom.Instance.Emit("MoveBoot", "Test string", true);
+        
+    
+        //Debug.Log(JsonConvert.SerializeObject(playerUpdate));
+        Debug.Log(JsonConvert.SerializeObject(playerUpdate, Formatting.Indented, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore}));
 
-        /////////////////////////////////////////////////////////////
-        // sioCom.Instance.Emit("unityConnection", "Hello", true); //
-        /////////////////////////////////////////////////////////////
+        sioCom.Instance.Emit("unityConnection", "Hello", true);
+        Debug.Log("message sent");
+        
     }
 
     public void highlightRoads(){
@@ -176,6 +179,7 @@ public class MoveBootsManager : MonoBehaviour
         public List<GameObject> townPieces {get; set;}
         public string username {get; set;}
         public BootColor bootColor {get; set;}
+
     }
 
 }
