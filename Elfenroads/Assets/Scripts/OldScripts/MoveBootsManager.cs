@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Firesplash.UnityAssets.SocketIO;
 
 using Newtonsoft.Json;
 
@@ -9,6 +10,7 @@ public class MoveBootsManager : MonoBehaviour
 {
 
     public static MoveBootsManager instance = null;
+    public SocketIOCommunicator sioCom;
 
     void Awake(){
         if(instance == null){
@@ -24,6 +26,23 @@ public class MoveBootsManager : MonoBehaviour
         //    Debug.Log("SERVER: " + payload);                          //
         // });                                                          //
         //////////////////////////////////////////////////////////////////
+    }
+
+    public void startListening(){
+        // Listening for JSON updates from the server and deserializing
+        Game serverUpdate = new Game();
+        sioCom.Instance.On("MoveBoot", (string payload) => { 
+             serverUpdate = JsonConvert.DeserializeObject<Game>(payload);  
+             // Update all boots positions
+            foreach (PlayerInfo playerInfo in serverUpdate.playerList){
+                foreach(GameObject aboot in boots){
+                    if (aboot.GetComponent<BootScript>().getColor() == playerInfo.bootColor){
+                        moveBoot(aboot);
+                    } 
+                }
+            } 
+        }); 
+
     }
 
     private List<GameObject> boots;
@@ -97,6 +116,8 @@ public class MoveBootsManager : MonoBehaviour
     
         //Debug.Log(JsonConvert.SerializeObject(playerUpdate));
         Debug.Log(JsonConvert.SerializeObject(playerUpdate, Formatting.Indented, new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore}));
+
+        sioCom.Instance.Emit("unityConnection", "Hello", true);
         Debug.Log("message sent");
         
     }
