@@ -11,7 +11,6 @@ public class TownPieceManager : MonoBehaviour
 
     private GameObject owner;
 
-
     public void setColor(BootColor pColor){
         aColor = pColor;
     }
