@@ -1,0 +1,4 @@
+You can eighter use the nodejs based examples in DemoServerCode.zip (run npm install before running the js)
+To do this (for the main example), use localhost:8123 as the address in the example and disable SSL.
+
+Or use our server hosted example (preconfigured)

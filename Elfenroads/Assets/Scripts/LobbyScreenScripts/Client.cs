@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Firesplash.UnityAssets.SocketIO;
 
 public class Client : ClientInterface
 {
@@ -20,6 +21,7 @@ public class Client : ClientInterface
     private bool isAdmin = false;
     public bool hasSessionCreated = false;
     public Player thisPlayer;
+    public SocketIOCommunicator sioCom;
 
     public event LoginSuccess LoginSuccessEvent;
     public event LoginFailure LoginFailureEvent;
@@ -67,6 +69,10 @@ public class Client : ClientInterface
         this.DeleteSuccessEvent += deleteSuccess;
         this.DeleteFailureEvent += deleteFailure;
 
+    }
+
+    public void setSioCom(SocketIOCommunicator InputSIO){
+        sioCom = InputSIO;
     }
 
     public void Login(string username, string password){
