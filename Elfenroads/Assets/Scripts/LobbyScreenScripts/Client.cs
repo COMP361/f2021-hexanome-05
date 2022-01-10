@@ -21,7 +21,7 @@ public class Client : ClientInterface
     private string serverPath = "https://fierce-plateau-19887.herokuapp.com/"; // Did this get changed? ***
     private bool isAdmin = false;
     public bool hasSessionCreated = false;
-    public Player thisPlayer;
+    public ClientCredentials clientCredentials;
     public SocketIOCommunicator sioCom;
 
     public event LoginSuccess LoginSuccessEvent;
@@ -43,7 +43,7 @@ public class Client : ClientInterface
 
     public Client(){
         this.lobbyService = new LobbyService();
-        thisPlayer = new Player();
+        clientCredentials = new ClientCredentials();
 
         lobbyService.LoginSuccessEvent += (data) => LoginSuccessEvent(data);
         lobbyService.LoginFailureEvent += (error) => LoginFailureEvent(error);
@@ -77,13 +77,13 @@ public class Client : ClientInterface
     }
 
     public void Login(string username, string password){
-        thisPlayer.setName(username);
-        thisPlayer.setPassword(password);
+        clientCredentials.username = username;
+        clientCredentials.password = password;
         lobbyService.Login(username, password);
     }
 
     public void getRole(){
-        lobbyService.getRole(thisPlayer.getAccToken());
+        lobbyService.getRole(clientCredentials.refreshToken);
     }
 
     public void roleSuccess(string input){
@@ -104,7 +104,7 @@ public class Client : ClientInterface
     }
 
     public void join(Session aSession){
-        lobbyService.join(aSession, thisPlayer);
+        lobbyService.join(aSession, clientCredentials);
     }
 
     public void joinSuccess(string input){
@@ -117,7 +117,7 @@ public class Client : ClientInterface
     }
 
     public void launch(Session aSession){
-        lobbyService.launch(aSession, thisPlayer);
+        lobbyService.launch(aSession, clientCredentials);
         
     }
 
@@ -133,7 +133,7 @@ public class Client : ClientInterface
     }
 
     public void delete(Session aSession){
-        lobbyService.delete(aSession, thisPlayer);
+        lobbyService.delete(aSession, clientCredentials);
     }
 
     public void deleteSuccess(string input){
@@ -153,7 +153,7 @@ public class Client : ClientInterface
 
 
         if(!hasSessionCreated){ //If the client doesn't already have a created session, we can create one.
-            lobbyService.createSession(thisPlayer.getName(), thisPlayer.getAccToken());
+            lobbyService.createSession(clientCredentials.username, clientCredentials.accessToken);
             hasSessionCreated = true;
             return;
         }else{
@@ -161,4 +161,12 @@ public class Client : ClientInterface
             return; //Otherwise, we don't want to allow someone to create a bunch of sessions so we just return.
         }
     }
+}
+
+public struct ClientCredentials
+{
+    public string username;
+    public string password;
+    public string accessToken;
+    public string refreshToken;
 }

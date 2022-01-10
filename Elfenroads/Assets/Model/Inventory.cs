@@ -1,20 +1,15 @@
-
-// Model/Class for games
-
-
 using Models;
 using System.Collections.Generic;
 
-namespace Model
-{
+
+namespace Models {
     public class Inventory
     {
+        private List<TownPiece> townPieces;
 
-        public List<TownPiece> TownPieces { get; set; }
-
-        public Inventory(List<TownPiece> townpieces)
+        public Inventory(IEnumerable<TownPiece> townPieces)
         {
-            this.TownPieces = townpieces;
+            this.townPieces = new List<TownPiece>(townPieces);
         }
     }
 }

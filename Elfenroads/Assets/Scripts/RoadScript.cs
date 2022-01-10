@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Models;
 
-public enum RoadType
-{
+public enum RoadType {
     Plain,
     Forest,
     Mountain,
@@ -13,45 +12,31 @@ public enum RoadType
     Lake
 }
 
+public class RoadScript : MonoBehaviour {
+    [HideInInspector]
+    public Road road { private set; get; }
+    public RoadType roadType;
+    public GameObject startTown;
+    public GameObject endTown;
 
-public class RoadScript : MonoBehaviour
-{
-    public RoadType type;
-    public Road road;
-    public GameObject Town1;
-    public GameObject Town2;
+    void Start() {
+        Town start = startTown.GetComponent<TownScript>().town;
+        Town end = endTown.GetComponent<TownScript>().town;
 
-
-
-    //For M3, leave it at this. Later on though, we'll need to include counter/token functionality.
-
-    void Start()
-    {
-
-        //Town1.GetComponent
-        Road road = new Road(Town1, Town2);
-        GameManager.instance.addRoad(gameObject);
+        switch (roadType) {
+            case RoadType.Plain:
+                road = new PlainRoad(start, end);
+                break;
+            // gotta implement all road types...
+            default:
+                Debug.LogError("Road type " + roadType.ToString() + " has not been implemented!");
+                break;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
-
-    public GameObject getCity1(){
-        return city1;
-    }
-
-    public GameObject getCity2(){
-        return city2;
-    }
-
-    public void onClick(){
+    public void onClick() {
         //This road was clicked. Inform the MoveBootsManager, who will verify that it was a valid road to click on for movement.
         //(I suppose I could take out this middle man and just pass the road object to an onClick() in the GameManager, but then the manager would have very many onClick() functions.)
-        MoveBootsManager.instance.roadClicked(gameObject);
+        // MoveBootsManager.instance.roadClicked(gameObject);
     }
 }

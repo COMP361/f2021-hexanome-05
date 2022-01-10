@@ -112,7 +112,7 @@ public class LobbyScript : MonoBehaviour
         List<Session> foundSessions = new List<Session>();
         foreach(string ID in sessionIDs){
             foundSessions.Add(new Session(WWW.EscapeURL(ID), trueObj[ID]["creator"].ToString(), trueObj[ID]["players"].ToString(), trueObj[ID]["launched"].ToString()));
-            if(trueObj[ID]["creator"].ToString() == thisClient.thisPlayer.getName()){
+            if(trueObj[ID]["creator"].ToString() == thisClient.clientCredentials.username){
                 thisClient.hasSessionCreated = true; //If our client is a host in one of the recieved session
             }
         }
@@ -138,17 +138,17 @@ public class LobbyScript : MonoBehaviour
             instantiatedRow.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = session.players.Count + "/6";
 
             //Based on session attributes, decide what button (if any) should be added.
-            if (Client.Instance().thisPlayer.getName() == session.hostPlayerName && session.players.Count >= 2) {
+            if (Client.Instance().clientCredentials.username == session.hostPlayerName && session.players.Count >= 2) {
                 GameObject instantiatedButton = Instantiate(launchButton, instantiatedRow.transform);
                 instantiatedButton.GetComponent<LaunchScript>().setSession(session);
-            } else if ((Client.Instance().thisPlayer.getName() == session.hostPlayerName && session.players.Count < 2) || session.players.Contains(Client.Instance().thisPlayer.getName())) {
+            } else if ((Client.Instance().clientCredentials.username == session.hostPlayerName && session.players.Count < 2) || session.players.Contains(Client.Instance().clientCredentials.username)) {
 
             } else{
                 GameObject instantiatedButton = Instantiate(joinButton, instantiatedRow.transform);
                 instantiatedButton.GetComponent<JoinScript>().setSession(session);
             }
 
-            if(Client.Instance().thisPlayer.getName() == session.hostPlayerName || Client.Instance().thisPlayer.getName() == "Elfenroads"){
+            if(Client.Instance().clientCredentials.username == session.hostPlayerName || Client.Instance().clientCredentials.username == "Elfenroads"){
                 GameObject instantiatedButton = Instantiate(deleteButton, instantiatedRow.transform);
                 instantiatedButton.GetComponent<DeleteScript>().setSession(session);
             }

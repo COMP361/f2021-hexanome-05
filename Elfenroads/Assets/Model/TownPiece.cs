@@ -1,25 +1,13 @@
-
-// Model/Class for games
-
-
 using System.Collections.Generic;
 using UnityEngine;
+using Models;
 
-namespace Models
-{
-    public class TownPiece : GameUnit
-    {
+namespace Models {
+    public class TownPiece {
+        public Color color { private set; get; }
 
-        private Town Town { get; set; }
-        private BootColor Color { get; set; }
-
-
-
-        TownPiece(Town town, BootColor color, GameObject gameObject) : base(gameObject)
-        {
-            this.Town = town;
-            this.Color = color;
-
+        public TownPiece(Color color) {
+            this.color = color;
         }
     }
 }

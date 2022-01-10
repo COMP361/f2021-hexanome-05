@@ -1,23 +1,23 @@
-
-// Model/Class for games
-
-
 using System.Collections.Generic;
-namespace Models
-{
-    public class Town
-    {
+using Models;
 
-        private string TownName { get; set; }
-        private List<TownPiece> TownPieces { get; set; }
-        private int GoldValue;
+namespace Models {
+    public class Town {
+        public string name { private set; get; }
+
+        private HashSet<Road> connectedRoads;
+        private List<TownPiece> townPieces;
+        // Only used in the elfengold extension, skip for now
+        // private int goldValue;
+
+        public Town(string name) {
+            this.name = name;
+            connectedRoads = new HashSet<Road>();
+        }
 
 
-        Town(string townName, List<TownPiece> townPieces, int goldValue)
-        {
-            this.TownName = townName;
-            this.TownPieces = townPieces;
-            this.GoldValue = goldValue;
+        public void connectRoad(Road road) {
+            connectedRoads.Add(road);
         }
     }
 }

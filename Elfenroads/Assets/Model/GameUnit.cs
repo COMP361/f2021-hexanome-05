@@ -1,13 +1,9 @@
-
-// Model/Class for games
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 
-namespace Models
-
-{
+namespace Models {
+    // not sure if we need this class - Dan
     public class GameUnit
     {
         private GameObject GameObject { get; set; }
