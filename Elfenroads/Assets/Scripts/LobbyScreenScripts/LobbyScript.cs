@@ -83,7 +83,7 @@ public class LobbyScript : MonoBehaviour
         //Load the next scene.
         Debug.Log("reached callback method!");
         //TODO: Here, also add a function which will cancel the polling coroutine (since, now that we've joined the game, there's no reason to continue polling).
-        SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
         sioCom.Instance.Off("StartGame");
     }
 
@@ -128,9 +128,9 @@ public class LobbyScript : MonoBehaviour
 
         foreach(Session session in foundSessions) {
             //Make the new row.
-            // if(session.launched){ //If we find a session which was launched, no point to show it.
-            //     continue;
-            // }
+            if(session.launched){ //If we find a session which was launched, no point to show it.
+                continue;
+            }
 
             GameObject instantiatedRow = Instantiate(tableRowPrefab, tableRow.transform); //0 is hostname, 1 is ready players
             //Set the strings for "Hostname" and "readyPlayers"
