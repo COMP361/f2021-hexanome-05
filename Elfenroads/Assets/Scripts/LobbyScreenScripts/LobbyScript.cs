@@ -128,7 +128,7 @@ public class LobbyScript : MonoBehaviour
 
         foreach(Session session in foundSessions) {
             //Make the new row.
-            if(session.launched){ //If we find a session which was launched, no point to show it.
+            if( session.launched && ((! (Client.Instance().clientCredentials.username == "ElfenRoads")) || (!session.players.Contains(Client.Instance().clientCredentials.username))) ){ //If we find a session which was launched, no point to show it.
                 continue;
             }
 
