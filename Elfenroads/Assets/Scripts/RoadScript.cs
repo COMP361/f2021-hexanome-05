@@ -27,7 +27,21 @@ public class RoadScript : MonoBehaviour {
             case RoadType.Plain:
                 road = new PlainRoad(start, end);
                 break;
-            // gotta implement all road types...
+            case RoadType.Lake:
+                road = new LakeRoad(start, end);
+                break;
+            case RoadType.Stream:
+                road = new StreamRoad(start, end);
+                break;
+            case RoadType.Forest:
+                road = new ForestRoad(start, end);
+                break;
+            case RoadType.Desert:
+                road = new DesertRoad(start, end);
+                break;
+            case RoadType.Mountain:
+                road = new MountainRoad(start, end);
+                break;
             default:
                 Debug.LogError("Road type " + roadType.ToString() + " has not been implemented!");
                 break;
