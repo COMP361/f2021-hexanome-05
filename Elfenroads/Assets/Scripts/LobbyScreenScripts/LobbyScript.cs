@@ -111,7 +111,9 @@ public class LobbyScript : MonoBehaviour
         }
         List<Session> foundSessions = new List<Session>();
         foreach(string ID in sessionIDs){
+#pragma warning disable 0618
             foundSessions.Add(new Session(WWW.EscapeURL(ID), trueObj[ID]["creator"].ToString(), trueObj[ID]["players"].ToString(), trueObj[ID]["launched"].ToString()));
+#pragma warning restore 0618
             if(trueObj[ID]["creator"].ToString() == thisClient.clientCredentials.username){
                 thisClient.hasSessionCreated = true; //If our client is a host in one of the recieved session
             }
