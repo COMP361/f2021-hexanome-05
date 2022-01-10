@@ -332,6 +332,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 2012060218}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 2012060218}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 475344887}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!4 &32265195 stripped
@@ -535,6 +547,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 2012060218}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 2012060218}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1009419844}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &52898399 stripped
@@ -1071,7 +1095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8072134380740383196, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8072134380740383196, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1462,6 +1486,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 102465956}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 102465956}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1345313349}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!4 &225354060 stripped
@@ -1487,7 +1523,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8072134380740383196, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8072134380740383196, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2068,6 +2104,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 102465956}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 102465956}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 475344887}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &333653868 stripped
@@ -2434,6 +2482,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 102465956}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 102465956}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 2012060218}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!4 &389436438 stripped
@@ -2932,6 +2992,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 2012060218}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 2012060218}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 52898399}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &416065796 stripped
@@ -3540,6 +3612,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 907862226}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 907862226}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 18568791}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!4 &560401081 stripped
@@ -3821,6 +3905,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 18568791}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 18568791}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 475344887}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!4 &675633889 stripped
@@ -4019,6 +4115,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 278864213}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 278864213}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1198993996}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &729725907
@@ -4477,6 +4585,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 475344887}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 475344887}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1198993996}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &810593124
@@ -8351,6 +8471,14 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 1009419844}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 1009419844}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 277884469}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &1236105198
@@ -8918,6 +9046,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 300439641}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 300439641}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1345313349}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &1302392750
@@ -9103,6 +9243,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 416065796}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 416065796}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 475344887}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &1303627506 stripped
@@ -9429,6 +9581,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 892190773}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 892190773}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 277884469}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!4 &1327954186 stripped
@@ -10302,6 +10466,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 1345313349}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 1345313349}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 102465956}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &1360312819
@@ -11444,6 +11620,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 102465956}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 102465956}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 2012060218}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!4 &1500036826 stripped
@@ -11797,6 +11985,14 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 52898399}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 52898399}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1009419844}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &1532458009
@@ -12126,6 +12322,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 2101008874}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 2101008874}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1198993996}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &1536389642
@@ -12617,6 +12825,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 18568791}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 18568791}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1198993996}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &1557695231
@@ -13000,6 +13220,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 52898399}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 52898399}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 277884469}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &1582585788 stripped
@@ -13240,6 +13472,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 1303627506}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 1303627506}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1198993996}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &1680254318
@@ -13836,6 +14080,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 300439641}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 300439641}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1345313349}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &1691031472
@@ -14559,8 +14815,8 @@ Transform:
   m_Children:
   - {fileID: 55276905}
   - {fileID: 174206004}
-  - {fileID: 243895344}
   - {fileID: 170507252}
+  - {fileID: 243895344}
   - {fileID: 1365713831}
   - {fileID: 848977429}
   - {fileID: 2000458844}
@@ -14831,7 +15087,7 @@ PrefabInstance:
     - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: endTown
       value: 
-      objectReference: {fileID: 278864213}
+      objectReference: {fileID: 1582585788}
     - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: roadType
       value: 1
@@ -14839,7 +15095,7 @@ PrefabInstance:
     - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: startTown
       value: 
-      objectReference: {fileID: 1582585788}
+      objectReference: {fileID: 278864213}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!4 &1799173591 stripped
@@ -15400,6 +15656,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 278864213}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 278864213}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1345313349}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &1900709306
@@ -15657,6 +15925,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 1303627506}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 1303627506}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 18568791}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!4 &1904442016 stripped
@@ -16091,6 +16371,14 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 2012060218}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 2012060218}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 52898399}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &1936578883
@@ -16351,6 +16639,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 1009419844}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 1009419844}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 475344887}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &2000458843
@@ -17560,6 +17860,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 1009419844}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 1009419844}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 18568791}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1001 &2085703120
@@ -18201,6 +18513,18 @@ PrefabInstance:
       propertyPath: city2
       value: 
       objectReference: {fileID: 907862226}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: endTown
+      value: 
+      objectReference: {fileID: 907862226}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: roadType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: startTown
+      value: 
+      objectReference: {fileID: 1009419844}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &2099748697 stripped
