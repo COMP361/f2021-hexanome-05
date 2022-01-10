@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Firesplash.UnityAssets.SocketIO;
+using Models;
 
 public class Client : ClientInterface
 {

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Models;
 
 public class TownPieceManager : MonoBehaviour
 {
     public Sprite blueSprite;
     public Sprite YellowSprite;
-    public GameObject town;
+    public Town town;
     private BootColor aColor;
 
     private GameObject owner;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Firesplash.UnityAssets.SocketIO;
+using Models;
 
 using Newtonsoft.Json;
 
@@ -122,8 +123,9 @@ public class MoveBootsManager : MonoBehaviour
     public void highlightRoads(){
         
         GameObject curCity = boots[0].GetComponent<BootScript>().getCurrentCity();
-        
-        foreach(GameObject road in roads){
+
+       // A < --Road1-- > B
+        foreach (GameObject road in roads){
             GameObject city1 = road.GetComponent<RoadScript>().getCity1();
             GameObject city2 = road.GetComponent<RoadScript>().getCity2();
 
@@ -145,9 +147,9 @@ public class MoveBootsManager : MonoBehaviour
                 boot = aboot;
 
                  if(boot.GetComponent<BootScript>().getCurrentCity() == city1){
-                boot.GetComponent<BootScript>().setCurrentCity(city2);
+                boot.GetComponent<BootScript>().setCurrentTown(city2);
                 }else if(boot.GetComponent<BootScript>().getCurrentCity() == city2){
-                boot.GetComponent<BootScript>().setCurrentCity(city1);
+                boot.GetComponent<BootScript>().setCurrentTown(city1);
                 }else{
                 Debug.Log("Invalid operation!");
                 }

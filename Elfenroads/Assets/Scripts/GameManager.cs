@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Models;
 
 //This GameState will likely represent the Phases and "broad" game states, which will each have their own Manager scripts.
 public enum BroadGameState{
@@ -83,7 +84,7 @@ public class GameManager : MonoBehaviour
         instantiatedBoot_RED.GetComponent<BootScript>().Offset = new Vector3(-1,0,0);
         instantiatedBoot_RED.GetComponent<BootScript>().setColor(BootColor.RED);
         instantiatedBoot_RED.transform.position = startingCity.transform.position + instantiatedBoot_RED.GetComponent<BootScript>().Offset;
-        instantiatedBoot_RED.GetComponent<BootScript>().setCurrentCity(startingCity);
+        instantiatedBoot_RED.GetComponent<BootScript>().setCurrentTown(startingCity);
         instantiatedBoot_RED.GetComponent<BootScript>().setInventory(inventory_RED);
         boots.Add(instantiatedBoot_RED);
 
@@ -93,7 +94,7 @@ public class GameManager : MonoBehaviour
         instantiatedBoot_BLUE.GetComponent<BootScript>().Offset = new Vector3(1,0,0);
         instantiatedBoot_BLUE.GetComponent<BootScript>().setColor(BootColor.BLUE);
         instantiatedBoot_BLUE.transform.position = startingCity.transform.position + instantiatedBoot_BLUE.GetComponent<BootScript>().Offset;
-        instantiatedBoot_BLUE.GetComponent<BootScript>().setCurrentCity(startingCity);
+        instantiatedBoot_BLUE.GetComponent<BootScript>().setCurrentTown(startingCity);
         instantiatedBoot_BLUE.GetComponent<BootScript>().setInventory(inventory_BLUE);
         boots.Add(instantiatedBoot_BLUE);
 
