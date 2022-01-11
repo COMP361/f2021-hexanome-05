@@ -4,12 +4,12 @@ using Models;
 
 namespace Models {
     public class Boot {
-    public Color color { private set; get; }
-    public Town currentTown { private set; get; }
+        public Color color { private set; get; }
+        public Town currentTown { private set; get; }
 
-    public Boot(Town startingTown, Color color) {
-        this.currentTown = startingTown;
-        this.color = color;
+        public Boot(Color color, Town startingTown) {
+            this.color = color;
+            this.currentTown = startingTown;
+        }
     }
-}
 }
