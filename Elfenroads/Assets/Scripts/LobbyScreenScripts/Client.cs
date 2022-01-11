@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Firesplash.UnityAssets.SocketIO;
 using Models;
+using SocketIOClient;
 
 public class Client : ClientInterface
 {
@@ -18,11 +18,11 @@ public class Client : ClientInterface
     }
 
     private LobbyService lobbyService;
-    private string serverPath = "https://fierce-plateau-19887.herokuapp.com/"; // Did this get changed? ***
+    private string serverPath = "http://beta.sandbox.icu:1337/"; // Did this get changed? ***
     private bool isAdmin = false;
     public bool hasSessionCreated = false;
     public ClientCredentials clientCredentials;
-    public SocketIOCommunicator sioCom;
+    public SocketIO socket;
 
     public event LoginSuccess LoginSuccessEvent;
     public event LoginFailure LoginFailureEvent;
@@ -72,8 +72,8 @@ public class Client : ClientInterface
 
     }
 
-    public void setSioCom(SocketIOCommunicator InputSIO){
-        sioCom = InputSIO;
+    public void setSocket(SocketIO socket){
+        this.socket = socket;
     }
 
     public void Login(string username, string password){
@@ -123,9 +123,6 @@ public class Client : ClientInterface
 
     public void launchSuccess(string input){
         Debug.Log("Launch success: " + input);
-
-        
-
     }
 
     public void launchFailure(string error){

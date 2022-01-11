@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json.Linq;
-using Firesplash.UnityAssets.SocketIO;
+using SocketIOClient;
 using UnityEngine.SceneManagement;
 
 public class LobbyScript : MonoBehaviour
@@ -25,7 +26,7 @@ public class LobbyScript : MonoBehaviour
     public GameObject launchButton;
     public GameObject joinButton;
     public GameObject deleteButton;
-    public SocketIOCommunicator sioCom;
+    public SocketIO socket;
     private Client thisClient;
 
 
@@ -47,9 +48,9 @@ public class LobbyScript : MonoBehaviour
         thisClient.CreateFailureEvent += createFailure;
 
         //Get the socket to start listening for a "StartGame" message.
-        thisClient.setSioCom(sioCom);
-        sioCom.Instance.On("StartGame", callback);
-        Debug.Log(sioCom.Instance.IsConnected());
+        thisClient.setSocket(socket);
+        socket.On("StartGame", callback);
+        Debug.Log(socket.Connected);
 
         //Next, start polling. For now, this coroutine will simply get an update and display it every second. Later on, if time permits, can make this more sophisticated via the scheme described here, checking for return codes 408 and 200.
         //https://github.com/kartoffelquadrat/AsyncRestLib#client-long-poll-counterpart (This would likely require changing the LobbyService.cs script, as well as the refreshSuccess function(s)).
@@ -79,12 +80,12 @@ public class LobbyScript : MonoBehaviour
         Debug.Log(result);
     }
 
-    private void callback(string input){ //Strangeness is potentially caused here. This likely ought to be somewhere in the LobbyScreen, since as of right now this script is attached to the Login Button, which is disabled later.
+    private void callback(SocketIOResponse input){ //Strangeness is potentially caused here. This likely ought to be somewhere in the LobbyScreen, since as of right now this script is attached to the Login Button, which is disabled later.
         //Load the next scene.
         Debug.Log("reached callback method!");
         //TODO: Here, also add a function which will cancel the polling coroutine (since, now that we've joined the game, there's no reason to continue polling).
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
-        sioCom.Instance.Off("StartGame");
+        socket.Off("StartGame");
     }
 
     private void refreshSessions(){
