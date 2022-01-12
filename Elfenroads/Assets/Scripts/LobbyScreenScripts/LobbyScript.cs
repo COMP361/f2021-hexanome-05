@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class LobbyScript : MonoBehaviour
 {
 
+    //Known bug: When a session does not already exist (for the user), when they press "create" the game tells them they already have a session (it still creates the session - the warning message is the thing that's wrong) ***
     IEnumerator pollingRoutine(){ //Just asks the LS for sessions every second, and displays the result.
         while(true){    
             thisClient.refreshSessions();
@@ -46,12 +47,18 @@ public class LobbyScript : MonoBehaviour
         thisClient.RefreshFailureEvent += refreshFailure;
         thisClient.CreateSuccessEvent += createSuccessResult;
         thisClient.CreateFailureEvent += createFailure;
+        
+        thisClient.LaunchSuccessEvent += launchFailure;
+        thisClient.LaunchFailureEvent += launchFailure;
+        thisClient.DeleteSuccessEvent += deleteSuccess;
+        thisClient.DeleteFailureEvent += deleteFailure;
+        thisClient.JoinSuccessEvent += joinSuccess;
+        thisClient.JoinFailureEvent += joinFailure;
+
 
         //Get the socket to start listening for a "StartGame" message.
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOSingleton>().Instance;
         thisClient.setSocket(socket);
-        socket.On("StartGame", callback);
-        Debug.Log(socket.Connected);
 
         //Next, start polling. For now, this coroutine will simply get an update and display it every second. Later on, if time permits, can make this more sophisticated via the scheme described here, checking for return codes 408 and 200.
         //https://github.com/kartoffelquadrat/AsyncRestLib#client-long-poll-counterpart (This would likely require changing the LobbyService.cs script, as well as the refreshSuccess function(s)).
@@ -64,7 +71,7 @@ public class LobbyScript : MonoBehaviour
     }
 
     private void clearInfoText(){
-        infoText.text = "";
+        infoText.text = " ";
     }
 
     private void createSessionAttempt(){
@@ -72,21 +79,63 @@ public class LobbyScript : MonoBehaviour
     }
 
     private void createFailure(string inputError){
+        infoText.text = "Error in session creation: " + inputError;
         Debug.Log(inputError);
     }
 
     private void createSuccessResult(string result){
+        Debug.Log("CreateSuccess called.");
+
         thisClient.hasSessionCreated = true;
+        infoText.text = "Creation sucessful!";
         thisClient.refreshSessions();
-        Debug.Log(result);
+        //Now that the session has been created, we can turn on the socket.
+        socket.On("StartGame", callback);
+        Debug.Log(socket.Connected);
+
+        //Next, we emit "join" along with the gameID
+        socket.EmitAsync("join", result);
     }
 
     private void callback(SocketIOResponse input){ //Strangeness is potentially caused here. This likely ought to be somewhere in the LobbyScreen, since as of right now this script is attached to the Login Button, which is disabled later.
-        //Load the next scene.
+        //Load the next scene, stopping the polling coroutine.
         Debug.Log("reached callback method!");
-        //TODO: Here, also add a function which will cancel the polling coroutine (since, now that we've joined the game, there's no reason to continue polling).
+        StopCoroutine("pollingRoutine");
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
         socket.Off("StartGame");
+    }
+
+     public void deleteSuccess(string input){
+        infoText.text = "Deletion successful!";
+        Debug.Log("Delete success: " + input);
+        thisClient.hasSessionCreated = false;
+        refreshSessions();
+    }
+
+    public void deleteFailure(string error){
+        infoText.text = "Deletion failed! Error: " + error;
+        Debug.Log("Delete failure: " + error);
+    }
+
+    //May be unnecessary.
+    public void launchSuccess(string input){
+        Debug.Log("Launch success: " + input);
+    }
+
+    public void launchFailure(string error){
+        infoText.text = "LS launch failed! Error: " + error;
+        Debug.Log("Launch failure: " + error);
+    }
+
+    public void joinSuccess(string input){
+        infoText.text = "Join successful!";
+        Debug.Log("Join success: " + input);
+        refreshSessions();
+    }
+
+    public void joinFailure(string error){
+        infoText.text = "Join failed! Error: " + error;
+        Debug.Log("Join failure: " + error);
     }
 
     private void refreshSessions(){
@@ -99,7 +148,7 @@ public class LobbyScript : MonoBehaviour
     }
 
     private void refreshSuccess(string result){
-        // Debug.Log(result);
+        //Debug.Log(result);
 
         var jsonString = result.Replace('"', '\"');
 
@@ -158,5 +207,4 @@ public class LobbyScript : MonoBehaviour
             }
         }
     }
-
 }

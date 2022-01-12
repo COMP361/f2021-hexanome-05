@@ -122,7 +122,7 @@ public class LobbyService
     }
 
     public void createSession(string playerName, string token){ //POST /api/sessions. Request body is a json.
-        //Doing this differently than in Login bc the LobbyService is goofy sometimes and wouldn't allow it.
+        //Doing this differently than in Login bc the LobbyService or SOMETHING was being goofy and wouldn't allow it.
         SessionCreator jsonObj = new SessionCreator();
         jsonObj.creator = playerName;
         string bodyJsonString = JsonUtility.ToJson(jsonObj);
@@ -151,7 +151,7 @@ public class LobbyService
 
     public void join(Session aSession, ClientCredentials aClientCredentials){
         
-        //This is so fucking wack, but you gotta make this null and not simply an empty list/string for it to work. It is the reason I cry myself to sleep at night.
+        //This is so wack, but you gotta make this null and not simply an empty list/string for it to work. It is the reason I cry myself to sleep at night.
         byte[] bodyRaw = null;
         UnityWebRequest request = UnityWebRequest.Put(LS_PATH + "/api/sessions/" + aSession.sessionID + "/players/" + aClientCredentials.username + "?access_token=" + aClientCredentials.accessToken, bodyRaw ); 
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();

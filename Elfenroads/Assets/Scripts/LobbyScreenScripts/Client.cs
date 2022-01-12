@@ -60,16 +60,8 @@ public class Client : ClientInterface
         lobbyService.DeleteSuccessEvent += (data) => DeleteSuccessEvent(data);
         lobbyService.DeleteFailureEvent += (data) => DeleteFailureEvent(data);
         
-
-        this.RoleSuccessEvent += roleSuccess;
-        this.RoleFailureEvent += roleFailure;
-        this.JoinSuccessEvent += joinSuccess;
-        this.JoinFailureEvent += joinFailure;
-        this.LaunchSuccessEvent += launchSuccess;
-        this.LaunchFailureEvent += launchFailure;
-        this.DeleteSuccessEvent += deleteSuccess;
-        this.DeleteFailureEvent += deleteFailure;
-
+        // this.RoleSuccessEvent += roleSuccess;
+        // this.RoleFailureEvent += roleFailure;
     }
 
     public void setSocket(SocketIO socket){
@@ -82,22 +74,22 @@ public class Client : ClientInterface
         lobbyService.Login(username, password);
     }
 
-    public void getRole(){
-        lobbyService.getRole(clientCredentials.refreshToken);
-    }
+    // public void getRole(){
+    //     lobbyService.getRole(clientCredentials.refreshToken);
+    // }
 
-    public void roleSuccess(string input){
-        if(input.Substring(15,10).Equals("ROLE_ADMIN")){
-            isAdmin = true;
-        }else{
-            isAdmin = false;
-        }
-        Debug.Log("isAdmin set to " + isAdmin);
-    }
+    // public void roleSuccess(string input){
+    //     if(input.Substring(15,10).Equals("ROLE_ADMIN")){
+    //         isAdmin = true;
+    //     }else{
+    //         isAdmin = false;
+    //     }
+    //     Debug.Log("isAdmin set to " + isAdmin);
+    // }
 
-    public void roleFailure(string error){ //For now, just log the error.
-        Debug.Log("Getting the role failed with error: "  + error);
-    }
+    // public void roleFailure(string error){ //For now, just log the error.
+    //     Debug.Log("Getting the role failed with error: "  + error);
+    // }
 
     public void refreshSessions(){
         lobbyService.refresh();
@@ -107,40 +99,13 @@ public class Client : ClientInterface
         lobbyService.join(aSession, clientCredentials);
     }
 
-    public void joinSuccess(string input){
-        Debug.Log("Join success: " + input);
-        refreshSessions();
-    }
-
-    public void joinFailure(string error){
-        Debug.Log("Join failure: " + error);
-    }
-
     public void launch(Session aSession){
         lobbyService.launch(aSession, clientCredentials);
         
     }
 
-    public void launchSuccess(string input){
-        Debug.Log("Launch success: " + input);
-    }
-
-    public void launchFailure(string error){
-        Debug.Log("Launch failure: " + error);
-    }
-
     public void delete(Session aSession){
         lobbyService.delete(aSession, clientCredentials);
-    }
-
-    public void deleteSuccess(string input){
-        Debug.Log("Delete success: " + input);
-        hasSessionCreated = false;
-        refreshSessions();
-    }
-
-    public void deleteFailure(string error){
-        Debug.Log("Delete failure: " + error);
     }
 
     public void createSession(){
