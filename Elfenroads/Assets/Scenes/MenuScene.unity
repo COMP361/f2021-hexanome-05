@@ -4379,6 +4379,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1615546296
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1615546298}
+  - component: {fileID: 1615546297}
+  m_Layer: 0
+  m_Name: SocketIO
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1615546297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615546296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ece101f396416343bb7359e1b21c2dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  address: http://beta.mysandbox.icu:1337/
+--- !u!4 &1615546298
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615546296}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 309.09198, y: 235.54034, z: -102.447685}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1774295416
 GameObject:
   m_ObjectHideFlags: 0
@@ -4934,6 +4978,7 @@ GameObject:
   - component: {fileID: 2091998569}
   - component: {fileID: 2091998568}
   - component: {fileID: 2091998567}
+  - component: {fileID: 2091998570}
   m_Layer: 5
   m_Name: CreateButton
   m_TagString: Untagged
@@ -5043,3 +5088,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2091998565}
   m_CullTransparentMesh: 1
+--- !u!114 &2091998570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091998565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a607b85951bba43b9706512a82365a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infoText: {fileID: 838736138}
+  createSessionButton: {fileID: 2091998567}
+  tableRow: {fileID: 461419408}
+  tableRowPrefab: {fileID: 3567458326390708236, guid: 7d8549c3765e75945b7c754e8189fe5a, type: 3}
+  launchButton: {fileID: 6543925395679356053, guid: c4bacc1e771061947924dbaec2742b53, type: 3}
+  joinButton: {fileID: 4770142730435676018, guid: c18a01f8caedc024b9dd2627549c67e1, type: 3}
+  deleteButton: {fileID: 4770142730435676018, guid: 391f00cb7b62cf34c800a7bd58652174, type: 3}

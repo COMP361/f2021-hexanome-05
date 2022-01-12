@@ -48,6 +48,7 @@ public class LobbyScript : MonoBehaviour
         thisClient.CreateFailureEvent += createFailure;
 
         //Get the socket to start listening for a "StartGame" message.
+        socket = GameObject.Find("SocketIO").GetComponent<SocketIOSingleton>().Instance;
         thisClient.setSocket(socket);
         socket.On("StartGame", callback);
         Debug.Log(socket.Connected);
@@ -98,13 +99,13 @@ public class LobbyScript : MonoBehaviour
     }
 
     private void refreshSuccess(string result){
-        Debug.Log(result);
+        // Debug.Log(result);
 
         var jsonString = result.Replace('"', '\"');
 
         //After getting a bunch of sessions, we need to use the result string to create rows.
         //From the result string, we only need to store the session ID, launch state, host player and players somewhere - parameters will be the same for all games so those don't matter. (THOUGH LATER WILL NEED TO DEAL WITH SAVEFILES HERE)
-        JObject myObj = JObject.Parse(jsonString); 
+        JObject myObj = JObject.Parse(jsonString);
         JObject trueObj = JObject.Parse(myObj["sessions"].ToString()); 
         List<string> sessionIDs = new List<string>();
         foreach(JProperty prop in trueObj.Properties()){
