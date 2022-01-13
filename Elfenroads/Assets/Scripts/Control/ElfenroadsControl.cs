@@ -11,7 +11,6 @@ namespace Controls {
     /// Manages user interactions and server communication.
     /// </summary>
     public class ElfenroadsControl : Elfenroads {
-        public event EventHandler ModelUpdated;
         private SocketIO socket;
 
         private void Awake() {
@@ -23,14 +22,6 @@ namespace Controls {
 
             // enable game updates
             // socket.On("UpdateState", updateState);
-        }
-
-        private void updateState(SocketIOResponse response) {
-
-            // update model state here
-            // game.update(response)
-
-            ModelUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         private void moveBootDemo(Town town) {
