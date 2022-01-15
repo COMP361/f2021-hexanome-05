@@ -10,7 +10,8 @@ namespace Views {
         public event EventHandler RoadClicked;
 
         private Road road;
-        void Start() {
+        public void setAndSubscribeToModel(Road inputRoad){
+            this.road = inputRoad;
             road.ModelUpdated += onModelUpdated;
         }
 
