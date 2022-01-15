@@ -11,8 +11,7 @@ namespace Models {
         void update(T updated);
     }
 
-    public class ElfenroadsModel : Elfenroads, INotifyModelUpdated {
-        public event EventHandler ModelUpdated;
+    public class ElfenroadsModel : Elfenroads {
         private Game game;
 
         private void Awake() {
@@ -20,4 +19,8 @@ namespace Models {
             Elfenroads.Model = this;
         }
     }
+
+    // public Player getCurrentPlayer() {
+        
+    // }
 }

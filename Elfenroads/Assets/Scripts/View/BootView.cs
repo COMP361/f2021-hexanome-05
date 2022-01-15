@@ -1,18 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Views;
 
-public class BootView : MonoBehaviour
+
+namespace Views
 {
-    // Start is called before the first frame update
-    void Start()
+    public class BootView : MonoBehaviour
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private BootView boot;
     }
 }

@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System;
 using Models;
 
 
 namespace Models {
-    public class Board {
+    public class Board : INotifyModelUpdated {
+        public event EventHandler ModelUpdated;
         private HashSet<Town> towns;
         private HashSet<Road> roads;
 

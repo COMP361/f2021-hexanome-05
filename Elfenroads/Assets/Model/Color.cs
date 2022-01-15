@@ -3,6 +3,7 @@ using Models;
 
 namespace Models {
     public enum Color {
+        NONE,
         RED,
         BLUE,
         WHITE,
