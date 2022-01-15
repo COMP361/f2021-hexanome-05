@@ -28,7 +28,9 @@ namespace Models {
             //So, create the Game model, which in its constuctor will create the Board and assign all roads and towns.
             game = new Game(roads,towns);
             //For testing purposes right now, we'll instantiate a single player in our model. Later, we'd have to get the list of Players either from the Server or from the MenuScene.
-            Debug.Log("Game created!");
+            List<string> testList = new List<string>();
+            testList.Add("test");
+            //game.createPlayers(testList);
         }
 
         //Called by the GameController once the amount of players (and their names) have been received from the Server (passwords in model not needed)   *** Grab from menuscene? But then, how to assign players correctly?

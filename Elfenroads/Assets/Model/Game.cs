@@ -15,7 +15,7 @@ namespace Models {
 
         public void createPlayers(List<string> playerNames){
             foreach(string name in playerNames){
-                Player newPlayer = new Player(name, Color.NONE, board.getTownByName("Elfenhold"));
+                Player newPlayer = new Player(name, Color.RED, board.getTownByName("Elfenhold")); //
                 players.Add(newPlayer);
             }
         }

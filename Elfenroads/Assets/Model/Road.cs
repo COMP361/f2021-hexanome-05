@@ -19,8 +19,8 @@ namespace Models {
             this.end = end;
             this.roadType = roadType;
 
-            start.connectRoad(this);
-            end.connectRoad(this);
+            //start.connectRoad(this); //See Town.cs
+            //end.connectRoad(this);
         }
     }
 

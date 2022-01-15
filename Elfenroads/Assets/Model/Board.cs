@@ -8,7 +8,7 @@ using Views;
 namespace Models {
     public class Board : INotifyModelUpdated {
         public event EventHandler ModelUpdated;
-        private Dictionary<string, Town> towns;
+        private Dictionary<string, Town> towns; //Change these two to Dictionary and list
         private HashSet<Road> roads;
 
         public Board() {

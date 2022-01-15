@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1758054998159331211}
   - component: {fileID: 1758054998159331220}
+  - component: {fileID: 325314136304759826}
   m_Layer: 0
   m_Name: SampleElfenBoot
   m_TagString: Untagged
@@ -82,3 +83,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &325314136304759826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758054998159331222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e9f29ff1110161409f6a8f833ee97ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
