@@ -4,21 +4,14 @@ using System;
 
 
 namespace Models {
-    public class Boot : IUpdatable<Boot>, INotifyModelUpdated {
-        public event EventHandler ModelUpdated;
+    public class Boot {
         public Color color { private set; get; }
-        public Town currentTown { private set; get; }
+        public readonly int id;
 
-        public Boot(Color color, Town startingTown) {
+        public Boot(int id, Color color) {
             this.color = color;
-            this.currentTown = startingTown;
-        }
-
-        public void update(Boot boot) {
-            if (this.color == boot.color) {
-                this.currentTown = boot.currentTown;
-            }
-            ModelUpdated?.Invoke(this, EventArgs.Empty);
+            this.id = id;
+            
         }
     }
 }

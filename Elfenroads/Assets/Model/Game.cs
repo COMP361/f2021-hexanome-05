@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 
 namespace Models {
@@ -9,15 +8,21 @@ namespace Models {
         private Player currentPlayer;
         //Later: Add currentPhase, currentRound, isElfenGold, phaseLoops, and variants. (and startingPlayer)
 
-        public Game(List<GameObject> roadObjects, List<GameObject> townObjects) {
-            this.board = new Board(roadObjects, townObjects);
+        public Game(Board board) {
+            this.board = board;
         }
 
         public void createPlayers(List<string> playerNames){
+            int bootId = 0;
             foreach(string name in playerNames){
-                Player newPlayer = new Player(name, Color.RED, board.getTownByName("Elfenhold")); //
+                Player newPlayer = new Player(name, Color.RED, bootId);
                 players.Add(newPlayer);
+                bootId++;
             }
+        }
+
+        public void SetBoard(Board board) {
+            this.board = board;
         }
 
     }

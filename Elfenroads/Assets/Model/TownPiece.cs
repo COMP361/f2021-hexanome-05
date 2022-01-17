@@ -4,9 +4,11 @@ using Models;
 
 namespace Models {
     public class TownPiece {
+        public readonly int id;
         public Color color { private set; get; }
 
-        public TownPiece(Color color) {
+        public TownPiece(int id, Color color) {
+            this.id = id;
             this.color = color;
         }
     }

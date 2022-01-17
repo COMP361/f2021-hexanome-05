@@ -10,9 +10,10 @@ namespace Models {
         public Boot boot { private set; get; }
         public Inventory inventory;
 
-        public Player(string name, Color color, Town town) {
+        public Player(string name, Color color, int bootId) {
             this.name = name;
-            this.boot = new Boot(color, town);
+            this.boot = new Boot(bootId, color);
+            ModelHelper.StoreInstance().addBoot(this.boot);
         }
     }
 }
