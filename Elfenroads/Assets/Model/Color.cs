@@ -6,8 +6,8 @@ namespace Models {
         NONE,
         RED,
         BLUE,
-        WHITE,
-        ORANGE,
+        YELLOW,
+        PURPLE,
         BLACK,
         GREEN
     }

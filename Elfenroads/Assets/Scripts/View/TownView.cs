@@ -39,4 +39,64 @@ public class TownView : MonoBehaviour
 
     }
 
+
+    //Two options: Either the TownViews will have access to all boot and TownPiece prefabs, and will create/destroy them as they are added/removed to each slot 
+    //(preferred, because RoadViews will need to work like that since UI elements get destroyed as GameObjects get added and vice versa)
+    //Otherwise, we can have Boot and TownPiece objects that we pass around, but this would make keeping references a tricky business.
+
+    //To accomplish the first option, we would need to make prefabs for each color of boot and townpiece, and use the color enum to figure out which color to add/remove (parameters change from GameObject obj -> Color color)
+
+    public void addTownPieceToSlot(GameObject obj){
+        foreach(Slot s in townPieceSlots){
+            if(s.obj == null){
+                s.obj = obj;
+                obj.transform.position = (new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f));
+                return;
+            }else{
+            }
+        }
+    }
+
+    public void removeTownPieceFromSlot(GameObject obj){ 
+        foreach(Slot s in townPieceSlots){
+            if(s.obj == obj){
+                s.obj = null;
+                return;
+            }else{
+                Debug.Log("Nothing to remove!");
+            }
+        }
+    }
+
+    public void addBootToSlot(GameObject obj){
+
+        foreach(Slot s in bootSlots){
+            if(s.obj == obj){
+                Debug.Log("Boot is already in a slot!");
+                return;
+            }
+        }
+
+        foreach(Slot s in bootSlots){
+            if(s.obj == null){
+                s.obj = obj;
+                obj.transform.position = (new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f));
+                return;
+            }else{
+            }
+        }
+    }
+
+    public void removeBootFromSlot(GameObject obj){ 
+        foreach(Slot s in bootSlots){
+            if(s.obj == obj){
+                s.obj = null;
+                return;
+            }else{
+                Debug.Log("Nothing to remove!");
+            }
+        }
+    }
+
+
 }
