@@ -8,12 +8,13 @@ public class CameraController : MonoBehaviour
     public float zoomSpeed;
     public float limitX;
     public float limitY;
-    public float maxZoom;
+    public float scrollSpeed;
 
-    private float minZoom = 16f;
+    public float minZoom = 10f;
+    public float maxZoom = 16f;
 
     void Start(){
-        Camera.main.orthographicSize = minZoom;
+        Camera.main.orthographicSize = 14f;
     }
 
     // Update is called once per frame
@@ -33,9 +34,18 @@ public class CameraController : MonoBehaviour
         if(Input.GetKey("d")){
             newPos.x += camSpeed * Time.deltaTime;
         }
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
 
+        //Move the camera up/down/left/right
         newPos.x = Mathf.Clamp(newPos.x, -limitX, limitX);
         newPos.y = Mathf.Clamp(newPos.y, -limitY, limitY);
+
+        //Adjust zoom
+        float orthoSizeCur = Camera.main.orthographicSize;
+        orthoSizeCur += (-scroll) * scrollSpeed * Time.deltaTime;
+        orthoSizeCur = Mathf.Clamp(orthoSizeCur, minZoom, maxZoom);
+        Camera.main.orthographicSize = orthoSizeCur;
+
         transform.position = newPos;
     }
 }
