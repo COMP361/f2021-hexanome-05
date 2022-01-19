@@ -4,9 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Models;
 
-public class TownView : MonoBehaviour
-{
-    private Town modelTown;
+
+public class TownView : MonoBehaviour {
+    [HideInInspector]
+    public Town modelTown { private set; get; }
+    public string townName;
+    public bool isStartingTown;
+
     private List<Slot> townPieceSlots;
     private List<Slot> bootSlots;
 
@@ -23,7 +27,7 @@ public class TownView : MonoBehaviour
         townPieceSlots = new List<Slot>();
         for(int i = 0 ; i < 6 ; i++){
             townPieceSlots.Add(new Slot(initialSlot + new Vector3(0.2f * colCount, - (0.25f * rowCount), 0f)));
-            //Instantiate(townPiecePrefab, initialSlot + new Vector3(0.2f * colCount, - (0.25f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
+            Instantiate(townPiecePrefab, initialSlot + new Vector3(0.2f * colCount, - (0.25f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
             colCount = (colCount + 1) % 3;
             if(colCount == 0) rowCount++;
         }
@@ -35,7 +39,7 @@ public class TownView : MonoBehaviour
         townPieceSlots = new List<Slot>();
         for(int i = 0 ; i < 6 ; i++){
             townPieceSlots.Add(new Slot(initialSlot + new Vector3(0.35f * colCount, - (0.6f * rowCount), 0f)));
-            //Instantiate(bootPrefab, initialSlot + new Vector3(0.35f * colCount, - (0.6f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help figure out where the "slots" are.
+            Instantiate(bootPrefab, initialSlot + new Vector3(0.35f * colCount, - (0.6f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help figure out where the "slots" are.
             colCount = (colCount + 1) % 3;
             if(colCount == 0) rowCount++;
         }
@@ -44,7 +48,7 @@ public class TownView : MonoBehaviour
     }
 
     public void getAndSubscribeToModel(object sender, EventArgs e){
-            this.modelTown = ModelHelper.StoreInstance().getTown(gameObject.GetComponent<TownScript>().townName);
+            this.modelTown = ModelHelper.StoreInstance().getTown(gameObject.GetComponent<TownView>().townName);
             modelTown.ModelUpdated += onModelUpdated;
     }
 
@@ -107,6 +111,4 @@ public class TownView : MonoBehaviour
             }
         }
     }
-
-
 }

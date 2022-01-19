@@ -1,22 +1,27 @@
-using System;
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Models;
 
-namespace Views {
-    public class RoadView : MonoBehaviour
-    {
-        public event EventHandler RoadClicked;
-        public bool horizontal = true;
-        public GameObject counterPrefab;
-        public int id;
 
-        private List<Slot> counterSlots;
-        private Road modelRoad;
+public class RoadView : MonoBehaviour {
+    [HideInInspector]
+    public Road road { private set; get; }
+    public RoadType roadType;
+    public GameObject startTown;
+    public GameObject endTown;
+
+    public event EventHandler RoadClicked;
+    public bool horizontal = true;
+    public GameObject counterPrefab;
+    public int id;
+
+    private List<Slot> counterSlots;
+    private Road modelRoad;
 
 
-        void Start()
+    void Start()
     {
         //First, create the Counter slots depending on whether or not they should be arranged horizontally or vertically.
         Vector3 initialSlot = gameObject.transform.position;
@@ -29,10 +34,10 @@ namespace Views {
         for(int i = 0 ; i < 3 ; i++){
             if(horizontal){
                 counterSlots.Add(new Slot(initialSlot + new Vector3(0.9f * i,0f, 0f)));
-                //Instantiate(counterPrefab, initialSlot + new Vector3(0.9f * i,0f, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
+                Instantiate(counterPrefab, initialSlot + new Vector3(0.9f * i,0f, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
             }else{
                 counterSlots.Add(new Slot(initialSlot + new Vector3(0f, -0.9f * i, 0f)));
-                //Instantiate(counterPrefab, initialSlot + new Vector3(0f, -0.9f * i, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
+                Instantiate(counterPrefab, initialSlot + new Vector3(0f, -0.9f * i, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
             }
         }
 
@@ -40,22 +45,22 @@ namespace Views {
     }
 
 
-        public void getAndSubscribeToModel(object sender, EventArgs e){
-            this.modelRoad = ModelHelper.StoreInstance().getRoad(id);
-            modelRoad.ModelUpdated += onModelUpdated;
-        }
+    public void getAndSubscribeToModel(object sender, EventArgs e){
+        this.modelRoad = ModelHelper.StoreInstance().getRoad(id);
+        modelRoad.ModelUpdated += onModelUpdated;
+    }
 
-        void onModelUpdated(object sender, EventArgs e) {
-            // reflect changes
-        }
+    void onModelUpdated(object sender, EventArgs e) {
+        // reflect changes
+    }
 
-        void OnClick() {
-            RoadClicked?.Invoke(modelRoad, EventArgs.Empty);
-        }
+    public void OnClick() {
+        RoadClicked?.Invoke(modelRoad, EventArgs.Empty);
+    }
 
-        // Change parameters later. Either takes in a "counterType" parameter and creates the counter witihn this function via a prefab, or it takes in a prefab that was instantiated elsewhere in which case signature is the same.
-        // Regardless, a gameObject is added to the slot and its position is updated to match it.
-        public void addToSlot(GameObject obj){
+    // Change parameters later. Either takes in a "counterType" parameter and creates the counter witihn this function via a prefab, or it takes in a prefab that was instantiated elsewhere in which case signature is the same.
+    // Regardless, a gameObject is added to the slot and its position is updated to match it.
+    public void addToSlot(GameObject obj){
 
         foreach(Slot s in counterSlots){
             if(s.obj == null){
@@ -79,6 +84,5 @@ namespace Views {
                 Debug.Log("Nothing to remove!");
             }
         }
-    }
     }
 }

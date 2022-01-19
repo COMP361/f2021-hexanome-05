@@ -1441,10 +1441,6 @@ PrefabInstance:
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[23].y
       value: 0.6268217
       objectReference: {fileID: 0}
-    - target: {fileID: -5330453998776426194, guid: 46103fd4088f05047af5383b17714437, type: 3}
-      propertyPath: horizontal
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1633173083262833048, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Name
       value: Gr-Ma Road
@@ -1517,6 +1513,10 @@ PrefabInstance:
       propertyPath: startTown
       value: 
       objectReference: {fileID: 1345313349}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: horizontal
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &197369340 stripped
@@ -4528,10 +4528,6 @@ PrefabInstance:
     - target: {fileID: -5403812950238370836, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[23].y
       value: 0.19984648
-      objectReference: {fileID: 0}
-    - target: {fileID: -5330453998776426194, guid: 46103fd4088f05047af5383b17714437, type: 3}
-      propertyPath: horizontal
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1633173083262833048, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Name
@@ -9067,10 +9063,6 @@ PrefabInstance:
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[9].y
       value: 0.6936511
       objectReference: {fileID: 0}
-    - target: {fileID: -5330453998776426194, guid: 46103fd4088f05047af5383b17714437, type: 3}
-      propertyPath: horizontal
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1633173083262833048, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Name
       value: Gr-Yt Lake
@@ -9143,6 +9135,10 @@ PrefabInstance:
       propertyPath: startTown
       value: 
       objectReference: {fileID: 1345313349}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: horizontal
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &1268087110 stripped
@@ -9615,10 +9611,6 @@ PrefabInstance:
     - target: {fileID: -5403812950238370836, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[12].y
       value: 0.64548266
-      objectReference: {fileID: 0}
-    - target: {fileID: -5330453998776426194, guid: 46103fd4088f05047af5383b17714437, type: 3}
-      propertyPath: horizontal
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1633173083262833048, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Name
@@ -10515,10 +10507,6 @@ PrefabInstance:
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[19].y
       value: 1.1150359
       objectReference: {fileID: 0}
-    - target: {fileID: -5330453998776426194, guid: 46103fd4088f05047af5383b17714437, type: 3}
-      propertyPath: horizontal
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1633173083262833048, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Name
       value: Ma-Gr Stream
@@ -10591,6 +10579,10 @@ PrefabInstance:
       propertyPath: startTown
       value: 
       objectReference: {fileID: 102465956}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: horizontal
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &1353555105 stripped
@@ -12104,10 +12096,6 @@ PrefabInstance:
     - target: {fileID: -5403812950238370836, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[24].y
       value: 0.5803489
-      objectReference: {fileID: 0}
-    - target: {fileID: -5330453998776426194, guid: 46103fd4088f05047af5383b17714437, type: 3}
-      propertyPath: horizontal
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1633173083262833048, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Name
@@ -14235,10 +14223,6 @@ PrefabInstance:
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[23].y
       value: 0.7718814
       objectReference: {fileID: 0}
-    - target: {fileID: -5330453998776426194, guid: 46103fd4088f05047af5383b17714437, type: 3}
-      propertyPath: horizontal
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1633173083262833048, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Name
       value: Gr-Yt Road
@@ -14311,6 +14295,10 @@ PrefabInstance:
       propertyPath: startTown
       value: 
       objectReference: {fileID: 1345313349}
+    - target: {fileID: 4327264537452862986, guid: 46103fd4088f05047af5383b17714437, type: 3}
+      propertyPath: horizontal
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46103fd4088f05047af5383b17714437, type: 3}
 --- !u!1 &1683466387 stripped
@@ -15882,10 +15870,6 @@ PrefabInstance:
     - target: {fileID: -5403812950238370836, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[14].y
       value: 0.08
-      objectReference: {fileID: 0}
-    - target: {fileID: -5330453998776426194, guid: 46103fd4088f05047af5383b17714437, type: 3}
-      propertyPath: horizontal
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1633173083262833048, guid: 46103fd4088f05047af5383b17714437, type: 3}
       propertyPath: m_Name

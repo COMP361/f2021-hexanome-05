@@ -51,18 +51,18 @@ public class TestModelScript : MonoBehaviour
 
       Town townUpdate = JsonConvert.DeserializeObject<Town>(townJson);
 
-      Debug.Log("SRIALIZE TEST");
-      Debug.Log(JsonConvert.SerializeObject(townUpdate, Formatting.Indented));
+      // Debug.Log("SRIALIZE TEST");
+      // Debug.Log(JsonConvert.SerializeObject(townUpdate, Formatting.Indented));
 
-      Debug.Log("DESERIALIZE TEST");
-      Debug.Log(townUpdate.TESTdebug());
+      // Debug.Log("DESERIALIZE TEST");
+      // Debug.Log(townUpdate.TESTdebug());
 
-      Debug.Log("UPDATE TEST");
-      town.Update(townUpdate);
-      Debug.Log(town.TESTdebug());
+      // Debug.Log("UPDATE TEST");
+      // town.Update(townUpdate);
+      // Debug.Log(town.TESTdebug());
 
-      Debug.Log("STORE TEST");
-      Debug.Log(ModelHelper.StoreInstance().getTown("ChrisTown").TESTdebug());
+      // Debug.Log("STORE TEST");
+      // Debug.Log(ModelHelper.StoreInstance().getTown("ChrisTown").TESTdebug());
 
     }
 }

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8072134380740383196}
   - component: {fileID: 8072134380740383195}
   - component: {fileID: 3870996611442055264}
-  - component: {fileID: -7244490979310809605}
   m_Layer: 0
   m_Name: Town
   m_TagString: Untagged
@@ -98,17 +97,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   townName: 
   isStartingTown: 0
---- !u!114 &-7244490979310809605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8072134380740383198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4643d89b8442a4448a20edc5ce917967, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   townPiecePrefab: {fileID: 7441020426772035190, guid: 1c68fdf2ae03bc945b97bc2e37e05863, type: 3}
   bootPrefab: {fileID: 1758054998159331222, guid: 094e893439bd84841a1ab96c5fba56be, type: 3}

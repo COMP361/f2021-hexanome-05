@@ -32,13 +32,13 @@ namespace Models {
             Dictionary<string, Town> towns = new Dictionary<string, Town>();
             List<Road> roads = new List<Road>();
             foreach(GameObject t in townObjects){
-                //Creates a new Town model for each Town gameObject, and adds them to the dictionary   (Shouldn't we also have TownPieces be just an attribute of a Town/TownScript? I.E. a "PlayerVisited" of some kind, for each player?)
-                towns.Add(t.GetComponent<TownScript>().townName, new Town(t.GetComponent<TownScript>().townName));
+                //Creates a new Town model for each Town gameObject, and adds them to the dictionary   (Shouldn't we also have TownPieces be just an attribute of a Town/TownView? I.E. a "PlayerVisited" of some kind, for each player?)
+                towns.Add(t.GetComponent<TownView>().townName, new Town(t.GetComponent<TownView>().townName));
             }
             foreach(GameObject r in roadObjects){
                 //Foreach road, find out what type it is and add a corresponding road to "roads".
-                RoadType curRoadType = r.GetComponent<RoadScript>().roadType;
-                Road newRoad = new Road(towns[r.GetComponent<RoadScript>().startTown.GetComponent<TownScript>().townName], towns[r.GetComponent<RoadScript>().endTown.GetComponent<TownScript>().townName], curRoadType);
+                RoadType curRoadType = r.GetComponent<RoadView>().roadType;
+                Road newRoad = new Road(towns[r.GetComponent<RoadView>().startTown.GetComponent<TownView>().townName], towns[r.GetComponent<RoadView>().endTown.GetComponent<TownView>().townName], curRoadType);
                 //r.GetComponent<RoadView>().setAndSubscribeToModel(newRoad); //Model was just created, so now we make the GameObject/view subscribe to this Model object.
                 roads.Add(newRoad);
             }
