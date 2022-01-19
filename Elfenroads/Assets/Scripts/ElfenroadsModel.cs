@@ -15,6 +15,7 @@ namespace Models {
     }
 
     public class ElfenroadsModel : Elfenroads {
+        public event EventHandler ModelReady;
         public List<GameObject> roadObjects;
         public List<GameObject> townObjects;
 
@@ -38,7 +39,7 @@ namespace Models {
                 //Foreach road, find out what type it is and add a corresponding road to "roads".
                 RoadType curRoadType = r.GetComponent<RoadScript>().roadType;
                 Road newRoad = new Road(towns[r.GetComponent<RoadScript>().startTown.GetComponent<TownScript>().townName], towns[r.GetComponent<RoadScript>().endTown.GetComponent<TownScript>().townName], curRoadType);
-                r.GetComponent<RoadView>().setAndSubscribeToModel(newRoad); //Model was just created, so now we make the GameObject/view subscribe to this Model object.
+                //r.GetComponent<RoadView>().setAndSubscribeToModel(newRoad); //Model was just created, so now we make the GameObject/view subscribe to this Model object.
                 roads.Add(newRoad);
             }
 
@@ -52,9 +53,9 @@ namespace Models {
             game.SetBoard(board);
 
             // Load Scene -> Create Game and Board -> Server asks Host for variants -> Host replies to Server -> Server updates the gamemode and returns it -> Server asks for colors -> Clients respond -> Phase 1 starts
+            //ModelReady triggered here.
         }
 
-        
 
 
         //Called by the GameController once the amount of players (and their names) have been received from the Server (passwords in model not needed)   *** Grab from menuscene? But then, how to assign players correctly?

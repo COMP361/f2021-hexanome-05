@@ -14,6 +14,8 @@ namespace Models{
             return _instance;
         }
 
+        private Dictionary<string, Town> towns;
+        private Dictionary<int, Road> roads;
         private Dictionary<int, TownPiece> townPieces;
         private Dictionary<int, Boot> boots;
         // Dictionary of Counters
@@ -22,9 +24,31 @@ namespace Models{
         public ModelHelper(){
             townPieces = new Dictionary<int, TownPiece>();
             boots = new Dictionary<int, Boot>();
+            towns = new Dictionary<string, Town>();
+            roads = new Dictionary<int, Road>();
         }
 
-        public TownPiece GetTownPiece(int id){
+        public void addTown(Town town){
+            towns.Add(town.name, town);
+        }
+
+        public Town getTown(string townName){
+            return towns[townName];
+        }
+
+        public void addRoad(Road road){
+            roads.Add(road.id, road);
+        }
+
+        public Road getRoad(int id){
+            return roads[id];
+        }
+
+        public void addTownPiece(TownPiece townPiece){
+            townPieces.Add(townPiece.id, townPiece);
+        }
+
+        public TownPiece getTownPiece(int id){
             return townPieces[id];
         }
 

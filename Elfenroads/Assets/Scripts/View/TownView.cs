@@ -1,9 +1,12 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Models;
 
 public class TownView : MonoBehaviour
 {
+    private Town modelTown;
     private List<Slot> townPieceSlots;
     private List<Slot> bootSlots;
 
@@ -20,7 +23,7 @@ public class TownView : MonoBehaviour
         townPieceSlots = new List<Slot>();
         for(int i = 0 ; i < 6 ; i++){
             townPieceSlots.Add(new Slot(initialSlot + new Vector3(0.2f * colCount, - (0.25f * rowCount), 0f)));
-            Instantiate(townPiecePrefab, initialSlot + new Vector3(0.2f * colCount, - (0.25f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
+            //Instantiate(townPiecePrefab, initialSlot + new Vector3(0.2f * colCount, - (0.25f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
             colCount = (colCount + 1) % 3;
             if(colCount == 0) rowCount++;
         }
@@ -32,19 +35,26 @@ public class TownView : MonoBehaviour
         townPieceSlots = new List<Slot>();
         for(int i = 0 ; i < 6 ; i++){
             townPieceSlots.Add(new Slot(initialSlot + new Vector3(0.35f * colCount, - (0.6f * rowCount), 0f)));
-            Instantiate(bootPrefab, initialSlot + new Vector3(0.35f * colCount, - (0.6f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help figure out where the "slots" are.
+            //Instantiate(bootPrefab, initialSlot + new Vector3(0.35f * colCount, - (0.6f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help figure out where the "slots" are.
             colCount = (colCount + 1) % 3;
             if(colCount == 0) rowCount++;
         }
 
+        Elfenroads.Model.ModelReady += getAndSubscribeToModel;
     }
 
+    public void getAndSubscribeToModel(object sender, EventArgs e){
+            this.modelTown = ModelHelper.StoreInstance().getTown(gameObject.GetComponent<TownScript>().townName);
+            modelTown.ModelUpdated += onModelUpdated;
+    }
 
-    //Two options: Either the TownViews will have access to all boot and TownPiece prefabs, and will create/destroy them as they are added/removed to each slot 
-    //(preferred, because RoadViews will need to work like that since UI elements get destroyed as GameObjects get added and vice versa)
-    //Otherwise, we can have Boot and TownPiece objects that we pass around, but this would make keeping references a tricky business.
+    void onModelUpdated(object sender, EventArgs e) {
+        //First, look at the townPieces in the Model, and add the appropriate TownPiece prefabs to the slots.
 
-    //To accomplish the first option, we would need to make prefabs for each color of boot and townpiece, and use the color enum to figure out which color to add/remove (parameters change from GameObject obj -> Color color)
+        //Then, do the same thing but for the ElfenBoots.
+    }
+
+    //Need to make prefabs for each color of boot and townpiece, and use the color enum to figure out which color to add/remove (parameters change from GameObject obj -> Color color)
 
     public void addTownPieceToSlot(GameObject obj){
         foreach(Slot s in townPieceSlots){
@@ -53,6 +63,7 @@ public class TownView : MonoBehaviour
                 obj.transform.position = (new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f));
                 return;
             }else{
+
             }
         }
     }
@@ -69,7 +80,6 @@ public class TownView : MonoBehaviour
     }
 
     public void addBootToSlot(GameObject obj){
-
         foreach(Slot s in bootSlots){
             if(s.obj == obj){
                 Debug.Log("Boot is already in a slot!");

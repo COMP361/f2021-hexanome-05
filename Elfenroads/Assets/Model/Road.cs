@@ -11,6 +11,7 @@ namespace Models {
         public Town start { private set; get; }
         public Town end { private set; get; }
         public RoadType roadType { private set; get; }
+        public readonly int id;
         // to be implemented
         // public List<string> Counters { get; set; }
 

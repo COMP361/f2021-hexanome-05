@@ -10,9 +10,10 @@ namespace Views {
         public event EventHandler RoadClicked;
         public bool horizontal = true;
         public GameObject counterPrefab;
+        public int id;
 
         private List<Slot> counterSlots;
-        private Road road;
+        private Road modelRoad;
 
 
         void Start()
@@ -28,18 +29,20 @@ namespace Views {
         for(int i = 0 ; i < 3 ; i++){
             if(horizontal){
                 counterSlots.Add(new Slot(initialSlot + new Vector3(0.9f * i,0f, 0f)));
-                Instantiate(counterPrefab, initialSlot + new Vector3(0.9f * i,0f, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
+                //Instantiate(counterPrefab, initialSlot + new Vector3(0.9f * i,0f, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
             }else{
                 counterSlots.Add(new Slot(initialSlot + new Vector3(0f, -0.9f * i, 0f)));
-                Instantiate(counterPrefab, initialSlot + new Vector3(0f, -0.9f * i, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
+                //Instantiate(counterPrefab, initialSlot + new Vector3(0f, -0.9f * i, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
             }
         }
+
+        Elfenroads.Model.ModelReady += getAndSubscribeToModel;
     }
 
 
-        public void setAndSubscribeToModel(Road inputRoad){
-            this.road = inputRoad;
-            road.ModelUpdated += onModelUpdated;
+        public void getAndSubscribeToModel(object sender, EventArgs e){
+            this.modelRoad = ModelHelper.StoreInstance().getRoad(id);
+            modelRoad.ModelUpdated += onModelUpdated;
         }
 
         void onModelUpdated(object sender, EventArgs e) {
@@ -47,7 +50,7 @@ namespace Views {
         }
 
         void OnClick() {
-            RoadClicked?.Invoke(road, EventArgs.Empty);
+            RoadClicked?.Invoke(modelRoad, EventArgs.Empty);
         }
 
         // Change parameters later. Either takes in a "counterType" parameter and creates the counter witihn this function via a prefab, or it takes in a prefab that was instantiated elsewhere in which case signature is the same.
