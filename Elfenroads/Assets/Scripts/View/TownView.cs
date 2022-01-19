@@ -27,7 +27,7 @@ public class TownView : MonoBehaviour {
         townPieceSlots = new List<Slot>();
         for(int i = 0 ; i < 6 ; i++){
             townPieceSlots.Add(new Slot(initialSlot + new Vector3(0.2f * colCount, - (0.25f * rowCount), 0f)));
-            Instantiate(townPiecePrefab, initialSlot + new Vector3(0.2f * colCount, - (0.25f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
+            //Instantiate(townPiecePrefab, initialSlot + new Vector3(0.2f * colCount, - (0.25f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
             colCount = (colCount + 1) % 3;
             if(colCount == 0) rowCount++;
         }
@@ -36,10 +36,10 @@ public class TownView : MonoBehaviour {
         initialSlot = gameObject.transform.position + new Vector3(-0.3f, 0.5f, 0f);
         colCount = 0;
         rowCount = 0;
-        townPieceSlots = new List<Slot>();
+        bootSlots = new List<Slot>();
         for(int i = 0 ; i < 6 ; i++){
-            townPieceSlots.Add(new Slot(initialSlot + new Vector3(0.35f * colCount, - (0.6f * rowCount), 0f)));
-            Instantiate(bootPrefab, initialSlot + new Vector3(0.35f * colCount, - (0.6f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help figure out where the "slots" are.
+            bootSlots.Add(new Slot(initialSlot + new Vector3(0.35f * colCount, - (0.6f * rowCount), 0f)));
+            //Instantiate(bootPrefab, initialSlot + new Vector3(0.35f * colCount, - (0.6f * rowCount), 0f), Quaternion.identity);   //Remove later, just here now to help figure out where the "slots" are.
             colCount = (colCount + 1) % 3;
             if(colCount == 0) rowCount++;
         }
@@ -49,13 +49,26 @@ public class TownView : MonoBehaviour {
 
     public void getAndSubscribeToModel(object sender, EventArgs e){
             this.modelTown = ModelHelper.StoreInstance().getTown(gameObject.GetComponent<TownView>().townName);
+            Debug.Log(modelTown.name);
             modelTown.ModelUpdated += onModelUpdated;
+            Debug.Log("Town " + townName + " subscribed!");
+            if(modelTown.name == "Elfenhold"){
+                onModelUpdated(this, EventArgs.Empty);
+            }
     }
 
     void onModelUpdated(object sender, EventArgs e) {
-        //First, look at the townPieces in the Model, and add the appropriate TownPiece prefabs to the slots.
+        //Remove all townpieces and boots from slots (can just do difference later but this is easiest)
+        removeAllFromSlots();
+    
+        //Next, look at the townPieces in the Model, and add the appropriate TownPiece prefabs to the slots.
 
         //Then, do the same thing but for the ElfenBoots.
+        foreach(Boot boot in modelTown.boots){
+            if(boot.color == Models.Color.RED){
+                addBootToSlot(Models.Color.RED);
+            }
+        }
     }
 
     //Need to make prefabs for each color of boot and townpiece, and use the color enum to figure out which color to add/remove (parameters change from GameObject obj -> Color color)
@@ -72,42 +85,51 @@ public class TownView : MonoBehaviour {
         }
     }
 
-    public void removeTownPieceFromSlot(GameObject obj){ 
-        foreach(Slot s in townPieceSlots){
-            if(s.obj == obj){
-                s.obj = null;
-                return;
-            }else{
-                Debug.Log("Nothing to remove!");
-            }
-        }
-    }
+    // public void removeTownPieceFromSlot(GameObject obj){ 
+    //     foreach(Slot s in townPieceSlots){
+    //         if(s.obj == obj){
+    //             s.obj = null;
+    //             return;
+    //         }else{
+    //             Debug.Log("Nothing to remove!");
+    //         }
+    //     }
+    // }
 
-    public void addBootToSlot(GameObject obj){
-        foreach(Slot s in bootSlots){
-            if(s.obj == obj){
-                Debug.Log("Boot is already in a slot!");
-                return;
-            }
-        }
+    public void addBootToSlot(Models.Color color){
 
         foreach(Slot s in bootSlots){
             if(s.obj == null){
-                s.obj = obj;
-                obj.transform.position = (new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f));
+                GameObject newBoot = Instantiate(bootPrefab, new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f), Quaternion.identity);
+                s.obj = newBoot;
                 return;
-            }else{
             }
         }
+        Debug.Log("No slot found!");
     }
 
-    public void removeBootFromSlot(GameObject obj){ 
-        foreach(Slot s in bootSlots){
-            if(s.obj == obj){
+    // public void removeBootFromSlot(GameObject obj){ 
+    //     foreach(Slot s in bootSlots){
+    //         if(s.obj == obj){
+    //             s.obj = null;
+    //             return;
+    //         }else{
+    //             Debug.Log("Nothing to remove!");
+    //         }
+    //     }
+    // }
+
+    public void removeAllFromSlots(){
+        foreach (Slot s in bootSlots){
+            if(s.obj != null){
+                Destroy(s.obj);
                 s.obj = null;
-                return;
-            }else{
-                Debug.Log("Nothing to remove!");
+            }
+        }
+        foreach (Slot s in townPieceSlots){
+            if(s.obj != null){
+                Destroy(s.obj);
+                s.obj = null;
             }
         }
     }

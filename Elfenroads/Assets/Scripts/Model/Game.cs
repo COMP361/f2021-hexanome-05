@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine; //Only here for Debug.Logs
 
 
 namespace Models {
@@ -10,15 +11,15 @@ namespace Models {
 
         public Game(Board board) {
             this.board = board;
+            this.players = new List<Player>();
         }
 
-        public void createPlayers(List<string> playerNames){
+        public void createPlayerTest(){
             int bootId = 0;
-            foreach(string name in playerNames){
-                Player newPlayer = new Player(name, Color.RED, bootId);
-                players.Add(newPlayer);
-                bootId++;
-            }
+            Player newPlayer = new Player("test", Color.RED, bootId); //Player is set to red here, should be changed later.
+            players.Add(newPlayer);
+            Elfenroads.Model.curPlayer = newPlayer;
+        
         }
 
         public void SetBoard(Board board) {

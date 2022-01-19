@@ -15,10 +15,11 @@ namespace Models {
         // to be implemented
         // public List<string> Counters { get; set; }
 
-        public Road(Town start, Town end, RoadType roadtype) {
+        public Road(Town start, Town end, RoadType roadtype, int id) {
             this.start = start;
             this.end = end;
             this.roadType = roadType;
+            this.id = id;
 
             //start.connectRoad(this); //See Town.cs
             //end.connectRoad(this);

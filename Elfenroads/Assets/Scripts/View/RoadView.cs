@@ -6,8 +6,6 @@ using Models;
 
 
 public class RoadView : MonoBehaviour {
-    [HideInInspector]
-    public Road road { private set; get; }
     public RoadType roadType;
     public GameObject startTown;
     public GameObject endTown;
@@ -48,6 +46,7 @@ public class RoadView : MonoBehaviour {
     public void getAndSubscribeToModel(object sender, EventArgs e){
         this.modelRoad = ModelHelper.StoreInstance().getRoad(id);
         modelRoad.ModelUpdated += onModelUpdated;
+        Debug.Log("Road " + id + " subscribed!");
     }
 
     void onModelUpdated(object sender, EventArgs e) {

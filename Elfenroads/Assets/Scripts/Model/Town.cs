@@ -9,7 +9,7 @@ namespace Models {
         public event EventHandler ModelUpdated;
         public string name { private set; get; }
         public List<TownPiece> townPieces { private set; get; }
-        private List<Boot> boots;
+        public List<Boot> boots;
 
         // Only used in the elfengold extension, skip for now
         // private int goldValue;
@@ -18,6 +18,7 @@ namespace Models {
 
             this.name = name;
             this.townPieces = new List<TownPiece>();
+            this.boots = new List<Boot>();
         }
 
         [JsonConstructor]
@@ -48,6 +49,20 @@ namespace Models {
             addedItems.ExceptWith(this.townPieces); // new - original (the things that were added in)
             foreach (TownPiece townPiece in addedItems) {
                 this.townPieces.Add(ModelHelper.StoreInstance().getTownPiece(townPiece.id));
+                modified = true;
+            }
+
+            HashSet<Boot> removedBoots = new HashSet<Boot>(this.boots);
+            removedItems.ExceptWith(town.townPieces); // original - new (the things that were taken out)
+            foreach (Boot boot in removedBoots) {
+                this.boots.Remove(ModelHelper.StoreInstance().getBoot(boot.id));
+                modified = true;
+            }
+
+            HashSet<Boot> addedBoots = new HashSet<Boot>(town.boots);
+            addedItems.ExceptWith(this.townPieces); // new - original (the things that were added in)
+            foreach (Boot boot in addedBoots) {
+                this.boots.Add(ModelHelper.StoreInstance().getBoot(boot.id));
                 modified = true;
             }
             
