@@ -97,6 +97,7 @@ public class LobbyScript : MonoBehaviour
         await thisClient.refreshSessions();
         //Now that the session has been created, we can turn on the socket.
         await socket.EmitAsync("join", thisClient.thisSessionID);
+        socket.On("Launch", callback);
         Debug.Log("Session ID: " + thisClient.thisSessionID);
         Debug.Log(socket.Connected);
     }
@@ -137,6 +138,7 @@ public class LobbyScript : MonoBehaviour
         await thisClient.refreshSessions();
         //Now that the session has been created, we can turn on the socket.
         await socket.EmitAsync("join", thisClient.thisSessionID);
+        socket.On("Launch", callback);
         Debug.Log(this.thisClient.thisSessionID);
     }
 
