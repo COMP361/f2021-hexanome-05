@@ -92,8 +92,8 @@ public class Client : ClientInterface
     //     Debug.Log("Getting the role failed with error: "  + error);
     // }
 
-    public void refreshSessions(){
-        lobbyService.refresh();
+    public async void refreshSessions(){
+        await lobbyService.refresh();
     }
 
     public void join(Session aSession){

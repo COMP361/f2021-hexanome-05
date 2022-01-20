@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Text;
 using Models;
+using System.Threading.Tasks;
 
 public class LobbyService
 {
@@ -102,10 +103,15 @@ public class LobbyService
         request.Dispose();
     }
     
-    public void refresh(){
+    public async Task refresh(){
         UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();
         operation.completed += OnRefreshCompleted;
+
+        while(!operation.isDone){
+            await Task.Yield();
+        }
+
     }
 
     private void OnRefreshCompleted(AsyncOperation operation){

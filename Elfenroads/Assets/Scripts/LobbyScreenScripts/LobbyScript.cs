@@ -56,13 +56,18 @@ public class LobbyScript : MonoBehaviour
         thisClient.JoinFailureEvent += joinFailure;
 
 
-        //Get the socket to start listening for a "StartGame" message.
+        //Get the socket to start listening
         socket = GameObject.Find("SocketIO").GetComponent<SocketIOSingleton>().Instance;
         thisClient.setSocket(socket);
+        thisClient.socket.On("join", (msg) => testCallback(msg.ToString()));
 
         //Next, start polling. For now, this coroutine will simply get an update and display it every second. Later on, if time permits, can make this more sophisticated via the scheme described here, checking for return codes 408 and 200.
         //https://github.com/kartoffelquadrat/AsyncRestLib#client-long-poll-counterpart (This would likely require changing the LobbyService.cs script, as well as the refreshSuccess function(s)).
         StartCoroutine("pollingRoutine");
+    }
+
+    public void testCallback(string message){
+        Debug.Log(message);
     }
 
     public void changeInfoText(string input){
@@ -91,6 +96,7 @@ public class LobbyScript : MonoBehaviour
         thisClient.refreshSessions();
         //Now that the session has been created, we can turn on the socket.
         socket.EmitAsync("join", thisClient.thisSessionID);
+        Debug.Log("Session ID: " + thisClient.thisSessionID);
         Debug.Log(socket.Connected);
     }
 
