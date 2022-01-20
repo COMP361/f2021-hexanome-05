@@ -104,11 +104,18 @@ public class LobbyScript : MonoBehaviour
 
     private void callback(SocketIOResponse input){ //Strangeness is potentially caused here. This likely ought to be somewhere in the LobbyScreen, since as of right now this script is attached to the Login Button, which is disabled later.
         //Load the next scene, stopping the polling coroutine.
+        try{
         Debug.Log("reached callback method!");
         StopCoroutine("pollingRoutine");
+        Debug.Log("Couroutine stopped! About to load scene!");
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
         socket.Off("StartGame");
+        Debug.Log("Finished callback");
+        }catch (Exception e){
+            Debug.Log(e.Message);
+        }
     }
+
 
      public async Task deleteSuccess(string input){
         infoText.text = "Deletion successful!";
