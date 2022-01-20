@@ -90,11 +90,8 @@ public class LobbyScript : MonoBehaviour
         infoText.text = "Creation sucessful!";
         thisClient.refreshSessions();
         //Now that the session has been created, we can turn on the socket.
-        socket.On("StartGame", callback);
+        socket.EmitAsync("join", thisClient.thisSessionID);
         Debug.Log(socket.Connected);
-
-        //Next, we emit "join" along with the gameID
-        socket.EmitAsync("join", result);
     }
 
     private void callback(SocketIOResponse input){ //Strangeness is potentially caused here. This likely ought to be somewhere in the LobbyScreen, since as of right now this script is attached to the Login Button, which is disabled later.
@@ -130,7 +127,9 @@ public class LobbyScript : MonoBehaviour
     public void joinSuccess(string input){
         infoText.text = "Join successful!";
         Debug.Log("Join success: " + input);
-        refreshSessions();
+        thisClient.refreshSessions();
+        //Now that the session has been created, we can turn on the socket.
+        socket.EmitAsync("join", thisClient.thisSessionID);
     }
 
     public void joinFailure(string error){
@@ -167,6 +166,7 @@ public class LobbyScript : MonoBehaviour
 #pragma warning restore 0618
             if(trueObj[ID]["creator"].ToString() == thisClient.clientCredentials.username){
                 thisClient.hasSessionCreated = true; //If our client is a host in one of the recieved session
+                thisClient.thisSessionID = ID;
             }
         }
         thisClient.sessions = foundSessions; //Set the client's new list of found sessions.

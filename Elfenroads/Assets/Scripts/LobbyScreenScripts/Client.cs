@@ -23,6 +23,7 @@ public class Client : ClientInterface
     public bool hasSessionCreated = false;
     public ClientCredentials clientCredentials;
     public SocketIO socket;
+    public string thisSessionID;
 
     public event LoginSuccess LoginSuccessEvent;
     public event LoginFailure LoginFailureEvent;
