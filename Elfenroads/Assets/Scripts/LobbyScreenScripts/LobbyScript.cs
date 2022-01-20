@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Newtonsoft.Json.Linq;
 using SocketIOClient;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 public class LobbyScript : MonoBehaviour
 {
@@ -88,14 +89,14 @@ public class LobbyScript : MonoBehaviour
         Debug.Log(inputError);
     }
 
-    private void createSuccessResult(string result){
+    private async Task createSuccessResult(string result){
         Debug.Log("CreateSuccess called.");
 
         thisClient.hasSessionCreated = true;
         infoText.text = "Creation sucessful!";
-        thisClient.refreshSessions();
+        await thisClient.refreshSessions();
         //Now that the session has been created, we can turn on the socket.
-        socket.EmitAsync("join", thisClient.thisSessionID);
+        await socket.EmitAsync("join", thisClient.thisSessionID);
         Debug.Log("Session ID: " + thisClient.thisSessionID);
         Debug.Log(socket.Connected);
     }
@@ -108,11 +109,11 @@ public class LobbyScript : MonoBehaviour
         socket.Off("StartGame");
     }
 
-     public void deleteSuccess(string input){
+     public async Task deleteSuccess(string input){
         infoText.text = "Deletion successful!";
         Debug.Log("Delete success: " + input);
         thisClient.hasSessionCreated = false;
-        refreshSessions();
+        await thisClient.refreshSessions();
     }
 
     public void deleteFailure(string error){
@@ -130,21 +131,18 @@ public class LobbyScript : MonoBehaviour
         Debug.Log("Launch failure: " + error);
     }
 
-    public void joinSuccess(string input){
+    public async Task joinSuccess(string input){
         infoText.text = "Join successful!";
         Debug.Log("Join success: " + input);
-        thisClient.refreshSessions();
+        await thisClient.refreshSessions();
         //Now that the session has been created, we can turn on the socket.
-        socket.EmitAsync("join", thisClient.thisSessionID);
+        await socket.EmitAsync("join", thisClient.thisSessionID);
+        Debug.Log(this.thisClient.thisSessionID);
     }
 
     public void joinFailure(string error){
         infoText.text = "Join failed! Error: " + error;
         Debug.Log("Join failure: " + error);
-    }
-
-    private void refreshSessions(){
-        thisClient.refreshSessions();
     }
 
     private void refreshFailure(string error){
@@ -176,6 +174,14 @@ public class LobbyScript : MonoBehaviour
             }
         }
         thisClient.sessions = foundSessions; //Set the client's new list of found sessions.
+
+        foreach (Session session in foundSessions)
+        {
+            if (session.players.Contains(thisClient.clientCredentials.username))
+            {
+                thisClient.thisSessionID = session.sessionID;
+            }
+        }
         //Call something here to visually update the rows of the table based on the client info (excluding launched sessions). These rows should include a "Launch" button if it is the current client's session, and a "join" button otherwise.
         displaySessions(foundSessions);
     }

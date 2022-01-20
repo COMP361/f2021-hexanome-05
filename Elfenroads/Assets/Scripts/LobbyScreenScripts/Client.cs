@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Models;
 using SocketIOClient;
+using System.Threading.Tasks;
 
 public class Client : ClientInterface
 {
@@ -92,7 +93,7 @@ public class Client : ClientInterface
     //     Debug.Log("Getting the role failed with error: "  + error);
     // }
 
-    public async void refreshSessions(){
+    public async Task refreshSessions(){
         await lobbyService.refresh();
     }
 
