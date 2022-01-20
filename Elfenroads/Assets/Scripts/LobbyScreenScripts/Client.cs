@@ -4,6 +4,7 @@ using UnityEngine;
 using Models;
 using SocketIOClient;
 using System.Threading.Tasks;
+using Firesplash.UnityAssets.SocketIO;
 
 public class Client : ClientInterface
 {
@@ -23,7 +24,7 @@ public class Client : ClientInterface
     private bool isAdmin = false;
     public bool hasSessionCreated = false;
     public ClientCredentials clientCredentials;
-    public SocketIO socket;
+    public SocketIOCommunicator socket;
     public string thisSessionID;
 
     public event LoginSuccess LoginSuccessEvent;
@@ -66,7 +67,7 @@ public class Client : ClientInterface
         // this.RoleFailureEvent += roleFailure;
     }
 
-    public void setSocket(SocketIO socket){
+    public void setSocket(SocketIOCommunicator socket){
         this.socket = socket;
     }
 

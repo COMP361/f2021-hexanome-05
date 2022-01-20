@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json.Linq;
-using SocketIOClient;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
+using Firesplash.UnityAssets.SocketIO;
 
 public class LobbyScript : MonoBehaviour
 {
@@ -28,7 +28,8 @@ public class LobbyScript : MonoBehaviour
     public GameObject launchButton;
     public GameObject joinButton;
     public GameObject deleteButton;
-    public SocketIO socket;
+    //public SocketIO sioCom.Instance;
+    public SocketIOCommunicator sioCom;
     private Client thisClient;
 
 
@@ -57,10 +58,11 @@ public class LobbyScript : MonoBehaviour
         thisClient.JoinFailureEvent += joinFailure;
 
 
-        //Get the socket to start listening
-        socket = GameObject.Find("SocketIO").GetComponent<SocketIOSingleton>().Instance;
-        thisClient.setSocket(socket);
-        thisClient.socket.On("join", (msg) => testCallback(msg.ToString()));
+        //Get the sioCom.Instance to start listening
+        //sioCom.Instance = GameObject.Find("sioCom.InstanceIO").GetComponent<sioCom.InstanceIOSingleton>().Instance;
+        //thisClient.setsioCom.Instance(sioCom.Instance);
+        thisClient.setSocket(sioCom);
+        thisClient.socket.Instance.On("join", (msg) => testCallback(msg.ToString()));
 
         //Next, start polling. For now, this coroutine will simply get an update and display it every second. Later on, if time permits, can make this more sophisticated via the scheme described here, checking for return codes 408 and 200.
         //https://github.com/kartoffelquadrat/AsyncRestLib#client-long-poll-counterpart (This would likely require changing the LobbyService.cs script, as well as the refreshSuccess function(s)).
@@ -95,21 +97,20 @@ public class LobbyScript : MonoBehaviour
         thisClient.hasSessionCreated = true;
         infoText.text = "Creation sucessful!";
         await thisClient.refreshSessions();
-        //Now that the session has been created, we can turn on the socket.
-        await socket.EmitAsync("join", thisClient.thisSessionID);
-        socket.On("Launch", callback);
+        //Now that the session has been created, we can turn on the sioCom.Instance.
+        sioCom.Instance.Emit("join", thisClient.thisSessionID, true);
+        sioCom.Instance.On("Launch", callback);
         Debug.Log("Session ID: " + thisClient.thisSessionID);
-        Debug.Log(socket.Connected);
     }
 
-    private void callback(SocketIOResponse input){ //Strangeness is potentially caused here. This likely ought to be somewhere in the LobbyScreen, since as of right now this script is attached to the Login Button, which is disabled later.
+    private void callback(string input){ //Strangeness is potentially caused here. This likely ought to be somewhere in the LobbyScreen, since as of right now this script is attached to the Login Button, which is disabled later.
         //Load the next scene, stopping the polling coroutine.
         try{
         Debug.Log("reached callback method!");
         StopCoroutine("pollingRoutine");
         Debug.Log("Couroutine stopped! About to load scene!");
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
-        socket.Off("StartGame");
+        sioCom.Instance.Off("StartGame");
         Debug.Log("Finished callback");
         }catch (Exception e){
             Debug.Log(e.Message);
@@ -143,9 +144,9 @@ public class LobbyScript : MonoBehaviour
         infoText.text = "Join successful!";
         Debug.Log("Join success: " + input);
         await thisClient.refreshSessions();
-        //Now that the session has been created, we can turn on the socket.
-        await socket.EmitAsync("join", thisClient.thisSessionID);
-        socket.On("Launch", callback);
+        //Now that the session has been created, we can turn on the sioCom.Instance.
+        sioCom.Instance.Emit("join", thisClient.thisSessionID,true);
+        sioCom.Instance.On("Launch", callback);
         Debug.Log(this.thisClient.thisSessionID);
     }
 
