@@ -61,8 +61,10 @@ public class LobbyScript : MonoBehaviour
         //Get the sioCom.Instance to start listening
         //sioCom.Instance = GameObject.Find("sioCom.InstanceIO").GetComponent<sioCom.InstanceIOSingleton>().Instance;
         //thisClient.setsioCom.Instance(sioCom.Instance);
+        Debug.Log("Socket connection status: " + sioCom.Instance.IsConnected());
+        Debug.Log("Socket status: " + sioCom.Instance.Status);
         thisClient.setSocket(sioCom);
-        thisClient.socket.Instance.On("join", (msg) => testCallback(msg.ToString()));
+        sioCom.Instance.On("join", (msg) => testCallback(msg.ToString()));
 
         //Next, start polling. For now, this coroutine will simply get an update and display it every second. Later on, if time permits, can make this more sophisticated via the scheme described here, checking for return codes 408 and 200.
         //https://github.com/kartoffelquadrat/AsyncRestLib#client-long-poll-counterpart (This would likely require changing the LobbyService.cs script, as well as the refreshSuccess function(s)).
@@ -70,7 +72,7 @@ public class LobbyScript : MonoBehaviour
     }
 
     public void testCallback(string message){
-        Debug.Log(message);
+        Debug.Log("Reached test callback method! Message recieved is: '" + message + "'");
     }
 
     public void changeInfoText(string input){
