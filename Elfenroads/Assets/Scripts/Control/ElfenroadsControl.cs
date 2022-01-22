@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using SocketIOClient;
+using Firesplash.UnityAssets.SocketIO;
 using Models;
 using Views;
 
@@ -11,7 +11,7 @@ namespace Controls {
     /// Manages user interactions and server communication.
     /// </summary>
     public class ElfenroadsControl : Elfenroads {
-        private SocketIO socket;
+        private SocketIOCommunicator socket;
 
         private void Awake() {
             Elfenroads.Control = this;
@@ -28,6 +28,10 @@ namespace Controls {
 
             // enable game updates
             // socket.On("UpdateState", updateState);
+            GameObject obj = GameObject.Find("SessionInfo");
+            Debug.Log(obj);
+            socket.Instance.Emit("InitializeGame", obj.GetComponent<SessionInfo>().getSessionID(), true);
+
         }
 
         //Called once the Model has been initialized, spawns the required Boot prefabs over their currentTown (should be elfenhold)
@@ -38,7 +42,6 @@ namespace Controls {
         private void moveBootDemo(Town town) {
 
             // we should implement town.serialize() and use it as the parameter
-            socket.EmitAsync("MoveBootDemo", "serialized town");
         }
     }
 }

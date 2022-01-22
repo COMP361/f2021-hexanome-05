@@ -28,6 +28,7 @@ public class LobbyScript : MonoBehaviour
     public GameObject launchButton;
     public GameObject joinButton;
     public GameObject deleteButton;
+    public GameObject persistentObject;
     //public SocketIO sioCom.Instance;
     public SocketIOCommunicator sioCom;
     private Client thisClient;
@@ -113,6 +114,7 @@ public class LobbyScript : MonoBehaviour
         Debug.Log("Couroutine stopped! Turning off the socket!");
         sioCom.Instance.Off("StartGame");
         Debug.Log("About to load scene!");
+        persistentObject.GetComponent<SessionInfo>().setSessionID();
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
         }catch (Exception e){
             Debug.Log(e.Message);
