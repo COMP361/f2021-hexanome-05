@@ -110,10 +110,10 @@ public class LobbyScript : MonoBehaviour
         try{
         Debug.Log("reached callback method!");
         StopCoroutine("pollingRoutine");
-        Debug.Log("Couroutine stopped! About to load scene!");
-        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+        Debug.Log("Couroutine stopped! Turning off the socket!");
         sioCom.Instance.Off("StartGame");
-        Debug.Log("Finished callback");
+        Debug.Log("About to load scene!");
+        SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
         }catch (Exception e){
             Debug.Log(e.Message);
         }
