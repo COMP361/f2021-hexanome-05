@@ -591,6 +591,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Al'Baran
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Al'Baran
@@ -1108,6 +1112,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Elfenhold
+      objectReference: {fileID: 0}
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: isStartingTown
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Elfenhold
@@ -1182,6 +1194,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Beata
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Beata
@@ -1557,6 +1573,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Dag'Amura
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Dag'Amura
@@ -2653,6 +2673,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Strykhaven
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Strykhaven
@@ -3824,6 +3848,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Rivinia
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Rivinia
@@ -5781,6 +5809,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Feodor
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Feodor
@@ -6788,6 +6820,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Yttar
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Yttar
@@ -8713,6 +8749,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Throtmanni
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Throtmanni
@@ -9061,6 +9101,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Mah'Davikia
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Mah'Davikia
@@ -9915,6 +9959,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Parundia
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Parundia
@@ -11084,6 +11132,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Erg'Eren
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Erg'Eren
@@ -11159,6 +11211,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Kihromah
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Kihromah
@@ -12008,6 +12064,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Jxara
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Jxara
@@ -14170,6 +14230,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Lapphalya
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Lapphalya
@@ -14668,6 +14732,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Virst
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Virst
@@ -15891,6 +15959,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Wylhien
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Wylhien
@@ -16919,6 +16991,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Usselen
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Usselen
@@ -17200,6 +17276,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Grangor
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Grangor
@@ -17970,6 +18050,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Tichih
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Tichih
@@ -18040,6 +18124,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1734265838}
     m_Modifications:
+    - target: {fileID: -6721322369690542522, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
+      propertyPath: townName
+      value: Jaccaranda
+      objectReference: {fileID: 0}
     - target: {fileID: 3870996611442055264, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
       propertyPath: townName
       value: Jaccaranda
