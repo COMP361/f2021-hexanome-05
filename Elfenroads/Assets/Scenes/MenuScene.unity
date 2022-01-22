@@ -4869,9 +4869,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a51bb71fdd88524994e50b1dd0eb958, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  socketIOAddress: http://beta.mysandbox.icu:1337/
+  socketIOAddress: 108.175.13.172:1337
   secureConnection: 0
-  autoConnect: 0
+  autoConnect: 1
   autoReconnect: 1
 --- !u!1 &1750940745
 GameObject:
