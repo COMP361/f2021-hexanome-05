@@ -114,7 +114,6 @@ public class LobbyScript : MonoBehaviour
         Debug.Log("Couroutine stopped! Turning off the socket!");
         sioCom.Instance.Off("StartGame");
         Debug.Log("About to load scene!");
-        persistentObject.GetComponent<SessionInfo>().setSessionID();
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
         }catch (Exception e){
             Debug.Log(e.Message);
@@ -194,6 +193,7 @@ public class LobbyScript : MonoBehaviour
             if (session.players.Contains(thisClient.clientCredentials.username))
             {
                 thisClient.thisSessionID = session.sessionID;
+                persistentObject.GetComponent<SessionInfo>().setSessionID();
             }
         }
         //Call something here to visually update the rows of the table based on the client info (excluding launched sessions). These rows should include a "Launch" button if it is the current client's session, and a "join" button otherwise.

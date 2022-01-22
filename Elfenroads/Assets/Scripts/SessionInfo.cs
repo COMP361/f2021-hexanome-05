@@ -13,6 +13,7 @@ public class SessionInfo : MonoBehaviour
     // Start is called before the first frame update
     public void setSessionID(){
         sessionID = Client.Instance().thisSessionID;
+        Debug.Log("SessionInfo object ID is now " + sessionID);
     }
 
     public string getSessionID(){
