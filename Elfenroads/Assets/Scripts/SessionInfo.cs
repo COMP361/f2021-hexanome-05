@@ -4,20 +4,25 @@ using UnityEngine;
 
 public class SessionInfo : MonoBehaviour
 {
-    private string sessionID;
+    private Client thisClient;
 
     void Start(){
         DontDestroyOnLoad(this.gameObject);
+
     }
 
     // Start is called before the first frame update
-    public void setSessionID(){
-        sessionID = Client.Instance().thisSessionID;
-        Debug.Log("SessionInfo object ID is now " + sessionID);
+    public void setClient(){
+        thisClient = Client.Instance();
+        Debug.Log("SessionInfo object ID is now " + thisClient.thisSessionID);
+    }
+
+    public Client getClient(){
+        return thisClient;
     }
 
     public string getSessionID(){
-        return sessionID;
+        return thisClient.thisSessionID;
     }
 
 }

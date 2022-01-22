@@ -29,7 +29,8 @@ namespace Controls {
             // enable game updates
             // socket.On("UpdateState", updateState);
             GameObject obj = GameObject.Find("SessionInfo");
-            Debug.Log(obj);
+            Debug.Log(obj == null);
+            socket = obj.GetComponent<SessionInfo>().getClient().socket;
             socket.Instance.Emit("InitializeGame", obj.GetComponent<SessionInfo>().getSessionID(), true);
 
         }

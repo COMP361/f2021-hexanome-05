@@ -19,12 +19,12 @@ public class JoinScript : MonoBehaviour
         mySession = aSession;
     }
 
-    private void joinGame(){
+    private async void joinGame(){
         if(mySession == null){
             Debug.Log("Error in joinButton, session was never set");
         }else{
             client.join(mySession);
-            client.refreshSessions();
+            await client.refreshSessions();
         }
     }
 }

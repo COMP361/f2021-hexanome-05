@@ -13,8 +13,10 @@ public class LobbyScript : MonoBehaviour
 
     //Known bug: When a session does not already exist (for the user), when they press "create" the game tells them they already have a session (it still creates the session - the warning message is the thing that's wrong) ***
     IEnumerator pollingRoutine(){ //Just asks the LS for sessions every second, and displays the result.
-        while(true){    
+        while(true){
+            #pragma warning disable 4014
             thisClient.refreshSessions();
+            #pragma warning restore 4014
             yield return new WaitForSeconds(1f);
         }
     }
@@ -62,8 +64,8 @@ public class LobbyScript : MonoBehaviour
         //Get the sioCom.Instance to start listening
         //sioCom.Instance = GameObject.Find("sioCom.InstanceIO").GetComponent<sioCom.InstanceIOSingleton>().Instance;
         //thisClient.setsioCom.Instance(sioCom.Instance);
-        Debug.Log("Socket connection status: " + sioCom.Instance.IsConnected());
-        Debug.Log("Socket status: " + sioCom.Instance.Status);
+        // Debug.Log("Socket connection status: " + sioCom.Instance.IsConnected());
+        // Debug.Log("Socket status: " + sioCom.Instance.Status);
         thisClient.setSocket(sioCom);
         sioCom.Instance.On("join", (msg) => testCallback(msg.ToString()));
 
@@ -103,17 +105,18 @@ public class LobbyScript : MonoBehaviour
         //Now that the session has been created, we can turn on the sioCom.Instance.
         sioCom.Instance.Emit("join", thisClient.thisSessionID, true);
         sioCom.Instance.On("Launch", callback);
-        Debug.Log("Session ID: " + thisClient.thisSessionID);
+        //Debug.Log("Session ID: " + thisClient.thisSessionID);
     }
 
     private void callback(string input){ //Strangeness is potentially caused here. This likely ought to be somewhere in the LobbyScreen, since as of right now this script is attached to the Login Button, which is disabled later.
         //Load the next scene, stopping the polling coroutine.
         try{
-        Debug.Log("reached callback method!");
+        //Debug.Log("reached callback method!");
         StopCoroutine("pollingRoutine");
-        Debug.Log("Couroutine stopped! Turning off the socket!");
-        sioCom.Instance.Off("StartGame");
-        Debug.Log("About to load scene!");
+        //Debug.Log("Couroutine stopped! Turning off the socket!");
+        //sioCom.Instance.Off("Launch"); // Gives a warning, but may not even be necessary. ***
+        //sioCom.Instance.Close();
+        //Debug.Log("About to load scene!");
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
         }catch (Exception e){
             Debug.Log(e.Message);
@@ -137,10 +140,10 @@ public class LobbyScript : MonoBehaviour
     public void launchSuccess(string input){
         Debug.Log("Launch success: " + input);
     }
-
+    //May be unecessary.
     public void launchFailure(string error){
-        infoText.text = "LS launch failed! Error: " + error;
-        Debug.Log("Launch failure: " + error);
+        //infoText.text = "LS launch failed! Error: " + error;
+        //Debug.Log("Launch failure: " + error);
     }
 
     public async Task joinSuccess(string input){
@@ -150,7 +153,7 @@ public class LobbyScript : MonoBehaviour
         //Now that the session has been created, we can turn on the sioCom.Instance.
         sioCom.Instance.Emit("join", thisClient.thisSessionID,true);
         sioCom.Instance.On("Launch", callback);
-        Debug.Log(this.thisClient.thisSessionID);
+        //Debug.Log(this.thisClient.thisSessionID);
     }
 
     public void joinFailure(string error){
@@ -164,7 +167,7 @@ public class LobbyScript : MonoBehaviour
     }
 
     private void refreshSuccess(string result){
-        //Debug.Log(result);
+        //Debug.Log("Refresh str: " + result);
 
         var jsonString = result.Replace('"', '\"');
 
@@ -193,7 +196,7 @@ public class LobbyScript : MonoBehaviour
             if (session.players.Contains(thisClient.clientCredentials.username))
             {
                 thisClient.thisSessionID = session.sessionID;
-                persistentObject.GetComponent<SessionInfo>().setSessionID();
+                persistentObject.GetComponent<SessionInfo>().setClient();
             }
         }
         //Call something here to visually update the rows of the table based on the client info (excluding launched sessions). These rows should include a "Launch" button if it is the current client's session, and a "join" button otherwise.
