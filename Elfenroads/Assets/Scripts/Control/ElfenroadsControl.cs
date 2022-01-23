@@ -40,6 +40,31 @@ namespace Controls {
 
         }
 
+        public void chooseRed(){
+            Debug.Log("red chosen!");
+        }
+
+        public void chooseBlue(){  
+            Debug.Log("blue chosen!");
+        }
+
+        public void chooseGreen(){
+            Debug.Log("green chosen!");
+        }
+
+        public void chooseYellow(){
+            Debug.Log("yellow chosen!");
+        }
+
+        public void choosePurple(){
+            Debug.Log("purple chosen!");
+        }
+
+        public void chooseBlack(){
+            Debug.Log("black chosen!");
+        }
+
+
         private void moveBootDemo(Town town) {
 
             // we should implement town.serialize() and use it as the parameter
