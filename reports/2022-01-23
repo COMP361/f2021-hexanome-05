@@ -1,0 +1,103 @@
+# Weekly Report, COMP361
+
+## Meta Information
+
+### Group
+
+ * Hexanome-05
+ * c# unity
+
+### Team Members
+
+ * Boucher Maxim
+ * Coulibaly Adja
+ * Cui Christopher
+ * Meng Xiang
+ * Motamedi Mehr Danial
+ * Rojco Alex
+ * Yoon Luis
+
+## Status
+
+### 3 most outstanding tasks scheduled until the next report, per team member
+
+ * Boucher Maxim
+   * Implement ChooseBoot and get the initial model going on the Client.
+   * If we're finished with that, move on to testing updates from Server to Client.
+ * Coulibaly Adja
+   * Implement ChooseBoot and the initial model on the Server-side for game initialization
+ * Cui Christopher
+   * Implement ChooseBoot and get the initial model going on the Client.
+   * If we're finished with that, move on to testing updates from Server to Client.
+ * Meng Xiang
+   * Begin refining all completed M6 drafts
+ * Motamedi Mehr Danial
+   * Implement ChooseBoot and get the initial model going on the Client.
+   * If we're finished with that, move on to testing updates from Server to Client.
+ * Rojco Alex
+   * Finish the travelOnRoad() draft
+   * Refine both drafts
+ * Yoon Luis
+   * Finish the first drafts for chooseBoot() and passTurn() for M6.
+
+### Tasks achieved, scheduled for this report, per team member
+
+ * Boucher Maxim
+   * Continued refining the Model's structure (added IDs and a store)
+   * Tested the "moveBoot" feature using the new structure
+   * Helped get the new socket connection working to launch a session
+   * Refined the LS screen by eliminating problems with delays
+ * Coulibaly Adja
+   * Was sick and couldn't work on it that much, but made an effort to get caught up when she could.
+ * Cui Christopher
+   * Helped get the new socket connection working to launch a session.
+   * Refined the LS screen by eliminating problems with delays
+   * Started implementing the "color selection" feature on the Server
+ * Meng Xiang
+   * Finished a first draft of chosenCounterToKeep() for M6.
+   * Finished a first draft of drawCounter() for M6.
+   * Finished a first draft of placeCounter() for M6.
+   * Finished a first draft of drawRandomCounter() for M6.
+ * Motamedi Mehr Danial
+   * Helped get the new socket connection working to launch a session
+   * Continued refining the Model's structure (added IDs and a store)
+ * Rojco Alex
+   * Finished the first draft for createAndLaunchGame() for M6.
+ * Yoon Luis
+   * Started working on the first draft of chooseBoot() and passTurn() for M6.
+
+### Tasks missed, scheduled for this report 
+
+  * Coulibaly Adja
+   * Was having a medical issue so could not work on the server this week.
+
+### Top 3 unexpected challenges encountered since last report
+
+  * Working while most of us had booster shots / were sick slowed the pace
+  * Didn't expect the new socket we downloaded to have compatability issues with Unity, so had to switch back.
+  * Problems getting an object to persist from one scene to another in Unity.
+  
+### Top 3 lessons learned since last report
+
+  * That sockets are a pain to work with in Unity, since Unity has a "main thread" which typical non-unity-specific sockets do not run on, and so features like coroutines or scene launches are impossible.
+  * Allocate more time for proofreading and generally working on M6 (after our subpar M4 grade)
+  * Some info from the Design Model which seemed irrelevant for the Interaction model ended up being important.
+
+### 3 most critical bugs in current functionality (optional)
+
+  * White screen of death (when changing values in the installed Unity-compatible socket assets, project sometimes deletes itself and gives a white screen. Seems to be a unity/asset issue)
+  * On the Lobby screen, the "hasSession" field sometimes gives a false positive, preventing session creation.
+  * Lobby screen buttons (Join, Launch, etc...) do nothing on the first click, but work as expected afterwards.
+
+### Contribution statement
+
+ * Boucher Maxim - 25%
+ * Coulibaly Adja - 7%
+ * Cui Christopher - 15%
+ * Meng Xiang - 15%
+ * Motamedi Mehr Danial - 15%
+ * Rojco Alex - 13%
+ * Yoon Luis - 10%
+
+### Team mood
+ * Disappointed by the result of m4, but helped us get more motivated to do better on the next couple milestones.
