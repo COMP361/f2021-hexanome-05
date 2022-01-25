@@ -67,6 +67,7 @@ public class LobbyScript : MonoBehaviour
         // Debug.Log("Socket connection status: " + sioCom.Instance.IsConnected());
         // Debug.Log("Socket status: " + sioCom.Instance.Status);
         thisClient.setSocket(sioCom);
+        sioCom.Instance.Connect();
         sioCom.Instance.On("join", (msg) => testCallback(msg.ToString()));
 
         //Next, start polling. For now, this coroutine will simply get an update and display it every second. Later on, if time permits, can make this more sophisticated via the scheme described here, checking for return codes 408 and 200.
@@ -110,17 +111,20 @@ public class LobbyScript : MonoBehaviour
 
     private void callback(string input){ //Strangeness is potentially caused here. This likely ought to be somewhere in the LobbyScreen, since as of right now this script is attached to the Login Button, which is disabled later.
         //Load the next scene, stopping the polling coroutine.
-        try{
+        //try{
         //Debug.Log("reached callback method!");
         StopCoroutine("pollingRoutine");
+        Debug.Log("This client id is: " + thisClient.thisSessionID);
         //Debug.Log("Couroutine stopped! Turning off the socket!");
         //sioCom.Instance.Off("Launch"); // Gives a warning, but may not even be necessary. ***
         //sioCom.Instance.Close();
+        Debug.Log("Socket ID in lobby: " + thisClient.socket.Instance.SocketID);
+        Debug.Log("Before loading scene, socket status: " + thisClient.socket.Instance.Status);
         //Debug.Log("About to load scene!");
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
-        }catch (Exception e){
-            Debug.Log(e.Message);
-        }
+        // }catch (Exception e){
+        //     Debug.Log(e.Message);
+        // }
     }
 
 

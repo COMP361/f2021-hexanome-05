@@ -51,7 +51,7 @@ public class TownView : MonoBehaviour {
             this.modelTown = ModelHelper.StoreInstance().getTown(gameObject.GetComponent<TownView>().townName);
             Debug.Log(modelTown.name);
             modelTown.ModelUpdated += onModelUpdated;
-            Debug.Log("Town " + townName + " subscribed!");
+            //Debug.Log("Town " + townName + " subscribed!");
             if(modelTown.name == "Elfenhold"){
                 onModelUpdated(this, EventArgs.Empty);
             }
