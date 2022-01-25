@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Text;
 using Models;
+using System.Threading.Tasks;
 
 public class LobbyService
 {
@@ -102,10 +103,15 @@ public class LobbyService
         request.Dispose();
     }
     
-    public void refresh(){
+    public async Task refresh(){
         UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();
         operation.completed += OnRefreshCompleted;
+
+        while(!operation.isDone){
+            await Task.Yield();
+        }
+
     }
 
     private void OnRefreshCompleted(AsyncOperation operation){
@@ -122,7 +128,7 @@ public class LobbyService
     }
 
     public void createSession(string playerName, string token){ //POST /api/sessions. Request body is a json.
-        //Doing this differently than in Login bc the LobbyService is goofy sometimes and wouldn't allow it.
+        //Doing this differently than in Login bc the LobbyService or SOMETHING was being goofy and wouldn't allow it.
         SessionCreator jsonObj = new SessionCreator();
         jsonObj.creator = playerName;
         string bodyJsonString = JsonUtility.ToJson(jsonObj);
@@ -149,11 +155,11 @@ public class LobbyService
         request.Dispose();
     }
 
-    public void join(Session aSession, Player aPlayer){
+    public void join(Session aSession, ClientCredentials aClientCredentials){
         
-        //This is so fucking wack, but you gotta make this null and not simply an empty list/string for it to work. It is the reason I cry myself to sleep at night.
+        //This is so wack, but you gotta make this null and not simply an empty list/string for it to work. It is the reason I cry myself to sleep at night.
         byte[] bodyRaw = null;
-        UnityWebRequest request = UnityWebRequest.Put(LS_PATH + "/api/sessions/" + aSession.sessionID + "/players/" + aPlayer.getName() + "?access_token=" + aPlayer.getAccToken(), bodyRaw ); 
+        UnityWebRequest request = UnityWebRequest.Put(LS_PATH + "/api/sessions/" + aSession.sessionID + "/players/" + aClientCredentials.username + "?access_token=" + aClientCredentials.accessToken, bodyRaw ); 
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();
         operation.completed += OnJoinCompleted;
     }
@@ -172,9 +178,9 @@ public class LobbyService
     }
 
 
-    public void launch(Session aSession, Player aPlayer){
-        Debug.Log("Request looks like: " + LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aPlayer.getAccToken());
-        UnityWebRequest request = UnityWebRequest.Post(LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aPlayer.getAccToken(), ""); 
+    public void launch(Session aSession, ClientCredentials aClientCredentials){
+        Debug.Log("Request looks like: " + LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aClientCredentials.accessToken);
+        UnityWebRequest request = UnityWebRequest.Post(LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aClientCredentials.accessToken, ""); 
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();
         operation.completed += OnLaunchCompleted;
     }
@@ -192,8 +198,8 @@ public class LobbyService
         request.Dispose();
     }
 
-    public void delete(Session aSession, Player aPlayer){
-        UnityWebRequest request = UnityWebRequest.Delete(LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aPlayer.getAccToken()); 
+    public void delete(Session aSession, ClientCredentials aClientCredentials){
+        UnityWebRequest request = UnityWebRequest.Delete(LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aClientCredentials.accessToken); 
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();
         operation.completed += OnDeleteCompleted;
     }

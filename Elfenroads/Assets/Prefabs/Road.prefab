@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1633173083262833050}
-  - component: {fileID: 1633173083262833051}
   - component: {fileID: 615904423584488051}
   - component: {fileID: -5403812950238370836}
+  - component: {fileID: 4327264537452862986}
   m_Layer: 0
   m_Name: Road
   m_TagString: Untagged
@@ -33,21 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.95, y: 1.357, z: 40.241}
---- !u!114 &1633173083262833051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633173083262833048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 971c66253ec29e04fb61a53f1bf47e18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  city1: {fileID: 0}
-  city2: {fileID: 0}
-  type: 0
 --- !u!212 &615904423584488051
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -87,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0.27666172, g: 0.3210637, b: 0.8018868, a: 1}
   m_FlipX: 0
@@ -130,3 +115,21 @@ PolygonCollider2D:
       - {x: 0.08, y: -0.06}
       - {x: 0.08, y: 0.07}
       - {x: 0.055, y: 0.08}
+--- !u!114 &4327264537452862986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633173083262833048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 971c66253ec29e04fb61a53f1bf47e18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roadType: 0
+  startTown: {fileID: 0}
+  endTown: {fileID: 0}
+  horizontal: 1
+  counterPrefab: {fileID: 4959312200108055275, guid: 7451eeb4ec2c810468ed529d3f8fb9ef, type: 3}
+  id: 0

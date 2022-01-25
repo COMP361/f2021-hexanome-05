@@ -19,12 +19,12 @@ public class DeleteScript : MonoBehaviour
         mySession = aSession;
     }
 
-    private void deleteGame(){
+    private async void deleteGame(){
         if(mySession == null){
             Debug.Log("Error in DeleteButton, session was never set");
         }else{
             client.delete(mySession);
-            client.refreshSessions();
+            await client.refreshSessions();
         }
     }
 }
