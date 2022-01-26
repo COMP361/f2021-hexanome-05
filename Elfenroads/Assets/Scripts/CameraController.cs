@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour
 
     public float minZoom = 10f;
     public float maxZoom = 16f;
+    public bool locked = true;
 
     void Start(){
         Camera.main.orthographicSize = 14f;
@@ -20,32 +21,38 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 newPos = transform.position;
+        if(!locked){
 
-        if(Input.GetKey("w")){
-            newPos.y += camSpeed * Time.deltaTime;
-        }
-        if(Input.GetKey("s")){
-            newPos.y -= camSpeed * Time.deltaTime;
-        }
-        if(Input.GetKey("a")){
-            newPos.x -= camSpeed * Time.deltaTime;
-        }
-        if(Input.GetKey("d")){
-            newPos.x += camSpeed * Time.deltaTime;
-        }
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
+            Vector3 newPos = transform.position;
 
-        //Move the camera up/down/left/right
-        newPos.x = Mathf.Clamp(newPos.x, -limitX, limitX);
-        newPos.y = Mathf.Clamp(newPos.y, -limitY, limitY);
+            if(Input.GetKey("w")){
+                newPos.y += camSpeed * Time.deltaTime;
+            }
+            if(Input.GetKey("s")){
+                newPos.y -= camSpeed * Time.deltaTime;
+            }
+            if(Input.GetKey("a")){
+                newPos.x -= camSpeed * Time.deltaTime;
+            }
+            if(Input.GetKey("d")){
+                newPos.x += camSpeed * Time.deltaTime;
+            }
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
 
-        //Adjust zoom
-        float orthoSizeCur = Camera.main.orthographicSize;
-        orthoSizeCur += (-scroll) * scrollSpeed * Time.deltaTime;
-        orthoSizeCur = Mathf.Clamp(orthoSizeCur, minZoom, maxZoom);
-        Camera.main.orthographicSize = orthoSizeCur;
+            //Move the camera up/down/left/right
+            newPos.x = Mathf.Clamp(newPos.x, -limitX, limitX);
+            newPos.y = Mathf.Clamp(newPos.y, -limitY, limitY);
 
-        transform.position = newPos;
+            //Adjust zoom
+            float orthoSizeCur = Camera.main.orthographicSize;
+            orthoSizeCur += (-scroll) * scrollSpeed * Time.deltaTime;
+            orthoSizeCur = Mathf.Clamp(orthoSizeCur, minZoom, maxZoom);
+            Camera.main.orthographicSize = orthoSizeCur;
+
+            transform.position = newPos;
+
+        }
+
+        
     }
 }

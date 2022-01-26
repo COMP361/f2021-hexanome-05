@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ClickManager : MonoBehaviour
 {
+
+    //May want to have "lockClick" functionality here. Alternative would be that each manager has their own "locked" attribute (see MoveBootController)
+
     // Update is called once per frame
     void Update()
     {

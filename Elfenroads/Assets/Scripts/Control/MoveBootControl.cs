@@ -12,6 +12,7 @@ namespace Controls
     {
         public List<GameObject> roadObjects;
         private List<RoadView> roadViews;
+        public bool locked = true;
 
         void Start() {
             roadViews = new List<RoadView>();
@@ -32,29 +33,31 @@ namespace Controls
         }
 
         private void onRoadClicked(object sender, EventArgs args) {
-            //If we  made it here, then a road was clicked.
-            Road modelRoad = (Road) sender;
-            //We need to get the two towns attached to this model road. If one town has the currentPlayer's boot on it, move to the other. Otherwise, invalid.
-            Debug.Log(modelRoad.id);
+            if(!locked){
+                //If we  made it here, then a road was clicked.
+                Road modelRoad = (Road) sender;
+                //We need to get the two towns attached to this model road. If one town has the currentPlayer's boot on it, move to the other. Otherwise, invalid.
+                Debug.Log(modelRoad.id);
 
-            //NOTE: INVALID - just did this the "quick and dirty" way for testing. This controller should NEVER directly update the model like this.
-            if(modelRoad.start.boots.Count > 0){
-                //Move to end town.
-                Town dummyTown1 = new Town("dummyTown1");
-                Town dummyTown2 = new Town("dummyTown2");
-                dummyTown1.boots.Add(ModelHelper.StoreInstance().getBoot(0));
-                modelRoad.start.Update(dummyTown2);
-                modelRoad.end.Update(dummyTown1);
+                //NOTE: INVALID - just did this the "quick and dirty" way for testing. This controller should NEVER directly update the model like this.
+                if(modelRoad.start.boots.Count > 0){
+                    //Move to end town.
+                    Town dummyTown1 = new Town("dummyTown1");
+                    Town dummyTown2 = new Town("dummyTown2");
+                    dummyTown1.boots.Add(ModelHelper.StoreInstance().getBoot(0));
+                    modelRoad.start.Update(dummyTown2);
+                    modelRoad.end.Update(dummyTown1);
 
-            }else if(modelRoad.end.boots.Count > 0){
-                //Move to start town.
-                Town dummyTown1 = new Town("dummyTown1");
-                Town dummyTown2 = new Town("dummyTown2");
-                dummyTown1.boots.Add(ModelHelper.StoreInstance().getBoot(0));
-                modelRoad.start.Update(dummyTown1);
-                modelRoad.end.Update(dummyTown2);
-            }else{
-                Debug.Log("Invalid move!");
+                }else if(modelRoad.end.boots.Count > 0){
+                    //Move to start town.
+                    Town dummyTown1 = new Town("dummyTown1");
+                    Town dummyTown2 = new Town("dummyTown2");
+                    dummyTown1.boots.Add(ModelHelper.StoreInstance().getBoot(0));
+                    modelRoad.start.Update(dummyTown1);
+                    modelRoad.end.Update(dummyTown2);
+                }else{
+                    Debug.Log("Invalid move!");
+                }
             }
 
         }
