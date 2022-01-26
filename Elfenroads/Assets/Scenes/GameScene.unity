@@ -923,8 +923,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2009043944}
-        m_TargetAssemblyTypeName: Controls.ElfenroadsControl, Assembly-CSharp
+      - m_Target: {fileID: 884027288}
+        m_TargetAssemblyTypeName: ChooseBootController, Assembly-CSharp
         m_MethodName: chooseGreen
         m_Mode: 1
         m_Arguments:
@@ -3098,8 +3098,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2009043944}
-        m_TargetAssemblyTypeName: Controls.ElfenroadsControl, Assembly-CSharp
+      - m_Target: {fileID: 884027288}
+        m_TargetAssemblyTypeName: ChooseBootController, Assembly-CSharp
         m_MethodName: chooseBlue
         m_Mode: 1
         m_Arguments:
@@ -7210,8 +7210,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2009043944}
-        m_TargetAssemblyTypeName: Controls.ElfenroadsControl, Assembly-CSharp
+      - m_Target: {fileID: 884027288}
+        m_TargetAssemblyTypeName: ChooseBootController, Assembly-CSharp
         m_MethodName: choosePurple
         m_Mode: 1
         m_Arguments:
@@ -7385,8 +7385,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2009043944}
-        m_TargetAssemblyTypeName: Controls.ElfenroadsControl, Assembly-CSharp
+      - m_Target: {fileID: 884027288}
+        m_TargetAssemblyTypeName: ChooseBootController, Assembly-CSharp
         m_MethodName: chooseRed
         m_Mode: 1
         m_Arguments:
@@ -12781,9 +12781,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2009043944}
-        m_TargetAssemblyTypeName: Controls.ElfenroadsControl, Assembly-CSharp
-        m_MethodName: chooseYellow
+      - m_Target: {fileID: 884027288}
+        m_TargetAssemblyTypeName: ChooseBootController, Assembly-CSharp
+        m_MethodName: chooseBlack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15169,8 +15169,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2009043944}
-        m_TargetAssemblyTypeName: Controls.ElfenroadsControl, Assembly-CSharp
+      - m_Target: {fileID: 884027288}
+        m_TargetAssemblyTypeName: ChooseBootController, Assembly-CSharp
         m_MethodName: chooseYellow
         m_Mode: 1
         m_Arguments:

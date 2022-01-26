@@ -122,7 +122,7 @@ public class Client : ClientInterface
             hasSessionCreated = true;
             return;
         }else{
-            GameObject.Find("CreateButton").GetComponent<LobbyScript>().changeInfoText("You already have a session!");
+            GameObject.Find("Lobby Screen").GetComponent<LobbyScript>().changeInfoText("You already have a session!");
             return; //Otherwise, we don't want to allow someone to create a bunch of sessions so we just return.
         }
     }
