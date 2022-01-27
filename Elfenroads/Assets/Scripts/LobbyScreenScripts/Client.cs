@@ -111,6 +111,15 @@ public class Client : ClientInterface
         lobbyService.delete(aSession, clientCredentials);
     }
 
+    public Session getSessionByID(string ID){
+        foreach(Session session in sessions){
+            if(session.sessionID == ID){
+                return session;
+            }
+        }
+        return null;
+    }
+
     public void createSession(){
         
         //First, we must get the registration status of the Server, and store it into hasRegisteredServer.

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Firesplash.UnityAssets.SocketIO;
+using Newtonsoft.Json.Linq;
 
 public class ChooseBootController : MonoBehaviour
 {
@@ -14,18 +15,22 @@ public class ChooseBootController : MonoBehaviour
     public Button yellowButton;
     public Button purpleButton;
 
+    private string playerName;
+    private string sessionID; 
     private SocketIOCommunicator socket;
     
-
-    public void beginChooseColors(SocketIOCommunicator inputSocket){
+    // $#Y+qDctAF3Fvk?@
+    public void beginChooseColors(SessionInfo sI, SocketIOCommunicator inputSocket){
         socket = inputSocket;
-        socket.Instance.On("ChooseColor", updateColors); 
+        socket.Instance.On("ColorChosen", updateColors); 
         canvas.SetActive(true);
+        playerName = sI.getClient().clientCredentials.username;
+        sessionID = sI.getClient().thisSessionID;
     }
 
     //Either calls ElfenroadsControl, or will be called by ElfenroadsControl.
     public void endChooseColors(){
-        socket.Instance.Off("ChooseColor");
+        socket.Instance.Off("ColorChosen");
         canvas.SetActive(false);
         //Calls ElfenroadsControl here.
     }
@@ -40,31 +45,55 @@ public class ChooseBootController : MonoBehaviour
 
     public void chooseRed(){
         Debug.Log("red chosen!");
-        socket.Instance.Emit("ChooseColor", "Red", true);
+        JObject json = new JObject();
+        json.Add("game_id", sessionID);
+        json.Add("name", playerName);
+        json.Add("color", "Red");
+        socket.Instance.Emit("ChooseColor", json.ToString(), false);
     }
 
     public void chooseBlue(){  
         Debug.Log("blue chosen!");
-        socket.Instance.Emit("ChooseColor", "Blue", true);
+        JObject json = new JObject();
+        json.Add("game_id", sessionID);
+        json.Add("name", playerName);
+        json.Add("color", "Blue");
+        socket.Instance.Emit("ChooseColor", json.ToString(), false);
     }
 
     public void chooseGreen(){
         Debug.Log("green chosen!");
-        socket.Instance.Emit("ChooseColor", "Green", true);
+        JObject json = new JObject();
+        json.Add("game_id", sessionID);
+        json.Add("name", playerName);
+        json.Add("color", "Green");
+        socket.Instance.Emit("ChooseColor", json.ToString(), false);
     }
 
     public void chooseYellow(){
         Debug.Log("yellow chosen!");
-        socket.Instance.Emit("ChooseColor", "Yellow", true);
+        JObject json = new JObject();
+        json.Add("game_id", sessionID);
+        json.Add("name", playerName);
+        json.Add("color", "Yellow");
+        socket.Instance.Emit("ChooseColor", json.ToString(), false);
     }
 
     public void choosePurple(){
         Debug.Log("purple chosen!");
-        socket.Instance.Emit("ChooseColor", "Purple", true);
+        JObject json = new JObject();
+        json.Add("game_id", sessionID);
+        json.Add("name", playerName);
+        json.Add("color", "Purple");
+        socket.Instance.Emit("ChooseColor", json.ToString(), false);
     }
 
     public void chooseBlack(){
         Debug.Log("black chosen!");
-        socket.Instance.Emit("ChooseColor", "Black", true);
+        JObject json = new JObject();
+        json.Add("game_id", sessionID);
+        json.Add("name", playerName);
+        json.Add("color", "Black");
+        socket.Instance.Emit("ChooseColor", json.ToString(), false);
     }
 }

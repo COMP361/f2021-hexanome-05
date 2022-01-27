@@ -32,12 +32,18 @@ namespace Controls {
         socket = GameObject.Find("Listener").GetComponent<SocketIOCommunicator>();
         Debug.Log("Socket ID in game scene: " + socket.Instance.SocketID);
         Debug.Log("Socket status in game scene  : " + socket.Instance.Status);
-
-        // socket.Instance.Emit("InitializeGame", obj.GetComponent<SessionInfo>().getSessionID(), true); // Only the host should be doing this! ***
-
+        GameObject obj = GameObject.Find("SessionInfo");
+        try{
+            string playerName = obj.GetComponent<SessionInfo>().getClient().clientCredentials.username;
+            if(playerName == obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName){
+                socket.Instance.Emit("InitializeGame", obj.GetComponent<SessionInfo>().getSessionID(), true); // Only the host should be doing this! ***
+            }
+        }catch (Exception e){
+            Debug.Log("Null exception? " + e);
+        }
 
         //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function. (***SHOULD LIKELY BE MOVED OUTSIDE OF THIS START() FUNCTION, HERE NOW FOR TESTING)
-        ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(socket);
+        ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(obj.GetComponent<SessionInfo>(), socket);
 
         //Once the Server recieves all colors, it can send the initial game state to the Clients and the game begins. *** REMEMBER TO UN-LOCK THE CAMERA + CLICKING!
 
