@@ -17,6 +17,7 @@ public class ChooseBootController : MonoBehaviour
 
     private string playerName;
     private string sessionID; 
+    private string chosenColor;
     private SocketIOCommunicator socket;
     
     // $#Y+qDctAF3Fvk?@
@@ -40,8 +41,13 @@ public class ChooseBootController : MonoBehaviour
         // ["Blue", "Green", "Red"]
         Debug.Log("reached updateColors"); 
         Debug.Log(input);
-        //Need some way to prevent a person who has chosen a color to choose any remaining colors (Server-side, right?)
+        
+        //Now, we need to parse the recieved list and disable the appropriate buttons.
+        
+        //Finally, need to make a check with "chosenColor". If it was in the recieved list, we don't re-enable the buttons.
+        //Otherwise, if it is null or it is not in the recieved list, we re-enable buttons. (may not be enough, may need Server-side);
     }
+
 
     public void chooseRed(){
         Debug.Log("red chosen!");
@@ -50,6 +56,8 @@ public class ChooseBootController : MonoBehaviour
         json.Add("name", playerName);
         json.Add("color", "Red");
         socket.Instance.Emit("ChooseColor", json.ToString(), false);
+        chosenColor = "Red";
+        disableAllButtons();
     }
 
     public void chooseBlue(){  
@@ -59,6 +67,8 @@ public class ChooseBootController : MonoBehaviour
         json.Add("name", playerName);
         json.Add("color", "Blue");
         socket.Instance.Emit("ChooseColor", json.ToString(), false);
+        chosenColor = "Blue";
+        disableAllButtons();
     }
 
     public void chooseGreen(){
@@ -68,6 +78,8 @@ public class ChooseBootController : MonoBehaviour
         json.Add("name", playerName);
         json.Add("color", "Green");
         socket.Instance.Emit("ChooseColor", json.ToString(), false);
+        chosenColor = "Green";
+        disableAllButtons();
     }
 
     public void chooseYellow(){
@@ -77,6 +89,8 @@ public class ChooseBootController : MonoBehaviour
         json.Add("name", playerName);
         json.Add("color", "Yellow");
         socket.Instance.Emit("ChooseColor", json.ToString(), false);
+        chosenColor = "Yellow";
+        disableAllButtons();
     }
 
     public void choosePurple(){
@@ -86,6 +100,8 @@ public class ChooseBootController : MonoBehaviour
         json.Add("name", playerName);
         json.Add("color", "Purple");
         socket.Instance.Emit("ChooseColor", json.ToString(), false);
+        chosenColor = "Purple";
+        disableAllButtons();
     }
 
     public void chooseBlack(){
@@ -95,5 +111,16 @@ public class ChooseBootController : MonoBehaviour
         json.Add("name", playerName);
         json.Add("color", "Black");
         socket.Instance.Emit("ChooseColor", json.ToString(), false);
+        chosenColor = "Black";
+        disableAllButtons();
+    }
+
+    public void disableAllButtons(){
+        redButton.enabled = false;
+        blueButton.enabled = false;
+        greenButton.enabled = false;
+        yellowButton.enabled = false;
+        blackButton.enabled = false;
+        purpleButton.enabled = false;
     }
 }
