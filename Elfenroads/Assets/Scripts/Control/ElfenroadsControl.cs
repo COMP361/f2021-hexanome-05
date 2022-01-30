@@ -33,14 +33,24 @@ namespace Controls {
         Debug.Log("Socket ID in game scene: " + socket.Instance.SocketID);
         Debug.Log("Socket status in game scene  : " + socket.Instance.Status);
         GameObject obj = GameObject.Find("SessionInfo");
-        try{
-            string playerName = obj.GetComponent<SessionInfo>().getClient().clientCredentials.username;
-            if(playerName == obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName){
-                socket.Instance.Emit("InitializeGame", obj.GetComponent<SessionInfo>().getSessionID(), true); // Only the host should be doing this! ***
-            }
-        }catch (Exception e){
-            Debug.Log("Null exception? " + e);
+
+        string playerName = obj.GetComponent<SessionInfo>().getClient().clientCredentials.username;
+        Debug.Log("Session info player name: " + playerName + ", Host player name: " + obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName);
+        if(playerName == obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName){
+            Debug.Log("In the if statement");
+            socket.Instance.Emit("InitializeGame", obj.GetComponent<SessionInfo>().getSessionID(), true); // Only the host should be doing this! ***
         }
+
+        // try{ 
+        //    string playerName = obj.GetComponent<SessionInfo>().getClient().clientCredentials.username;
+        //    Debug.Log("Session info player name: " + playerName + ", Host player name: " + obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName);
+        //    if(playerName == obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName){
+        //        Debug.Log("In the if statement");
+        //         socket.Instance.Emit("InitializeGame", obj.GetComponent<SessionInfo>().getSessionID(), true); // Only the host should be doing this! ***
+        //    }
+        // }catch (Exception e){
+        //    Debug.Log("Null exception? " + e);
+        // }
 
         //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function. (***SHOULD LIKELY BE MOVED OUTSIDE OF THIS START() FUNCTION, HERE NOW FOR TESTING)
         ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(obj.GetComponent<SessionInfo>(), socket);

@@ -43,13 +43,39 @@ public class TestModelScript : MonoBehaviour
           }
         ]}";
 
-      List<TownPiece> townPieces = new List<TownPiece>();
-      TownPiece townPiece = new TownPiece(23, Models.Color.RED);
-      Town town = new Town("ChrisTown");
-      ModelHelper.StoreInstance().addTown(town);
-      ModelHelper.StoreInstance().addTownPiece(townPiece);
+      string counterJson = @"{
+        ""id"": 1234,
+        }";
+      
+      string transportationCounterJson = @"{
+        ""id"": 1234,
+        ""
+        }";
 
-      Town townUpdate = JsonConvert.DeserializeObject<Town>(townJson);
+      List<Counter> list = new List<Counter>();
+      Counter transCounter = new TransportationCounter(10, CardType.Cloud);
+      Counter obsCounter = new ObstacleCounter(14, ObstacleType.Land);     
+       // JsonConvert.DeserializeObject<Counter>(counterJson);
+      //TransportationCounter transportationCounter = JsonConvert.DeserializeObject<TransportationCounter>(transportationCounterJson);
+
+
+      list.Add(transCounter);
+      list.Add(obsCounter);
+      Debug.Log(JsonConvert.SerializeObject(list, Formatting.Indented));
+
+      List<Counter> transportationCounter = JsonConvert.DeserializeObject<List<Counter>>(JsonConvert.SerializeObject(list, Formatting.Indented));
+      
+      Debug.Log(JsonConvert.SerializeObject(transportationCounter, Formatting.Indented));
+      // Debug.Log("Counter ID: " + counter.id);
+      // Debug.Log("TransportationCounter ID: " + transportationCounter.id + ", Type: " + transportationCounter.);
+
+      // List<TownPiece> townPieces = new List<TownPiece>();
+      // TownPiece townPiece = new TownPiece(23, Models.Color.RED);
+      // Town town = new Town("ChrisTown");
+      // ModelHelper.StoreInstance().addTown(town);
+      // ModelHelper.StoreInstance().addTownPiece(townPiece);
+
+      // Town townUpdate = JsonConvert.DeserializeObject<Town>(townJson);
 
       // Debug.Log("SRIALIZE TEST");
       // Debug.Log(JsonConvert.SerializeObject(townUpdate, Formatting.Indented));

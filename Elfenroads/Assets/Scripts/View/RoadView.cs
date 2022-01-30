@@ -6,7 +6,7 @@ using Models;
 
 
 public class RoadView : MonoBehaviour {
-    public RoadType roadType;
+    public TerrainType roadType;
     public GameObject startTown;
     public GameObject endTown;
 

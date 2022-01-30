@@ -7,7 +7,7 @@ namespace Models {
     public class TownPiece : IEquatable<TownPiece> {
         public int id;
         public Color color { private set; get; }
-        
+
         public TownPiece(int id, Color color) {
             this.id = id;
             this.color = color;
@@ -15,8 +15,7 @@ namespace Models {
 
         public bool Equals(TownPiece other) {
             return other != null &&
-                    other.id == this.id &&
-                    other.color == this.color;
+                    other.id == this.id;
         }
 
         public override bool Equals(object obj)

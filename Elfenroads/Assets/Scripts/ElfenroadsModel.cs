@@ -43,7 +43,7 @@ namespace Models {
             }
             foreach(GameObject r in roadObjects){
                 //Foreach road, find out what type it is and add a corresponding road to "roads".
-                RoadType curRoadType = r.GetComponent<RoadView>().roadType;
+                TerrainType curRoadType = r.GetComponent<RoadView>().roadType;
                 Road newRoad = new Road(towns[r.GetComponent<RoadView>().startTown.GetComponent<TownView>().townName], towns[r.GetComponent<RoadView>().endTown.GetComponent<TownView>().townName], curRoadType, r.GetComponent<RoadView>().id );
                 ModelHelper.StoreInstance().addRoad(newRoad);
                 //Debug.Log("Added road " + newRoad.id + " to the store!");

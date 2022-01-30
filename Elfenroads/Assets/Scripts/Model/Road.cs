@@ -7,15 +7,16 @@ using System;
 
 namespace Models {
     public class Road : INotifyModelUpdated {
+        public readonly int id;
         public event EventHandler ModelUpdated;
         public Town start { private set; get; }
         public Town end { private set; get; }
-        public RoadType roadType { private set; get; }
-        public readonly int id;
+        public TerrainType roadType { private set; get; }
         // to be implemented
         // public List<string> Counters { get; set; }
+        public List<Counter> counters { get; set; }
 
-        public Road(Town start, Town end, RoadType roadtype, int id) {
+        public Road(Town start, Town end, TerrainType roadtype, int id) {
             this.start = start;
             this.end = end;
             this.roadType = roadType;
@@ -26,7 +27,7 @@ namespace Models {
         }
     }
 
-    public enum RoadType {
+    public enum TerrainType {
         Plain,
         Forest,
         Mountain,

@@ -41,6 +41,10 @@ public class ChooseBootController : MonoBehaviour
         // ["Blue", "Green", "Red"]
         Debug.Log("reached updateColors"); 
         Debug.Log(input);
+         var jsonString = input.Replace('"', '\"');
+        JObject myObj = JObject.Parse(jsonString);
+        Debug.Log(myObj.ToString());
+        //[{\"name\":\"maex\",\"bootColor\":\"Red\",\"inventory\":{\"townsCollected\":[]}}]
         
         //Now, we need to parse the recieved list and disable the appropriate buttons.
         
