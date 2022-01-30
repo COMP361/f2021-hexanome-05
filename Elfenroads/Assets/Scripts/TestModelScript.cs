@@ -4,6 +4,7 @@ using UnityEngine;
 using Models;
 using Newtonsoft.Json;
 
+#pragma warning disable 0219
 public class TestModelScript : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -54,18 +55,25 @@ public class TestModelScript : MonoBehaviour
 
       List<Counter> list = new List<Counter>();
       Counter transCounter = new TransportationCounter(10, CardType.Cloud);
-      Counter obsCounter = new ObstacleCounter(14, ObstacleType.Land);     
-       // JsonConvert.DeserializeObject<Counter>(counterJson);
+      Counter obsCounter = new ObstacleCounter(14, ObstacleType.Land);
+      // JsonConvert.DeserializeObject<Counter>(counterJson);
       //TransportationCounter transportationCounter = JsonConvert.DeserializeObject<TransportationCounter>(transportationCounterJson);
 
 
       list.Add(transCounter);
       list.Add(obsCounter);
-      Debug.Log(JsonConvert.SerializeObject(list, Formatting.Indented));
+      string serialized = JsonConvert.SerializeObject(list, Formatting.Indented, new JsonSerializerSettings {
+        TypeNameHandling = TypeNameHandling.Auto
+      });
+      Debug.Log(serialized);
 
-      List<Counter> transportationCounter = JsonConvert.DeserializeObject<List<Counter>>(JsonConvert.SerializeObject(list, Formatting.Indented));
+      List<Counter> counterList = JsonConvert.DeserializeObject<List<Counter>>(serialized, new JsonSerializerSettings {
+        TypeNameHandling = TypeNameHandling.Auto
+      });
       
-      Debug.Log(JsonConvert.SerializeObject(transportationCounter, Formatting.Indented));
+      Debug.Log(JsonConvert.SerializeObject(counterList, Formatting.Indented, new JsonSerializerSettings {
+        TypeNameHandling = TypeNameHandling.Auto
+      }));
       // Debug.Log("Counter ID: " + counter.id);
       // Debug.Log("TransportationCounter ID: " + transportationCounter.id + ", Type: " + transportationCounter.);
 
@@ -92,3 +100,4 @@ public class TestModelScript : MonoBehaviour
 
     }
 }
+#pragma warning restore 0219
