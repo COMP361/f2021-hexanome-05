@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Firesplash.UnityAssets.SocketIO;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 public class ChooseBootController : MonoBehaviour
 {
@@ -27,6 +29,7 @@ public class ChooseBootController : MonoBehaviour
         canvas.SetActive(true);
         playerName = sI.getClient().clientCredentials.username;
         sessionID = sI.getClient().thisSessionID;
+        socket.Instance.On("GameState", updateTest); 
     }
 
     //Either calls ElfenroadsControl, or will be called by ElfenroadsControl.
@@ -40,16 +43,47 @@ public class ChooseBootController : MonoBehaviour
         //Input will be a list of colors. Turn this into a list object, and turn off buttons which are of the colors that are present in the list.
         // ["Blue", "Green", "Red"]
         Debug.Log("reached updateColors"); 
+        //var jsonString = input.Replace('\"', '"');
         Debug.Log(input);
-         var jsonString = input.Replace('"', '\"');
-        JObject myObj = JObject.Parse(jsonString);
-        Debug.Log(myObj.ToString());
+        // string jsonString = Regex.Unescape(input);
+        // jsonString = jsonString.Remove(jsonString.Length - 1, 1).Remove(0,1); //remove first and last qoutes
+        // Debug.Log(jsonString);
+        // JObject jsonObj = JObject.Parse(jsonString);
+        // Debug.Log(jsonObj.ToString());
+        // Debug.Log(jsonObj[0]["name"]);
+        JObject jsonObj;
+        // try{
+        //     //JToken token = JToken.Parse(input);
+        //     jsonObj = JObject.Parse(input);
+        //     Debug.Log("Json Object in 1st block:" + jsonObj.ToString());
+        // }catch (JsonException e){
+        //     Debug.Log(e);
+        // }
+
+        try{
+            //string jsonString = Regex.Unescape(input);
+            // jsonString = jsonString.Remove(jsonString.Length - 1, 1).Remove(0,1); //remove first and last qoutes
+            //Debug.Log(jsonString);
+            jsonObj = JObject.Parse(input);
+            Debug.Log("Json Object in 2nd block:" + jsonObj.ToString());
+            Debug.Log(jsonObj["players"]);
+        }catch (JsonException e){
+            Debug.Log(e);
+        }
+
+        // JToken token = JToken.Parse(input);
+        // JObject jsonObj = JObject.Parse((string) token);
+        // Debug.Log(jsonObj.ToString());
         //[{\"name\":\"maex\",\"bootColor\":\"Red\",\"inventory\":{\"townsCollected\":[]}}]
         
         //Now, we need to parse the recieved list and disable the appropriate buttons.
         
         //Finally, need to make a check with "chosenColor". If it was in the recieved list, we don't re-enable the buttons.
         //Otherwise, if it is null or it is not in the recieved list, we re-enable buttons. (may not be enough, may need Server-side);
+    }
+
+    public void updateTest(string input){
+        Debug.Log(input);
     }
 
 

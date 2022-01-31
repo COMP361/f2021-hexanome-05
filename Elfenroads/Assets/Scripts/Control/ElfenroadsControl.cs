@@ -13,7 +13,7 @@ namespace Controls {
     /// </summary>
     public class ElfenroadsControl : Elfenroads {
         private SocketIOCommunicator socket;
-        public GameObject camera;
+        public GameObject mainCamera;
 
         //Making these singletons might be better?
         public GameObject MoveBootsManager;
