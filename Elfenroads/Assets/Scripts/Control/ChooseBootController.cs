@@ -40,26 +40,10 @@ public class ChooseBootController : MonoBehaviour
     }
 
     public void updateColors(string input){
-        //Input will be a list of colors. Turn this into a list object, and turn off buttons which are of the colors that are present in the list.
-        // ["Blue", "Green", "Red"]
+        //Input will be 
         Debug.Log("reached updateColors"); 
-        //var jsonString = input.Replace('\"', '"');
         Debug.Log(input);
-        // string jsonString = Regex.Unescape(input);
-        // jsonString = jsonString.Remove(jsonString.Length - 1, 1).Remove(0,1); //remove first and last qoutes
-        // Debug.Log(jsonString);
-        // JObject jsonObj = JObject.Parse(jsonString);
-        // Debug.Log(jsonObj.ToString());
-        // Debug.Log(jsonObj[0]["name"]);
         JObject jsonObj;
-        // try{
-        //     //JToken token = JToken.Parse(input);
-        //     jsonObj = JObject.Parse(input);
-        //     Debug.Log("Json Object in 1st block:" + jsonObj.ToString());
-        // }catch (JsonException e){
-        //     Debug.Log(e);
-        // }
-
         try{
             //string jsonString = Regex.Unescape(input);
             // jsonString = jsonString.Remove(jsonString.Length - 1, 1).Remove(0,1); //remove first and last qoutes
@@ -71,9 +55,6 @@ public class ChooseBootController : MonoBehaviour
             Debug.Log(e);
         }
 
-        // JToken token = JToken.Parse(input);
-        // JObject jsonObj = JObject.Parse((string) token);
-        // Debug.Log(jsonObj.ToString());
         //[{\"name\":\"maex\",\"bootColor\":\"Red\",\"inventory\":{\"townsCollected\":[]}}]
         
         //Now, we need to parse the recieved list and disable the appropriate buttons.

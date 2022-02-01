@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 using Models;
 
 namespace Models {
     public class Player {
         
-        public string name { private set; get; }
-        public Boot boot { private set; get; }
+        public string name { set; get; }
+        public Boot boot { set; get; }
         public Inventory inventory;
 
-        public Player(string name, Color color, int bootId) {
+        public Player(string name, Color color, Guid bootId) {
             this.name = name;
             this.boot = new Boot(bootId, color);
-            ModelHelper.StoreInstance().addBoot(this.boot);
+            //ModelHelper.StoreInstance().addBoot(this.boot);
         }
     }
 }

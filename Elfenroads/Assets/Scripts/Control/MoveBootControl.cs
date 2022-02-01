@@ -40,7 +40,7 @@ namespace Controls
                 Debug.Log(modelRoad.id);
 
                 //NOTE: INVALID - just did this the "quick and dirty" way for testing. This controller should NEVER directly update the model like this.
-                if(modelRoad.start.boots.Count > 0){
+                /*if(modelRoad.start.boots.Count > 0){
                     //Move to end town.
                     Town dummyTown1 = new Town("dummyTown1");
                     Town dummyTown2 = new Town("dummyTown2");
@@ -57,7 +57,7 @@ namespace Controls
                     modelRoad.end.Update(dummyTown2);
                 }else{
                     Debug.Log("Invalid move!");
-                }
+                }*/
             }
 
         }

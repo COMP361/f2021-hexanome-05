@@ -17,13 +17,13 @@ namespace Models{
         private Dictionary<string, Town> towns;
         private Dictionary<int, Road> roads;
         private Dictionary<int, TownPiece> townPieces;
-        private Dictionary<int, Boot> boots;
+        private Dictionary<Guid, Boot> boots;
         // Dictionary of Counters
         // Dictionary of TravelCards
 
         public ModelHelper(){
             townPieces = new Dictionary<int, TownPiece>();
-            boots = new Dictionary<int, Boot>();
+            boots = new Dictionary<Guid, Boot>();
             towns = new Dictionary<string, Town>();
             roads = new Dictionary<int, Road>();
         }
@@ -56,7 +56,7 @@ namespace Models{
             boots.Add(inputBoot.id, inputBoot);
         }
 
-        public Boot getBoot(int id){
+        public Boot getBoot(Guid id){
             return boots[id];
         }
     }

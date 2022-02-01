@@ -5,10 +5,10 @@ using System;
 
 namespace Models {
     public class Boot {
-        public Color color { private set; get; }
-        public readonly int id;
+        public Color color {get; set; }
+        public Guid id {get; set;}
 
-        public Boot(int id, Color color) {
+        public Boot(Guid id, Color color) {
             this.color = color;
             this.id = id;
             

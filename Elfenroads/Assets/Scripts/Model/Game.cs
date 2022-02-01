@@ -16,7 +16,7 @@ namespace Models {
 
         public void createPlayerTest(){
             int bootId = 0;
-            Player newPlayer = new Player("test", Color.RED, bootId); //Player is set to red here, should be changed later.
+            Player newPlayer = new Player("test", Color.RED, System.Guid.Empty); //Player is set to red here, should be changed later.
             players.Add(newPlayer);
             Elfenroads.Model.curPlayer = newPlayer;
         
