@@ -7147,6 +7147,7 @@ MonoBehaviour:
   blackButton: {fileID: 1417817582}
   yellowButton: {fileID: 1565417748}
   purpleButton: {fileID: 884657095}
+  textBox: {fileID: 2070769786}
 --- !u!1 &884657094
 GameObject:
   m_ObjectHideFlags: 0
@@ -19770,7 +19771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab6a939487357a4fbf4a6cb4674cdad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1053853811}
+  mainCamera: {fileID: 0}
   MoveBootsManager: {fileID: 572325401}
   ChooseBootController: {fileID: 884027286}
 --- !u!4 &2009043945

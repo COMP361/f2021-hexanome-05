@@ -54,8 +54,8 @@ public class TestModelScript : MonoBehaviour
         }";
 
       List<Counter> list = new List<Counter>();
-      Counter transCounter = new TransportationCounter(10, CardType.Cloud);
-      Counter obsCounter = new ObstacleCounter(14, ObstacleType.Land);
+      Counter transCounter = new TransportationCounter(new System.Guid(), CardType.Cloud);
+      Counter obsCounter = new ObstacleCounter(new System.Guid(), ObstacleType.Land);
       // JsonConvert.DeserializeObject<Counter>(counterJson);
       //TransportationCounter transportationCounter = JsonConvert.DeserializeObject<TransportationCounter>(transportationCounterJson);
 

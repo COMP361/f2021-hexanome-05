@@ -200,6 +200,7 @@ public class LobbyScript : MonoBehaviour
             if (session.players.Contains(thisClient.clientCredentials.username))
             {
                 thisClient.thisSessionID = session.sessionID;
+                thisClient.mySession = session;
                 persistentObject.GetComponent<SessionInfo>().setClient();
             }
         }
@@ -220,23 +221,27 @@ public class LobbyScript : MonoBehaviour
 
             GameObject instantiatedRow = Instantiate(tableRowPrefab, tableRow.transform); //0 is hostname, 1 is ready players
             //Set the strings for "Hostname" and "readyPlayers"
-            instantiatedRow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = session.hostPlayerName;
-            instantiatedRow.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = session.players.Count + "/6";
+            try{
+                instantiatedRow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = session.hostPlayerName;
+                instantiatedRow.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = session.players.Count + "/6";
 
-            //Based on session attributes, decide what button (if any) should be added.
-            if (Client.Instance().clientCredentials.username == session.hostPlayerName && session.players.Count >= 2) {
-                GameObject instantiatedButton = Instantiate(launchButton, instantiatedRow.transform);
-                instantiatedButton.GetComponent<LaunchScript>().setSession(session);
-            } else if ((Client.Instance().clientCredentials.username == session.hostPlayerName && session.players.Count < 2) || session.players.Contains(Client.Instance().clientCredentials.username)) {
+                //Based on session attributes, decide what button (if any) should be added.
+                if (Client.Instance().clientCredentials.username == session.hostPlayerName && session.players.Count >= 2) {
+                    GameObject instantiatedButton = Instantiate(launchButton, instantiatedRow.transform);
+                    instantiatedButton.GetComponent<LaunchScript>().setSession(session);
+                } else if ((Client.Instance().clientCredentials.username == session.hostPlayerName && session.players.Count < 2) || session.players.Contains(Client.Instance().clientCredentials.username)) {
 
-            } else{
-                GameObject instantiatedButton = Instantiate(joinButton, instantiatedRow.transform);
-                instantiatedButton.GetComponent<JoinScript>().setSession(session);
-            }
+                } else{
+                    GameObject instantiatedButton = Instantiate(joinButton, instantiatedRow.transform);
+                    instantiatedButton.GetComponent<JoinScript>().setSession(session);
+                }
 
-            if(Client.Instance().clientCredentials.username == session.hostPlayerName || Client.Instance().clientCredentials.username == "Elfenroads"){
-                GameObject instantiatedButton = Instantiate(deleteButton, instantiatedRow.transform);
-                instantiatedButton.GetComponent<DeleteScript>().setSession(session);
+                if(Client.Instance().clientCredentials.username == session.hostPlayerName || Client.Instance().clientCredentials.username == "Elfenroads"){
+                    GameObject instantiatedButton = Instantiate(deleteButton, instantiatedRow.transform);
+                    instantiatedButton.GetComponent<DeleteScript>().setSession(session);
+                }
+            }catch (Exception e){ //Try-catch put here for the case where "displaySessions" was running at the exact time the session was launched.
+                Debug.Log(e);
             }
         }
     }

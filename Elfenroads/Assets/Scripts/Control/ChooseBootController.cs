@@ -1,11 +1,11 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Firesplash.UnityAssets.SocketIO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
+using Models;
 
 public class ChooseBootController : MonoBehaviour
 {
@@ -16,8 +16,11 @@ public class ChooseBootController : MonoBehaviour
     public Button blackButton;
     public Button yellowButton;
     public Button purpleButton;
+    public TMPro.TMP_Text textBox;
 
+    private ColorBlock defaultBlock;
     private string playerName;
+    private int numPlayers;
     private string sessionID; 
     private string chosenColor;
     private SocketIOCommunicator socket;
@@ -28,39 +31,84 @@ public class ChooseBootController : MonoBehaviour
         socket.Instance.On("ColorChosen", updateColors); 
         canvas.SetActive(true);
         playerName = sI.getClient().clientCredentials.username;
+        numPlayers = sI.getClient().mySession.players.Count;
+        Debug.Log("Number of players according to ChooseBoot: " + numPlayers);
         sessionID = sI.getClient().thisSessionID;
         socket.Instance.On("GameState", updateTest); 
+        defaultBlock = redButton.colors; //Save for later.
     }
 
     //Either calls ElfenroadsControl, or will be called by ElfenroadsControl.
     public void endChooseColors(){
+        Debug.Log("Reached endChooseColors!");
         socket.Instance.Off("ColorChosen");
         canvas.SetActive(false);
         //Calls ElfenroadsControl here.
     }
 
     public void updateColors(string input){
-        //Input will be 
         Debug.Log("reached updateColors"); 
         Debug.Log(input);
-        JObject jsonObj;
-        try{
-            //string jsonString = Regex.Unescape(input);
-            // jsonString = jsonString.Remove(jsonString.Length - 1, 1).Remove(0,1); //remove first and last qoutes
-            //Debug.Log(jsonString);
-            jsonObj = JObject.Parse(input);
-            Debug.Log("Json Object in 2nd block:" + jsonObj.ToString());
-            Debug.Log(jsonObj["players"]);
-        }catch (JsonException e){
-            Debug.Log(e);
+        JObject jobj = JObject.Parse(input);
+        JArray jarr = JArray.Parse(jobj["players"].ToString());
+        Player curPlayer = null;
+        List<Player> players = new List<Player>();
+        for(int i = 0 ; i < jarr.Count ; i++){
+            Debug.Log("Loop " + i + "!");
+            curPlayer = Newtonsoft.Json.JsonConvert.DeserializeObject<Player>(jarr[i].ToString());
+            
+            //First, if curPlayer's name is the same name as the Client recieving it, then we just leave all buttons disabled and return.
+            if(curPlayer.name == playerName){
+                return;
+            }else{
+                players.Add(curPlayer);
+            }
         }
 
-        //[{\"name\":\"maex\",\"bootColor\":\"Red\",\"inventory\":{\"townsCollected\":[]}}]
         
-        //Now, we need to parse the recieved list and disable the appropriate buttons.
-        
-        //Finally, need to make a check with "chosenColor". If it was in the recieved list, we don't re-enable the buttons.
-        //Otherwise, if it is null or it is not in the recieved list, we re-enable buttons. (may not be enough, may need Server-side);
+        //Else, we'll enable all buttons again, but disable colors as we find them.
+        enableAllButtons();
+        foreach(Player p in players){
+            Models.Color curColor = p.boot.color;
+
+            switch(curColor){
+                case Models.Color.RED:
+                {
+                    disableButton(redButton);
+                    break;
+                }
+                case Models.Color.BLUE:
+                {
+                    disableButton(blueButton);
+                    break;
+                }
+                case Models.Color.GREEN:
+                {
+                    disableButton(greenButton);
+                    break;
+                }
+                case Models.Color.YELLOW:
+                {
+                    disableButton(yellowButton);
+                    break;
+                }
+                case Models.Color.BLACK:
+                {
+                    disableButton(blackButton);
+                    break;
+                }
+                case Models.Color.PURPLE:
+                {
+                    disableButton(purpleButton);
+                    break;
+                }
+                default: break; //Throw error here? Should never be reached though. ***
+            }
+        }
+        textBox.text = "Choose your Boot!";
+        textBox.fontSize = 36;
+
+    
     }
 
     public void updateTest(string input){
@@ -70,6 +118,8 @@ public class ChooseBootController : MonoBehaviour
 
     public void chooseRed(){
         Debug.Log("red chosen!");
+        textBox.text = "You have chosen red. Waiting for other players...";
+        textBox.fontSize = 20;
         JObject json = new JObject();
         json.Add("game_id", sessionID);
         json.Add("name", playerName);
@@ -81,6 +131,8 @@ public class ChooseBootController : MonoBehaviour
 
     public void chooseBlue(){  
         Debug.Log("blue chosen!");
+        textBox.text = "You have chosen blue. Waiting for other players...";
+        textBox.fontSize = 20;
         JObject json = new JObject();
         json.Add("game_id", sessionID);
         json.Add("name", playerName);
@@ -92,6 +144,8 @@ public class ChooseBootController : MonoBehaviour
 
     public void chooseGreen(){
         Debug.Log("green chosen!");
+        textBox.text = "You have chosen green. Waiting for other players...";
+        textBox.fontSize = 20;
         JObject json = new JObject();
         json.Add("game_id", sessionID);
         json.Add("name", playerName);
@@ -103,6 +157,8 @@ public class ChooseBootController : MonoBehaviour
 
     public void chooseYellow(){
         Debug.Log("yellow chosen!");
+        textBox.text = "You have chosen yellow. Waiting for other players...";
+        textBox.fontSize = 20;
         JObject json = new JObject();
         json.Add("game_id", sessionID);
         json.Add("name", playerName);
@@ -114,6 +170,8 @@ public class ChooseBootController : MonoBehaviour
 
     public void choosePurple(){
         Debug.Log("purple chosen!");
+        textBox.text = "You have chosen purple. Waiting for other players...";
+        textBox.fontSize = 20;
         JObject json = new JObject();
         json.Add("game_id", sessionID);
         json.Add("name", playerName);
@@ -125,6 +183,8 @@ public class ChooseBootController : MonoBehaviour
 
     public void chooseBlack(){
         Debug.Log("black chosen!");
+        textBox.text = "You have chosen black. Waiting for other players...";
+        textBox.fontSize = 20;
         JObject json = new JObject();
         json.Add("game_id", sessionID);
         json.Add("name", playerName);
@@ -134,6 +194,31 @@ public class ChooseBootController : MonoBehaviour
         disableAllButtons();
     }
 
+    public void disableButton(Button b){
+        b.enabled = false;
+        ColorBlock cb = new ColorBlock();
+        cb.disabledColor = defaultBlock.disabledColor;
+        cb.normalColor = defaultBlock.disabledColor;
+        cb.highlightedColor = defaultBlock.disabledColor;
+        b.colors = cb;
+    }
+
+    public void enableAllButtons(){
+        redButton.enabled = true;
+        blueButton.enabled = true;
+        greenButton.enabled = true;
+        yellowButton.enabled = true;
+        blackButton.enabled = true;
+        purpleButton.enabled = true;
+
+        redButton.colors = defaultBlock;
+        blueButton.colors = defaultBlock;
+        greenButton.colors = defaultBlock;
+        yellowButton.colors = defaultBlock;
+        blackButton.colors = defaultBlock;
+        purpleButton.colors = defaultBlock;
+    }
+
     public void disableAllButtons(){
         redButton.enabled = false;
         blueButton.enabled = false;
@@ -141,5 +226,17 @@ public class ChooseBootController : MonoBehaviour
         yellowButton.enabled = false;
         blackButton.enabled = false;
         purpleButton.enabled = false;
+
+        ColorBlock cb = new ColorBlock();
+        cb.disabledColor = defaultBlock.disabledColor;
+        cb.normalColor = defaultBlock.disabledColor;
+        cb.highlightedColor = defaultBlock.disabledColor;
+
+        redButton.colors = cb;
+        blueButton.colors = cb;
+        greenButton.colors = cb;
+        yellowButton.colors = cb;
+        blackButton.colors = cb;
+        purpleButton.colors = cb;
     }
 }

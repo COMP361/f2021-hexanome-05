@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft;
@@ -22,8 +23,12 @@ public class TestDeserialize : MonoBehaviour
 
         //TESTING DESERIALIZATION OF A LIST OF AN ABSTRACT CLASS - WORKING!
         List<Counter> counters = new List<Counter>();
-        counters.Add(new TransportationCounter(12, CardType.Troll));
-        counters.Add(new MagicSpellCounter(14, SpellType.Double));
+        Guid g1 = Guid.NewGuid();
+        Guid g2 = Guid.NewGuid();
+        Debug.Log(g1 + ", " + g2);
+
+        counters.Add(new TransportationCounter(g1, CardType.Troll));
+        counters.Add(new MagicSpellCounter(g2, SpellType.Double));
         var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects }; //This thing is crucial! Must be passed in to both the Serilization and the Deserialization function!
         string serializedCounters = Newtonsoft.Json.JsonConvert.SerializeObject(counters, jset);
         Debug.Log(serializedCounters);                                                             //Looks like: [{"$type":"Models.TransportationCounter, Elfenroads","cardType":4,"id":12},{"$type":"Models.MagicSpellCounter, Elfenroads","spellType":1,"id":14}]

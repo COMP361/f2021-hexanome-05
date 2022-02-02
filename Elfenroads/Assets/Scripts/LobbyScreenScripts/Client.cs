@@ -26,6 +26,7 @@ public class Client : ClientInterface
     public ClientCredentials clientCredentials;
     public SocketIOCommunicator socket;
     public string thisSessionID;
+    public Session mySession;
 
     public event LoginSuccess LoginSuccessEvent;
     public event LoginFailure LoginFailureEvent;
