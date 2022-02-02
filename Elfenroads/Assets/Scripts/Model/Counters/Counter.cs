@@ -9,7 +9,7 @@ namespace Models
 {
     public abstract class Counter : IEquatable<Counter>
     {
-        public int id { protected set; get; }
+        public Guid id { protected set; get; }
 
         public bool Equals(Counter other) {
             return other != null &&
@@ -21,9 +21,9 @@ namespace Models
             return Equals(obj as Counter);
         }
 
-        public override int GetHashCode()
-        {
-            return id;
-        }
+        // public override Guid GetHashCode()
+        // {
+        //     return id;
+        // }
     }
 } 

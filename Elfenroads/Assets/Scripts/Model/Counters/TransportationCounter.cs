@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using Models;
+using System;
 
 namespace Models
 {
     public class TransportationCounter : Counter
     {
-        public CardType cardType { private set; get; }
+        public CardType cardType { set; get; }
 
-        public TransportationCounter(int id, CardType cardType){
+        public TransportationCounter(Guid id, CardType cardType){
             this.id = id;
             this.cardType = cardType;
         }

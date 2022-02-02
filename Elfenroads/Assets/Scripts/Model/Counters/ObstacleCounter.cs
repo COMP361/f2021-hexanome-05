@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using Models;
+using System;
 
 namespace Models
 {
     public class ObstacleCounter : Counter
     {
-        public ObstacleType obstacleType { private set; get; }
+        public ObstacleType obstacleType { set; get; }
 
-        public ObstacleCounter(int id, ObstacleType obstacleType){
+        public ObstacleCounter(Guid id, ObstacleType obstacleType){
             this.id = id;
             this.obstacleType = obstacleType;
         }
