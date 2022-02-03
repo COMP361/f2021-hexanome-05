@@ -7,9 +7,9 @@ using Newtonsoft.Json;
 
 namespace Models
 {
-    public abstract class Counter : IEquatable<Counter>
+    public class Counter : IEquatable<Counter>
     {
-        public Guid id { protected set; get; }
+        public Guid id { set; get; }
 
         public bool Equals(Counter other) {
             return other != null &&

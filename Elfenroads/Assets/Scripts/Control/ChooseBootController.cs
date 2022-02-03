@@ -46,6 +46,20 @@ public class ChooseBootController : MonoBehaviour
         //Calls ElfenroadsControl here.
     }
 
+    public void updateTest(string input){
+        Debug.Log(input);
+        JObject jobj = JObject.Parse(input);
+        JArray counterArr = JArray.Parse(jobj["counters"].ToString());
+        var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead };
+        Debug.Log(counterArr);
+        List<Counter> counterList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Counter>>(counterArr.ToString(), jset);
+        Debug.Log(counterList[0].GetType());
+        Debug.Log("Should be true: " + (counterList[0] is TransportationCounter));
+        Debug.Log("Fields: Id: " + counterList[0].id + ", Type: " + ((TransportationCounter) counterList[0]).cardType);
+        Debug.Log("Should be true: " + (counterList[1] is MagicSpellCounter));
+        Debug.Log("Fields: Id: " + counterList[1].id + ", Type: " + ((MagicSpellCounter) counterList[1]).spellType);
+    }
+
     public void updateColors(string input){
         Debug.Log("reached updateColors"); 
         Debug.Log(input);
@@ -65,7 +79,6 @@ public class ChooseBootController : MonoBehaviour
             }
         }
 
-        
         //Else, we'll enable all buttons again, but disable colors as we find them.
         enableAllButtons();
         foreach(Player p in players){
@@ -110,11 +123,6 @@ public class ChooseBootController : MonoBehaviour
 
     
     }
-
-    public void updateTest(string input){
-        Debug.Log(input);
-    }
-
 
     public void chooseRed(){
         Debug.Log("red chosen!");
