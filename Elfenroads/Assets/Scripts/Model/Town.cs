@@ -10,9 +10,10 @@ namespace Models {
         public string name { private set; get; }
         public List<TownPiece> townPieces { private set; get; }
         public List<Boot> boots;
+        public int goldValue; //For Elfengold.
 
-        // Only used in the elfengold extension, skip for now
-        // private int goldValue;
+        //*** This will need to be attached to a Unity GameObject with an appropriate ViewScript! ***
+        //May need tweaks to its "Update" function.
 
         public Town(string name) {
 
@@ -26,14 +27,6 @@ namespace Models {
             this.name = name;
             this.townPieces = new List<TownPiece>(townPieces);
         }
-
-        // public void AddBoot(Boot boot) {
-        //     if (boots.Contains(boot)) {
-        //         throw new ArgumentException();
-        //     }
-        //     boots.Add(boot);
-        //     ModelHelper.StoreInstance().getBoot(1);
-        // }
 
         public void Update(Town town) {
             bool modified = false;

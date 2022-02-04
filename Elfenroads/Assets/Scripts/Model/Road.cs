@@ -11,8 +11,6 @@ namespace Models {
         public Town start { private set; get; }
         public Town end { private set; get; }
         public TerrainType roadType { private set; get; }
-        // to be implemented
-        // public List<string> Counters { get; set; }
         public List<Counter> counters { get; set; }
 
         public Road(Town start, Town end, TerrainType roadtype, int id) {
@@ -24,6 +22,10 @@ namespace Models {
             //start.connectRoad(this); //See Town.cs
             //end.connectRoad(this);
         }
+
+        //*** This will need to be attached to a Unity GameObject with an appropriate ViewScript! ***
+        //Needs an "Update" function.
+
     }
 
     public enum TerrainType {

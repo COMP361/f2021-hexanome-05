@@ -10,6 +10,7 @@ namespace Models
     public class Counter : IEquatable<Counter>
     {
         public Guid id { set; get; }
+        public bool isFaceUp = true;
 
         public bool Equals(Counter other) {
             return other != null &&

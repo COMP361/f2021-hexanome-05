@@ -7,6 +7,11 @@ namespace Models
     {
         public List<Card> cards;
 
-        // some stuff goes here, im sleepy
+        public CardPile(){
+            cards = new List<Card>();
+        }
+
+        //*** This will likely need to be attached to a Unity GameObject with an appropriate ViewScript! (we could just show the static image of the back of the deck instead) ***
+        //Needs an "Update" function.
     }
 }

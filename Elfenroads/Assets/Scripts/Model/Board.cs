@@ -6,7 +6,6 @@ using Views;
 
 namespace Models {
     public class Board {
-        //private Dictionary<string, Town> towns; //Change these two to Dictionary and list
         private List<Town> towns;
         private List<Road> roads;
 
@@ -14,13 +13,5 @@ namespace Models {
             this.roads = new List<Road>(roads);
             this.towns = new List<Town>(towns);
         }
-
-        // public Town getTownByName(string townName){
-        //     if(towns[townName] != null){
-        //         return towns[townName];
-        //     }else{
-        //         return null;
-        //     }
-        // }
     }
 }

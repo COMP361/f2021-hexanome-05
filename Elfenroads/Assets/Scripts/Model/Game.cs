@@ -4,10 +4,15 @@ using UnityEngine; //Only here for Debug.Logs
 
 namespace Models {
     public class Game {
-        private Board board;
-        private List<Player> players;
-        private Player currentPlayer;
-        //Later: Add currentPhase, currentRound, isElfenGold, phaseLoops, and variants. (and startingPlayer)
+        public Board board;
+
+        public List<Player> players;
+        public List<Player> playersPassed;
+        public Player currentPlayer;
+        public Player startingPlayer; //This signifies the player holding the "starting player figurine" (see game rules) and decides who goes first on each round of a phase.
+        public bool isElfenGold;
+        public GamePhase currentPhase;
+        public List<Variant> variants;
 
         public Game(Board board) {
             this.board = board;
@@ -26,5 +31,28 @@ namespace Models {
             this.board = board;
         }
 
+        //*** This will need to be attached to a Unity GameObject with an appropriate ViewScript! ***
+        //Needs an "Update" function.
+
     }
+
+
+
+    public enum GamePhase{
+        DrawAdditionalCounters, //Elfenland. At the start of this phase, incorporate "DealTravelCards" and "Draw a Transportation Counter from the face down stack" phases from the game rules, since they require no player input.
+        DrawCards, //Elfengold.
+        SelectFaceDownCounter, //Elfengold. Also incorporate "Distribute Gold Coins" here since it requires no player input.
+        Auction, //Elfengold.
+        PlanTravel, //Elfenland or Elfengold.
+        MoveBoots, //Elfenland or Elfengold.
+        FinishRound //Elfenland or Elfengold.
+    }
+
+    public enum Variant{
+        LongerGame, //Elfenland or Elfengold.
+        DestinationTown, //Elfenland or Elfengold
+        RandomGoldTokens, //Elfengold only.
+        ElfenWitch //Elfengold only.
+    }
+
 }
