@@ -1,15 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using System;
 using Models;
-using Newtonsoft.Json;
-
 
 namespace Models
 {
-    public class Counter : IEquatable<Counter>
+    public abstract class Card
     {
-        public Guid id { set; get; }
+        public Guid id { protected set; get; }
 
         public bool Equals(Counter other) {
             return other != null &&
@@ -26,4 +22,4 @@ namespace Models
             return id.GetHashCode();
         }
     }
-} 
+}

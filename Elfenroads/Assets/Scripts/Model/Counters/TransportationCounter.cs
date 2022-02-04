@@ -8,23 +8,13 @@ namespace Models
 {
     public class TransportationCounter : Counter
     {
-        public CardType cardType { set; get; }
+        public TransportType transportType { set; get; }
 
-        public TransportationCounter(Guid id, CardType cardType){
+        public TransportationCounter(Guid id, TransportType transportType){
             this.id = id;
-            this.cardType = cardType;
+            this.transportType = transportType;
         }
     }
-
-    public enum CardType{
-        Pig,
-        Cycle,
-        Cloud,
-        Unicorn,
-        Troll,
-        Dragon
-    }
-
 
     public class TCConverter : JsonConverter{
         public override bool CanConvert(Type objectType)
