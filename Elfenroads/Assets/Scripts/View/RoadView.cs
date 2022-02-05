@@ -44,8 +44,8 @@ public class RoadView : MonoBehaviour {
 
 
     public void getAndSubscribeToModel(object sender, EventArgs e){
-        this.modelRoad = ModelHelper.StoreInstance().getRoad(id);
-        modelRoad.ModelUpdated += onModelUpdated;
+        this.modelRoad = ModelStore.StoreInstance().getRoad(id);
+        modelRoad.Updated += onModelUpdated;
         //Debug.Log("Road " + id + " subscribed!");
     }
 

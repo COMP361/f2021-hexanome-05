@@ -1,20 +1,23 @@
-using Models;
 using System;
 
 namespace Models
 {
     public class MagicSpellCounter : Counter
     {
-        public SpellType spellType { set; get; }
+        public SpellType spellType { protected set; get; }
 
-        public MagicSpellCounter(Guid id, SpellType spellType){
-            this.id = id;
+        public MagicSpellCounter(SpellType spellType) : base() {
+            this.spellType = spellType;
+        }
+
+        [Newtonsoft.Json.JsonConstructor]
+        protected MagicSpellCounter(SpellType spellType, Guid id) : base(id) {
             this.spellType = spellType;
         }
     }
 
     public enum SpellType {
-            Exchange,
-            Double
-        }
+        Exchange,
+        Double
+    }
 }

@@ -1,22 +1,50 @@
-using System.Collections;
+using Models.Helpers;
 using System.Collections.Generic;
+using System;
 
 namespace Models
 {
-    public class Auction
+    public class Auction : IUpdatable<Auction>
     {
-        public List<Counter> countersForAuction;
-        //public Counter currentItem; //I guess we could just have the item at index 0 of "countersForAuction" be the currentItem.
-        public int highestBid;
-        public Player highestBidder;
+        public event EventHandler Updated;
+        public List<Counter> countersForAuction { protected set; get; }
+        public int highestBid { protected set; get; }
+        public Player highestBidder { protected set; get; }
 
-        public Auction(){
-            countersForAuction = new List<Counter>();
-            highestBid = 0;
-            highestBidder = null;
+        public Auction(List<Counter> countersForAuction) {
+            this.countersForAuction = new List<Counter>(countersForAuction);
+            this.highestBid = 0;
+            this.highestBidder = null;
         }
 
-        //*** This will need to be attached to a Unity GameObject with an appropriate ViewScript! (we could just show the static image of the back of the deck instead) ***
-        //Needs an "Update" function. Elfengold, so low priority.
+        [Newtonsoft.Json.JsonConstructor]
+        protected Auction(List<Counter> countersForAuction, int highestBid, Player highestBidder) {
+            this.countersForAuction = countersForAuction;
+            this.highestBid = highestBid;
+            this.highestBidder = highestBidder;
+        }
+
+        public bool Update(Auction update) {
+            bool modified = false;
+
+            if (countersForAuction.Update(update.countersForAuction)) {
+                modified = true;
+            }
+
+            if (highestBid != update.highestBid) {
+                highestBid = update.highestBid;
+                modified = true;
+            }
+
+            if (highestBidder.Update(update.highestBidder)) {
+                modified = true;
+            }
+
+            if (modified) {
+                Updated?.Invoke(this, EventArgs.Empty);
+            }
+
+            return modified;
+        }
     }
 }

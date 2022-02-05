@@ -7,10 +7,14 @@ namespace Models
 {
     public class ObstacleCounter : Counter
     {
-        public ObstacleType obstacleType { set; get; }
+        public ObstacleType obstacleType { protected set; get; }
 
-        public ObstacleCounter(Guid id, ObstacleType obstacleType){
-            this.id = id;
+        public ObstacleCounter(ObstacleType obstacleType) : base() {
+            this.obstacleType = obstacleType;
+        }
+
+        [Newtonsoft.Json.JsonConstructor]
+        protected ObstacleCounter(ObstacleType obstacleType, Guid id) : base(id) {
             this.obstacleType = obstacleType;
         }
     }

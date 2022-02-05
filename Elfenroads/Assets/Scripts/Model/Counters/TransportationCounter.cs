@@ -8,10 +8,14 @@ namespace Models
 {
     public class TransportationCounter : Counter
     {
-        public TransportType transportType { set; get; }
+        public TransportType transportType { protected set; get; }
 
-        public TransportationCounter(Guid id, TransportType transportType){
-            this.id = id;
+        public TransportationCounter(TransportType transportType) : base() {
+            this.transportType = transportType;
+        }
+
+        [Newtonsoft.Json.JsonConstructor]
+        protected TransportationCounter(TransportType transportType, Guid id) : base(id) {
             this.transportType = transportType;
         }
     }

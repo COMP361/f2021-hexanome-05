@@ -6,8 +6,8 @@ using Views;
 
 namespace Models {
     public class Board {
-        private List<Town> towns;
-        private List<Road> roads;
+        public List<Town> towns { protected set; get; }
+        public List<Road> roads { protected set; get; }
 
         public Board(List<Road> roads, List<Town> towns) {
             this.roads = new List<Road>(roads);

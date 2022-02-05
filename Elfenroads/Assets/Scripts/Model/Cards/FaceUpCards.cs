@@ -1,17 +1,29 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using Models.Helpers;
 
 namespace Models
 {
-    public class FaceUpCards
+    public class FaceUpCards : IUpdatable<FaceUpCards>
     {
-        public List<Card> cards;
+        public event EventHandler Updated;
+        public List<Card> cards { protected set; get; }
 
-        public FaceUpCards(){
-            cards = new List<Card>(3); //There can only be 3 cards at a time.
+        public FaceUpCards() {
+            this.cards = new List<Card>(3); //There can only be 3 cards at a time.
         }
 
-        //*** This will need to be attached to a Unity GameObject with an appropriate ViewScript! ***
-        //Needs an "Update" function.
+        [Newtonsoft.Json.JsonConstructor]
+        protected FaceUpCards(List<Card> cards) {
+            this.cards = cards;
+        }
+
+        public bool Update(FaceUpCards update) {
+            if (cards.Update(update.cards)) {
+                Updated?.Invoke(this, EventArgs.Empty);
+                return true;
+            }
+            return false;
+        }
     }
 }
