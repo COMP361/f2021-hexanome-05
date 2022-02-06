@@ -4,7 +4,7 @@ using Models.Helpers;
 
 namespace Models
 {
-    public class GoldCardPile : IUpdatable<FaceUpCards>
+    public class GoldCardPile : IUpdatable<GoldCardPile>
     {
         public event EventHandler Updated;
         public List<Card> cards { protected set; get; }
