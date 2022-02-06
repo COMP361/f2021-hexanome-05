@@ -1,0 +1,11 @@
+using System.Collections.Generic;
+using System;
+namespace Models
+{
+    public class DrawAdditionalTransportationCounters : GamePhase 
+    {
+        public List<Counter> faceUpCounters;
+        public Player currentPlayer;
+        public List<Player> playersPassed;
+    }
+}

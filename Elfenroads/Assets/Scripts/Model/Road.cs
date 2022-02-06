@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using Models;
+using Models.Helpers;
 using System;
 
 
 namespace Models {
     public class Road : GuidModel, IUpdatable<Road> {
         public event EventHandler Updated;
-        public Town start { private set; get; }
-        public Town end { private set; get; }
-        public TerrainType roadType { private set; get; }
-        public List<Counter> counters { private set; get; }
+        public Town start { protected set; get; }
+        public Town end { protected set; get; }
+        public TerrainType roadType { protected set; get; }
+        public List<Counter> counters { protected set; get; }
 
         public Road(Town start, Town end, TerrainType roadType) : base() {
             this.start = start;
@@ -27,8 +28,13 @@ namespace Models {
             this.counters = new List<Counter>(counters);
         }
 
-        public void Update(Road update) {
-            if ()
+        public bool Update(Road update) {
+            if (counters.Update(update.counters)) {
+                Updated?.Invoke(this, EventArgs.Empty);
+                return true;
+            }
+
+            return false;
         }
     }
 }

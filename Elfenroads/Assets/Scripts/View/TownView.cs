@@ -48,7 +48,8 @@ public class TownView : MonoBehaviour {
     }
 
     public void getAndSubscribeToModel(object sender, EventArgs e){
-            this.modelTown = ModelStore.StoreInstance().getTown(gameObject.GetComponent<TownView>().townName);
+            
+            //this.modelTown = ModelStore.Get(gameObject.GetComponent<TownView>().townName);
             //Debug.Log(modelTown.name);
             modelTown.Updated += onModelUpdated;
             //Debug.Log("Town " + townName + " subscribed!");

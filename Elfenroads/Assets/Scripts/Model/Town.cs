@@ -4,21 +4,21 @@ using Models;
 using Models.Helpers;
 
 namespace Models {
-    public class Town : IUpdatable<Town> {
+    public class Town : GuidModel, IUpdatable<Town> {
         public event EventHandler Updated;
         public string name { protected set; get; }
         public List<TownPiece> townPieces { protected set; get; }
         public List<Boot> boots { protected set; get; }
-        public int goldValue; //For Elfengold.
+        public int goldValue; // Elfengold
 
-        public Town(string name) {
+        public Town(string name) : base() {
             this.name = name;
             this.townPieces = new List<TownPiece>();
             this.boots = new List<Boot>();
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        protected Town(string name, List<TownPiece> townPieces, List<Boot> boots) {
+        protected Town(string name, List<TownPiece> townPieces, List<Boot> boots, Guid id) : base(id) {
             this.name = name;
             this.townPieces = new List<TownPiece>(townPieces);
             this.boots = new List<Boot>(boots);
@@ -27,11 +27,11 @@ namespace Models {
         public bool Update(Town update) {
             bool modified = false;
 
-            if (townPieces.UpdateUnordered(update.townPieces)) {
+            if (townPieces.Update(update.townPieces)) {
                 modified = true;
             }
 
-            if (boots.UpdateUnordered(update.boots)) {
+            if (boots.Update(update.boots)) {
                 modified = true;
             }
             

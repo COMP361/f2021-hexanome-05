@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System;
+using Models.Helpers;
 
 
 namespace Models {
     public class Game : IUpdatable<Game> {
+        public event EventHandler Updated;
         public Board board { protected set; get; }
         public List<Player> players { protected set; get; }
 
@@ -12,10 +14,21 @@ namespace Models {
         public Player startingPlayer { protected set; get; }
         public GamePhase currentPhase { protected set; get; }
         public Variant variant { protected set; get; }
+        public CardPile travelcards { protected set; get; }
+        public CounterPile counterPile { protected set; get; }
 
         public Game(Board board) {
             this.board = board;
             this.players = new List<Player>();
+        }
+
+        // we should be using this constructor
+        public Game(Board board, List<Player> players, Player startingPlayer, Variant variant) {
+            this.board = board;
+            this.players = new List<Player>(players);
+            this.startingPlayer = startingPlayer;
+            // this.currentPhase = new GamePhase(...)
+            this.variant = variant;
         }
 
         [Newtonsoft.Json.JsonConstructor]
@@ -24,18 +37,38 @@ namespace Models {
             this.players = players;
             this.startingPlayer = startingPlayer;
             this.currentPhase = currentPhase;
-            this.variant = Variant;
+            this.variant = variant;
         }
 
+        // can we get rid of these?
+        // ***
         public void createPlayerTest() {
-            Player newPlayer = new Player("test", Color.RED, System.Guid.Empty); //Player is set to red here, should be changed later.
+            Player newPlayer = new Player("test", Color.RED); //Player is set to red here, should be changed later.
             players.Add(newPlayer);
             Elfenroads.Model.curPlayer = newPlayer;
-        
         }
 
         public void SetBoard(Board board) {
             this.board = board;
+        }
+        // ***
+
+        public bool Update(Game update) {
+            bool modified = false;
+
+            if (board.Update(update.board)) {
+                modified = true;
+            }
+
+            if (players.DeepUpdate(update.players)) {
+                modified = true;
+            }
+
+            if (modified) {
+                Updated?.Invoke(this, EventArgs.Empty);
+            }
+
+            return modified;
         }
 
         [Flags]

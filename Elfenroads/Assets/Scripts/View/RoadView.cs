@@ -13,7 +13,6 @@ public class RoadView : MonoBehaviour {
     public event EventHandler RoadClicked;
     public bool horizontal = true;
     public GameObject counterPrefab;
-    public int id;
 
     private List<Slot> counterSlots;
     private Road modelRoad;
@@ -39,15 +38,15 @@ public class RoadView : MonoBehaviour {
             }
         }
 
-        Elfenroads.Model.ModelReady += getAndSubscribeToModel;
+        // Elfenroads.Model.ModelReady += getAndSubscribeToModel;
     }
 
 
-    public void getAndSubscribeToModel(object sender, EventArgs e){
-        this.modelRoad = ModelStore.StoreInstance().getRoad(id);
-        modelRoad.Updated += onModelUpdated;
-        //Debug.Log("Road " + id + " subscribed!");
-    }
+    // public void getAndSubscribeToModel(object sender, EventArgs e){
+    //     this.modelRoad = (Road) ModelStore.Get(new Guid(id));
+    //     modelRoad.Updated += onModelUpdated;
+    //     //Debug.Log("Road " + id + " subscribed!");
+    // }
 
     void onModelUpdated(object sender, EventArgs e) {
         // reflect changes

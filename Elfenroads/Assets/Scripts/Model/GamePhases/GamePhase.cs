@@ -1,15 +1,14 @@
 
 namespace Models
 {
-    public abstract class GamePhase : IUpdatable<GamePhase>
+    public abstract class GamePhase // : IUpdatable<GamePhase>
     {
         public enum Elfenland {
-            DealTravelCards,
-            DrawTransportationCounter,
-            DrawAdditionalTransportationCounters,
-            PlanTravelRoutes,
-            MoveElfBoot,
-            FinishRound
+            DealCardsAndCounters = 1,
+            DrawAdditionalTransportationCounters = 2,
+            PlanTravelRoutes = 3,
+            MoveElfBoot = 4,
+            FinishRound = 5
         }
 
         public enum Elfengold {

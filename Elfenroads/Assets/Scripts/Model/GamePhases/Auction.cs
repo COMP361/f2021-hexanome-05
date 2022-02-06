@@ -4,7 +4,7 @@ using System;
 
 namespace Models
 {
-    public class Auction : IUpdatable<Auction>
+    public class Auction : GamePhase, IUpdatable<Auction>
     {
         public event EventHandler Updated;
         public List<Counter> countersForAuction { protected set; get; }
@@ -31,12 +31,13 @@ namespace Models
                 modified = true;
             }
 
-            if (highestBid != update.highestBid) {
+            if ( !highestBid.Equals(update.highestBid) ) {
                 highestBid = update.highestBid;
                 modified = true;
             }
 
-            if (highestBidder.Update(update.highestBidder)) {
+            if ( !highestBidder.Equals(update.highestBidder) ) {
+                highestBidder = (Player) ModelStore.Get(update.highestBidder.id);
                 modified = true;
             }
 
