@@ -22,10 +22,10 @@ namespace Models {
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        protected Inventory(List<TownPiece> townPieces, List<Card> cards, List<Counter> counter, int gold) {
-            this.townPieces = new List<TownPiece>(townPieces);
-            this.cards = new List<Card>(cards);
-            this.counters = new List<Counter>(counters);
+        protected Inventory(List<TownPiece> townPieces, List<Card> cards, List<Counter> counters, int gold) {
+            this.townPieces = townPieces;
+            this.cards = cards;
+            this.counters = counters;
             this.gold = gold;
         }
 

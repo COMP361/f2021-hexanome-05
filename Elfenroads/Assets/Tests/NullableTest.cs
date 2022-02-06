@@ -5,24 +5,18 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using Models;
 
-public class UpdateTests
+public class NullableTest
 {
-    private void CreateModel() {
-
-    }
-
     [Test]
-    public void UpdateTestsSimplePasses()
+    public void NullableTestSimplePasses()
     {
-        //Board board = new Board();
-        //Game gameModel = new Game();
-        //Assert.Equals(0, 0);
+        
     }
 
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
     // `yield return null;` to skip a frame.
     [UnityTest]
-    public IEnumerator UpdateTestsWithEnumeratorPasses()
+    public IEnumerator NullableTestWithEnumeratorPasses()
     {
         // Use the Assert class to test conditions.
         // Use yield to skip a frame.
