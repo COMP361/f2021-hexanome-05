@@ -3,7 +3,10 @@ namespace Models
 {
     public abstract class GamePhase // : IUpdatable<GamePhase>
     {
-        public enum Elfenland {
+        
+    }
+
+    public enum Elfenland {
             DealCardsAndCounters = 1,
             DrawAdditionalTransportationCounters = 2,
             PlanTravelRoutes = 3,
@@ -20,5 +23,4 @@ namespace Models
             MoveElfBoot,
             FinishRound
         }
-    }
 }

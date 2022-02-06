@@ -48,16 +48,18 @@ public class ChooseBootController : MonoBehaviour
 
     public void updateTest(string input){
         Debug.Log(input);
-        JObject jobj = JObject.Parse(input);
-        JArray counterArr = JArray.Parse(jobj["counters"].ToString());
-        var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead };
-        Debug.Log(counterArr);
-        List<Counter> counterList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Counter>>(counterArr.ToString(), jset);
-        Debug.Log(counterList[0].GetType());
-        Debug.Log("Should be true: " + (counterList[0] is TransportationCounter));
-        Debug.Log("Fields: Id: " + counterList[0].id + ", Type: " + ((TransportationCounter) counterList[0]).transportType);
-        Debug.Log("Should be true: " + (counterList[1] is MagicSpellCounter));
-        Debug.Log("Fields: Id: " + counterList[1].id + ", Type: " + ((MagicSpellCounter) counterList[1]).spellType);
+        var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
+        Game initialGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
+        Debug.Log(initialGame.startingPlayer.name);
+        //JObject jobj = JObject.Parse(input);
+        //JArray counterArr = JArray.Parse(jobj["counters"].ToString());
+        //Debug.Log(counterArr);
+        //List<Counter> counterList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Counter>>(counterArr.ToString(), jset);
+        // Debug.Log(counterList[0].GetType());
+        // Debug.Log("Should be true: " + (counterList[0] is TransportationCounter));
+        // Debug.Log("Fields: Id: " + counterList[0].id + ", Type: " + ((TransportationCounter) counterList[0]).transportType);
+        // Debug.Log("Should be true: " + (counterList[1] is MagicSpellCounter));
+        // Debug.Log("Fields: Id: " + counterList[1].id + ", Type: " + ((MagicSpellCounter) counterList[1]).spellType);
     }
 
     public void updateColors(string input){

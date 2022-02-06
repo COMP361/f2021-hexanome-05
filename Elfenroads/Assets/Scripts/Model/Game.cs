@@ -12,7 +12,7 @@ namespace Models {
         // This signifies the player holding the "starting player figurine"
         // (see game rules) and decides who goes first on each phase of a round.
         public Player startingPlayer { protected set; get; }
-        public GamePhase currentPhase { protected set; get; }
+        public GamePhase currentPhase {  set; get; }
         public Variant variant { protected set; get; }
         public CardPile travelcards { protected set; get; }
         public CounterPile counterPile { protected set; get; }

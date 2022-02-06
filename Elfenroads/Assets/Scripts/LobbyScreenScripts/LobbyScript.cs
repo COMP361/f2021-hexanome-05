@@ -209,14 +209,24 @@ public class LobbyScript : MonoBehaviour
     }
     
     private void displaySessions(List<Session> foundSessions) {
+        if(tableRow == null){
+            return;
+        }
         foreach (Transform child in tableRow.transform) {
-            Destroy(child.gameObject);
+            if(child == null){
+                return;
+            }else{
+                Destroy(child.gameObject);
+            }
         }
 
         foreach(Session session in foundSessions) {
             //Make the new row.
             if( session.launched && ( (!(Client.Instance().clientCredentials.username == "Elfenroads")) || (session.players.Contains(Client.Instance().clientCredentials.username)) ) ){ //If we find a session which was launched, no point to show it.
                 continue;
+            }
+            if(tableRow == null){
+                return;
             }
 
             GameObject instantiatedRow = Instantiate(tableRowPrefab, tableRow.transform); //0 is hostname, 1 is ready players
