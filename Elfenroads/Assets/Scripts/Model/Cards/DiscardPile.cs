@@ -4,21 +4,21 @@ using Models.Helpers;
 
 namespace Models
 {
-    public class FaceUpCards : IUpdatable<FaceUpCards>
+    public class DiscardPile : IUpdatable<FaceUpCards>
     {
         public event EventHandler Updated;
         public List<Card> cards { protected set; get; }
 
-        public FaceUpCards() {
-            this.cards = new List<Card>(3); //There can only be 3 cards at a time.
+        public DiscardPile() {
+            this.cards = new List<Card>();
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        protected FaceUpCards(List<Card> cards) {
+        protected DiscardPile(List<Card> cards) {
             this.cards = cards;
         }
 
-        public bool Update(FaceUpCards update) {
+        public bool Update(DiscardPile update) {
             if (cards.Update(update.cards)) {
                 Updated?.Invoke(this, EventArgs.Empty);
                 return true;
