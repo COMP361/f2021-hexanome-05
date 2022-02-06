@@ -11,6 +11,8 @@ public delegate void CreateFailure(string error);
 
 public delegate Task JoinSuccess(string responseText); //Joining doesn't seem to return anything... But will at least try to use this to test whether or not it works.
 public delegate void JoinFailure(string error);
+public delegate Task LeaveSuccess(string responseText); 
+public delegate void LeaveFailure(string error);
 public delegate void LaunchSuccess(string responseText);
 public delegate void LaunchFailure(string error);
 public delegate Task DeleteSuccess(string responseText);
@@ -28,6 +30,8 @@ public interface ClientInterface
     event CreateFailure CreateFailureEvent;
     event JoinSuccess JoinSuccessEvent;
     event JoinFailure JoinFailureEvent;
+    event LeaveSuccess LeaveSuccessEvent;
+    event LeaveFailure LeaveFailureEvent;
     event LaunchSuccess LaunchSuccessEvent;
     event LaunchFailure LaunchFailureEvent;
     event DeleteSuccess DeleteSuccessEvent;

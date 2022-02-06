@@ -34,6 +34,11 @@ public class LobbyService
     public delegate void JoinFailure(string error);
     public event JoinFailure JoinFailureEvent;
 
+    public delegate void LeaveSuccess(string result);
+    public event LeaveSuccess LeaveSuccessEvent;
+    public delegate void LeaveFailure(string error);
+    public event JoinFailure LeaveFailureEvent;
+
     public delegate void LaunchSuccess(string result);
     public event LaunchSuccess LaunchSuccessEvent;
     public delegate void LaunchFailure(string error);
@@ -171,6 +176,27 @@ public class LobbyService
         }
         else {
             JoinFailureEvent(request.error + "\n" + request.downloadHandler.text); 
+        }
+
+        // mark the request for garbage collection
+        request.Dispose();
+    }
+
+    public void leave(Session aSession, ClientCredentials aClientCredentials){
+        
+        //This is so wack, but you gotta make this null and not simply an empty list/string for it to work. It is the reason I cry myself to sleep at night.
+        UnityWebRequest request = UnityWebRequest.Delete(LS_PATH + "/api/sessions/" + aSession.sessionID + "/players/" + aClientCredentials.username + "?access_token=" + aClientCredentials.accessToken); 
+        UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+        operation.completed += OnLeaveCompleted;
+    }
+
+    private void OnLeaveCompleted(AsyncOperation operation){
+        UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
+        if (request.responseCode == STATUS_OK) {
+            LeaveSuccessEvent(request.downloadHandler.text);
+        }
+        else {
+            LeaveFailureEvent(request.error + "\n" + request.downloadHandler.text); 
         }
 
         // mark the request for garbage collection

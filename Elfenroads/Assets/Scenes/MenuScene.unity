@@ -3556,7 +3556,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1151502781
 Transform:
   m_ObjectHideFlags: 0
@@ -4971,6 +4971,7 @@ MonoBehaviour:
   launchButton: {fileID: 6543925395679356053, guid: c4bacc1e771061947924dbaec2742b53, type: 3}
   joinButton: {fileID: 4770142730435676018, guid: c18a01f8caedc024b9dd2627549c67e1, type: 3}
   deleteButton: {fileID: 4770142730435676018, guid: 391f00cb7b62cf34c800a7bd58652174, type: 3}
+  leaveButton: {fileID: 0}
   persistentObject: {fileID: 537859569}
   sioCom: {fileID: 1657269846}
 --- !u!1 &1863083407

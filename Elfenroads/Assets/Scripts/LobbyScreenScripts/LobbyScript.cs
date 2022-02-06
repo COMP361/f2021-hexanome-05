@@ -30,6 +30,7 @@ public class LobbyScript : MonoBehaviour
     public GameObject launchButton;
     public GameObject joinButton;
     public GameObject deleteButton;
+    public GameObject leaveButton;
     public GameObject persistentObject;
     //public SocketIO sioCom.Instance;
     public SocketIOCommunicator sioCom;
@@ -59,6 +60,8 @@ public class LobbyScript : MonoBehaviour
         thisClient.DeleteFailureEvent += deleteFailure;
         thisClient.JoinSuccessEvent += joinSuccess;
         thisClient.JoinFailureEvent += joinFailure;
+        thisClient.LeaveSuccessEvent += leaveSuccess;
+        thisClient.LeaveFailureEvent += leaveFailure;
 
 
         //Get the sioCom.Instance to start listening
@@ -154,7 +157,7 @@ public class LobbyScript : MonoBehaviour
         infoText.text = "Join successful!";
         Debug.Log("Join success: " + input);
         await thisClient.refreshSessions();
-        //Now that the session has been created, we can turn on the sioCom.Instance.
+        //Now that the session has been joined, we can turn on the sioCom.Instance.
         sioCom.Instance.Emit("join", thisClient.thisSessionID,true);
         sioCom.Instance.On("Launch", callback);
         //Debug.Log(this.thisClient.thisSessionID);
@@ -163,6 +166,20 @@ public class LobbyScript : MonoBehaviour
     public void joinFailure(string error){
         infoText.text = "Join failed! Error: " + error;
         Debug.Log("Join failure: " + error);
+    }
+
+    public async Task leaveSuccess(string input){
+        infoText.text = "Leave successful!";
+        Debug.Log("Leave success: " + input);
+        await thisClient.refreshSessions();
+        sioCom.Instance.Emit("leave", thisClient.thisSessionID,true);
+        sioCom.Instance.Off("Launch", callback);
+
+    }
+
+    public void leaveFailure(string error){
+        infoText.text = "Leave failed! Error: " + error;
+        Debug.Log("Leave failure: " + error);
     }
 
     private void refreshFailure(string error){
@@ -240,7 +257,7 @@ public class LobbyScript : MonoBehaviour
                     GameObject instantiatedButton = Instantiate(launchButton, instantiatedRow.transform);
                     instantiatedButton.GetComponent<LaunchScript>().setSession(session);
                 } else if ((Client.Instance().clientCredentials.username == session.hostPlayerName && session.players.Count < 2) || session.players.Contains(Client.Instance().clientCredentials.username)) {
-
+                    //Why is this here?
                 } else{
                     GameObject instantiatedButton = Instantiate(joinButton, instantiatedRow.transform);
                     instantiatedButton.GetComponent<JoinScript>().setSession(session);
@@ -249,6 +266,10 @@ public class LobbyScript : MonoBehaviour
                 if(Client.Instance().clientCredentials.username == session.hostPlayerName || Client.Instance().clientCredentials.username == "Elfenroads"){
                     GameObject instantiatedButton = Instantiate(deleteButton, instantiatedRow.transform);
                     instantiatedButton.GetComponent<DeleteScript>().setSession(session);
+                }else if(session.players.Contains(Client.Instance().clientCredentials.username) && (Client.Instance().clientCredentials.username != session.hostPlayerName)){
+                    //LEAVE BUTTON CREATED HERE. DO LATER. ***
+                    //GameObject instantiatedButton = Instantiate(leaveButton, instantiatedRow.transform);
+                    //instantiatedButton.GetComponent<LeaveScript>().setSession(session);
                 }
             }catch (Exception e){ //Try-catch put here for the case where "displaySessions" was running at the exact time the session was launched.
                 Debug.Log(e);

@@ -38,6 +38,8 @@ public class Client : ClientInterface
     public event CreateFailure CreateFailureEvent;
     public event JoinSuccess JoinSuccessEvent;
     public event JoinFailure JoinFailureEvent;
+    public event LeaveSuccess LeaveSuccessEvent;
+    public event LeaveFailure LeaveFailureEvent;
     public event LaunchSuccess LaunchSuccessEvent;
     public event LaunchFailure LaunchFailureEvent;
     public event DeleteSuccess DeleteSuccessEvent;
@@ -59,6 +61,8 @@ public class Client : ClientInterface
         lobbyService.CreateFailureEvent += (data) => CreateFailureEvent(data);
         lobbyService.JoinSuccessEvent += (data) => JoinSuccessEvent(data);
         lobbyService.JoinFailureEvent += (data) => JoinFailureEvent(data);
+        lobbyService.LeaveSuccessEvent += (data) => LeaveSuccessEvent(data);
+        lobbyService.LeaveFailureEvent += (data) => LeaveFailureEvent(data);
         lobbyService.LaunchSuccessEvent += (data) => LaunchSuccessEvent(data);
         lobbyService.LaunchFailureEvent += (data) => LaunchFailureEvent(data);
         lobbyService.DeleteSuccessEvent += (data) => DeleteSuccessEvent(data);
@@ -101,6 +105,10 @@ public class Client : ClientInterface
 
     public void join(Session aSession){
         lobbyService.join(aSession, clientCredentials);
+    }
+
+    public void leave(Session aSession){
+        lobbyService.leave(aSession, clientCredentials);
     }
 
     public void launch(Session aSession){
