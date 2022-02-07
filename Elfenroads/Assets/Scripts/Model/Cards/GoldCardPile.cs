@@ -1,17 +1,29 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using Models.Helpers;
 
 namespace Models
 {
-    public class GoldCardPile
+    public class GoldCardPile : IUpdatable<GoldCardPile>
     {
-        public List<GoldCard> cards;
+        public event EventHandler Updated;
+        public List<Card> cards { protected set; get; }
 
-        public GoldCardPile(){
-            cards = new List<GoldCard>();
+        public GoldCardPile() {
+            this.cards = new List<Card>();
         }
 
-        //*** This will need to be attached to a Unity GameObject with an appropriate ViewScript! ***
-        //Needs an "Update" function.
+        [Newtonsoft.Json.JsonConstructor]
+        protected GoldCardPile(List<Card> cards) {
+            this.cards = cards;
+        }
+
+        public bool Update(GoldCardPile update) {
+            if (cards.Update(update.cards)) {
+                Updated?.Invoke(this, EventArgs.Empty);
+                return true;
+            }
+            return false;
+        }
     }
 }

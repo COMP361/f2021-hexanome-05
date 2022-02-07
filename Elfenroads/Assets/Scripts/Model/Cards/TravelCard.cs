@@ -1,16 +1,18 @@
 using System;
-using Models;
 
 namespace Models
 {
     public class TravelCard : Card
     {
-        public TransportType type;
+        public TransportType type { protected set; get; }
 
-        public TravelCard(TransportType type, int forRound) {
-            this.id = new Guid();
+        public TravelCard(TransportType type) : base() {
             this.type = type;
-            this.round = forRound;
+        }
+
+        [Newtonsoft.Json.JsonConstructor]
+        protected TravelCard(TransportType type, Guid id) : base(id) {
+            this.type = type;
         }
     }
 }

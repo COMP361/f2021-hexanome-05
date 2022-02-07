@@ -1,17 +1,29 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using Models.Helpers;
 
 namespace Models
 {
-    public class CounterPile
+    public class CounterPile : IUpdatable<CounterPile>
     {
-        public List<Card> counters;
+        public event EventHandler Updated;
+        public List<Counter> counters { protected set; get; }
 
         public CounterPile(){
-            counters = new List<Card>();
+            this.counters = new List<Counter>();
         }
 
-        //*** This MAY need to be attached to a Unity GameObject with an appropriate ViewScript! (we may be able to just show the static image of the back of a counter as "randomDraw" instead) ***
-        //Needs an "Update" function.
+        [Newtonsoft.Json.JsonConstructor]
+        protected CounterPile(List<Counter> counters) {
+            this.counters = counters;
+        }
+
+        public bool Update(CounterPile update) {
+            if (counters.Update(update.counters)) {
+                Updated?.Invoke(this, EventArgs.Empty);
+                return true;
+            }
+            return false;
+        }
     }
 }

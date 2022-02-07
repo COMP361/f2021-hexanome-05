@@ -53,27 +53,27 @@ public class TestModelScript : MonoBehaviour
         ""
         }";
 
-      List<Counter> list = new List<Counter>();
-      Counter transCounter = new TransportationCounter(new System.Guid(), TransportType.MagicCloud);
-      Counter obsCounter = new ObstacleCounter(new System.Guid(), ObstacleType.Land);
-      // JsonConvert.DeserializeObject<Counter>(counterJson);
-      //TransportationCounter transportationCounter = JsonConvert.DeserializeObject<TransportationCounter>(transportationCounterJson);
+      // List<Counter> list = new List<Counter>();
+      // Counter transCounter = new TransportationCounter(new System.Guid(), TransportType.MagicCloud);
+      // Counter obsCounter = new ObstacleCounter(new System.Guid(), ObstacleType.Land);
+      // // JsonConvert.DeserializeObject<Counter>(counterJson);
+      // //TransportationCounter transportationCounter = JsonConvert.DeserializeObject<TransportationCounter>(transportationCounterJson);
 
 
-      list.Add(transCounter);
-      list.Add(obsCounter);
-      string serialized = JsonConvert.SerializeObject(list, Formatting.Indented, new JsonSerializerSettings {
-        TypeNameHandling = TypeNameHandling.Auto
-      });
-      Debug.Log(serialized);
+      // list.Add(transCounter);
+      // list.Add(obsCounter);
+      // string serialized = JsonConvert.SerializeObject(list, Formatting.Indented, new JsonSerializerSettings {
+      //   TypeNameHandling = TypeNameHandling.Auto
+      // });
+      // Debug.Log(serialized);
 
-      List<Counter> counterList = JsonConvert.DeserializeObject<List<Counter>>(serialized, new JsonSerializerSettings {
-        TypeNameHandling = TypeNameHandling.Auto
-      });
+      // List<Counter> counterList = JsonConvert.DeserializeObject<List<Counter>>(serialized, new JsonSerializerSettings {
+      //   TypeNameHandling = TypeNameHandling.Auto
+      // });
       
-      Debug.Log(JsonConvert.SerializeObject(counterList, Formatting.Indented, new JsonSerializerSettings {
-        TypeNameHandling = TypeNameHandling.Auto
-      }));
+      // Debug.Log(JsonConvert.SerializeObject(counterList, Formatting.Indented, new JsonSerializerSettings {
+      //   TypeNameHandling = TypeNameHandling.Auto
+      // }));
       // Debug.Log("Counter ID: " + counter.id);
       // Debug.Log("TransportationCounter ID: " + transportationCounter.id + ", Type: " + transportationCounter.);
 

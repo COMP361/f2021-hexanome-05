@@ -1,17 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Models.Helpers;
 
 namespace Models
 {
-    public class CardPile
+    public class CardPile : IUpdatable<CardPile>
     {
-        public List<Card> cards;
+        public event EventHandler Updated;
+        public List<Card> cards { protected set; get; }
 
-        public CardPile(){
+        public CardPile() {
             cards = new List<Card>();
         }
 
-        //*** This will likely need to be attached to a Unity GameObject with an appropriate ViewScript! (we could just show the static image of the back of the deck instead) ***
-        //Needs an "Update" function.
+        [Newtonsoft.Json.JsonConstructor]
+        protected CardPile(List<Card> cards) : this() {
+            this.cards = cards;
+        }
+
+        public bool Update(CardPile update) {
+            if (cards.Update(update.cards)) {
+                Updated?.Invoke(this, EventArgs.Empty);
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -17,5 +17,4 @@ public class SlotAssignTest : MonoBehaviour
     public void addBoot(){
         town.GetComponent<SlotTester>().addToSlot(boot);
     }
-
 }

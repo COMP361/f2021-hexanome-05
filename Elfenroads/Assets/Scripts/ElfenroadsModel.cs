@@ -2,18 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
-using Models;
 using Views;
 
 namespace Models {
-    public interface INotifyModelUpdated {
-        event EventHandler ModelUpdated;
-    }
-
-    public interface IUpdatable<T> {
-        void Update(T updated);
-    }
-
     public class ElfenroadsModel : Elfenroads {
         public event EventHandler ModelReady;
         public List<GameObject> roadObjects;

@@ -4,8 +4,9 @@ namespace Models
 {
     public class GoldCard : Card
     {
-        public GoldCard() {
-            this.id = new Guid();
-        }
+        public GoldCard() : base() {}
+
+        [Newtonsoft.Json.JsonConstructor]
+        protected GoldCard(Guid id) : base(id) {}
     }
 }

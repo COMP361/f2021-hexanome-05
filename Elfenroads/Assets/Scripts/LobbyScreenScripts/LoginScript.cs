@@ -7,6 +7,10 @@ using TMPro;
 public class LoginScript : MonoBehaviour
 {
     private Button loginButton;
+    public TMPro.TMP_Text loginInfoText;
+    public Button loginMaexButton;
+    public Button loginJoergButton;
+    public Button loginElfenroadsButton;
     private Client thisClient;
 
     public GameObject usernameBox;
@@ -25,6 +29,9 @@ public class LoginScript : MonoBehaviour
 
         //Add onclick listener to button for "login" function.
         loginButton.onClick.AddListener(login);
+        loginMaexButton.onClick.AddListener(loginMaex);
+        loginJoergButton.onClick.AddListener(loginJoerg);
+        loginElfenroadsButton.onClick.AddListener(loginElfenroads);
 
         thisClient.LoginSuccessEvent += loginSuccessResult;
         thisClient.LoginFailureEvent += loginFailure;
@@ -36,8 +43,24 @@ public class LoginScript : MonoBehaviour
             return;
         }else{
             //Here, we'll call Login() on the Client (and thus the LobbyService).
+            loginInfoText.text = "Logging in...";
             thisClient.Login(usernameBox.GetComponent<TMP_InputField>().text,passwordBox.GetComponent<TMP_InputField>().text);
         }
+    }
+
+    void loginMaex(){
+        loginInfoText.text = "Logging in...";
+        thisClient.Login("maex", "abc123_ABC123");
+    }
+
+    void loginJoerg(){  
+        loginInfoText.text = "Logging in...";
+        thisClient.Login("joerg", "abc123_ABC123");
+    }
+
+    void loginElfenroads(){
+        loginInfoText.text = "Logging in...";
+        thisClient.Login("Elfenroads", "$#Y+qDctAF3Fvk?@");
     }
 
 
@@ -59,6 +82,7 @@ public class LoginScript : MonoBehaviour
 
     void loginFailure(string error){
         Debug.Log("Login failed with error: " + error);
+        loginInfoText.text = "Login failed with error: " + error;
     }
 
 

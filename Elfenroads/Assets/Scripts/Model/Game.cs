@@ -1,58 +1,84 @@
 using System.Collections.Generic;
-using UnityEngine; //Only here for Debug.Logs
+using System;
+using Models.Helpers;
 
 
 namespace Models {
-    public class Game {
-        public Board board;
+    public class Game : IUpdatable<Game> {
+        public event EventHandler Updated;
+        public Board board { protected set; get; }
+        public List<Player> players { protected set; get; }
 
-        public List<Player> players;
-        public List<Player> playersPassed;
-        public Player currentPlayer;
-        public Player startingPlayer; //This signifies the player holding the "starting player figurine" (see game rules) and decides who goes first on each round of a phase.
-        public bool isElfenGold;
-        public GamePhase currentPhase;
-        public List<Variant> variants;
+        // This signifies the player holding the "starting player figurine"
+        // (see game rules) and decides who goes first on each phase of a round.
+        public Player startingPlayer { protected set; get; }
+        public GamePhase currentPhase {  set; get; }
+        public Variant variant { protected set; get; }
+        public CardPile travelcards { protected set; get; }
+        public CounterPile counterPile { protected set; get; }
 
         public Game(Board board) {
             this.board = board;
             this.players = new List<Player>();
         }
 
-        public void createPlayerTest(){
-            int bootId = 0;
-            Player newPlayer = new Player("test", Color.RED, System.Guid.Empty); //Player is set to red here, should be changed later.
+        // we should be using this constructor
+        public Game(Board board, List<Player> players, Player startingPlayer, Variant variant) {
+            this.board = board;
+            this.players = new List<Player>(players);
+            this.startingPlayer = startingPlayer;
+            // this.currentPhase = new GamePhase(...)
+            this.variant = variant;
+        }
+
+        [Newtonsoft.Json.JsonConstructor]
+        protected Game(Board board, List<Player> players, Player startingPlayer, GamePhase currentPhase, Variant variant) {
+            this.board = board;
+            this.players = players;
+            this.startingPlayer = startingPlayer;
+            this.currentPhase = currentPhase;
+            this.variant = variant;
+        }
+
+        // can we get rid of these?
+        // ***
+        public void createPlayerTest() {
+            Player newPlayer = new Player("test", Color.RED); //Player is set to red here, should be changed later.
             players.Add(newPlayer);
             Elfenroads.Model.curPlayer = newPlayer;
-        
         }
 
         public void SetBoard(Board board) {
             this.board = board;
         }
+        // ***
 
-        //*** This will need to be attached to a Unity GameObject with an appropriate ViewScript! ***
-        //Needs an "Update" function.
+        public bool Update(Game update) {
+            bool modified = false;
 
+            if (board.Update(update.board)) {
+                modified = true;
+            }
+
+            if (players.DeepUpdate(update.players)) {
+                modified = true;
+            }
+
+            if (modified) {
+                Updated?.Invoke(this, EventArgs.Empty);
+            }
+
+            return modified;
+        }
+
+        [Flags]
+        public enum Variant {
+            Elfenland = 0,
+            Elfengold = 1 << 0,
+            LongerGame = 1 << 1, //Elfenland or Elfengold.
+            DestinationTown = 1 << 2, //Elfenland or Elfengold
+            RandomGoldTokens = 1 << 3, //Elfengold only.
+            ElfenWitch = 1 << 4 //Elfengold only.
+        }
     }
-
-
-
-    public enum GamePhase{
-        DrawAdditionalCounters, //Elfenland. At the start of this phase, incorporate "DealTravelCards" and "Draw a Transportation Counter from the face down stack" phases from the game rules, since they require no player input.
-        DrawCards, //Elfengold.
-        SelectFaceDownCounter, //Elfengold. Also incorporate "Distribute Gold Coins" here since it requires no player input.
-        Auction, //Elfengold.
-        PlanTravel, //Elfenland or Elfengold.
-        MoveBoots, //Elfenland or Elfengold.
-        FinishRound //Elfenland or Elfengold.
-    }
-
-    public enum Variant{
-        LongerGame, //Elfenland or Elfengold.
-        DestinationTown, //Elfenland or Elfengold
-        RandomGoldTokens, //Elfengold only.
-        ElfenWitch //Elfengold only.
-    }
-
 }

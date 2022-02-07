@@ -1,17 +1,29 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using Models.Helpers;
 
 namespace Models
 {
-    public class FaceUpCounters
+    public class FaceUpCounters : IUpdatable<FaceUpCounters>
     {
-        public List<Card> counters;
+        public event EventHandler Updated;
+        public List<Counter> counters { protected set; get; }
 
-        public FaceUpCounters(){
-            counters = new List<Card>(5);
+        public FaceUpCounters() {
+            this.counters = new List<Counter>(5);
         }
 
-        //*** This will need to be attached to a Unity GameObject with an appropriate ViewScript! ***
-        //Needs an "Update" function.
+        [Newtonsoft.Json.JsonConstructor]
+        protected FaceUpCounters(List<Counter> counters) {
+            this.counters = counters;
+        }
+
+        public bool Update(FaceUpCounters update) {
+            if (counters.Update(update.counters)) {
+                Updated?.Invoke(this, EventArgs.Empty);
+                return true;
+            }
+            return false;
+        }
     }
 }

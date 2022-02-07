@@ -1,17 +1,16 @@
-using System.Collections.Generic;
-using Models;
 using System;
 
-
 namespace Models {
-    public class Boot {
-        public Color color {get; set; }
-        public Guid id {get; set;}
+    public class Boot : GuidModel {
+        public Color color { get; protected set; }
 
-        public Boot(Guid id, Color color) {
+        public Boot(Color color) : base() {
             this.color = color;
-            this.id = id;
-            
+        }
+
+        [Newtonsoft.Json.JsonConstructor]
+        protected Boot(Guid id, Color color) : base(id) {
+            this.color = color;
         }
     }
 }

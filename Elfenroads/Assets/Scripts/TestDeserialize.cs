@@ -27,23 +27,34 @@ public class TestDeserialize : MonoBehaviour
         Guid g2 = Guid.NewGuid();
         Debug.Log(g1 + ", " + g2);
 
-        TransportationCounter tc = new TransportationCounter(g1, TransportType.TrollWagon);
-        counters.Add(tc);
-        counters.Add(new MagicSpellCounter(g2, SpellType.Double));
-        var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead }; //This thing is crucial! Must be passed in to both the Serilization and the Deserialization function!
-        string serializedCounters = Newtonsoft.Json.JsonConvert.SerializeObject(counters, jset);
-        Debug.Log(serializedCounters);    
-        string serializedCounter = Newtonsoft.Json.JsonConvert.SerializeObject(tc, jset); 
-        Debug.Log(serializedCounter);
-        Counter deserializedCounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Counter>(serializedCounter, jset);                                           
-        // List<Counter> deserializedCounters = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Counter>>(serializedCounters, jset);
-        // Debug.Log(deserializedCounters[0] is TransportationCounter);
-        // Debug.Log(deserializedCounters[1] is MagicSpellCounter);
-        Debug.Log(deserializedCounter);
+        //TransportationCounter tc = new TransportationCounter(g1, TransportType.TrollWagon);
+        // counters.Add(tc);
+        // counters.Add(new MagicSpellCounter(g2, SpellType.Double));
+        var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize }; //This thing is crucial! Must be passed in to both the Serilization and the Deserialization function!
+        // string serializedCounters = Newtonsoft.Json.JsonConvert.SerializeObject(counters, jset);
+        // Debug.Log(serializedCounters);    
+        // string serializedCounter = Newtonsoft.Json.JsonConvert.SerializeObject(tc, jset); 
+        // Debug.Log(serializedCounter);
+        // Counter deserializedCounter = Newtonsoft.Json.JsonConvert.DeserializeObject<Counter>(serializedCounter, jset);                                           
+        // // List<Counter> deserializedCounters = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Counter>>(serializedCounters, jset);
+        // // Debug.Log(deserializedCounters[0] is TransportationCounter);
+        // // Debug.Log(deserializedCounters[1] is MagicSpellCounter);
+        // Debug.Log(deserializedCounter);
 
-        string json = @"{""$type"":""Models.TransportationCounter, Elfenroads"", ""transportType"":2, ""id"":""768113a1-ea8e-7a13-5b16-0488fd56187f""}";
-        Debug.Log("Our string: " + json);
-        Counter countersTest = Newtonsoft.Json.JsonConvert.DeserializeObject<Counter>(json, jset);
+        // string json = @"{""$type"":""Models.TransportationCounter, Elfenroads"", ""transportType"":2, ""id"":""768113a1-ea8e-7a13-5b16-0488fd56187f""}";
+        // Debug.Log("Our string: " + json);
+        // Counter countersTest = Newtonsoft.Json.JsonConvert.DeserializeObject<Counter>(json, jset);
+        Player mainPlayer = new Player("test", Models.Color.RED);
+        Player secondPlayer = new Player("test2", Models.Color.BLUE);
+        List<Player> players = new List<Player>();
+        players.Add(mainPlayer);
+        players.Add(secondPlayer);
+        Board board = new Board(new List<Road>(), new List<Town>());
+        GamePhase countersPhase = new DrawCounters(mainPlayer);
+        Game testGame = new Game(board, players, mainPlayer, Game.Variant.Elfenland);
+        testGame.currentPhase = countersPhase;
+        string serializedGame = Newtonsoft.Json.JsonConvert.SerializeObject(testGame, jset);
+        Debug.Log(serializedGame);
     }
 
 }

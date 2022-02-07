@@ -7,7 +7,6 @@ namespace Models {
         MagicCloud,
         Unicorn,
         GiantPig,
-        Raft,
-        Witch
+        Raft
     }
 }
