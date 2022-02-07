@@ -43,5 +43,17 @@ namespace Models {
             
             return null;
         }
+
+        public Road GetRoad(Town start, Town end, TerrainType roadType) {
+            foreach (Road road in roads) {
+                if (road.start.Equals(start) &&
+                    road.end.Equals(end) &&
+                    road.roadType == roadType) {
+                    return road;
+                }
+            }
+
+            return null;
+        }
     }
 }

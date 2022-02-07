@@ -53,6 +53,16 @@ namespace Models {
         }
         // ***
 
+        public Player GetPlayer(string name) {
+            foreach (Player player in players) {
+                if (player.name == name) {
+                    return player;
+                }
+            }
+
+            return null;
+        }
+
         public bool Update(Game update) {
             bool modified = false;
 
