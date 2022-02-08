@@ -41,19 +41,6 @@ namespace Models {
             this.variant = variant;
         }
 
-        // can we get rid of these?
-        // ***
-        public void createPlayerTest() {
-            Player newPlayer = new Player("test", Color.RED); //Player is set to red here, should be changed later.
-            players.Add(newPlayer);
-            Elfenroads.Model.curPlayer = newPlayer;
-        }
-
-        public void SetBoard(Board board) {
-            this.board = board;
-        }
-        // ***
-
         public Player GetPlayer(string name) {
             foreach (Player player in players) {
                 if (player.name == name) {
