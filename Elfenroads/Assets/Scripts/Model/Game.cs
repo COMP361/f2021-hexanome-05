@@ -16,7 +16,7 @@ namespace Models {
         public Variant variant { protected set; get; }
         public CardPile cards { protected set; get; }
         public CardPile discardPile { protected set; get;}
-        public CounterPile counters { protected set; get; }
+        public CounterPile counterPile { protected set; get; }
 
         public Game(Board board) {
             this.board = board;
