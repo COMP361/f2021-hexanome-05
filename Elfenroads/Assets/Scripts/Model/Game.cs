@@ -14,8 +14,9 @@ namespace Models {
         public Player startingPlayer { protected set; get; }
         public GamePhase currentPhase {  set; get; }
         public Variant variant { protected set; get; }
-        public CardPile travelcards { protected set; get; }
-        public CounterPile counterPile { protected set; get; }
+        public CardPile cards { protected set; get; }
+        public CardPile discardPile { protected set; get;}
+        public CounterPile counters { protected set; get; }
 
         public Game(Board board) {
             this.board = board;

@@ -51,6 +51,22 @@ public class ChooseBootController : MonoBehaviour
         var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
         Game initialGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
         Debug.Log(initialGame);
+        Debug.Log(initialGame.startingPlayer);
+        Debug.Log(initialGame.players);
+        Debug.Log(initialGame.board);
+        Debug.Log(initialGame.cards);
+        Debug.Log(initialGame.counters);
+        Debug.Log(initialGame.discardPile);
+        Debug.Log(initialGame.currentPhase);
+        Debug.Log(initialGame.variant);
+
+
+        try{
+            Debug.Log(initialGame.board.towns);
+            Debug.Log(initialGame.board.roads);
+        }catch (Exception e){
+            Debug.Log("Error: " + e);
+        }
         //JObject jobj = JObject.Parse(input);
         //JArray counterArr = JArray.Parse(jobj["counters"].ToString());
         //Debug.Log(counterArr);
