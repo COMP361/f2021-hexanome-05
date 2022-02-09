@@ -33,12 +33,15 @@ namespace Models {
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        protected Game(Board board, List<Player> players, Player startingPlayer, GamePhase currentPhase, Variant variant) {
+        protected Game(Board board, List<Player> players, Player startingPlayer, GamePhase currentPhase, Variant variant, CardPile cards, CardPile discardPile, CounterPile counterPile) {
             this.board = board;
             this.players = players;
             this.startingPlayer = startingPlayer;
             this.currentPhase = currentPhase;
             this.variant = variant;
+            this.cards = cards;
+            this.discardPile = discardPile;
+            this.counterPile = counterPile;
         }
 
         public Player GetPlayer(string name) {

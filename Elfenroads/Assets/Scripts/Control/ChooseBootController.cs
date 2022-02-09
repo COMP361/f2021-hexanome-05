@@ -55,7 +55,7 @@ public class ChooseBootController : MonoBehaviour
         Debug.Log(initialGame.players);
         Debug.Log(initialGame.board);
         Debug.Log(initialGame.cards);
-        Debug.Log(initialGame.counters);
+        Debug.Log(initialGame.counterPile);
         Debug.Log(initialGame.discardPile);
         Debug.Log(initialGame.currentPhase);
         Debug.Log(initialGame.variant);

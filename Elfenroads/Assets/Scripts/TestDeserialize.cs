@@ -55,6 +55,9 @@ public class TestDeserialize : MonoBehaviour
         testGame.currentPhase = countersPhase;
         string serializedGame = Newtonsoft.Json.JsonConvert.SerializeObject(testGame, jset);
         Debug.Log(serializedGame);
+        Card testCard = new TravelCard(TransportType.Dragon);
+        string serializedCard = Newtonsoft.Json.JsonConvert.SerializeObject(testCard, jset);
+        Debug.Log(serializedCard);
     }
 
 }
