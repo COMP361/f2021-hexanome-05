@@ -131,5 +131,10 @@ MonoBehaviour:
   startTown: {fileID: 0}
   endTown: {fileID: 0}
   horizontal: 1
-  counterPrefab: {fileID: 4959312200108055275, guid: 7451eeb4ec2c810468ed529d3f8fb9ef, type: 3}
-  id: 0
+  dragonCounterPrefab: {fileID: 4959312200108055275, guid: c7aff8900da4dd444aa99ce027904973, type: 3}
+  trollCounterPrefab: {fileID: 4959312200108055275, guid: fa0941fc27b3c5f4ba950ab810564fde, type: 3}
+  cloudCounterPrefab: {fileID: 4959312200108055275, guid: e4103ccd086c56448a75189cb38550a6, type: 3}
+  cycleCounterPrefab: {fileID: 4959312200108055275, guid: 4f300cfe347e5544ab816f003d37c444, type: 3}
+  unicornCounterPrefab: {fileID: 4959312200108055275, guid: 398c96b203793474c9bf8f2c80e63f96, type: 3}
+  pigCounterPrefab: {fileID: 4959312200108055275, guid: a5df7cfa6e6bdb24b83c59b5539f833f, type: 3}
+  landObstaclePrefab: {fileID: 4959312200108055275, guid: 75f406cfcb4118f4fb4a9e4f2c2ad774, type: 3}
