@@ -31,10 +31,10 @@ public class RoadView : MonoBehaviour {
         for(int i = 0 ; i < 3 ; i++){
             if(horizontal){
                 counterSlots.Add(new Slot(initialSlot + new Vector3(0.9f * i,0f, 0f)));
-                Instantiate(counterPrefab, initialSlot + new Vector3(0.9f * i,0f, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
+                //Instantiate(counterPrefab, initialSlot + new Vector3(0.9f * i,0f, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
             }else{
                 counterSlots.Add(new Slot(initialSlot + new Vector3(0f, -0.9f * i, 0f)));
-                Instantiate(counterPrefab, initialSlot + new Vector3(0f, -0.9f * i, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
+                //Instantiate(counterPrefab, initialSlot + new Vector3(0f, -0.9f * i, 0f), Quaternion.identity);   //Remove later, just here now to help discern where the "slots" are.
             }
         }
 
@@ -42,11 +42,11 @@ public class RoadView : MonoBehaviour {
     }
 
 
-    // public void getAndSubscribeToModel(object sender, EventArgs e){
-    //     this.modelRoad = (Road) ModelStore.Get(new Guid(id));
-    //     modelRoad.Updated += onModelUpdated;
-    //     //Debug.Log("Road " + id + " subscribed!");
-    // }
+     public void setAndSubscribeToModel(Road r){
+         modelRoad = r;
+         modelRoad.Updated += onModelUpdated;
+         //this.onModelUpdated(null, null);  *** COMMENTED OUT UNTIL I FIX "SLOTS"
+     }
 
     void onModelUpdated(object sender, EventArgs e) {
         // reflect changes
@@ -71,7 +71,7 @@ public class RoadView : MonoBehaviour {
         }
     }
 
-    //Removes a "counter" gameObject from the road, and also destroys it.
+    //Removes a "counter" gameObject from the road, and also destroys it. Will maybe see use in Elfengold for the "Exchange" spell?
     public void removeFromSlot(GameObject obj){ // Change parameters later. Likely will take in a "counterType" parameter, and will remove the first counter of that type.
         foreach(Slot s in counterSlots){
             if(s.obj == obj){
@@ -80,6 +80,15 @@ public class RoadView : MonoBehaviour {
                 return;
             }else{
                 Debug.Log("Nothing to remove!");
+            }
+        }
+    }
+
+    public void removeAllFromSlots(){
+        foreach (Slot s in counterSlots){
+            if(s.obj != null){
+                Destroy(s.obj);
+                s.obj = null;
             }
         }
     }

@@ -43,13 +43,12 @@ public class TownView : MonoBehaviour {
             colCount = (colCount + 1) % 3;
             if(colCount == 0) rowCount++;
         }
-
-        Elfenroads.Model.ModelReady += getAndSubscribeToModel;
     }
 
-    public void getAndSubscribeToModel(object sender, EventArgs e){
-            
+    public void setAndSubscribeToModel(Town t){
+            modelTown = t;
             modelTown.Updated += onModelUpdated;
+            //this.onModelUpdated(null, null); //When subscribing initially, want the view to take effect. *** COMMENTED OUT UNTIL I FIX "SLOTS"
             
     }
 
@@ -58,9 +57,15 @@ public class TownView : MonoBehaviour {
         removeAllFromSlots();
     
         //Next, look at the townPieces in the Model, and add the appropriate TownPiece prefabs to the slots.
-
+        foreach(TownPiece piece in modelTown.townPieces){
+            //Switch case for colors needed here.
+            if(piece.color == Models.Color.RED){
+                addTownPieceToSlot(Models.Color.RED);
+            }
+        }
         //Then, do the same thing but for the ElfenBoots.
         foreach(Boot boot in modelTown.boots){
+            //Switch case also needed here.
             if(boot.color == Models.Color.RED){
                 addBootToSlot(Models.Color.RED);
             }
@@ -69,16 +74,15 @@ public class TownView : MonoBehaviour {
 
     //Need to make prefabs for each color of boot and townpiece, and use the color enum to figure out which color to add/remove (parameters change from GameObject obj -> Color color)
 
-    public void addTownPieceToSlot(GameObject obj){
+    public void addTownPieceToSlot(Models.Color color){
         foreach(Slot s in townPieceSlots){
             if(s.obj == null){
-                s.obj = obj;
-                obj.transform.position = (new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f));
+                GameObject newPiece = Instantiate(townPiecePrefab, new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f), Quaternion.identity);
+                s.obj = newPiece;
                 return;
-            }else{
-
             }
         }
+        Debug.Log("No slot found!");
     }
 
     // public void removeTownPieceFromSlot(GameObject obj){ 

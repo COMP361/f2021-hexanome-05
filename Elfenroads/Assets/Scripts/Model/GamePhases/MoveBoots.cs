@@ -11,5 +11,11 @@ namespace Models
             currentPlayer = curPlayer;
             playersPassed = new List<Player>();
         }
+
+        [Newtonsoft.Json.JsonConstructor]
+        public MoveBoots(Player curPlayer, List<Player> playersPassed){
+            currentPlayer = curPlayer;
+            this.playersPassed = playersPassed;
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace Models {
         public GameObject faceUpCounters;
         //Save these two for Elfengold, once we get to that.
         //public GameObject faceUpCards;
+        //public GameObject auctionCounters;
         //public GameObject goldCardPile;
 
         [HideInInspector]
@@ -22,16 +23,39 @@ namespace Models {
             Elfenroads.Model = this;
         }
 
-        public void modelFinished(Game g){
-            //Called when the initial GameState is recieved and put into a Game object.
-
-            //First, loop through TownObjects, calling "setAndSubscribeToModel" on each one with the Model-counterpart as a parameter.
+        //Called when the initial GameState is recieved. Should attach Models to their Views, and put any GUIDs in the Store.
+        public void initialGame(Game g){
+            //First, we set the game.
+            game = g;
+            //Second, loop through TownObjects, calling "setAndSubscribeToModel" on each one with the Model-counterpart as a parameter.
+            foreach(GameObject t in townObjects){
+                t.GetComponent<TownView>().setAndSubscribeToModel(game.board.GetTown(t.name));
+            }
 
             //Then, do the same with roadObjects.
-
+            foreach(GameObject r in roadObjects){
+                RoadView rView = r.GetComponent<RoadView>();
+                Town startTown = game.board.GetTown(rView.startTown.name);
+                Town endTown = game.board.GetTown(rView.endTown.name);
+                rView.setAndSubscribeToModel(game.board.GetRoad(startTown, endTown, rView.roadType));
+            }
+            
             //Now, playerObjects.
+            foreach(GameObject p in playerObjects){
 
-            //Finally, faceUpCounters.
+            }
+            //Finally, the faceUpCounters object.
+            
+
+            //Next, we need to store all GuidModels into the store. That is, Townpieces, Towns, Roads, Players, Boots, Counters and Cards (I think that's it but feel free to double-check).
+
+            //Now that the Model is fully integrated, we can tell the main Game controller that we're ready to begin the first Phase.
+            //Call here
+        }
+
+        //Called when a new, non-initial GameState is received.
+        public void updatedGame(Game g){
+
         }
 
         //Don't think we need this anymore? Alternative way if we want to I guess.

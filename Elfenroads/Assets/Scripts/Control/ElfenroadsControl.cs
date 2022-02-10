@@ -52,10 +52,15 @@ namespace Controls {
         //    Debug.Log("Null exception? " + e);
         // }
 
-        //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function. (***SHOULD LIKELY BE MOVED OUTSIDE OF THIS START() FUNCTION, HERE NOW FOR TESTING)
+        //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function. *** SHOULD MAYBE BE MOVED OUTSIDE OF THIS START() FUNCTION? ***
         ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(obj.GetComponent<SessionInfo>(), socket);
 
         //Once the Server recieves all colors, it can send the initial game state to the Clients and the game begins. *** REMEMBER TO UN-LOCK THE CAMERA + CLICKING!
+
+        }
+
+        //Called when the initial Game State has been recieved and integrated to the Client-side. 
+        public void setupReady(){
 
         }
     }

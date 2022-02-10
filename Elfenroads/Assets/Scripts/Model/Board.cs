@@ -52,7 +52,6 @@ namespace Models {
                     return road;
                 }
             }
-
             return null;
         }
     }

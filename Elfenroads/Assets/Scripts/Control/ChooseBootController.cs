@@ -39,43 +39,36 @@ public class ChooseBootController : MonoBehaviour
     }
 
     //Either calls ElfenroadsControl, or will be called by ElfenroadsControl.
-    public void endChooseColors(){
+    public void endChooseColors(Game initialGame){
         Debug.Log("Reached endChooseColors!");
         socket.Instance.Off("ColorChosen");
         canvas.SetActive(false);
-        //Calls ElfenroadsControl here.
+        //As it is now, the Model will call the main game Controller once it has integrated the Game sucessfully.
+        Elfenroads.Model.initialGame(initialGame);
     }
 
     public void updateTest(string input){
         Debug.Log(input);
         var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
         Game initialGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
-        Debug.Log(initialGame);
-        Debug.Log(initialGame.startingPlayer);
-        Debug.Log(initialGame.players);
-        Debug.Log(initialGame.board);
-        Debug.Log(initialGame.cards);
-        Debug.Log(initialGame.counterPile);
-        Debug.Log(initialGame.discardPile);
-        Debug.Log(initialGame.currentPhase);
-        Debug.Log(initialGame.variant);
-
-
-        try{
-            Debug.Log(initialGame.board.towns);
-            Debug.Log(initialGame.board.roads);
-        }catch (Exception e){
-            Debug.Log("Error: " + e);
-        }
-        //JObject jobj = JObject.Parse(input);
-        //JArray counterArr = JArray.Parse(jobj["counters"].ToString());
-        //Debug.Log(counterArr);
-        //List<Counter> counterList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Counter>>(counterArr.ToString(), jset);
-        // Debug.Log(counterList[0].GetType());
-        // Debug.Log("Should be true: " + (counterList[0] is TransportationCounter));
-        // Debug.Log("Fields: Id: " + counterList[0].id + ", Type: " + ((TransportationCounter) counterList[0]).transportType);
-        // Debug.Log("Should be true: " + (counterList[1] is MagicSpellCounter));
-        // Debug.Log("Fields: Id: " + counterList[1].id + ", Type: " + ((MagicSpellCounter) counterList[1]).spellType);
+        // Debug.Log(initialGame);
+        // Debug.Log(initialGame.startingPlayer);
+        // Debug.Log(initialGame.players);
+        // Debug.Log(initialGame.board);
+        // Debug.Log(initialGame.cards);
+        // Debug.Log(initialGame.counterPile);
+        // Debug.Log(initialGame.discardPile);
+        // Debug.Log(initialGame.currentPhase);
+        // Debug.Log(initialGame.variant);
+        // try{
+        //     Debug.Log(initialGame.board.towns);
+        //     Debug.Log(initialGame.board.roads);
+        // }catch (Exception e){
+        //     Debug.Log("Error: " + e);
+        // }
+        
+        //Now, should pass the "Game" we deserialized to Elfenroads.Model for processing.
+        endChooseColors(initialGame);
     }
 
     public void updateColors(string input){
