@@ -1,5 +1,6 @@
 using Models;
 using System;
+using UnityEngine;
 
 namespace Models {
     /// <summary>
@@ -8,8 +9,8 @@ namespace Models {
     public abstract class GuidModel : IEquatable<GuidModel> {
         public Guid id { private set; get; }
 
-        protected GuidModel() {
-            this.id = new Guid();
+        protected GuidModel() { //Something funky's going on here...
+            //this.id = new Guid();
         }
 
         protected GuidModel(Guid id) {
@@ -17,6 +18,7 @@ namespace Models {
         }
 
         public bool Equals(GuidModel other) {
+            //Debug.Log("Equality check: " + this.id + " and " + other.id );
             return other != null &&
                     other.id == this.id;
         }

@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using Models.Helpers;
 using Models;
+using UnityEngine;
 
 
 namespace Models {
@@ -45,13 +46,17 @@ namespace Models {
         }
 
         public Road GetRoad(Town start, Town end, TerrainType roadType) {
+            Debug.Log("Passed-in start town is: " + start.name + " with id " + start.id + ", passed-in end town is: " + end.name + " with id " + end.id);
             foreach (Road road in roads) {
+                Debug.Log("GetRoad loop");
+                Debug.Log("CurRoad Start town is: " + road.start.name + " with id " + road.start.id + ", end town is: " + road.end.name + " with id " + road.end.id + " and type is " + road.roadType + ". Equality results are " + road.start.Equals(start) + " and " + road.end.Equals(end));
                 if (road.start.Equals(start) &&
                     road.end.Equals(end) &&
                     road.roadType == roadType) {
                     return road;
                 }
             }
+            Debug.Log("Road not found in board!");
             return null;
         }
     }
