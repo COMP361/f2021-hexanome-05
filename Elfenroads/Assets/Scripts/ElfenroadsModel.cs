@@ -49,7 +49,7 @@ namespace Models {
             
 
             //Next, we need to store all GuidModels into the store. That is, Townpieces, Towns, Roads, Players, Boots, Counters and Cards (I think that's it but feel free to double-check).
-            foreach(Town t in game.board.towns){
+            /*foreach(Town t in game.board.towns){
                 ModelStore.Add(t);
                 foreach(TownPiece tp in t.townPieces){
                     ModelStore.Add(tp);
@@ -75,7 +75,7 @@ namespace Models {
             //Again, later on we'll need some kind of check here if we're in an ElfenGold game. ***
             foreach(Counter c in ((DrawCounters) game.currentPhase).faceUpCounters){
                 ModelStore.Add(c);
-            }
+            }*/
 
             //Now that the Model is fully integrated, we can tell the main Game controller that we're ready to begin the first Phase. (How exactly is the flow going to work from here?)
             //Call here

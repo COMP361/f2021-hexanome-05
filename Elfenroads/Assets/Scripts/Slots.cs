@@ -17,10 +17,10 @@ public class Slots : MonoBehaviour{
         }
     }
 
-    public void addToSlot(GameObject prefab){
+    public void addToSlot(GameObject prefab, GameObject inputObject){
         foreach(Slot s in slots){
             if(s.obj == null){
-                GameObject newPiece = Instantiate(prefab, new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f), Quaternion.identity); //Hopefully this works!
+                GameObject newPiece = Instantiate(prefab, new Vector3(s.xCoord, s.yCoord, inputObject.transform.position.z + 0.5f), Quaternion.identity); //Hopefully this works!
                 s.obj = newPiece;
                 return;
             }

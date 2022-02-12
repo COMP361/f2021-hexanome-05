@@ -35,32 +35,32 @@ public class FaceUpCountersView : MonoBehaviour
                     switch(tc.transportType){
                         case TransportType.Dragon:
                         {
-                            counters.addToSlot(dragonCounterPrefab);
+                            counters.addToSlot(dragonCounterPrefab, this.gameObject);
                             break;
                         }
                         case TransportType.ElfCycle:
                         {
-                            counters.addToSlot(cycleCounterPrefab);
+                            counters.addToSlot(cycleCounterPrefab, this.gameObject);
                             break;
                         }
                         case TransportType.MagicCloud:
                         {
-                            counters.addToSlot(cloudCounterPrefab);
+                            counters.addToSlot(cloudCounterPrefab, this.gameObject);
                             break;
                         }
                         case TransportType.TrollWagon:
                         {
-                            counters.addToSlot(trollCounterPrefab);
+                            counters.addToSlot(trollCounterPrefab, this.gameObject);
                             break;
                         }
                         case TransportType.GiantPig:
                         {
-                            counters.addToSlot(pigCounterPrefab);
+                            counters.addToSlot(pigCounterPrefab, this.gameObject);
                             break;
                         }
                         case TransportType.Unicorn:
                         {
-                            counters.addToSlot(unicornCounterPrefab);
+                            counters.addToSlot(unicornCounterPrefab, this.gameObject);
                             break;
                         }
                         default: Debug.Log("Model transportation counter of type raft! This is not allowed!") ; break;

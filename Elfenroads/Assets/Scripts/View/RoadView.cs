@@ -64,6 +64,7 @@ public class RoadView : MonoBehaviour {
      }
 
     void onModelUpdated(object sender, EventArgs e) {
+        Debug.Log("model updated!");
         //First, remove all counters from the slots.
         counters.removeAllFromSlots();
 
@@ -75,32 +76,32 @@ public class RoadView : MonoBehaviour {
                     switch(tc.transportType){
                         case TransportType.Dragon:
                         {
-                            counters.addToSlot(dragonCounterPrefab);
+                            counters.addToSlot(dragonCounterPrefab, this.gameObject);
                             break;
                         }
                         case TransportType.ElfCycle:
                         {
-                            counters.addToSlot(cycleCounterPrefab);
+                            counters.addToSlot(cycleCounterPrefab, this.gameObject);
                             break;
                         }
                         case TransportType.MagicCloud:
                         {
-                            counters.addToSlot(cloudCounterPrefab);
+                            counters.addToSlot(cloudCounterPrefab, this.gameObject);
                             break;
                         }
                         case TransportType.TrollWagon:
                         {
-                            counters.addToSlot(trollCounterPrefab);
+                            counters.addToSlot(trollCounterPrefab, this.gameObject);
                             break;
                         }
                         case TransportType.GiantPig:
                         {
-                            counters.addToSlot(pigCounterPrefab);
+                            counters.addToSlot(pigCounterPrefab, this.gameObject);
                             break;
                         }
                         case TransportType.Unicorn:
                         {
-                            counters.addToSlot(unicornCounterPrefab);
+                            counters.addToSlot(unicornCounterPrefab, this.gameObject);
                             break;
                         }
                         default: Debug.Log("Model transportation counter of type raft! This is not allowed!") ; break;
@@ -120,7 +121,7 @@ public class RoadView : MonoBehaviour {
                 case ObstacleCounter obc:
                 {
                     //*** Add sea obstacle later, during elfengold.
-                    counters.addToSlot(landObstaclePrefab);
+                    counters.addToSlot(landObstaclePrefab, this.gameObject);
                     break;
                 }
                 default: Debug.Log("Counter is of undefined type!") ; break;

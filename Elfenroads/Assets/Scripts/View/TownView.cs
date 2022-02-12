@@ -64,7 +64,7 @@ public class TownView : MonoBehaviour {
     public void setAndSubscribeToModel(Town t){
             modelTown = t;
             modelTown.Updated += onModelUpdated;
-            //this.onModelUpdated(null, null); //When subscribing initially, want the view to take effect. *** COMMENTED OUT UNTIL I FIX "SLOTS"
+            this.onModelUpdated(null, null); //When subscribing initially, want the view to take effect. 
             
     }
 
@@ -79,32 +79,32 @@ public class TownView : MonoBehaviour {
             switch(piece.color){
                 case Models.Color.RED:
                 {
-                    townPieces.addToSlot(redTownPiecePrefab);
+                    townPieces.addToSlot(redTownPiecePrefab, this.gameObject);
                     break;
                 }
                 case Models.Color.BLUE:
                 {
-                    townPieces.addToSlot(blueTownPiecePrefab);
+                    townPieces.addToSlot(blueTownPiecePrefab, this.gameObject);
                     break;
                 }
                 case Models.Color.GREEN:
                 {
-                    townPieces.addToSlot(greenTownPiecePrefab);
+                    townPieces.addToSlot(greenTownPiecePrefab, this.gameObject);
                     break;
                 }
                 case Models.Color.YELLOW:
                 {
-                    townPieces.addToSlot(yellowTownPiecePrefab);
+                    townPieces.addToSlot(yellowTownPiecePrefab, this.gameObject);
                     break;
                 }
                 case Models.Color.PURPLE:
                 {
-                    townPieces.addToSlot(purpleTownPiecePrefab);
+                    townPieces.addToSlot(purpleTownPiecePrefab, this.gameObject);
                     break;
                 }
                 case Models.Color.BLACK:
                 {
-                    townPieces.addToSlot(blackTownPiecePrefab);
+                    townPieces.addToSlot(blackTownPiecePrefab, this.gameObject);
                     break;
                 }
                 default: Debug.Log("Piece with no color!!") ; break;
@@ -116,32 +116,32 @@ public class TownView : MonoBehaviour {
             switch(boot.color){
                 case Models.Color.RED:
                 {
-                    boots.addToSlot(redBootPrefab);
+                    boots.addToSlot(redBootPrefab,this.gameObject);
                     break;
                 }
                 case Models.Color.BLUE:
                 {
-                    boots.addToSlot(blueBootPrefab);
+                    boots.addToSlot(blueBootPrefab,this.gameObject);
                     break;
                 }
                 case Models.Color.GREEN:
                 {
-                    boots.addToSlot(greenBootPrefab);
+                    boots.addToSlot(greenBootPrefab,this.gameObject);
                     break;
                 }
                 case Models.Color.YELLOW:
                 {
-                    boots.addToSlot(yellowBootPrefab);
+                    boots.addToSlot(yellowBootPrefab, this.gameObject);
                     break;
                 }
                 case Models.Color.PURPLE:
                 {
-                    boots.addToSlot(purpleBootPrefab);
+                    boots.addToSlot(purpleBootPrefab, this.gameObject);
                     break;
                 }
                 case Models.Color.BLACK:
                 {
-                    boots.addToSlot(blackBootPrefab);
+                    boots.addToSlot(blackBootPrefab, this.gameObject);
                     break;
                 }
                 default: Debug.Log("Boot with no color!!") ; break;
