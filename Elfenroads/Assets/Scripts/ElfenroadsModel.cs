@@ -17,7 +17,7 @@ namespace Models {
         //public GameObject goldCardPile;
 
         [HideInInspector]
-        private Game game;
+        public Game game;
 
         private void Awake() {
             Elfenroads.Model = this;

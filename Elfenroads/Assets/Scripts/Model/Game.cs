@@ -33,7 +33,9 @@ namespace Models {
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        protected Game(Board board, List<Player> players, Player startingPlayer, GamePhase currentPhase, Variant variant, CardPile cards, CardPile discardPile, CounterPile counterPile) {
+        protected Game(Board board, List<Player> players, Player startingPlayer,
+                        GamePhase currentPhase, Variant variant, CardPile cards,
+                        CardPile discardPile, CounterPile counterPile) {
             this.board = board;
             this.players = players;
             this.startingPlayer = startingPlayer;
@@ -62,6 +64,42 @@ namespace Models {
             }
 
             if (players.DeepUpdate(update.players)) {
+                modified = true;
+            }
+
+            if ( !startingPlayer.Equals(update.startingPlayer) ) {
+                startingPlayer = (Player) ModelStore.Get(update.startingPlayer.id);
+                modified = true;
+            }
+
+            // might fuck up ***
+            if (currentPhase.isCompatible(update.currentPhase)) {
+                if (currentPhase.Update(update.currentPhase)) {
+                    modified = true;
+                }
+            }
+            else {
+                // needs more thought
+                currentPhase.End();
+                currentPhase = update.currentPhase;
+                currentPhase.Update(update.currentPhase);
+                modified = true;
+            }
+
+            if (variant != update.variant) {
+                variant = update.variant;
+                modified = true;
+            }
+
+            if (cards.Update(update.cards)) {
+                modified = true;
+            }
+
+            if (discardPile.Update(update.discardPile)) {
+                modified = true;
+            }
+
+            if (counterPile.Update(update.counterPile)) {
                 modified = true;
             }
 
