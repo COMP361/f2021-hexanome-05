@@ -63,5 +63,17 @@ namespace Controls {
         public void setupReady(){
 
         }
+
+
+
+        //Called after validation from "DrawCounters" phase, sends a command to the Server for the currentPlayer to add the specified counter to their inventory.
+        public void drawCounter(){ //Parameters to be decided, see "DrawCountersController"
+
+        }
+
+        //Called after validation from "DrawCounters" phase, sends a command to the Server for the currentPlayer to draw a random counter.
+        public void drawRandomCounter(){
+
+        }
     }
 }

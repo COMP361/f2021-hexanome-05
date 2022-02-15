@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using Views;
 using Models;
+using UnityEngine;
 
 namespace Models{
     public class ModelStore {
@@ -18,6 +19,7 @@ namespace Models{
             dict = new Dictionary<Guid, GuidModel>();
         }
         public static void Add(GuidModel model) {
+            Debug.Log("Type: " + model.GetType() + " with Id:" + model.id );
             StoreInstance().dict.Add(model.id, model);
         }
 

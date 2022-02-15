@@ -128,6 +128,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1633173083262833050, guid: 46103fd4088f05047af5383b17714437, type: 3}
   m_PrefabInstance: {fileID: 1551631540}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &16797345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 16797346}
+  m_Layer: 0
+  m_Name: DrawCounterController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &16797346
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16797345}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2009043945}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &18568791 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8072134380740383198, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
@@ -20189,6 +20219,7 @@ Transform:
   - {fileID: 884027287}
   - {fileID: 572325402}
   - {fileID: 853879044}
+  - {fileID: 16797346}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
