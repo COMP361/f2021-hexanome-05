@@ -2,88 +2,60 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using Models;
 
 public class FaceUpCountersView : MonoBehaviour
 {
-    private Slots counters;
-    private FaceUpCounters countersModel;
+    //Need public UI elements here, which will actually display the model (DrawCountersModel, below) to the screen.
+    //Eg. public GridLayoutGroup layout; and several prefabs for the different types of counters.
 
-    public GameObject dragonCounterPrefab;
-    public GameObject trollCounterPrefab;
-    public GameObject cloudCounterPrefab;
-    public GameObject cycleCounterPrefab;
-    public GameObject unicornCounterPrefab;
-    public GameObject pigCounterPrefab;
+    private DrawCountersController myController;
+    private GameObject sessionInfo;
+    private DrawCounters drawCountersModel;
+
 
     void Start(){
-        counters = new Slots(5,5,gameObject.transform.position, 0.15f , 0); //These are simply guesses, for now.
+        myController = GameObject.Find("DrawCountersController").GetComponent<DrawCountersController>();
+        sessionInfo = GameObject.Find("SessionInfo");
     }
 
-    public void setAndSubscribeToModel(FaceUpCounters fUpCounters){
-         countersModel = fUpCounters;
-         countersModel.Updated += onModelUpdated;
-         //this.onModelUpdated(null, null);  *** COMMENTED OUT FOR NOW
+    public void setAndSubscribeToModel(DrawCounters inputDrawCounters){
+         drawCountersModel = inputDrawCounters;
+         drawCountersModel.Updated += onModelUpdated;
+         //onModelUpdated(null, null);
      }
 
-     void onModelUpdated(object sender, EventArgs e) {
-         counters.removeAllFromSlots();
-         foreach(Counter c in countersModel.counters){
-             switch(c){
-                case TransportationCounter tc:
-                {
-                    switch(tc.transportType){
-                        case TransportType.Dragon:
-                        {
-                            counters.addToSlot(dragonCounterPrefab, this.gameObject);
-                            break;
-                        }
-                        case TransportType.ElfCycle:
-                        {
-                            counters.addToSlot(cycleCounterPrefab, this.gameObject);
-                            break;
-                        }
-                        case TransportType.MagicCloud:
-                        {
-                            counters.addToSlot(cloudCounterPrefab, this.gameObject);
-                            break;
-                        }
-                        case TransportType.TrollWagon:
-                        {
-                            counters.addToSlot(trollCounterPrefab, this.gameObject);
-                            break;
-                        }
-                        case TransportType.GiantPig:
-                        {
-                            counters.addToSlot(pigCounterPrefab, this.gameObject);
-                            break;
-                        }
-                        case TransportType.Unicorn:
-                        {
-                            counters.addToSlot(unicornCounterPrefab, this.gameObject);
-                            break;
-                        }
-                        default: Debug.Log("Model transportation counter of type raft! This is not allowed!") ; break;
-                    }
-                    break;
-                }
-                case MagicSpellCounter msc:
-                {
-                    Debug.Log("Elfengold - Do later");
-                    break;
-                }
-                case GoldCounter gc:
-                {
-                    Debug.Log("Elfengold - Do later");
-                    break;
-                }
-                case ObstacleCounter obc:
-                {
-                    //*** Add sea obstacle later, during elfengold. Land obstacles can't ever be in FaceUpCounters, however.
-                    break;
-                }
-                default: Debug.Log("Counter is of undefined type!") ; break;
-            }
+    void onModelUpdated(object sender, EventArgs e) {
+
+    }
+
+    //Called by the Counter GridElements (those instantiated by this script, and which will be made children of the GridLayoutGroup). Will be used to identify which counter was clicked.
+    public void CounterClicked(GameObject clickedCounter){
+        
+        if( (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username) && Elfenroads.Model.game.currentPhase is DrawCounters){
+            Debug.Log(clickedCounter);
+
+            //Find the counter here
+
+            myController.validateDrawCounter();
+
+        }else{
+            Debug.Log("Click invalid. Is it your turn? -> " + (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username));
+            Debug.Log("If so, then it is because the currentPhase is " + Elfenroads.Model.game.currentPhase);
+        }
+    }
+
+    //Called by some other button or object representing a random draw, which has an Event trigger leading here.
+    public void RandomCounterClicked(){
+        if( (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username) && Elfenroads.Model.game.currentPhase is DrawCounters){
+
+            myController.validateDrawRandomCounter();
+
+        }else{
+            Debug.Log("Click invalid. Is it your turn? -> " + (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username));
+            Debug.Log("If so, then it is because the currentPhase is " + Elfenroads.Model.game.currentPhase);
         }
     }
 }

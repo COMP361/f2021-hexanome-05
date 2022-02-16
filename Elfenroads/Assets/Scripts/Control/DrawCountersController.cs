@@ -11,13 +11,15 @@ public class DrawCountersController : MonoBehaviour
     public void validateDrawCounter(){ //Parameter to be decided. CurrentPlayer can be found through Elfenroads.Model, so either an integer representing the index of the counter chosen, or it will simply pass in the Counter / that counter's Guid.
 
         //Is validation even needed here? If we make it to this point, a counter was clicked and there's no "wrong" counter to click. For now, I'll work as if there is nothing to validate here (because I don't think there is )
+        Elfenroads.Control.drawCounter();
 
     }
 
 
     public void validateDrawRandomCounter(){ //No parameter needed, since we'll just tell the Server to draw a random counter from the counterpile.
 
-        //Is validation even needed here? If we make it to this point, a counter was clicked and there's no "wrong" counter to click. For now, I'll work as if there is nothing to validate.
+        //Is validation even needed here? If we make it to this point, a counter was clicked and there's no "wrong" choice. For now, I'll work as if there is nothing to validate.
+        Elfenroads.Control.drawRandomCounter();
 
     }
 
