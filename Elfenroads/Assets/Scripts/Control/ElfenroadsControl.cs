@@ -28,12 +28,11 @@ namespace Controls {
 
         //First, if we are the host, we need to set up a screen where the host can choose variants, and then they send a "InitializeGame" message to the Server.
         //(While this happens, other clients simply get a "waiting for host to decide the gamemode" message)
-
+        if(GameObject.Find("Listener") == null) return;
         socket = GameObject.Find("Listener").GetComponent<SocketIOCommunicator>();
         Debug.Log("Socket ID in game scene: " + socket.Instance.SocketID);
         Debug.Log("Socket status in game scene  : " + socket.Instance.Status);
         GameObject obj = GameObject.Find("SessionInfo");
-
         string playerName = obj.GetComponent<SessionInfo>().getClient().clientCredentials.username;
         Debug.Log("Session info player name: " + playerName + ", Host player name: " + obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName);
         if(playerName == obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName){

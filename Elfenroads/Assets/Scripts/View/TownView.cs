@@ -68,10 +68,20 @@ public class TownView : MonoBehaviour {
             
     }
 
+    void removeAllFromSlots(Slots target){ //Needs to be added to all "Views" using slots, since Unity is goofy like that and doesn't allow deletion if it isn't in a Monobehavior.
+        List<Slot> tSlots = target.getSlots();
+        foreach(Slot s in tSlots){
+            if(s.obj != null){
+                Destroy(s.obj);
+                s.obj = null;
+            }
+        }
+    }
+
     void onModelUpdated(object sender, EventArgs e) {
         //Remove all townpieces and boots from slots (can just do difference later but this is easiest)
-        townPieces.removeAllFromSlots();
-        boots.removeAllFromSlots();
+        removeAllFromSlots(townPieces);
+        removeAllFromSlots(boots);
     
         //Next, look at the townPieces in the Model, and add the appropriate TownPiece prefabs to the slots.
         foreach(TownPiece piece in modelTown.townPieces){
@@ -79,32 +89,38 @@ public class TownView : MonoBehaviour {
             switch(piece.color){
                 case Models.Color.RED:
                 {
-                    townPieces.addToSlot(redTownPiecePrefab, this.gameObject);
+                    GameObject parameter = Instantiate(redTownPiecePrefab, Vector3.zero, Quaternion.identity);
+                    townPieces.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 case Models.Color.BLUE:
                 {
-                    townPieces.addToSlot(blueTownPiecePrefab, this.gameObject);
+                    GameObject parameter = Instantiate(blueTownPiecePrefab, Vector3.zero, Quaternion.identity);
+                    townPieces.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 case Models.Color.GREEN:
                 {
-                    townPieces.addToSlot(greenTownPiecePrefab, this.gameObject);
+                    GameObject parameter = Instantiate(greenTownPiecePrefab, Vector3.zero, Quaternion.identity);
+                    townPieces.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 case Models.Color.YELLOW:
                 {
-                    townPieces.addToSlot(yellowTownPiecePrefab, this.gameObject);
+                    GameObject parameter = Instantiate(yellowTownPiecePrefab, Vector3.zero, Quaternion.identity);
+                    townPieces.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 case Models.Color.PURPLE:
                 {
-                    townPieces.addToSlot(purpleTownPiecePrefab, this.gameObject);
+                    GameObject parameter = Instantiate(purpleTownPiecePrefab, Vector3.zero, Quaternion.identity);
+                    townPieces.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 case Models.Color.BLACK:
                 {
-                    townPieces.addToSlot(blackTownPiecePrefab, this.gameObject);
+                    GameObject parameter = Instantiate(blackTownPiecePrefab, Vector3.zero, Quaternion.identity);
+                    townPieces.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 default: Debug.Log("Piece with no color!!") ; break;
@@ -116,32 +132,38 @@ public class TownView : MonoBehaviour {
             switch(boot.color){
                 case Models.Color.RED:
                 {
-                    boots.addToSlot(redBootPrefab,this.gameObject);
+                    GameObject parameter = Instantiate(redBootPrefab, Vector3.zero, Quaternion.identity);
+                    boots.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 case Models.Color.BLUE:
                 {
-                    boots.addToSlot(blueBootPrefab,this.gameObject);
+                    GameObject parameter = Instantiate(blueBootPrefab, Vector3.zero, Quaternion.identity);
+                    boots.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 case Models.Color.GREEN:
                 {
-                    boots.addToSlot(greenBootPrefab,this.gameObject);
+                    GameObject parameter = Instantiate(greenBootPrefab, Vector3.zero, Quaternion.identity);
+                    boots.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 case Models.Color.YELLOW:
                 {
-                    boots.addToSlot(yellowBootPrefab, this.gameObject);
+                    GameObject parameter = Instantiate(yellowBootPrefab, Vector3.zero, Quaternion.identity);
+                    boots.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 case Models.Color.PURPLE:
                 {
-                    boots.addToSlot(purpleBootPrefab, this.gameObject);
+                    GameObject parameter = Instantiate(purpleBootPrefab, Vector3.zero, Quaternion.identity);
+                    boots.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 case Models.Color.BLACK:
                 {
-                    boots.addToSlot(blackBootPrefab, this.gameObject);
+                    GameObject parameter = Instantiate(blackBootPrefab, Vector3.zero, Quaternion.identity);
+                    boots.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 default: Debug.Log("Boot with no color!!") ; break;

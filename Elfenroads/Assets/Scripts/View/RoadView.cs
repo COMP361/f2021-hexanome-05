@@ -56,6 +56,16 @@ public class RoadView : MonoBehaviour {
         // Elfenroads.Model.ModelReady += getAndSubscribeToModel;
     }
 
+    void removeAllFromSlots(Slots target){ //Needs to be added to all "Views" using slots, since Unity is goofy like that and doesn't allow deletion if it isn't in a Monobehavior.
+        List<Slot> tSlots = target.getSlots();
+        foreach(Slot s in tSlots){
+            if(s.obj != null){
+                Destroy(s.obj);
+                s.obj = null;
+            }
+        }
+    }
+
 
      public void setAndSubscribeToModel(Road r){
          modelRoad = r;
@@ -66,7 +76,7 @@ public class RoadView : MonoBehaviour {
     void onModelUpdated(object sender, EventArgs e) {
         Debug.Log("model updated!");
         //First, remove all counters from the slots.
-        counters.removeAllFromSlots();
+        removeAllFromSlots(counters);
 
         //Then, go through each counter of the model, and add the right prefab to the slots.
         foreach(Counter c in modelRoad.counters){
@@ -75,33 +85,39 @@ public class RoadView : MonoBehaviour {
                 {
                     switch(tc.transportType){
                         case TransportType.Dragon:
-                        {
-                            counters.addToSlot(dragonCounterPrefab, this.gameObject);
+                        {  
+                            GameObject parameter = Instantiate(dragonCounterPrefab, Vector3.zero, Quaternion.identity);
+                            counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.ElfCycle:
                         {
-                            counters.addToSlot(cycleCounterPrefab, this.gameObject);
+                            GameObject parameter = Instantiate(cycleCounterPrefab, Vector3.zero, Quaternion.identity);
+                            counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.MagicCloud:
                         {
-                            counters.addToSlot(cloudCounterPrefab, this.gameObject);
+                            GameObject parameter = Instantiate(cloudCounterPrefab, Vector3.zero, Quaternion.identity);
+                            counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.TrollWagon:
                         {
-                            counters.addToSlot(trollCounterPrefab, this.gameObject);
+                            GameObject parameter = Instantiate(trollCounterPrefab, Vector3.zero, Quaternion.identity);
+                            counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.GiantPig:
                         {
-                            counters.addToSlot(pigCounterPrefab, this.gameObject);
+                            GameObject parameter = Instantiate(pigCounterPrefab, Vector3.zero, Quaternion.identity);
+                            counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.Unicorn:
                         {
-                            counters.addToSlot(unicornCounterPrefab, this.gameObject);
+                            GameObject parameter = Instantiate(unicornCounterPrefab, Vector3.zero, Quaternion.identity);
+                            counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         default: Debug.Log("Model transportation counter of type raft! This is not allowed!") ; break;
@@ -121,7 +137,8 @@ public class RoadView : MonoBehaviour {
                 case ObstacleCounter obc:
                 {
                     //*** Add sea obstacle later, during elfengold.
-                    counters.addToSlot(landObstaclePrefab, this.gameObject);
+                    GameObject parameter = Instantiate(landObstaclePrefab, Vector3.zero, Quaternion.identity);
+                    counters.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 default: Debug.Log("Counter is of undefined type!") ; break;

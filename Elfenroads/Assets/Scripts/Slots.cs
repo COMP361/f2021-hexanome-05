@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slots : MonoBehaviour{
+public class Slots {
     public List<Slot> slots;
-
 
     public Slots(int maxItems, int itemsPerRow, Vector3 initialPosition, float xBuffer, float yBuffer){
         float colCount = 0;
@@ -17,34 +16,19 @@ public class Slots : MonoBehaviour{
         }
     }
 
-    public void addToSlot(GameObject prefab, GameObject inputObject){
+    public void addToSlot(GameObject instantiatedObject, GameObject inputObject){
         foreach(Slot s in slots){
             if(s.obj == null){
-                GameObject newPiece = Instantiate(prefab, new Vector3(s.xCoord, s.yCoord, inputObject.transform.position.z + 0.5f), Quaternion.identity); //Hopefully this works!
-                s.obj = newPiece;
+                instantiatedObject.transform.position = new Vector3(s.xCoord, s.yCoord, inputObject.transform.position.z + 0.5f);
+                s.obj = instantiatedObject;
                 return;
             }
         }
         Debug.Log("No slot found!");
     }
 
-    public void removeFromSlot(GameObject obj){ 
-        foreach(Slot s in slots){
-            if(s.obj == obj){
-                Destroy(s.obj);
-                s.obj = null;
-                return;
-            }
-        }
-    }
-
-    public void removeAllFromSlots(){
-        foreach (Slot s in slots){
-            if(s.obj != null){
-                Destroy(s.obj);
-                s.obj = null;
-            }
-        }
+    public List<Slot> getSlots(){
+        return slots;
     }
 
 

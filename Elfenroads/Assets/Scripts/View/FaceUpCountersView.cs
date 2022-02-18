@@ -28,11 +28,16 @@ public class FaceUpCountersView : MonoBehaviour
      }
 
     void onModelUpdated(object sender, EventArgs e) {
+        //Here, needs to add counters to the GridLayoutGroup according to the model. Instantiated Counters must also have their "CounterViewHelper" component's "Guid" fields set appropriately.
 
     }
 
     //Called by the Counter GridElements (those instantiated by this script, and which will be made children of the GridLayoutGroup). Will be used to identify which counter was clicked.
     public void CounterClicked(GameObject clickedCounter){
+        if(drawCountersModel == null){
+            Debug.Log("Yay!");
+            return;
+        }
         
         if( (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username) && Elfenroads.Model.game.currentPhase is DrawCounters){
             Debug.Log(clickedCounter);
@@ -49,8 +54,11 @@ public class FaceUpCountersView : MonoBehaviour
 
     //Called by some other button or object representing a random draw, which has an Event trigger leading here.
     public void RandomCounterClicked(){
+        if(drawCountersModel == null){
+            Debug.Log("Yay!");
+            return;
+        }
         if( (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username) && Elfenroads.Model.game.currentPhase is DrawCounters){
-
             myController.validateDrawRandomCounter();
 
         }else{
