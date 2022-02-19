@@ -11,6 +11,7 @@ namespace Models {
         public List<GameObject> townObjects;
         public List<GameObject> playerObjects; //Represents the player's inventories, which will be on the UI.
         public GameObject faceUpCounters;
+        public GameObject mainPlayerObject;
         //Save these two for Elfengold, once we get to that.
         //public GameObject faceUpCards;
         //public GameObject auctionCounters;
@@ -40,12 +41,19 @@ namespace Models {
                 Debug.Log("In Model, start town is: " + startTown.name + ", end town is: " + endTown.name + " and type is " + rView.roadType);
                 rView.setAndSubscribeToModel(game.board.GetRoad(startTown, endTown, rView.roadType));
             }
-            
-            //Now, playerObjects. We'll want to add the main player's inventory to the bottom part of the GUI, while the opponents will go above.
-            foreach(GameObject p in playerObjects){
 
+            //Next, add the main player object.
+            foreach(Player p in game.players){
+                if(p.name == GameObject.Find("SessionInfo").GetComponent<SessionInfo>().getClient().clientCredentials.username){
+                    ///mainPlayerObject.GetComponent<MainPlayerView>().setAndSubscribeToModel(p); 
+                }
+            }
+            
+            //Now, playerObjects. We'll want to add the main player's inventory to the bottom part of the GUI, while the opponents will go above (DO LATER***)
+            foreach(GameObject p in playerObjects){
             }
             //Finally, the faceUpCounters object (later on, add a check here - we'll have to add a "drawCards" view instead if we're playing Elfengold) ***
+            faceUpCounters.GetComponent<FaceUpCountersView>().setAndSubscribeToModel((DrawCounters) game.currentPhase);
             
 
             //Next, we need to store all GuidModels into the store. That is, Townpieces, Towns, Roads, Players, Boots, Counters and Cards (I think that's it but feel free to double-check).
@@ -78,7 +86,7 @@ namespace Models {
             }
 
             //Now that the Model is fully integrated, we can tell the main Game controller that we're ready to begin the first Phase. (How exactly is the flow going to work from here?)
-            //Call here
+            Elfenroads.Control.prepareScreen();
         }
 
         //Called when a new, non-initial GameState is received.

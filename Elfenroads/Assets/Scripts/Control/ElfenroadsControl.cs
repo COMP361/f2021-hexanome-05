@@ -14,6 +14,7 @@ namespace Controls {
     public class ElfenroadsControl : Elfenroads {
         private SocketIOCommunicator socket;
         public GameObject mainCamera;
+        public GameObject DrawCounterCanvas;
 
         //Making these singletons might be better?
         public GameObject MoveBootsManager;
@@ -55,12 +56,26 @@ namespace Controls {
         ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(obj.GetComponent<SessionInfo>(), socket);
 
         //Once the Server recieves all colors, it can send the initial game state to the Clients and the game begins. *** REMEMBER TO UN-LOCK THE CAMERA + CLICKING!
-
         }
 
-        //Called when the initial Game State has been recieved and integrated to the Client-side. 
-        public void setupReady(){
+        //Called after an update has been integrated to the Model. Reads the current phase, and presents the appropriate canvas to the Player. (***Depending on the phase, should lock/unlock the camera as well***)
+        public void prepareScreen(){
+            disableCanvases();
 
+            switch(Elfenroads.Model.game.currentPhase){
+                case DrawCounters dc:{
+                    DrawCounterCanvas.SetActive(true);
+                    break;
+                }
+                default:{
+                    Debug.Log("Phase not implemented!");
+                    break;
+                }
+            }
+        }
+
+        private void disableCanvases(){
+            DrawCounterCanvas.SetActive(false);
         }
 
 

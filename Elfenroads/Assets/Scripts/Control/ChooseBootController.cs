@@ -10,6 +10,7 @@ using Models;
 public class ChooseBootController : MonoBehaviour
 {
     public GameObject canvas;
+    public GameObject playerCanvas;
     public Button redButton;
     public Button blueButton;
     public Button greenButton;
@@ -43,6 +44,8 @@ public class ChooseBootController : MonoBehaviour
         Debug.Log("Reached endChooseColors!");
         socket.Instance.Off("ColorChosen");
         canvas.SetActive(false);
+        playerCanvas.SetActive(true);
+        //*** Set color of player canvas, as well as other opponent UI elements
         //As it is now, the Model will call the main game Controller once it has integrated the Game sucessfully.
         Elfenroads.Model.initialGame(initialGame);
     }
@@ -51,22 +54,6 @@ public class ChooseBootController : MonoBehaviour
         Debug.Log(input);
         var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
         Game initialGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
-        // Debug.Log(initialGame);
-        // Debug.Log(initialGame.startingPlayer);
-        // Debug.Log(initialGame.players);
-        // Debug.Log(initialGame.board);
-        // Debug.Log(initialGame.cards);
-        // Debug.Log(initialGame.counterPile);
-        // Debug.Log(initialGame.discardPile);
-        // Debug.Log(initialGame.currentPhase);
-        // Debug.Log(initialGame.variant);
-        // try{
-        //     Debug.Log(initialGame.board.towns);
-        //     Debug.Log(initialGame.board.roads);
-        // }catch (Exception e){
-        //     Debug.Log("Error: " + e);
-        // }
-        
         //Now, should pass the "Game" we deserialized to Elfenroads.Model for processing.
         endChooseColors(initialGame);
     }
