@@ -45,7 +45,7 @@ namespace Models {
             //Next, add the main player object.
             foreach(Player p in game.players){
                 if(p.name == GameObject.Find("SessionInfo").GetComponent<SessionInfo>().getClient().clientCredentials.username){
-                    ///mainPlayerObject.GetComponent<MainPlayerView>().setAndSubscribeToModel(p); 
+                    mainPlayerObject.GetComponent<ThisPlayerInventoryView>().setAndSubscribeToModel(p); 
                 }
             }
             
@@ -91,7 +91,7 @@ namespace Models {
 
         //Called when a new, non-initial GameState is received.
         public void updatedGame(Game g){
-
+                game.Update(g);
         }
 
         //Don't think we need this anymore? Alternative way if we want to I guess.

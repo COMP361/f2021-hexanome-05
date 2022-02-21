@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class CounterViewHelper : MonoBehaviour,  IPointerClickHandler
 {
     public GameObject faceUpCountersView;
-    public Guid myGuid;
+    private Guid myGuid;
 
     void Start(){
         faceUpCountersView = GameObject.Find("FaceUpCounters");
@@ -16,4 +16,13 @@ public class CounterViewHelper : MonoBehaviour,  IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData){
         faceUpCountersView.GetComponent<FaceUpCountersView>().CounterClicked(this.gameObject);
     }
+
+    public void setGuid(Guid input){
+        myGuid = input;
+    }
+
+    public Guid getGuid(){
+        return myGuid;
+    }
+
 }
