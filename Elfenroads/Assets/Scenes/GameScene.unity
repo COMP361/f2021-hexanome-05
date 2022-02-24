@@ -20745,6 +20745,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57fe9e79ca314c3499c648f4211b12b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dragonCounterPrefab: {fileID: 1178612722287100325, guid: c33eba681adc5004794cd411c60a9077, type: 3}
+  trollCounterPrefab: {fileID: 3389701222969943621, guid: 82baed04e3a00ad41a7c11b13583482f, type: 3}
+  cloudCounterPrefab: {fileID: 7999005353773716376, guid: 4457f759740b78845be47ad5d5560d38, type: 3}
+  cycleCounterPrefab: {fileID: 7929174182774217135, guid: ae5faca9c8b4abf409cd68189e15fe86, type: 3}
+  unicornCounterPrefab: {fileID: 1052281897076428699, guid: 029fefe47667a4843885c430f7ea55f6, type: 3}
+  pigCounterPrefab: {fileID: 3950933832795217001, guid: 1caf9fe4b9802ef408847b69bc1089f5, type: 3}
+  landObstaclePrefab: {fileID: 2576773675276721355, guid: 3562ae7f4756fe641a89d73a8e29fdce, type: 3}
 --- !u!4 &1869457518 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1633173083262833050, guid: 46103fd4088f05047af5383b17714437, type: 3}

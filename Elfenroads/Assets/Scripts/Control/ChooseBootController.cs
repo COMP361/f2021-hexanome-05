@@ -35,7 +35,7 @@ public class ChooseBootController : MonoBehaviour
         numPlayers = sI.getClient().mySession.players.Count;
         Debug.Log("Number of players according to ChooseBoot: " + numPlayers);
         sessionID = sI.getClient().thisSessionID;
-        socket.Instance.On("GameState", updateTest); 
+        socket.Instance.On("GameState", bootsChosen); 
         defaultBlock = redButton.colors; //Save for later.
     }
 
@@ -43,6 +43,7 @@ public class ChooseBootController : MonoBehaviour
     public void endChooseColors(Game initialGame){
         Debug.Log("Reached endChooseColors!");
         socket.Instance.Off("ColorChosen");
+        socket.Instance.Off("GameState");
         canvas.SetActive(false);
         playerCanvas.SetActive(true);
         //*** Set color of player canvas, as well as other opponent UI elements
@@ -50,7 +51,7 @@ public class ChooseBootController : MonoBehaviour
         Elfenroads.Model.initialGame(initialGame);
     }
 
-    public void updateTest(string input){
+    public void bootsChosen(string input){
         Debug.Log(input);
         var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
         Game initialGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);

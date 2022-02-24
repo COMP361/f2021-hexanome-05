@@ -85,13 +85,15 @@ namespace Models {
                 ModelStore.Add(c);
             }
 
-            //Now that the Model is fully integrated, we can tell the main Game controller that we're ready to begin the first Phase. (How exactly is the flow going to work from here?)
+            //Now that the Model is fully integrated, we can tell the main Game controller to prepare the screen accordingly, and begin listening for GameState updates.
             Elfenroads.Control.prepareScreen();
+            Elfenroads.Control.beginListening();
         }
 
         //Called when a new, non-initial GameState is received.
         public void updatedGame(Game g){
                 game.Update(g);
+                Elfenroads.Control.prepareScreen();
         }
 
         //Don't think we need this anymore? Alternative way if we want to I guess.

@@ -4,6 +4,7 @@ using Firesplash.UnityAssets.SocketIO;
 using Models;
 using UnityEngine.UI;
 using Views;
+using Newtonsoft.Json;
 
 
 namespace Controls {
@@ -56,6 +57,16 @@ namespace Controls {
         ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(obj.GetComponent<SessionInfo>(), socket);
 
         //Once the Server recieves all colors, it can send the initial game state to the Clients and the game begins. *** REMEMBER TO UN-LOCK THE CAMERA + CLICKING!
+        }
+
+        public void beginListening(){
+            socket.Instance.On("GameState", stateRecieved); 
+        }
+
+        public void stateRecieved(string input){
+            var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
+            Game newGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
+            Elfenroads.Model.updatedGame(newGame);
         }
 
         //Called after an update has been integrated to the Model. Reads the current phase, and presents the appropriate canvas to the Player. (***Depending on the phase, should lock/unlock the camera as well***)

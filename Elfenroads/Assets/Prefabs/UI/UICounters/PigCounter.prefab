@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -771193913809455304}
   - component: {fileID: 8063274371272601512}
   m_Layer: 0
-  m_Name: BoarCounter
+  m_Name: PigCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
