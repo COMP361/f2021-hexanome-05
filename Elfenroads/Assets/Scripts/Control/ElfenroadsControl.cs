@@ -5,6 +5,8 @@ using Models;
 using UnityEngine.UI;
 using Views;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
 
 
 namespace Controls {
@@ -14,6 +16,7 @@ namespace Controls {
     /// </summary>
     public class ElfenroadsControl : Elfenroads {
         private SocketIOCommunicator socket;
+        private SessionInfo sessionInfo;
         public GameObject mainCamera;
         public GameObject DrawCounterCanvas;
 
@@ -35,11 +38,12 @@ namespace Controls {
         Debug.Log("Socket ID in game scene: " + socket.Instance.SocketID);
         Debug.Log("Socket status in game scene  : " + socket.Instance.Status);
         GameObject obj = GameObject.Find("SessionInfo");
-        string playerName = obj.GetComponent<SessionInfo>().getClient().clientCredentials.username;
-        Debug.Log("Session info player name: " + playerName + ", Host player name: " + obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName);
-        if(playerName == obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName){
+        sessionInfo = obj.GetComponent<SessionInfo>();
+        string playerName = sessionInfo.getClient().clientCredentials.username;
+        Debug.Log("Session info player name: " + playerName + ", Host player name: " + sessionInfo.getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName);
+        if(playerName == sessionInfo.getClient().getSessionByID(sessionInfo.getSessionID()).hostPlayerName){
             Debug.Log("In the if statement");
-            socket.Instance.Emit("InitializeGame", obj.GetComponent<SessionInfo>().getSessionID(), true); // Only the host should be doing this! ***
+            socket.Instance.Emit("InitializeGame", sessionInfo.getSessionID(), true); // Only the host should be doing this! ***
         }
 
         // try{ 
@@ -54,7 +58,7 @@ namespace Controls {
         // }
 
         //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function. *** SHOULD MAYBE BE MOVED OUTSIDE OF THIS START() FUNCTION? ***
-        ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(obj.GetComponent<SessionInfo>(), socket);
+        ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(sessionInfo, socket);
 
         //Once the Server recieves all colors, it can send the initial game state to the Clients and the game begins. *** REMEMBER TO UN-LOCK THE CAMERA + CLICKING!
         }
@@ -92,13 +96,21 @@ namespace Controls {
 
 
         //Called after validation from "DrawCounters" phase, sends a command to the Server for the currentPlayer to add the specified counter to their inventory.
-        public void drawCounter(){ //Parameters to be decided, see "DrawCountersController"
-
+        public void drawCounter(GameObject clickedCounter){ //Parameters to be decided, see "DrawCountersController"
+            //Send the asking player name and counter GUID.
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("counter_id", clickedCounter.GetComponent<CounterViewHelper>().getGuid());
+            socket.Instance.Emit("DrawCounter", json.ToString(), false);
         }
 
         //Called after validation from "DrawCounters" phase, sends a command to the Server for the currentPlayer to draw a random counter.
         public void drawRandomCounter(){
-
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            socket.Instance.Emit("DrawRandomCounter", json.ToString(), false);
         }
     }
 }

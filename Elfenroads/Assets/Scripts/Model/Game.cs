@@ -55,7 +55,7 @@ namespace Models {
 
             return null;
         }
-
+        
         public bool Update(Game update) {
             bool modified = false;
 

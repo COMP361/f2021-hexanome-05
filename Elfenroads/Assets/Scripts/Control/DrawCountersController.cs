@@ -8,10 +8,10 @@ public class DrawCountersController : MonoBehaviour
     //If not, nothing happens. If so, it will call (or raise an event, whatever works but I think calls are easier) its associated PhaseController (eg. DrawCountersController). The Controller will then validate the move, and either respond with
     //some kind of "invalid" feedback or it will call the main "ElfenroadsController" to send a command to the Server.
 
-    public void validateDrawCounter(){ //Parameter to be decided. CurrentPlayer can be found through Elfenroads.Model, so either an integer representing the index of the counter chosen, or it will simply pass in the Counter / that counter's Guid.
+    public void validateDrawCounter(GameObject clickedCounter){ //Parameter to be decided. CurrentPlayer can be found through Elfenroads.Model, so either an integer representing the index of the counter chosen, or it will simply pass in the Counter / that counter's Guid.
 
         //Is validation even needed here? If we make it to this point, a counter was clicked and there's no "wrong" counter to click. For now, I'll work as if there is nothing to validate here (because I don't think there is )
-        Elfenroads.Control.drawCounter();
+        Elfenroads.Control.drawCounter(clickedCounter);
 
     }
 

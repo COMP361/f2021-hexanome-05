@@ -7,18 +7,18 @@ using Models;
 public class ThisPlayerInventoryView : MonoBehaviour
 {
     private Player playerModel;
-    public GameObject dragonCounterPrefab;
-    public GameObject trollCounterPrefab;
-    public GameObject cloudCounterPrefab;
-    public GameObject cycleCounterPrefab;
-    public GameObject unicornCounterPrefab;
-    public GameObject pigCounterPrefab;
-    public GameObject landObstaclePrefab;
+    public TMPro.TMP_Text numCloudCounters;
+    public TMPro.TMP_Text numCycleCounters;
+    public TMPro.TMP_Text numDragonCounters;
+    public TMPro.TMP_Text numLandObstacles;
+    public TMPro.TMP_Text numPigCounters;
+    public TMPro.TMP_Text numTrollCounters;
+    public TMPro.TMP_Text numUnicornCounters;
 
     public void setAndSubscribeToModel(Player inputPlayer){
          playerModel = inputPlayer;
          playerModel.Updated += onModelUpdated;
-         //onModelUpdated(null, null);
+         onModelUpdated(null, null);
      }
 
     void onModelUpdated(object sender, EventArgs e) {
@@ -27,52 +27,48 @@ public class ThisPlayerInventoryView : MonoBehaviour
         //First, get the CounterGridLayoutGroup from this object. 
 
         GameObject countersLayoutGroup = GameObject.Find("PlayerCounters");
-
-        //Next, destroy all children (mwahahahaaa)
-        while(countersLayoutGroup.transform.childCount > 0){
-            Destroy(countersLayoutGroup.transform.GetChild(0));
-        }
+        int dragonCounters = 0;
+        int trollCounters = 0;
+        int cloudCounters = 0;
+        int cycleCounters = 0;
+        int unicornCounters = 0;
+        int pigCounters = 0;
+        int landObstacles = 0;
 
         //Then, assign appropriate counters as in RoadView.
          foreach(Counter c in playerModel.inventory.counters){
             switch(c){
                 case TransportationCounter tc:
                 {
-                    switch(tc.transportType){
+                    switch(tc.cardType){
                         case TransportType.Dragon:
                         {  
-                           GameObject instantiatedCounter = Instantiate(dragonCounterPrefab, countersLayoutGroup.transform);
-                            instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                           dragonCounters++;
                             break;
                         }
                         case TransportType.ElfCycle:
                         {
-                            GameObject instantiatedCounter = Instantiate(cycleCounterPrefab, countersLayoutGroup.transform);
-                            instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                            cycleCounters++;
                             break;
                         }
                         case TransportType.MagicCloud:
                         {
-                            GameObject instantiatedCounter = Instantiate(cloudCounterPrefab, countersLayoutGroup.transform);
-                            instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                            cloudCounters++;
                             break;
                         }
                         case TransportType.TrollWagon:
                         {
-                            GameObject instantiatedCounter = Instantiate(trollCounterPrefab, countersLayoutGroup.transform);
-                         instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                            trollCounters++;
                             break;
                         }
                         case TransportType.GiantPig:
                         {
-                            GameObject instantiatedCounter = Instantiate(pigCounterPrefab, countersLayoutGroup.transform);
-                            instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                            pigCounters++;
                             break;
                         }
                         case TransportType.Unicorn:
                         {
-                            GameObject instantiatedCounter = Instantiate(unicornCounterPrefab, countersLayoutGroup.transform);
-                            instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                            unicornCounters++;
                             break;
                         }
                         default: Debug.Log("Model transportation counter of type raft! This is not allowed!") ; break;
@@ -92,15 +88,25 @@ public class ThisPlayerInventoryView : MonoBehaviour
                 case ObstacleCounter obc:
                 {
                     //*** Add sea obstacle later, during elfengold.
-                    GameObject instantiatedCounter = Instantiate(landObstaclePrefab, countersLayoutGroup.transform);
-                    instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                    landObstacles++;
                     break;
                 }
                 default: Debug.Log("Counter is of undefined type!") ; break;
             }
         }
 
-
+        setAmount(numCloudCounters, cloudCounters);
+        setAmount(numCycleCounters, cycleCounters);
+        setAmount(numDragonCounters, dragonCounters);
+        setAmount(numLandObstacles, landObstacles);
+        setAmount(numPigCounters, pigCounters);
+        setAmount(numTrollCounters, trollCounters);
+        setAmount(numUnicornCounters, unicornCounters);
+    
         //LATER: Need to get the object which represents the amount of points gained + card GridLayoutGroup ***
     }
+
+    private static void setAmount(TMPro.TMP_Text text, int amount){
+            text.text = amount.ToString() + "x";
+        }
 }

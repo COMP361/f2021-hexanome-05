@@ -38,7 +38,7 @@ namespace Models {
                 RoadView rView = r.GetComponent<RoadView>();
                 Town startTown = game.board.GetTown(rView.startTown.name);
                 Town endTown = game.board.GetTown(rView.endTown.name);
-                Debug.Log("In Model, start town is: " + startTown.name + ", end town is: " + endTown.name + " and type is " + rView.roadType);
+                //Debug.Log("In Model, start town is: " + startTown.name + ", end town is: " + endTown.name + " and type is " + rView.roadType);
                 rView.setAndSubscribeToModel(game.board.GetRoad(startTown, endTown, rView.roadType));
             }
 

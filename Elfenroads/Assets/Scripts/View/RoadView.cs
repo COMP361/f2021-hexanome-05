@@ -83,7 +83,7 @@ public class RoadView : MonoBehaviour {
             switch(c){
                 case TransportationCounter tc:
                 {
-                    switch(tc.transportType){
+                    switch(tc.cardType){
                         case TransportType.Dragon:
                         {  
                             GameObject parameter = Instantiate(dragonCounterPrefab, Vector3.zero, Quaternion.identity);

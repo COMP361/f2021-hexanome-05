@@ -32,15 +32,15 @@ public class FaceUpCountersView : MonoBehaviour
     public void setAndSubscribeToModel(DrawCounters inputDrawCounters){
          drawCountersModel = inputDrawCounters;
          drawCountersModel.Updated += onModelUpdated;
-         //onModelUpdated(null, null);
+         onModelUpdated(null, null);
      }
 
     void onModelUpdated(object sender, EventArgs e) {
         //Here, needs to add counters to the GridLayoutGroup according to the model. Instantiated Counters must also have their "CounterViewHelper" component's "Guid" fields set appropriately.
 
         //First, destroy all children (mwahahah)
-        while(this.transform.childCount > 0){
-            Destroy(this.transform.GetChild(0));
+        for(int i = 0; i < 5 ; i++){
+            Destroy(this.transform.GetChild(i).gameObject);
         }
 
         //Now, loop through the counters of the model, instantiating appropriate counters each time.
@@ -48,7 +48,8 @@ public class FaceUpCountersView : MonoBehaviour
             switch(c){
                 case TransportationCounter tc:
                 {
-                    switch(tc.transportType){
+                    Debug.Log("Transport type of " + c.id + " is: " + tc.cardType);
+                    switch(tc.cardType){
                         case TransportType.Dragon:
                         {  
                            GameObject instantiatedCounter = Instantiate(dragonCounterPrefab, this.transform);
@@ -123,7 +124,7 @@ public class FaceUpCountersView : MonoBehaviour
 
             //Find the counter here
 
-            myController.validateDrawCounter();
+            myController.validateDrawCounter(clickedCounter);
 
         }else{
             Debug.Log("Click invalid. Is it your turn? -> " + (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username));
@@ -134,10 +135,11 @@ public class FaceUpCountersView : MonoBehaviour
     //Called by some other button or object representing a random draw, which has an Event trigger leading here.
     public void RandomCounterClicked(){
         if(drawCountersModel == null){
-            Debug.Log("Yay!");
+            Debug.Log("Model is null!");
             return;
         }
         if( (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username) && Elfenroads.Model.game.currentPhase is DrawCounters){
+            Debug.Log("Random draw selected!");
             myController.validateDrawRandomCounter();
 
         }else{
