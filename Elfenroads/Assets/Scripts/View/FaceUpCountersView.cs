@@ -48,8 +48,8 @@ public class FaceUpCountersView : MonoBehaviour
             switch(c){
                 case TransportationCounter tc:
                 {
-                    Debug.Log("Transport type of " + c.id + " is: " + tc.cardType);
-                    switch(tc.cardType){
+                    Debug.Log("Transport type of " + c.id + " is: " + tc.transportType);
+                    switch(tc.transportType){
                         case TransportType.Dragon:
                         {  
                            GameObject instantiatedCounter = Instantiate(dragonCounterPrefab, this.transform);

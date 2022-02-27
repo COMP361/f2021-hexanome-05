@@ -40,7 +40,7 @@ public class ThisPlayerInventoryView : MonoBehaviour
             switch(c){
                 case TransportationCounter tc:
                 {
-                    switch(tc.cardType){
+                    switch(tc.transportType){
                         case TransportType.Dragon:
                         {  
                            dragonCounters++;

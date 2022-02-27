@@ -68,6 +68,7 @@ namespace Controls {
         }
 
         public void stateRecieved(string input){
+            Debug.Log(input);
             var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
             Game newGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
             Elfenroads.Model.updatedGame(newGame);

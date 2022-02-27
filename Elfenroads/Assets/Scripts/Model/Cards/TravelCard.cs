@@ -4,15 +4,15 @@ namespace Models
 {
     public class TravelCard : Card
     {
-        public TransportType type { protected set; get; }
+        public TransportType transportType { protected set; get; }
 
-        public TravelCard(TransportType type) : base() {
-            this.type = type;
+        public TravelCard(TransportType transportType) : base() {
+            this.transportType = transportType;
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        protected TravelCard(TransportType type, Guid id) : base(id) {
-            this.type = type;
+        protected TravelCard(TransportType transportType, Guid id) : base(id) {
+            this.transportType = transportType;
         }
     }
 }
