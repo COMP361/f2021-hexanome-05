@@ -37,11 +37,13 @@ public class FaceUpCountersView : MonoBehaviour
 
     void onModelUpdated(object sender, EventArgs e) {
         //Here, needs to add counters to the GridLayoutGroup according to the model. Instantiated Counters must also have their "CounterViewHelper" component's "Guid" fields set appropriately.
-
+        Debug.Log("Model was updated!");
         //First, destroy all children (mwahahah)
-        for(int i = 0; i < 5 ; i++){
-            Destroy(this.transform.GetChild(i).gameObject);
+        foreach(Transform child in transform){
+            child.SetParent(null);
+            DestroyImmediate(child.gameObject);
         }
+        transform.DetachChildren();
 
         //Now, loop through the counters of the model, instantiating appropriate counters each time.
         foreach(Counter c in drawCountersModel.faceUpCounters){

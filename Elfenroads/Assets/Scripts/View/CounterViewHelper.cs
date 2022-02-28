@@ -14,6 +14,7 @@ public class CounterViewHelper : MonoBehaviour,  IPointerClickHandler
     }
 
     public void OnPointerClick(PointerEventData eventData){
+        Debug.Log("Counter with ID " + this.myGuid + " was clicked!");
         faceUpCountersView.GetComponent<FaceUpCountersView>().CounterClicked(this.gameObject);
     }
 
