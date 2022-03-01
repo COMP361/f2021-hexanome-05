@@ -150,40 +150,13 @@ public class RoadView : MonoBehaviour {
         RoadClicked?.Invoke(modelRoad, EventArgs.Empty);
     }
 
-    // Change parameters later. Either takes in a "counterType" parameter and creates the counter witihn this function via a prefab, or it takes in a prefab that was instantiated elsewhere in which case signature is the same.
-    // Regardless, a gameObject is added to the slot and its position is updated to match it.
-    // public void addToSlot(GameObject obj){
+    public void cardDragged(String cardType){
+        //Inform the MoveBootController here.
+        Debug.Log("CardDragged!");
+    }
 
-    //     foreach(Slot s in counterSlots){
-    //         if(s.obj == null){
-    //             s.obj = obj;
-    //             obj.transform.position = (new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f));
-    //             return;
-    //         }else{
-    //             Debug.Log("No available slot!"); 
-    //         }
-    //     }
-    // }
-
-    // //Removes a "counter" gameObject from the road, and also destroys it. Will maybe see use in Elfengold for the "Exchange" spell?
-    // public void removeFromSlot(GameObject obj){ // Change parameters later. Likely will take in a "counterType" parameter, and will remove the first counter of that type.
-    //     foreach(Slot s in counterSlots){
-    //         if(s.obj == obj){
-    //             s.obj = null;
-    //             Destroy(obj); // Destroy only the visible GameObject. This will not affect its model counterpart, obviously.
-    //             return;
-    //         }else{
-    //             Debug.Log("Nothing to remove!");
-    //         }
-    //     }
-    // }
-
-    // public void removeAllFromSlots(){
-    //     foreach (Slot s in counterSlots){
-    //         if(s.obj != null){
-    //             Destroy(s.obj);
-    //             s.obj = null;
-    //         }
-    //     }
-    // }
+    public void counterDragged(String counterType){
+        //Inform the PlanTravelController here.
+        Debug.Log("CounterDragged!");
+    }
 }

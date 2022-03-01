@@ -24,6 +24,12 @@ namespace Controls {
         public GameObject MoveBootsManager;
         public GameObject ChooseBootController;
 
+        [HideInInspector]
+        public EventHandler LockCamera;
+        public EventHandler UnlockCamera;
+        public EventHandler LockDraggables;
+        public EventHandler UnlockDraggables;
+
         private void Awake() {
             Elfenroads.Control = this;
             
@@ -46,20 +52,9 @@ namespace Controls {
             socket.Instance.Emit("InitializeGame", sessionInfo.getSessionID(), true); // Only the host should be doing this! ***
         }
 
-        // try{ 
-        //    string playerName = obj.GetComponent<SessionInfo>().getClient().clientCredentials.username;
-        //    Debug.Log("Session info player name: " + playerName + ", Host player name: " + obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName);
-        //    if(playerName == obj.GetComponent<SessionInfo>().getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName){
-        //        Debug.Log("In the if statement");
-        //         socket.Instance.Emit("InitializeGame", obj.GetComponent<SessionInfo>().getSessionID(), true); // Only the host should be doing this! ***
-        //    }
-        // }catch (Exception e){
-        //    Debug.Log("Null exception? " + e);
-        // }
-
         //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function. *** SHOULD MAYBE BE MOVED OUTSIDE OF THIS START() FUNCTION? ***
         ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(sessionInfo, socket);
-
+        Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty); //**May need verification.
         //Once the Server recieves all colors, it can send the initial game state to the Clients and the game begins. *** REMEMBER TO UN-LOCK THE CAMERA + CLICKING!
         }
 
@@ -81,6 +76,7 @@ namespace Controls {
             switch(Elfenroads.Model.game.currentPhase){
                 case DrawCounters dc:{
                     DrawCounterCanvas.SetActive(true);
+                    LockCamera?.Invoke(null, EventArgs.Empty);
                     break;
                 }
                 default:{
@@ -113,5 +109,7 @@ namespace Controls {
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
             socket.Instance.Emit("DrawRandomCounter", json.ToString(), false);
         }
+
+       
     }
 }
