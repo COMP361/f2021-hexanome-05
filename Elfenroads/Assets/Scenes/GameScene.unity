@@ -712,6 +712,7 @@ GameObject:
   - component: {fileID: 91006971}
   - component: {fileID: 91006974}
   - component: {fileID: 91006973}
+  - component: {fileID: 91006972}
   m_Layer: 0
   m_Name: PigCounter
   m_TagString: Untagged
@@ -739,6 +740,20 @@ RectTransform:
   m_AnchoredPosition: {x: 823, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &91006972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91006970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 91006971}
+  canvas: {fileID: 876790251}
 --- !u!114 &91006973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,6 +803,7 @@ GameObject:
   - component: {fileID: 95617266}
   - component: {fileID: 95617268}
   - component: {fileID: 95617267}
+  - component: {fileID: 95617269}
   m_Layer: 0
   m_Name: DragonCard
   m_TagString: Untagged
@@ -810,10 +826,10 @@ RectTransform:
   m_Father: {fileID: 435262395}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 445, y: -60}
-  m_SizeDelta: {x: 90, y: 120}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &95617267
 MonoBehaviour:
@@ -853,6 +869,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 95617265}
   m_CullTransparentMesh: 1
+--- !u!114 &95617269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 95617265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 95617266}
+  canvas: {fileID: 876790251}
 --- !u!1 &102465956 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8072134380740383198, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
@@ -5117,7 +5147,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &435262395
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5179,6 +5209,7 @@ GameObject:
   - component: {fileID: 442219227}
   - component: {fileID: 442219230}
   - component: {fileID: 442219229}
+  - component: {fileID: 442219228}
   m_Layer: 0
   m_Name: TrollCounter
   m_TagString: Untagged
@@ -5206,6 +5237,20 @@ RectTransform:
   m_AnchoredPosition: {x: 1021, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &442219228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442219226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 442219227}
+  canvas: {fileID: 876790251}
 --- !u!114 &442219229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5873,6 +5918,7 @@ GameObject:
   - component: {fileID: 529033599}
   - component: {fileID: 529033601}
   - component: {fileID: 529033600}
+  - component: {fileID: 529033602}
   m_Layer: 0
   m_Name: CycleCard
   m_TagString: Untagged
@@ -5895,10 +5941,10 @@ RectTransform:
   m_Father: {fileID: 435262395}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 265, y: -60}
-  m_SizeDelta: {x: 90, y: 120}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &529033600
 MonoBehaviour:
@@ -5938,6 +5984,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 529033598}
   m_CullTransparentMesh: 1
+--- !u!114 &529033602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529033598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 529033599}
+  canvas: {fileID: 876790251}
 --- !u!1 &538994637
 GameObject:
   m_ObjectHideFlags: 0
@@ -6387,6 +6447,7 @@ GameObject:
   - component: {fileID: 595023536}
   - component: {fileID: 595023538}
   - component: {fileID: 595023537}
+  - component: {fileID: 595023539}
   m_Layer: 0
   m_Name: UnicornCard
   m_TagString: Untagged
@@ -6409,10 +6470,10 @@ RectTransform:
   m_Father: {fileID: 435262395}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1165, y: -60}
-  m_SizeDelta: {x: 90, y: 120}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &595023537
 MonoBehaviour:
@@ -6452,6 +6513,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595023535}
   m_CullTransparentMesh: 1
+--- !u!114 &595023539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595023535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 595023536}
+  canvas: {fileID: 876790251}
 --- !u!1 &596735197
 GameObject:
   m_ObjectHideFlags: 0
@@ -6463,6 +6538,7 @@ GameObject:
   - component: {fileID: 596735198}
   - component: {fileID: 596735200}
   - component: {fileID: 596735199}
+  - component: {fileID: 596735201}
   m_Layer: 0
   m_Name: CloudCard
   m_TagString: Untagged
@@ -6485,10 +6561,10 @@ RectTransform:
   m_Father: {fileID: 435262395}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 85, y: -60}
-  m_SizeDelta: {x: 90, y: 120}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &596735199
 MonoBehaviour:
@@ -6528,6 +6604,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 596735197}
   m_CullTransparentMesh: 1
+--- !u!114 &596735201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596735197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 596735198}
+  canvas: {fileID: 876790251}
 --- !u!1 &604152176
 GameObject:
   m_ObjectHideFlags: 0
@@ -6673,6 +6763,7 @@ GameObject:
   - component: {fileID: 607175744}
   - component: {fileID: 607175747}
   - component: {fileID: 607175746}
+  - component: {fileID: 607175745}
   m_Layer: 0
   m_Name: LandObstacleCounter
   m_TagString: Untagged
@@ -6700,6 +6791,20 @@ RectTransform:
   m_AnchoredPosition: {x: 625, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &607175745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607175743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 607175744}
+  canvas: {fileID: 876790251}
 --- !u!114 &607175746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8280,6 +8385,7 @@ GameObject:
   - component: {fileID: 768855489}
   - component: {fileID: 768855491}
   - component: {fileID: 768855490}
+  - component: {fileID: 768855492}
   m_Layer: 0
   m_Name: CycleCounter
   m_TagString: Untagged
@@ -8345,6 +8451,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 768855488}
   m_CullTransparentMesh: 1
+--- !u!114 &768855492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768855488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 768855489}
+  canvas: {fileID: 876790251}
 --- !u!1 &773150164
 GameObject:
   m_ObjectHideFlags: 0
@@ -10252,7 +10372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &876790251
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11292,6 +11412,7 @@ GameObject:
   - component: {fileID: 1023120437}
   - component: {fileID: 1023120439}
   - component: {fileID: 1023120438}
+  - component: {fileID: 1023120440}
   m_Layer: 0
   m_Name: RaftCard
   m_TagString: Untagged
@@ -11314,10 +11435,10 @@ RectTransform:
   m_Father: {fileID: 435262395}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 625, y: -60}
-  m_SizeDelta: {x: 90, y: 120}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1023120438
 MonoBehaviour:
@@ -11357,6 +11478,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1023120436}
   m_CullTransparentMesh: 1
+--- !u!114 &1023120440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023120436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 1023120437}
+  canvas: {fileID: 876790251}
 --- !u!4 &1029043427 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1633173083262833050, guid: 46103fd4088f05047af5383b17714437, type: 3}
@@ -14678,6 +14813,7 @@ GameObject:
   - component: {fileID: 1300812624}
   - component: {fileID: 1300812626}
   - component: {fileID: 1300812625}
+  - component: {fileID: 1300812627}
   m_Layer: 0
   m_Name: PigCard
   m_TagString: Untagged
@@ -14700,10 +14836,10 @@ RectTransform:
   m_Father: {fileID: 435262395}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 805, y: -60}
-  m_SizeDelta: {x: 90, y: 120}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1300812625
 MonoBehaviour:
@@ -14743,6 +14879,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1300812623}
   m_CullTransparentMesh: 1
+--- !u!114 &1300812627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300812623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 1300812624}
+  canvas: {fileID: 876790251}
 --- !u!1001 &1302392750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17776,6 +17926,7 @@ GameObject:
   - component: {fileID: 1509684568}
   - component: {fileID: 1509684570}
   - component: {fileID: 1509684569}
+  - component: {fileID: 1509684571}
   m_Layer: 0
   m_Name: CloudCounter
   m_TagString: Untagged
@@ -17841,6 +17992,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1509684567}
   m_CullTransparentMesh: 1
+--- !u!114 &1509684571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509684567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 1509684568}
+  canvas: {fileID: 876790251}
 --- !u!1001 &1515801796
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20152,6 +20317,7 @@ GameObject:
   - component: {fileID: 1680393336}
   - component: {fileID: 1680393339}
   - component: {fileID: 1680393338}
+  - component: {fileID: 1680393337}
   m_Layer: 0
   m_Name: UnicornCounter
   m_TagString: Untagged
@@ -20179,6 +20345,20 @@ RectTransform:
   m_AnchoredPosition: {x: 1219, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1680393337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680393335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 1680393336}
+  canvas: {fileID: 876790251}
 --- !u!114 &1680393338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21752,6 +21932,7 @@ GameObject:
   - component: {fileID: 1814873063}
   - component: {fileID: 1814873066}
   - component: {fileID: 1814873065}
+  - component: {fileID: 1814873064}
   m_Layer: 0
   m_Name: DragonCounter
   m_TagString: Untagged
@@ -21779,6 +21960,20 @@ RectTransform:
   m_AnchoredPosition: {x: 427, y: -30}
   m_SizeDelta: {x: 60, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1814873064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814873062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 1814873063}
+  canvas: {fileID: 876790251}
 --- !u!114 &1814873065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24674,6 +24869,7 @@ GameObject:
   - component: {fileID: 2035187932}
   - component: {fileID: 2035187934}
   - component: {fileID: 2035187933}
+  - component: {fileID: 2035187935}
   m_Layer: 0
   m_Name: TrollCard
   m_TagString: Untagged
@@ -24696,10 +24892,10 @@ RectTransform:
   m_Father: {fileID: 435262395}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 985, y: -60}
-  m_SizeDelta: {x: 90, y: 120}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2035187933
 MonoBehaviour:
@@ -24739,6 +24935,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035187931}
   m_CullTransparentMesh: 1
+--- !u!114 &2035187935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035187931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50fc4064d839021419223988c68a87e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  draggableElement: {fileID: 2035187932}
+  canvas: {fileID: 876790251}
 --- !u!1 &2043975791
 GameObject:
   m_ObjectHideFlags: 0
