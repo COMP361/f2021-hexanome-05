@@ -9,6 +9,8 @@ public class RoadView : MonoBehaviour {
     public TerrainType roadType;
     public GameObject startTown;
     public GameObject endTown;
+    public GameObject PlanTravelController;
+    public GameObject MoveBootsController;
 
     public event EventHandler RoadClicked;
     public bool horizontal = true;

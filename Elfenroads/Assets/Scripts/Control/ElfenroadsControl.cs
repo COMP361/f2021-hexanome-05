@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Firesplash.UnityAssets.SocketIO;
 using Models;
@@ -19,6 +20,7 @@ namespace Controls {
         private SessionInfo sessionInfo;
         public GameObject mainCamera;
         public GameObject DrawCounterCanvas;
+        public GameObject PlanTravelCanvas;
 
         //Making these singletons might be better?
         public GameObject MoveBootsManager;
@@ -79,6 +81,13 @@ namespace Controls {
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     break;
                 }
+                case PlanTravelRoutes pt:{
+                    Debug.Log("Phase is PlanTravelRoutes!");
+                    PlanTravelCanvas.SetActive(true);
+                    UnlockCamera?.Invoke(null, EventArgs.Empty);
+                    UnlockDraggables?.Invoke(null, EventArgs.Empty);
+                    break;
+                }
                 default:{
                     Debug.Log("Phase not implemented!");
                     break;
@@ -88,6 +97,7 @@ namespace Controls {
 
         private void disableCanvases(){
             DrawCounterCanvas.SetActive(false);
+            PlanTravelCanvas.SetActive(false);
         }
 
 
@@ -108,6 +118,28 @@ namespace Controls {
             json.Add("game_id", sessionInfo.getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
             socket.Instance.Emit("DrawRandomCounter", json.ToString(), false);
+        }
+
+        public void placeCounter(Guid counterGuid, Guid roadGuid){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("road_id", roadGuid);
+            json.Add("counter_id", counterGuid);
+            //Emit here.
+        }
+
+        // May need to pass in a road if the Town Guid can't be ascertained.
+        public void moveBoot(Guid townGuid, List<Guid> cardsToUse){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("town_id", townGuid);
+            JArray array = JArray.FromObject(cardsToUse);
+            json.Add("card_ids", array);
+
+            Debug.Log(json.ToString());
+            //Emit here.
         }
 
        
