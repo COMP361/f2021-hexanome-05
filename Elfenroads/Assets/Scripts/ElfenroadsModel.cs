@@ -12,7 +12,7 @@ namespace Models {
         public List<GameObject> playerObjects; //Represents the player's inventories, which will be on the UI.
         public GameObject faceUpCounters;
         public GameObject mainPlayerObject;
-        //Save these two for Elfengold, once we get to that.
+        //Save these for Elfengold, once we get to that.
         //public GameObject faceUpCards;
         //public GameObject auctionCounters;
         //public GameObject goldCardPile;
@@ -46,6 +46,7 @@ namespace Models {
             foreach(Player p in game.players){
                 if(p.name == GameObject.Find("SessionInfo").GetComponent<SessionInfo>().getClient().clientCredentials.username){
                     mainPlayerObject.GetComponent<ThisPlayerInventoryView>().setAndSubscribeToModel(p); 
+                    Elfenroads.Control.setThisPlayer(p);
                 }
             }
             

@@ -152,13 +152,14 @@ public class RoadView : MonoBehaviour {
         RoadClicked?.Invoke(modelRoad, EventArgs.Empty);
     }
 
-    public void cardDragged(String cardType){
+    public void cardDragged(string cardType){
         //Inform the MoveBootController here.
         Debug.Log("CardDragged!");
     }
 
-    public void counterDragged(String counterType){
+    public void counterDragged(string counterType){
         //Inform the PlanTravelController here.
         Debug.Log("CounterDragged!");
+        PlanTravelController.GetComponent<PlanTravelController>().validatePlaceCounter(counterType, modelRoad);
     }
 }

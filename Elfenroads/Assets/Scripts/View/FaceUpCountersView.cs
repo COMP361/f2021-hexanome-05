@@ -122,12 +122,7 @@ public class FaceUpCountersView : MonoBehaviour
         }
         
         if( (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username) && Elfenroads.Model.game.currentPhase is DrawCounters){
-            Debug.Log(clickedCounter);
-
-            //Find the counter here
-
             myController.validateDrawCounter(clickedCounter);
-
         }else{
             Debug.Log("Click invalid. Is it your turn? -> " + (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username));
             Debug.Log("If so, then it is because the currentPhase is " + Elfenroads.Model.game.currentPhase);

@@ -31,6 +31,8 @@ namespace Controls {
         public EventHandler UnlockCamera;
         public EventHandler LockDraggables;
         public EventHandler UnlockDraggables;
+        private Player thisPlayer;
+        private Player currentPlayer;
 
         private void Awake() {
             Elfenroads.Control = this;
@@ -79,6 +81,7 @@ namespace Controls {
                 case DrawCounters dc:{
                     DrawCounterCanvas.SetActive(true);
                     LockCamera?.Invoke(null, EventArgs.Empty);
+                    currentPlayer = dc.currentPlayer;
                     break;
                 }
                 case PlanTravelRoutes pt:{
@@ -86,6 +89,7 @@ namespace Controls {
                     PlanTravelCanvas.SetActive(true);
                     UnlockCamera?.Invoke(null, EventArgs.Empty);
                     UnlockDraggables?.Invoke(null, EventArgs.Empty);
+                    currentPlayer = pt.currentPlayer;
                     break;
                 }
                 default:{
@@ -105,11 +109,12 @@ namespace Controls {
         //Called after validation from "DrawCounters" phase, sends a command to the Server for the currentPlayer to add the specified counter to their inventory.
         public void drawCounter(GameObject clickedCounter){ //Parameters to be decided, see "DrawCountersController"
             //Send the asking player name and counter GUID.
+            Debug.Log("About to send drawCounter to the server!");
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
             json.Add("counter_id", clickedCounter.GetComponent<CounterViewHelper>().getGuid());
-            socket.Instance.Emit("DrawCounter", json.ToString(), false);
+            socket.Instance.Emit("PickCounter", json.ToString(), false);
         }
 
         //Called after validation from "DrawCounters" phase, sends a command to the Server for the currentPlayer to draw a random counter.
@@ -140,6 +145,18 @@ namespace Controls {
 
             Debug.Log(json.ToString());
             //Emit here.
+        }
+
+        public void setThisPlayer(Player input){
+            thisPlayer = input;
+        }
+
+        public Player getThisPlayer(){
+            return thisPlayer;
+        }
+
+        public bool isCurrentPlayer(){
+            return thisPlayer.Equals(currentPlayer);
         }
 
        
