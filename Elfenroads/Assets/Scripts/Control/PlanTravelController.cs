@@ -166,7 +166,7 @@ public class PlanTravelController : MonoBehaviour
             case TerrainType.Stream:{
                 return false;
             }
-        }
+        }   
         return false; //If we somehow make it here, just return false;
     }
 
