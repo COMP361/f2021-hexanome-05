@@ -10,6 +10,7 @@ using Models;
 public class ChooseBootController : MonoBehaviour
 {
     public GameObject canvas;
+    public GameObject playerCanvas;
     public Button redButton;
     public Button blueButton;
     public Button greenButton;
@@ -30,36 +31,33 @@ public class ChooseBootController : MonoBehaviour
         socket = inputSocket;
         socket.Instance.On("ColorChosen", updateColors); 
         canvas.SetActive(true);
+        playerCanvas.SetActive(true);
         playerName = sI.getClient().clientCredentials.username;
         numPlayers = sI.getClient().mySession.players.Count;
         Debug.Log("Number of players according to ChooseBoot: " + numPlayers);
         sessionID = sI.getClient().thisSessionID;
-        socket.Instance.On("GameState", updateTest); 
+        socket.Instance.On("GameState", bootsChosen); 
         defaultBlock = redButton.colors; //Save for later.
     }
 
     //Either calls ElfenroadsControl, or will be called by ElfenroadsControl.
-    public void endChooseColors(){
+    public void endChooseColors(Game initialGame){
         Debug.Log("Reached endChooseColors!");
         socket.Instance.Off("ColorChosen");
+        socket.Instance.Off("GameState");
         canvas.SetActive(false);
-        //Calls ElfenroadsControl here.
+        playerCanvas.SetActive(true);
+        //*** Set color of player canvas, as well as other opponent UI elements
+        //As it is now, the Model will call the main game Controller once it has integrated the Game sucessfully.
+        Elfenroads.Model.initialGame(initialGame);
     }
 
-    public void updateTest(string input){
+    public void bootsChosen(string input){
         Debug.Log(input);
         var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
         Game initialGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
-        Debug.Log(initialGame);
-        //JObject jobj = JObject.Parse(input);
-        //JArray counterArr = JArray.Parse(jobj["counters"].ToString());
-        //Debug.Log(counterArr);
-        //List<Counter> counterList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Counter>>(counterArr.ToString(), jset);
-        // Debug.Log(counterList[0].GetType());
-        // Debug.Log("Should be true: " + (counterList[0] is TransportationCounter));
-        // Debug.Log("Fields: Id: " + counterList[0].id + ", Type: " + ((TransportationCounter) counterList[0]).transportType);
-        // Debug.Log("Should be true: " + (counterList[1] is MagicSpellCounter));
-        // Debug.Log("Fields: Id: " + counterList[1].id + ", Type: " + ((MagicSpellCounter) counterList[1]).spellType);
+        //Now, should pass the "Game" we deserialized to Elfenroads.Model for processing.
+        endChooseColors(initialGame);
     }
 
     public void updateColors(string input){

@@ -58,7 +58,6 @@ namespace Models
                 if (toUpdate.Update(deserialized)) {
                     modified = true;
                 }
-
                 // update each item
                 IEnumerable<bool> results = toUpdate.Zip<T, T, bool>(deserialized,
                                             (itemToUpdate, itemDeserialized) => { return itemToUpdate.Update(itemDeserialized); });

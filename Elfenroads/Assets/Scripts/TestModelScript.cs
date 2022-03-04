@@ -10,7 +10,7 @@ public class TestModelScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      string playerJson = @"{""players"": [
+      string playerJson = @"{""players"": [ 
       {
         ""name"": ""Chris"",
         ""color"": 1,

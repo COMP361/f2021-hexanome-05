@@ -4,9 +4,9 @@ using System;
 
 namespace Models
 {
-    public class Auction : GamePhase, IUpdatable<Auction>
+    public class Auction : GamePhase
     {
-        public event EventHandler Updated;
+        override public event EventHandler Updated;
         public List<Counter> countersForAuction { protected set; get; }
         public int highestBid { protected set; get; }
         public Player highestBidder { protected set; get; }
@@ -24,20 +24,25 @@ namespace Models
             this.highestBidder = highestBidder;
         }
 
-        public bool Update(Auction update) {
+        override public bool isCompatible(GamePhase update) {
+            return update as Auction != null;
+        }
+
+        override public bool Update(GamePhase update) {
+            Auction updateTypecast = update as Auction;
             bool modified = false;
 
-            if (countersForAuction.Update(update.countersForAuction)) {
+            if (countersForAuction.Update(updateTypecast.countersForAuction)) {
                 modified = true;
             }
 
-            if ( !highestBid.Equals(update.highestBid) ) {
-                highestBid = update.highestBid;
+            if ( !highestBid.Equals(updateTypecast.highestBid) ) {
+                highestBid = updateTypecast.highestBid;
                 modified = true;
             }
 
-            if ( !highestBidder.Equals(update.highestBidder) ) {
-                highestBidder = (Player) ModelStore.Get(update.highestBidder.id);
+            if ( !highestBidder.Equals(updateTypecast.highestBidder) ) {
+                highestBidder = (Player) ModelStore.Get(updateTypecast.highestBidder.id);
                 modified = true;
             }
 

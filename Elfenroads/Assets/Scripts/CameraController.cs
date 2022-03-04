@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -16,6 +17,16 @@ public class CameraController : MonoBehaviour
 
     void Start(){
         Camera.main.orthographicSize = 14f;
+        Elfenroads.Control.LockCamera += lockCamera;
+        Elfenroads.Control.UnlockCamera += unlockCamera;
+    }
+
+    void unlockCamera(object sender, EventArgs e){
+        locked = false;
+    }
+
+    void lockCamera(object sender, EventArgs e){
+        locked = true;
     }
 
     // Update is called once per frame

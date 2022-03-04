@@ -10,7 +10,7 @@ namespace Models
     {
         public TransportType transportType { protected set; get; }
 
-        public TransportationCounter(TransportType transportType) : base() {
+        public TransportationCounter(TransportType  transportType) : base() {
             this.transportType = transportType;
         }
 
