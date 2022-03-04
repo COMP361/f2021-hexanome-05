@@ -10,6 +10,23 @@ public class PlanTravelController : MonoBehaviour
     public GameObject invalidMovePrefab;
     public GameObject PlanTravelCanvas;
 
+    public void passTurn(){
+        //If a Player chose to pass, we need only verify we're in the right phase, and that we are the current player.
+        if(! (Elfenroads.Model.game.currentPhase is PlanTravelRoutes)){
+            //Inform player move is invalid.
+            invalidMessage("Wrong phase!");
+            Debug.Log("Invalid, not in the correct phase!");
+            return;
+        }else if(! Elfenroads.Control.isCurrentPlayer()){
+            //Inform player they are not the current player.
+            invalidMessage("Not your turn!");
+            return;
+        }else{
+            //We're done, and can call Control.
+            Elfenroads.Control.passTurn();
+        }
+    }
+
     public void validatePlaceCounter(string counterType, Road road){
         if(Elfenroads.Model.game == null){
             invalidMessage("Testing! No game exists!");

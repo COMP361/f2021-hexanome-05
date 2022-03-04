@@ -14,7 +14,7 @@ public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     private Vector2 mOriginalLocalPointerPosition;
     private Vector3 mOriginalPanelLocalPosition;
     private Vector2 startingPos;
-    private bool locked = false;
+    private bool locked = true;
 
     public IEnumerator Coroutine_MoveUIElement(RectTransform r, Vector2 targetPosition, float duration = 0.1f){
         float elapsedTime = 0;
@@ -40,6 +40,7 @@ public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         Elfenroads.Control.LockDraggables += lockDrag;
         Elfenroads.Control.UnlockDraggables += unlockDrag;
     }
+
 
     public void OnBeginDrag(PointerEventData data){
         if(!locked){
@@ -77,10 +78,12 @@ public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     }
        
     private void lockDrag(object sender, EventArgs e){
+        Debug.Log("Locked!");
         locked = true;
     }
 
     private void unlockDrag(object sender, EventArgs e){
+        Debug.Log("Unlocked!");
         locked = false;
     }
 }

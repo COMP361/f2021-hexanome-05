@@ -21,6 +21,10 @@ namespace Controls {
         public GameObject mainCamera;
         public GameObject DrawCounterCanvas;
         public GameObject PlanTravelCanvas;
+        public GameObject MoveBootCanvas;
+
+        public GameObject PlayerCounters;
+        public GameObject PlayerCards;
 
         //Making these singletons might be better?
         public GameObject MoveBootsManager;
@@ -82,14 +86,32 @@ namespace Controls {
                     DrawCounterCanvas.SetActive(true);
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dc.currentPlayer;
+                    TMPro.TMP_Text prompt = GameObject.Find("DrawCountersPrompt").GetComponent<TMPro.TMP_Text>(); 
+                    if(currentPlayer.id == thisPlayer.id){
+                        prompt.text = "Your turn! Draw a counter!";
+                    }else{
+                        prompt.text = currentPlayer.name + " is drawing a counter...";
+                    }
                     break;
                 }
                 case PlanTravelRoutes pt:{
                     Debug.Log("Phase is PlanTravelRoutes!");
                     PlanTravelCanvas.SetActive(true);
+                    PlayerCounters.SetActive(true);
+                    PlayerCards.SetActive(false);
                     UnlockCamera?.Invoke(null, EventArgs.Empty);
                     UnlockDraggables?.Invoke(null, EventArgs.Empty);
                     currentPlayer = pt.currentPlayer;
+                    break;
+                }
+                case MoveBoot mb:{
+                    Debug.Log("Phase is MoveBoot!");
+                    MoveBootCanvas.SetActive(true);
+                    PlayerCounters.SetActive(false);
+                    PlayerCards.SetActive(true);
+                    UnlockCamera?.Invoke(null, EventArgs.Empty);
+                    UnlockDraggables?.Invoke(null, EventArgs.Empty);
+                    currentPlayer = mb.currentPlayer;
                     break;
                 }
                 default:{
@@ -131,7 +153,15 @@ namespace Controls {
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
             json.Add("road_id", roadGuid);
             json.Add("counter_id", counterGuid);
-            //Emit here.
+            socket.Instance.Emit("PlaceCounter", json.ToString(), false);
+        }
+
+        public void passTurn(){
+            Debug.Log("About to emit PassTurn!");
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            socket.Instance.Emit("PassTurn", json.ToString(), false);
         }
 
         // May need to pass in a road if the Town Guid can't be ascertained.
@@ -142,9 +172,16 @@ namespace Controls {
             json.Add("town_id", townGuid);
             JArray array = JArray.FromObject(cardsToUse);
             json.Add("card_ids", array);
+            socket.Instance.Emit("MoveBoot", json.ToString(), false);
+        }
 
-            Debug.Log(json.ToString());
-            //Emit here.
+        public void endTurn(List<Guid> cardsToDiscard){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            JArray array = JArray.FromObject(cardsToDiscard);
+            json.Add("card_ids", array);
+            socket.Instance.Emit("DiscardTravelCards", json.ToString(), false);
         }
 
         public void setThisPlayer(Player input){

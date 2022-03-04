@@ -45,7 +45,7 @@ namespace Controls
             invalidMessage("Testing! No game exists!");
             return;
             }
-            if(! (Elfenroads.Model.game.currentPhase is MoveBoots)){
+            if(! (Elfenroads.Model.game.currentPhase is MoveBoot)){
                 //Inform player move is invalid.
                 invalidMessage("Wrong phase!");
                 Debug.Log("Invalid, not in the correct phase!");

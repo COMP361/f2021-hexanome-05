@@ -4,37 +4,30 @@ using Models.Helpers;
 
 namespace Models
 {
-    public class MoveBoots : GamePhase 
+    public class MoveBoot : GamePhase 
     {
         override public event EventHandler Updated;
         public Player currentPlayer;
-        public List<Player> playersPassed;
 
-        public MoveBoots(Player currentPlayer){
+        public MoveBoot(Player currentPlayer){
             this.currentPlayer = currentPlayer;
-            playersPassed = new List<Player>();
         }
 
-        [Newtonsoft.Json.JsonConstructor]
-        protected MoveBoots(Player currentPlayer, List<Player> playersPassed){
-            this.currentPlayer = currentPlayer;
-            this.playersPassed = playersPassed;
-        }
+        // [Newtonsoft.Json.JsonConstructor]
+        // protected MoveBoot(Player currentPlayer){
+        //     this.currentPlayer = currentPlayer;
+        // }
 
         override public bool isCompatible(GamePhase update) {
-            return update as MoveBoots != null;
+            return update as MoveBoot != null;
         }
 
         override public bool Update(GamePhase update) {
-            MoveBoots updateTypecast = update as MoveBoots;
+            MoveBoot updateTypecast = update as MoveBoot;
             bool modified = false;
 
             if ( !currentPlayer.Equals(updateTypecast.currentPlayer) ) {
                 currentPlayer = (Player) ModelStore.Get(updateTypecast.currentPlayer.id);
-                modified = true;
-            }
-
-            if (playersPassed.Update(updateTypecast.playersPassed)) {
                 modified = true;
             }
 
