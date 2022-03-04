@@ -8,7 +8,7 @@ using System;
 
 namespace Controls
 {
-    public class MoveBootControl : MonoBehaviour
+    public class MoveBootController : MonoBehaviour
     {
         //Text box or something here, to alert player of invalid moves.
         public GameObject invalidMovePrefab;
@@ -40,7 +40,7 @@ namespace Controls
         }
 
 
-        private void validateMoveBoot(string cardType, Road road){
+        public void validateMoveBoot(string cardType, Road road){
             if(Elfenroads.Model.game == null){
             invalidMessage("Testing! No game exists!");
             return;
@@ -97,14 +97,14 @@ namespace Controls
             }
 
             if(passedCard != null){ //Case where we found the cardType.
-                //First, we need to check that the Player is on a town connected to the passed-in Road.
-                Debug.Log("Reminder: if this does not work, likely an issue with 'getThisPlayer()' and references!");
+                //First, we need to check that the Player is on a town connected to the passed-in Road. ***NOTE: If not working, could be an issue with getThisPlayer() and references.
                 if( !(road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot) || road.end.boots.Contains(Elfenroads.Control.getThisPlayer().boot)) ){
-                    invalidMessage("Not adjacent to this road!");
+                    invalidMessage("Boot not adjacent to this road!");
+                    return;
                 }
-                //Then, check that the Road actually has at least one counter on it.
-                if(road.counters.Count <= 0){
+                if(road.roadType != TerrainType.Stream && road.roadType != TerrainType.Lake && road.counters.Count <= 0){
                     invalidMessage("Road does not have a counter!");
+                    return;
                 }
 
                 //Next, we need to check if the cardType is compatible with the road, and what the card cost for that road is.
@@ -128,6 +128,7 @@ namespace Controls
                 }
                 if( ! (cardsToPass.Count == cost)){
                     invalidMessage("Not enough cards!");
+                    return;
                 }
 
                 //All good! We can send the command to the Server.

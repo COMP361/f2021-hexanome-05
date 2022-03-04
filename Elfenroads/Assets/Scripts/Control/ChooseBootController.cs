@@ -31,6 +31,7 @@ public class ChooseBootController : MonoBehaviour
         socket = inputSocket;
         socket.Instance.On("ColorChosen", updateColors); 
         canvas.SetActive(true);
+        playerCanvas.SetActive(true);
         playerName = sI.getClient().clientCredentials.username;
         numPlayers = sI.getClient().mySession.players.Count;
         Debug.Log("Number of players according to ChooseBoot: " + numPlayers);

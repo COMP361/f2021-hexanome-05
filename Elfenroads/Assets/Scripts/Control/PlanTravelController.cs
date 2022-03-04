@@ -133,8 +133,11 @@ public class PlanTravelController : MonoBehaviour
 
         }else if((passedObstacle != null) && (passedCounter == null)){ //In this case, an obstacle was passed in.
             //Verification here is simple. First, check that the road has a counter on it.
-            if(road.counters.Count != 1){
+            if(road.counters.Count == 0){
                 invalidMessage("Road has no counter!");
+                return;
+            }else if(road.counters.Count == 2){
+                invalidMessage("Obstacle already exists!");
                 return;
             }
 

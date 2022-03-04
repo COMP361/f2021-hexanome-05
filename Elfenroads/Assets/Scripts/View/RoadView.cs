@@ -3,14 +3,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Models;
+using Controls;
 
 
 public class RoadView : MonoBehaviour {
     public TerrainType roadType;
     public GameObject startTown;
     public GameObject endTown;
-    public GameObject PlanTravelController;
-    public GameObject MoveBootsController;
+    public PlanTravelController PlanTravelController;
+    public MoveBootController MoveBootController;
 
     public event EventHandler RoadClicked;
     public bool horizontal = true;
@@ -155,11 +156,13 @@ public class RoadView : MonoBehaviour {
     public void cardDragged(string cardType){
         //Inform the MoveBootController here.
         Debug.Log("CardDragged!");
+        MoveBootController.validateMoveBoot(cardType, modelRoad);
+        
     }
 
     public void counterDragged(string counterType){
         //Inform the PlanTravelController here.
         Debug.Log("CounterDragged!");
-        PlanTravelController.GetComponent<PlanTravelController>().validatePlaceCounter(counterType, modelRoad);
+        PlanTravelController.validatePlaceCounter(counterType, modelRoad);
     }
 }
