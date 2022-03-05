@@ -64,7 +64,7 @@ namespace Controls
                 if(card.GetComponent<CardViewHelper>().getGuid() == cardClicked.GetComponent<CardViewHelper>().getGuid()){
                     //Transfer this card from playerCards to ToDiscard
                     Debug.Log("Transferring from playerCards to ToDiscard!");
-                    transferToCards(card);
+                    transferToDiscard(card);
                     return;
                 }
             }
@@ -72,7 +72,7 @@ namespace Controls
                 if(card.GetComponent<CardViewHelper>().getGuid() == cardClicked.GetComponent<CardViewHelper>().getGuid()){
                     //Transfer this card from playerCards to ToDiscard
                     Debug.Log("Transferring from playerCards to ToDiscard");
-                    transferToDiscard(card);
+                    transferToCards(card);
                     return;
                 }
             }
@@ -91,6 +91,8 @@ namespace Controls
             LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
             playerCards.Remove(card);
             cardsToDiscard.Add(card);
+            Debug.Log("Player cards: " + playerCards.Count);
+            Debug.Log("Cards to discard: " + cardsToDiscard.Count);
             return;
         }
 
@@ -101,6 +103,8 @@ namespace Controls
             LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
             cardsToDiscard.Remove(card);
             playerCards.Add(card);
+            Debug.Log("Player cards: " + playerCards.Count);
+            Debug.Log("Cards to discard: " + cardsToDiscard.Count);
             return;
         }
 
@@ -210,9 +214,11 @@ namespace Controls
             }else{
                 List<Guid> discardList = new List<Guid>();
                 foreach(GameObject card in cardsToDiscard){
-                    discardList.Add(card.GetComponent<CardViewHelper>().getGuid());
-                }
+                discardList.Add(card.GetComponent<CardViewHelper>().getGuid());
+            }
                 clearDiscard();
+                endTurnButton.SetActive(true);
+                discardWindow.SetActive(false);
                 Elfenroads.Control.endTurn(discardList);
                 return;
             }
