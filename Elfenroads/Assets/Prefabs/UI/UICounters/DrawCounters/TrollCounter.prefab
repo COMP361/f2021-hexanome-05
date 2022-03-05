@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3389701222969943620}
   - component: {fileID: 3389701222969943617}
   - component: {fileID: 3389701222969943618}
-  - component: {fileID: 7636208532993737373}
+  - component: {fileID: 1454893337985750137}
   m_Layer: 0
   m_Name: TrollCounter
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7636208532993737373
+--- !u!114 &1454893337985750137
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,7 +85,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3389701222969943621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d79d20d174b072940b66649b37219e5a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8daa21e612c5a204c8e5f32d66d827a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faceUpCountersView: {fileID: 0}

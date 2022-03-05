@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Models;
+using Views;
 
-public class FaceUpCountersView : MonoBehaviour
+public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
 {
     //Need public UI elements here, which will actually display the model (DrawCountersModel, below) to the screen.
     //Eg. public GridLayoutGroup layout; and several prefabs for the different types of counters.
@@ -36,7 +37,7 @@ public class FaceUpCountersView : MonoBehaviour
      }
 
     void onModelUpdated(object sender, EventArgs e) {
-        //Here, needs to add counters to the GridLayoutGroup according to the model. Instantiated Counters must also have their "CounterViewHelper" component's "Guid" fields set appropriately.
+        //Here, needs to add counters to the GridLayoutGroup according to the model. Instantiated Counters must also have their "GuidViewHelper" component's "Guid" fields set appropriately.
         Debug.Log("Model was updated!");
         //First, destroy all children (mwahahah)
         foreach(Transform child in transform){
@@ -55,37 +56,43 @@ public class FaceUpCountersView : MonoBehaviour
                         case TransportType.Dragon:
                         {  
                            GameObject instantiatedCounter = Instantiate(dragonCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.ElfCycle:
                         {
                             GameObject instantiatedCounter = Instantiate(cycleCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.MagicCloud:
                         {
                             GameObject instantiatedCounter = Instantiate(cloudCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.TrollWagon:
                         {
                             GameObject instantiatedCounter = Instantiate(trollCounterPrefab, this.transform);
-                         instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                         instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
+                         instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.GiantPig:
                         {
                             GameObject instantiatedCounter = Instantiate(pigCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.Unicorn:
                         {
                             GameObject instantiatedCounter = Instantiate(unicornCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         default: Debug.Log("Model transportation counter of type raft! This is not allowed!") ; break;
@@ -106,7 +113,8 @@ public class FaceUpCountersView : MonoBehaviour
                 {
                     //*** Add sea obstacle later, during elfengold.
                     GameObject instantiatedCounter = Instantiate(landObstaclePrefab, this.transform);
-                    instantiatedCounter.GetComponent<CounterViewHelper>().setGuid(c.id);
+                    instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
+                    instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                     break;
                 }
                 default: Debug.Log("Counter is of undefined type!") ; break;
@@ -115,7 +123,7 @@ public class FaceUpCountersView : MonoBehaviour
     }
 
     //Called by the Counter GridElements (those instantiated by this script, and which will be made children of the GridLayoutGroup). Will be used to identify which counter was clicked.
-    public void CounterClicked(GameObject clickedCounter){
+    public void GUIClicked(GameObject clickedCounter){
         if(drawCountersModel == null){
             Debug.Log("Yay!");
             return;

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3950933832795217005}
   - component: {fileID: 3950933832795217006}
   - component: {fileID: -771193913809455304}
-  - component: {fileID: 8063274371272601512}
+  - component: {fileID: 5129672178607548978}
   m_Layer: 0
   m_Name: PigCounter
   m_TagString: Untagged
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
---- !u!114 &8063274371272601512
+--- !u!114 &5129672178607548978
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +99,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3950933832795217001}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d79d20d174b072940b66649b37219e5a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8daa21e612c5a204c8e5f32d66d827a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faceUpCountersView: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6007085349581255686}
   - component: {fileID: 6007085349581255681}
   - component: {fileID: 6007085349581255680}
-  - component: {fileID: 6007085349581255687}
+  - component: {fileID: 4011047174244751601}
   m_Layer: 0
   m_Name: UnicornCardUI
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6007085349581255687
+--- !u!114 &4011047174244751601
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,7 +85,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6007085349581255685}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ba0cdd2878242d43adabe7bd8860aa4, type: 3}
+  m_Script: {fileID: 11500000, guid: 8daa21e612c5a204c8e5f32d66d827a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveBootController: {fileID: 0}

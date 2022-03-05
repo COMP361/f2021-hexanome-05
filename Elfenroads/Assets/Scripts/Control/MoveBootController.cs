@@ -9,9 +9,8 @@ using System;
 
 namespace Controls
 {
-    public class MoveBootController : MonoBehaviour
-    {
-        //Text box or something here, to alert player of invalid moves.
+    public class MoveBootController : MonoBehaviour, GuidHelperContainer
+    { 
         public GameObject invalidMovePrefab;
         public GameObject MoveBootCanvas;
         public GameObject discardWindow;
@@ -58,10 +57,10 @@ namespace Controls
             }
         }
 
-        public void CardClicked(GameObject cardClicked){
+        public void GUIClicked(GameObject cardClicked){
             Debug.Log("In the cardClicked function.");
             foreach(GameObject card in playerCards){
-                if(card.GetComponent<CardViewHelper>().getGuid() == cardClicked.GetComponent<CardViewHelper>().getGuid()){
+                if(card.GetComponent<GuidViewHelper>().getGuid() == cardClicked.GetComponent<GuidViewHelper>().getGuid()){
                     //Transfer this card from playerCards to ToDiscard
                     Debug.Log("Transferring from playerCards to ToDiscard!");
                     transferToDiscard(card);
@@ -69,7 +68,7 @@ namespace Controls
                 }
             }
             foreach(GameObject card in cardsToDiscard){
-                if(card.GetComponent<CardViewHelper>().getGuid() == cardClicked.GetComponent<CardViewHelper>().getGuid()){
+                if(card.GetComponent<GuidViewHelper>().getGuid() == cardClicked.GetComponent<GuidViewHelper>().getGuid()){
                     //Transfer this card from playerCards to ToDiscard
                     Debug.Log("Transferring from playerCards to ToDiscard");
                     transferToCards(card);
@@ -199,7 +198,8 @@ namespace Controls
 
         private void createAndAddToLayout(GameObject prefab, Card c){
             GameObject instantiatedCard = Instantiate(prefab, this.transform);
-            instantiatedCard.GetComponent<CardViewHelper>().setGuid(c.id);
+            instantiatedCard.GetComponent<GuidViewHelper>().setGuid(c.id);
+            instantiatedCard.GetComponent<GuidViewHelper>().setContainer(this);
             instantiatedCard.transform.SetParent(potentialDiscardLayoutGroup, false);
             LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
             playerCards.Add(instantiatedCard);
@@ -214,7 +214,7 @@ namespace Controls
             }else{
                 List<Guid> discardList = new List<Guid>();
                 foreach(GameObject card in cardsToDiscard){
-                discardList.Add(card.GetComponent<CardViewHelper>().getGuid());
+                discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
             }
                 clearDiscard();
                 endTurnButton.SetActive(true);

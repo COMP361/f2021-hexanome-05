@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1052281897076428692}
   - component: {fileID: 1052281897076428695}
   - component: {fileID: 1052281897076428694}
-  - component: {fileID: 1999414719354198137}
+  - component: {fileID: 2315408041618607258}
   m_Layer: 0
   m_Name: UnicornCounter
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1999414719354198137
+--- !u!114 &2315408041618607258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,7 +85,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1052281897076428699}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d79d20d174b072940b66649b37219e5a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8daa21e612c5a204c8e5f32d66d827a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faceUpCountersView: {fileID: 0}

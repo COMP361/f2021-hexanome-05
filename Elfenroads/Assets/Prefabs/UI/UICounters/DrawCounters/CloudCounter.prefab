@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7999005353773716373}
   - component: {fileID: 7999005353773716374}
   - component: {fileID: -7353556047094354067}
-  - component: {fileID: 1599313031718349443}
+  - component: {fileID: 20357492111225077}
   m_Layer: 0
   m_Name: CloudCounter
   m_TagString: Untagged
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates: []
---- !u!114 &1599313031718349443
+--- !u!114 &20357492111225077
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +99,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7999005353773716376}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d79d20d174b072940b66649b37219e5a, type: 3}
+  m_Script: {fileID: 11500000, guid: 8daa21e612c5a204c8e5f32d66d827a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faceUpCountersView: {fileID: 0}

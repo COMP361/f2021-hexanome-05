@@ -135,7 +135,7 @@ namespace Controls {
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
-            json.Add("counter_id", clickedCounter.GetComponent<CounterViewHelper>().getGuid());
+            json.Add("counter_id", clickedCounter.GetComponent<GuidViewHelper>().getGuid());
             socket.Instance.Emit("PickCounter", json.ToString(), false);
         }
 
