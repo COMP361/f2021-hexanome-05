@@ -152,4 +152,11 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
             Debug.Log("If so, then it is because the currentPhase is " + Elfenroads.Model.game.currentPhase);
         }
     }
+
+    void Update(){
+        //*** If game slows this might be it.
+        float width = this.gameObject.GetComponent<RectTransform>().rect.width;
+        Vector2 newSize = new Vector2(width / 5.75f, width / 5.75f);
+        this.gameObject.GetComponent<GridLayoutGroup>().cellSize = newSize;
+    }
 }

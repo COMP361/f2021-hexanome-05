@@ -19,7 +19,6 @@ public class ChooseBootController : MonoBehaviour
     public Button purpleButton;
     public TMPro.TMP_Text textBox;
 
-    private ColorBlock defaultBlock;
     private string playerName;
     private int numPlayers;
     private string sessionID; 
@@ -37,7 +36,6 @@ public class ChooseBootController : MonoBehaviour
         Debug.Log("Number of players according to ChooseBoot: " + numPlayers);
         sessionID = sI.getClient().thisSessionID;
         socket.Instance.On("GameState", bootsChosen); 
-        defaultBlock = redButton.colors; //Save for later.
     }
 
     //Either calls ElfenroadsControl, or will be called by ElfenroadsControl.
@@ -203,48 +201,24 @@ public class ChooseBootController : MonoBehaviour
     }
 
     public void disableButton(Button b){
-        b.enabled = false;
-        ColorBlock cb = new ColorBlock();
-        cb.disabledColor = defaultBlock.disabledColor;
-        cb.normalColor = defaultBlock.disabledColor;
-        cb.highlightedColor = defaultBlock.disabledColor;
-        b.colors = cb;
+        b.interactable = false;
     }
 
     public void enableAllButtons(){
-        redButton.enabled = true;
-        blueButton.enabled = true;
-        greenButton.enabled = true;
-        yellowButton.enabled = true;
-        blackButton.enabled = true;
-        purpleButton.enabled = true;
-
-        redButton.colors = defaultBlock;
-        blueButton.colors = defaultBlock;
-        greenButton.colors = defaultBlock;
-        yellowButton.colors = defaultBlock;
-        blackButton.colors = defaultBlock;
-        purpleButton.colors = defaultBlock;
+        redButton.interactable = true;
+        blueButton.interactable = true;
+        greenButton.interactable = true;
+        yellowButton.interactable = true;
+        blackButton.interactable = true;
+        purpleButton.interactable = true;
     }
 
     public void disableAllButtons(){
-        redButton.enabled = false;
-        blueButton.enabled = false;
-        greenButton.enabled = false;
-        yellowButton.enabled = false;
-        blackButton.enabled = false;
-        purpleButton.enabled = false;
-
-        ColorBlock cb = new ColorBlock();
-        cb.disabledColor = defaultBlock.disabledColor;
-        cb.normalColor = defaultBlock.disabledColor;
-        cb.highlightedColor = defaultBlock.disabledColor;
-
-        redButton.colors = cb;
-        blueButton.colors = cb;
-        greenButton.colors = cb;
-        yellowButton.colors = cb;
-        blackButton.colors = cb;
-        purpleButton.colors = cb;
+        redButton.interactable = false;
+        blueButton.interactable = false;
+        greenButton.interactable = false;
+        yellowButton.interactable = false;
+        blackButton.interactable = false;
+        purpleButton.interactable = false;
     }
 }

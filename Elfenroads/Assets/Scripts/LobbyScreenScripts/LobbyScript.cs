@@ -107,9 +107,9 @@ public class LobbyScript : MonoBehaviour
         infoText.text = "Creation sucessful!";
         await thisClient.refreshSessions();
         //Now that the session has been created, we can turn on the sioCom.Instance.
+        Debug.Log("On create, session id is: " + thisClient.thisSessionID);
         sioCom.Instance.Emit("join", thisClient.thisSessionID, true);
         sioCom.Instance.On("Launch", callback);
-        //Debug.Log("Session ID: " + thisClient.thisSessionID);
     }
 
     private void callback(string input){ //Strangeness is potentially caused here. This likely ought to be somewhere in the LobbyScreen, since as of right now this script is attached to the Login Button, which is disabled later.
@@ -202,9 +202,9 @@ public class LobbyScript : MonoBehaviour
         }
         List<Session> foundSessions = new List<Session>();
         foreach(string ID in sessionIDs){
-#pragma warning disable 0618
+            #pragma warning disable 0618
             foundSessions.Add(new Session(WWW.EscapeURL(ID), trueObj[ID]["creator"].ToString(), trueObj[ID]["players"].ToString(), trueObj[ID]["launched"].ToString()));
-#pragma warning restore 0618
+            #pragma warning restore 0618
             if(trueObj[ID]["creator"].ToString() == thisClient.clientCredentials.username){
                 thisClient.hasSessionCreated = true; //If our client is a host in one of the recieved session
                 thisClient.thisSessionID = ID;
