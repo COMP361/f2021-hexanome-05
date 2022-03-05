@@ -204,7 +204,7 @@ public class ThisPlayerInventoryView : MonoBehaviour
                     Debug.Log("Elfengold - Do later");
                     break;
                 }
-                default: Debug.Log("Counter is of undefined type!") ; break;
+                default: Debug.Log("Card is of undefined type!") ; break;
             }
         }
 

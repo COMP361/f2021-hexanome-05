@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class CounterViewHelper : MonoBehaviour,  IPointerClickHandler
 {
-    public GameObject faceUpCountersView;
+    public GameObject faceUpCountersView; //***Could use a cleanup / merge with CardViewHelper, or a way to specify this object.
     private Guid myGuid;
 
     void Start(){

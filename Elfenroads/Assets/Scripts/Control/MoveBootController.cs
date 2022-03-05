@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Views;
 using Models;
 using System;
@@ -13,9 +14,26 @@ namespace Controls
         //Text box or something here, to alert player of invalid moves.
         public GameObject invalidMovePrefab;
         public GameObject MoveBootCanvas;
+        public GameObject discardWindow;
+        public GameObject endTurnButton;
+        public RectTransform potentialDiscardLayoutGroup;
+        public RectTransform toDiscardLayoutGroup;
+
+        public GameObject dragonCardPrefab;
+        public GameObject trollCardPrefab;
+        public GameObject cloudCardPrefab;
+        public GameObject cycleCardPrefab;
+        public GameObject unicornCardPrefab;
+        public GameObject pigCardPrefab;
+        public GameObject raftCardPrefab;
+
         public List<GameObject> roadObjects;
         private List<RoadView> roadViews;
         public bool locked = true;
+
+        private List<GameObject> playerCards;
+        private List<GameObject> cardsToDiscard;
+        
 
         void Start() {
             roadViews = new List<RoadView>();
@@ -23,6 +41,7 @@ namespace Controls
                 roadViews.Add(road.GetComponent<RoadView>());
             }
             subscribeToRoadClickEvents();
+            discardWindow.SetActive(false);
         }
 
         private void subscribeToRoadClickEvents() {
@@ -39,6 +58,193 @@ namespace Controls
             }
         }
 
+        public void CardClicked(GameObject cardClicked){
+            Debug.Log("In the cardClicked function.");
+            foreach(GameObject card in playerCards){
+                if(card.GetComponent<CardViewHelper>().getGuid() == cardClicked.GetComponent<CardViewHelper>().getGuid()){
+                    //Transfer this card from playerCards to ToDiscard
+                    Debug.Log("Transferring from playerCards to ToDiscard!");
+                    transferToCards(card);
+                    return;
+                }
+            }
+            foreach(GameObject card in cardsToDiscard){
+                if(card.GetComponent<CardViewHelper>().getGuid() == cardClicked.GetComponent<CardViewHelper>().getGuid()){
+                    //Transfer this card from playerCards to ToDiscard
+                    Debug.Log("Transferring from playerCards to ToDiscard");
+                    transferToDiscard(card);
+                    return;
+                }
+            }
+
+            
+            //If we make it here, give an invalid message. ***Fatal error?
+            invalidMessage("Could not find card in either layouts!");
+            Debug.Log("Could not find card in either layouts!");
+            return;
+        }
+
+        private void transferToDiscard(GameObject card){
+            Debug.Log("In transferToDiscard!");
+            card.transform.SetParent(toDiscardLayoutGroup, false);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(toDiscardLayoutGroup);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
+            playerCards.Remove(card);
+            cardsToDiscard.Add(card);
+            return;
+        }
+
+        private void transferToCards(GameObject card){
+            Debug.Log("In transferToCards!");
+            card.transform.SetParent(potentialDiscardLayoutGroup, false);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(toDiscardLayoutGroup);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
+            cardsToDiscard.Remove(card);
+            playerCards.Add(card);
+            return;
+        }
+
+        public void endTurnValidation(){
+            //First, check that it is the player's turn and it is the right phase.
+            if(! (Elfenroads.Model.game.currentPhase is MoveBoot)){
+                //Inform player move is invalid.
+                invalidMessage("Wrong phase!");
+                Debug.Log("Invalid, not in the correct phase!");
+                return;
+            }
+            if(! Elfenroads.Control.isCurrentPlayer()){
+                //Inform player they are not the current player.
+                invalidMessage("Not your turn!");
+                return;
+            }
+            //This is callled if "endTurn" was pressed. If the player has less than or equal to 4 travelcards, simply call endTurn on ElfenroadsControl with an empty list.
+            int numCards = Elfenroads.Control.getThisPlayer().inventory.cards.Count;
+            if(numCards <= 4){
+                List<Guid> emptyList = new List<Guid>();
+                Elfenroads.Control.endTurn(emptyList);
+                return;
+            }else{
+                //If not, we'll have to enable the window allowing players to discard cards. This means getting Guids of Player cards and putting the UI elements into the GridLayoutGroup.
+                cardsToDiscard = new List<GameObject>();
+                playerCards = new List<GameObject>();
+                foreach(Card c in Elfenroads.Control.getThisPlayer().inventory.cards){
+                    switch(c){
+                        case TravelCard tc:
+                        {
+                            switch(tc.transportType){
+                                case TransportType.Dragon:
+                                {  
+                                    createAndAddToLayout(dragonCardPrefab, c);
+                                    break;
+                                }
+                                case TransportType.ElfCycle:
+                                {
+                                    createAndAddToLayout(cycleCardPrefab, c);
+                                    break;
+                                }
+                                case TransportType.MagicCloud:
+                                {
+                                    createAndAddToLayout(cloudCardPrefab, c);
+                                    break;
+                                }
+                                case TransportType.TrollWagon:
+                                {
+                                    createAndAddToLayout(trollCardPrefab, c);
+                                    break;
+                                }
+                                case TransportType.GiantPig:
+                                {
+                                    createAndAddToLayout(pigCardPrefab, c);
+                                    break;
+                                }
+                                case TransportType.Unicorn:
+                                {
+                                    createAndAddToLayout(unicornCardPrefab, c);
+                                    break;
+                                }
+                                case TransportType.Raft:
+                                {
+                                    createAndAddToLayout(raftCardPrefab, c);
+                                    break;
+                                }
+                                default: Debug.Log("Error: Card type invalid.") ; break;
+                            }
+                            break;
+                        }
+                        case WitchCard wc:
+                        {
+                            Debug.Log("Elfengold - Do later");
+                            break;
+                        }
+                        case GoldCard gc:
+                        {
+                            Debug.Log("Elfengold - Do later");
+                            break;
+                        }
+                        default: Debug.Log("Card is of undefined type!") ; break;
+                    }
+                }
+
+                //Now, we can enable the window.
+                endTurnButton.SetActive(false);
+                discardWindow.SetActive(true);
+                Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
+                Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
+            }
+        }
+
+        private void createAndAddToLayout(GameObject prefab, Card c){
+            GameObject instantiatedCard = Instantiate(prefab, this.transform);
+            instantiatedCard.GetComponent<CardViewHelper>().setGuid(c.id);
+            instantiatedCard.transform.SetParent(potentialDiscardLayoutGroup, false);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
+            playerCards.Add(instantiatedCard);
+            return;
+        }
+
+        //Called by the "confirm" button. If there is the proper amount of cards in the "cardsToDiscard" array, their guids are passed to Control to emit to the server, and both arrays/GridLayoutGroups are cleared.
+        public void confirmDiscardCards(){
+            if(playerCards.Count != 4){
+                invalidMessage("You must keep exactly 4 cards!");
+                return;
+            }else{
+                List<Guid> discardList = new List<Guid>();
+                foreach(GameObject card in cardsToDiscard){
+                    discardList.Add(card.GetComponent<CardViewHelper>().getGuid());
+                }
+                clearDiscard();
+                Elfenroads.Control.endTurn(discardList);
+                return;
+            }
+        }
+
+        //Called by the "cancel" button. Simply closes the discard card window, clearing the arrays and GridLayoutGroups.
+        public void cancelEndTurn(){
+            clearDiscard();
+            endTurnButton.SetActive(true);
+            discardWindow.SetActive(false);
+            Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
+            Elfenroads.Control.UnlockDraggables?.Invoke(null, EventArgs.Empty);
+        }
+
+        private void clearDiscard(){
+            playerCards.Clear();
+            cardsToDiscard.Clear();
+
+            foreach(Transform child in potentialDiscardLayoutGroup){
+                child.SetParent(null);
+                DestroyImmediate(child.gameObject);
+            }
+            potentialDiscardLayoutGroup.DetachChildren();
+
+            foreach(Transform child in toDiscardLayoutGroup){
+                child.SetParent(null);
+                DestroyImmediate(child.gameObject);
+            }
+            toDiscardLayoutGroup.DetachChildren();
+            
+            return;
+        }
 
         public void validateMoveBoot(string cardType, Road road){
             if(Elfenroads.Model.game == null){
