@@ -180,7 +180,7 @@ namespace Controls {
             foreach(String s in stringArray){
                 Debug.Log(s);
             }
-            json.Add("card_ids", stringArray.ToString());
+            json.Add("card_ids", JsonConvert.SerializeObject(stringArray)); // Serialization is not the same as "ToString"
             socket.Instance.Emit("MoveBoot", json.ToString(), false);
         }
 
