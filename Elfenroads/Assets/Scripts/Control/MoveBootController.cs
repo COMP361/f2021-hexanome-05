@@ -310,7 +310,11 @@ namespace Controls
 
             if(passedCard != null){ //Case where we found the cardType.
                 //First, we need to check that the Player is on a town connected to the passed-in Road. ***NOTE: If not working, could be an issue with getThisPlayer() and references.
-                if( !(road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot) || road.end.boots.Contains(Elfenroads.Control.getThisPlayer().boot)) ){
+                Debug.Log("Start contains this boot?: " + road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot));
+                Debug.Log("End contains this boot?: " + road.end.boots.Contains(Elfenroads.Control.getThisPlayer().boot));
+                Debug.Log("Road has start = " + road.start.name + " and end = " + road.end.name + " and type " + road.roadType);
+
+                if( ! (road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot) || road.end.boots.Contains(Elfenroads.Control.getThisPlayer().boot)) ){
                     invalidMessage("Boot not adjacent to this road!");
                     return;
                 }
@@ -346,9 +350,11 @@ namespace Controls
                 //All good! We can send the command to the Server.
                 if(road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
                     Guid town = road.end.id;
+                    Debug.Log("Moving to town " + road.end.name);
                     Elfenroads.Control.moveBoot(town, cardsToPass);
                 }else{
                     Guid town = road.start.id;
+                    Debug.Log("Moving to town " + road.start.id);
                     Elfenroads.Control.moveBoot(town, cardsToPass);
                 }
 
@@ -371,7 +377,7 @@ namespace Controls
             //If the cardType matches the road's terrainType, give the cost according to the travel chart. Otherwise, it costs 3 cards.
             switch(road.roadType){
                 case TerrainType.Plain:{
-                    if( cardType is TransportType.GiantPig || cardType is TransportType.ElfCycle || cardType is TransportType.TrollWagon || cardType is TransportType.Dragon){
+                    if( cardType is TransportType.GiantPig || cardType is TransportType.ElfCycle || cardType is TransportType.TrollWagon || cardType is TransportType.Dragon ){
                         cost++;
                         return cost;
                     }else if(cardType is TransportType.MagicCloud){
@@ -435,7 +441,7 @@ namespace Controls
                 }
             }
 
-            //If we've made it here, the Player must be trying to use a caravan. So, increment cost by 3);
+            //If we've made it here, the Player must be trying to use a caravan. So, increment cost by 3
             cost = cost + 3;
             return cost;            
         }
@@ -447,5 +453,8 @@ namespace Controls
             Destroy(invalidBox, 2f);
         }
         
+        public void playersTurnMessage(string player){
+            
+        }
     }
 }

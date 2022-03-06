@@ -78,12 +78,10 @@ public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
     }
        
     private void lockDrag(object sender, EventArgs e){
-        Debug.Log("Locked!");
         locked = true;
     }
 
     private void unlockDrag(object sender, EventArgs e){
-        Debug.Log("Unlocked!");
         locked = false;
     }
 }

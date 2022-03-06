@@ -165,13 +165,22 @@ namespace Controls {
         }
 
         // May need to pass in a road if the Town Guid can't be ascertained.
-        public void moveBoot(Guid townGuid, List<Guid> cardsToUse){
+        public async void moveBoot(Guid townGuid, List<Guid> cardsToUse){
+            String[] stringArray = new String[cardsToUse.Count];
+            for(int i = 0 ; i < cardsToUse.Count ; i++){
+                stringArray[i] = cardsToUse[i].ToString();
+            }
+
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
             json.Add("town_id", townGuid);
-            JArray array = JArray.FromObject(cardsToUse);
-            json.Add("card_ids", array);
+            //JArray array = JArray.FromObject(cardsToUse);
+            //Debug.Log(array.ToString());
+            foreach(String s in stringArray){
+                Debug.Log(s);
+            }
+            json.Add("card_ids", stringArray.ToString());
             socket.Instance.Emit("MoveBoot", json.ToString(), false);
         }
 
