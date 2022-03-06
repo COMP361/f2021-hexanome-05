@@ -253,6 +253,14 @@ namespace Controls
         }
 
         public void validateMoveBoot(string cardType, Road road){
+            Debug.Log("Checking for boot of color: " + Elfenroads.Control.getThisPlayer().boot.color);
+            foreach(Town t in Elfenroads.Model.game.board.towns){
+                foreach(Boot b in t.boots){
+                    if(b.color == Elfenroads.Control.getThisPlayer().boot.color){
+                        Debug.Log("Player's boot is on town " + t.name + " which has ID " + t.id);
+                    }
+                }
+            }
             if(Elfenroads.Model.game == null){
             invalidMessage("Testing! No game exists!");
             return;
@@ -312,7 +320,13 @@ namespace Controls
                 //First, we need to check that the Player is on a town connected to the passed-in Road. ***NOTE: If not working, could be an issue with getThisPlayer() and references.
                 Debug.Log("Start contains this boot?: " + road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot));
                 Debug.Log("End contains this boot?: " + road.end.boots.Contains(Elfenroads.Control.getThisPlayer().boot));
-                Debug.Log("Road has start = " + road.start.name + " and end = " + road.end.name + " and type " + road.roadType);
+                Debug.Log("Road has start = " + road.start.name + " with id " + road.start.id + " and end = " + road.end.name + " with id " + road.end.id + " and road is of type " + road.roadType);
+                foreach(Boot b in road.start.boots){
+                    Debug.Log(road.start.name + " has " + b.color + " and id " + b.id);
+                }
+                foreach(Boot b in road.end.boots){
+                    Debug.Log(road.start.name + " has " + b.color + " and id " + b.id);
+                }
 
                 if( ! (road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot) || road.end.boots.Contains(Elfenroads.Control.getThisPlayer().boot)) ){
                     invalidMessage("Boot not adjacent to this road!");
@@ -323,8 +337,24 @@ namespace Controls
                     return;
                 }
 
+                //Then, need to check that the cardType matches the counterType (if it isn't a lake or a stream);
+                bool compatible = false;
+                if(road.roadType != TerrainType.Stream || road.roadType != TerrainType.Lake){
+                    List<TransportationCounter> tcs = new List<TransportationCounter>();
+                    foreach(Counter c in road.counters){
+                        if(c is TransportationCounter){
+                            tcs.Add((TransportationCounter) c);
+                        }
+                    }
+                    foreach(TransportationCounter tc in tcs){
+                        if(tc.transportType == passedCard){
+                            compatible = true;
+                        }
+                    }
+                }
+
                 //Next, we need to check if the cardType is compatible with the road, and what the card cost for that road is.
-                int cost = roadCost(passedCard, road);
+                int cost = roadCost(passedCard, road, compatible);
                 if(cost == -1){
                     invalidMessage("Incompatible card!");
                     return;
@@ -350,11 +380,11 @@ namespace Controls
                 //All good! We can send the command to the Server.
                 if(road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
                     Guid town = road.end.id;
-                    Debug.Log("Moving to town " + road.end.name);
+                    Debug.Log("Moving to town " + road.end.name + " which has ID: " + road.end.id);
                     Elfenroads.Control.moveBoot(town, cardsToPass);
                 }else{
                     Guid town = road.start.id;
-                    Debug.Log("Moving to town " + road.start.id);
+                    Debug.Log("Moving to town " + road.start.name + " which has ID: " + road.start.id);
                     Elfenroads.Control.moveBoot(town, cardsToPass);
                 }
 
@@ -364,7 +394,7 @@ namespace Controls
         }
 
         //Figures out the cost of travelling on the given road according to the given cardType. May return -1, which means the cardType is not applicable with that road.
-        private int roadCost(TransportType? cardType, Road road){
+        private int roadCost(TransportType? cardType, Road road, bool compatibleWithCounter){
 
             //First, figure out if there is an obstacle on the road. If so, cost is set to 1.
             int cost = 0;
@@ -373,7 +403,11 @@ namespace Controls
                     cost = 1;
                 }
             }
-
+            if((! compatibleWithCounter) && (road.roadType != TerrainType.Lake && road.roadType != TerrainType.Stream)){
+                //If the counter is not compatible, the player must be trying to use a caravan.
+                cost = cost + 3;
+                return cost;    
+            }
             //If the cardType matches the road's terrainType, give the cost according to the travel chart. Otherwise, it costs 3 cards.
             switch(road.roadType){
                 case TerrainType.Plain:{
@@ -426,7 +460,7 @@ namespace Controls
                 }
                 case TerrainType.Stream:{
                     if( cardType is TransportType.Raft) {
-                        //A little more involved here. Need to check where the player is. If he's on the start town, only costs 1. Otherwise costs 2.
+                        //A little more involved here. Need to check where the player is. If he's on the start town, only costs 1. Otherwise costs 2. ***
                         if(road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
                             cost++;
                             return cost;
@@ -440,10 +474,7 @@ namespace Controls
 
                 }
             }
-
-            //If we've made it here, the Player must be trying to use a caravan. So, increment cost by 3
-            cost = cost + 3;
-            return cost;            
+            return -1; //Should never happen.    
         }
 
         private void invalidMessage(string message){

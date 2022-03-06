@@ -66,9 +66,7 @@ public class ThisPlayerInventoryView : MonoBehaviour
         int landObstacles = 0;
 
         //Then, assign appropriate counters as in RoadView.
-        Debug.Log("Player model was updated!");
          foreach(Counter c in playerModel.inventory.counters){
-             Debug.Log("Player has counter with id: " + c.id);
             switch(c){
                 case TransportationCounter tc:
                 {
@@ -148,9 +146,7 @@ public class ThisPlayerInventoryView : MonoBehaviour
         int raftCards = 0;
 
         //Then, assign appropriate counters as in RoadView.
-        Debug.Log("Player model was updated!");
          foreach(Card c in playerModel.inventory.cards){
-             Debug.Log("Player has counter with id: " + c.id);
             switch(c){
                 case TravelCard tc:
                 {

@@ -73,11 +73,11 @@ public class RoadView : MonoBehaviour {
      public void setAndSubscribeToModel(Road r){
          modelRoad = r;
          modelRoad.Updated += onModelUpdated;
-         //this.onModelUpdated(null, null);  *** COMMENTED OUT UNTIL I FIX "SLOTS"
+         this.onModelUpdated(null, null);
      }
 
     void onModelUpdated(object sender, EventArgs e) {
-        Debug.Log("model updated!");
+        Debug.Log("Roadview updated!");
         //First, remove all counters from the slots.
         removeAllFromSlots(counters);
 
@@ -156,6 +156,17 @@ public class RoadView : MonoBehaviour {
     public void cardDragged(string cardType){
         //Inform the MoveBootController here.
         Debug.Log("CardDragged!");
+
+        Debug.Log("Before validation, checking the modelRoad: " );
+        Debug.Log("Start town is " + modelRoad.start.name + " and has ID: " + modelRoad.start.id);
+        foreach(Boot b in modelRoad.start.boots){
+            Debug.Log("Start town has boot: " + b.color + " with id: " + b.id);
+        }
+        Debug.Log("End town is " + modelRoad.end.name + " and has ID: " + modelRoad.end.id);
+        foreach(Boot b in modelRoad.end.boots){
+            Debug.Log("End town has boot: " + b.color + " with id: " + b.id);
+        }
+
         MoveBootController.validateMoveBoot(cardType, modelRoad);
         
     }
