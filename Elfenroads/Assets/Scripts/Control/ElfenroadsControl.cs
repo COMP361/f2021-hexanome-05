@@ -22,6 +22,8 @@ namespace Controls {
         public GameObject DrawCounterCanvas;
         public GameObject PlanTravelCanvas;
         public GameObject MoveBootCanvas;
+        public PlanTravelController planTravelController;
+        public MoveBootController moveBootController;
 
         public GameObject PlayerCounters;
         public GameObject PlayerCards;
@@ -102,6 +104,11 @@ namespace Controls {
                     UnlockCamera?.Invoke(null, EventArgs.Empty);
                     UnlockDraggables?.Invoke(null, EventArgs.Empty);
                     currentPlayer = pt.currentPlayer;
+                    if(isCurrentPlayer()){
+                        planTravelController.playerTurnMessage("It is your turn!");
+                    }else{
+                        planTravelController.playerTurnMessage("It is " + currentPlayer.name + "'s  turn!" );
+                    }
                     break;
                 }
                 case MoveBoot mb:{

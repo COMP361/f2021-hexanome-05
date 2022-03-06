@@ -8,6 +8,7 @@ public class PlanTravelController : MonoBehaviour
 {
     //Text box or something here, to alert player of invalid moves.
     public GameObject invalidMovePrefab;
+    public GameObject messagePrefab;
     public GameObject PlanTravelCanvas;
 
     public void passTurn(){
@@ -188,6 +189,12 @@ public class PlanTravelController : MonoBehaviour
             }
         }   
         return false; //If we somehow make it here, just return false;
+    }
+
+    public void playerTurnMessage(string message){
+        GameObject messageBox = Instantiate(messagePrefab, PlanTravelCanvas.transform.position, Quaternion.identity, PlanTravelCanvas.transform);
+        messageBox.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = message;
+        Destroy(messageBox, 1.9f);
     }
 
     private void invalidMessage(string message){
