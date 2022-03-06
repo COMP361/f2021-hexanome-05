@@ -12,6 +12,7 @@ namespace Controls
     public class MoveBootController : MonoBehaviour, GuidHelperContainer
     { 
         public GameObject invalidMovePrefab;
+        public GameObject messagePrefab;
         public GameObject MoveBootCanvas;
         public GameObject discardWindow;
         public GameObject endTurnButton;
@@ -484,8 +485,10 @@ namespace Controls
             Destroy(invalidBox, 2f);
         }
         
-        public void playersTurnMessage(string player){
-            
+        public void playerTurnMessage(string message){
+            GameObject messageBox = Instantiate(messagePrefab, MoveBootCanvas.transform.position, Quaternion.identity, MoveBootCanvas.transform);
+            messageBox.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = message;
+            Destroy(messageBox, 1.9f);
         }
     }
 }

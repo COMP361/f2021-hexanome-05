@@ -118,7 +118,15 @@ namespace Controls {
                     PlayerCards.SetActive(true);
                     UnlockCamera?.Invoke(null, EventArgs.Empty);
                     UnlockDraggables?.Invoke(null, EventArgs.Empty);
-                    currentPlayer = mb.currentPlayer;
+                    
+                    if(currentPlayer != mb.currentPlayer){
+                        currentPlayer = mb.currentPlayer;
+                        if(isCurrentPlayer()){
+                            moveBootController.playerTurnMessage("It is your turn!");
+                        }else{
+                            moveBootController.playerTurnMessage("It is " + currentPlayer.name + "'s  turn!" );
+                        }
+                    }
                     break;
                 }
                 default:{
