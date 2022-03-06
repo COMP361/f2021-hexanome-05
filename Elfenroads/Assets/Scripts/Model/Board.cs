@@ -45,6 +45,16 @@ namespace Models {
             return null;
         }
 
+        public Town GetTown(Guid id) {
+            foreach (Town town in towns) {
+                if (town.id == id) {
+                    return town;
+                }
+            }
+            
+            return null;
+        }
+
         public Road GetRoad(Town start, Town end, TerrainType roadType) {
             //Debug.Log("Passed-in start town is: " + start.name + " with id " + start.id + ", passed-in end town is: " + end.name + " with id " + end.id);
             foreach (Road road in roads) {

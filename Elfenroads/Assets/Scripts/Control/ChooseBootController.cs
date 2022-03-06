@@ -54,6 +54,12 @@ public class ChooseBootController : MonoBehaviour
         Debug.Log(input);
         var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
         Game initialGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
+        foreach (Road road in initialGame.board.roads) {
+            Town startTown = initialGame.board.GetTown(road.start.id);
+            Town endTown = initialGame.board.GetTown(road.end.id);
+            road.setStart(startTown);
+            road.endStart(endTown);
+        }
         //Now, should pass the "Game" we deserialized to Elfenroads.Model for processing.
         endChooseColors(initialGame);
     }
