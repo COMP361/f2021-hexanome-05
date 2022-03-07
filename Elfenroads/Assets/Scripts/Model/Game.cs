@@ -14,7 +14,8 @@ namespace Models {
         public Player startingPlayer { protected set; get; }
         public GamePhase currentPhase {  set; get; }
         public Variant variant { protected set; get; }
-        public CardPile travelcards { protected set; get; }
+        public CardPile cards { protected set; get; }
+        public CardPile discardPile { protected set; get;}
         public CounterPile counterPile { protected set; get; }
 
         public Game(Board board) {
@@ -32,27 +33,29 @@ namespace Models {
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        protected Game(Board board, List<Player> players, Player startingPlayer, GamePhase currentPhase, Variant variant) {
+        protected Game(Board board, List<Player> players, Player startingPlayer,
+                        GamePhase currentPhase, Variant variant, CardPile cards,
+                        CardPile discardPile, CounterPile counterPile) {
             this.board = board;
             this.players = players;
             this.startingPlayer = startingPlayer;
             this.currentPhase = currentPhase;
             this.variant = variant;
+            this.cards = cards;
+            this.discardPile = discardPile;
+            this.counterPile = counterPile;
         }
 
-        // can we get rid of these?
-        // ***
-        public void createPlayerTest() {
-            Player newPlayer = new Player("test", Color.RED); //Player is set to red here, should be changed later.
-            players.Add(newPlayer);
-            Elfenroads.Model.curPlayer = newPlayer;
-        }
+        public Player GetPlayer(string name) {
+            foreach (Player player in players) {
+                if (player.name == name) {
+                    return player;
+                }
+            }
 
-        public void SetBoard(Board board) {
-            this.board = board;
+            return null;
         }
-        // ***
-
+        
         public bool Update(Game update) {
             bool modified = false;
 
@@ -61,6 +64,42 @@ namespace Models {
             }
 
             if (players.DeepUpdate(update.players)) {
+                modified = true;
+            }
+
+            if ( !startingPlayer.Equals(update.startingPlayer) ) {
+                startingPlayer = (Player) ModelStore.Get(update.startingPlayer.id);
+                modified = true;
+            }
+
+            // might fuck up ***
+            if (currentPhase.isCompatible(update.currentPhase)) {
+                if (currentPhase.Update(update.currentPhase)) {
+                    modified = true;
+                }
+            }
+            else {
+                // needs more thought
+                currentPhase.End();
+                currentPhase = update.currentPhase;
+                currentPhase.Update(update.currentPhase);
+                modified = true;
+            }
+
+            if (variant != update.variant) {
+                variant = update.variant;
+                modified = true;
+            }
+
+            if (cards.Update(update.cards)) {
+                modified = true;
+            }
+
+            if (discardPile.Update(update.discardPile)) {
+                modified = true;
+            }
+
+            if (counterPile.Update(update.counterPile)) {
                 modified = true;
             }
 

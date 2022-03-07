@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 8072134380740383198}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.98, y: -1.97, z: 0}
-  m_LocalScale: {x: 10, y: 15, z: 8}
+  m_LocalScale: {x: 1.5, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -72,8 +72,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.9433962, g: 0.81448746, b: 0.36108425, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 94b57296a2d197f4ab5ec6e1fe11845c, type: 3}
+  m_Color: {r: 0.8773585, g: 0.5591683, b: 0.020692414, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -97,5 +97,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   townName: 
   isStartingTown: 0
-  townPiecePrefab: {fileID: 7441020426772035190, guid: 1c68fdf2ae03bc945b97bc2e37e05863, type: 3}
-  bootPrefab: {fileID: 1758054998159331222, guid: 094e893439bd84841a1ab96c5fba56be, type: 3}
+  redTownPiecePrefab: {fileID: 7441020426772035190, guid: 1c68fdf2ae03bc945b97bc2e37e05863, type: 3}
+  redBootPrefab: {fileID: 1758054998159331222, guid: 094e893439bd84841a1ab96c5fba56be, type: 3}
+  blueTownPiecePrefab: {fileID: 7441020426772035190, guid: 65a8e71e6e99d8b4aa5aafc0706ef141, type: 3}
+  blueBootPrefab: {fileID: 1758054998159331222, guid: a39ab4e64906d1c4dabefeace98e7e1b, type: 3}
+  greenTownPiecePrefab: {fileID: 7441020426772035190, guid: d691c5637df499f4f913ebc46cb3bccb, type: 3}
+  greenBootPrefab: {fileID: 1758054998159331222, guid: d3f1a170d886f3c4e8549a72c20b57d3, type: 3}
+  yellowTownPiecePrefab: {fileID: 7441020426772035190, guid: 345f7995405910a42aac302a2526ddf6, type: 3}
+  yellowBootPrefab: {fileID: 1758054998159331222, guid: a4dfedce54fb6154f90513ed1bca3ec9, type: 3}
+  purpleTownPiecePrefab: {fileID: 7441020426772035190, guid: 50abd9afb38abd34e8d335cd4c169f46, type: 3}
+  purpleBootPrefab: {fileID: 1758054998159331222, guid: dca1e2be64762bd4a9b6535f30e0cd16, type: 3}
+  blackTownPiecePrefab: {fileID: 7441020426772035190, guid: d6d46882cda88334ca4dd7dfb59af476, type: 3}
+  blackBootPrefab: {fileID: 1758054998159331222, guid: bb39e8b4348f3ab47a99a6137191c84a, type: 3}

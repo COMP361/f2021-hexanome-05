@@ -36,5 +36,13 @@ namespace Models {
 
             return false;
         }
+
+        public void setStart(Town start) {
+            this.start = start;
+        }
+
+        public void endStart(Town end) {
+            this.end = end;
+        }
     }
 }

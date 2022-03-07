@@ -10,7 +10,7 @@ namespace Models
         public List<Counter> counters { protected set; get; }
 
         public FaceUpCounters() {
-            this.counters = new List<Counter>(5);
+            this.counters = new List<Counter>();
         }
 
         [Newtonsoft.Json.JsonConstructor]

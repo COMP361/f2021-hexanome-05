@@ -34,10 +34,11 @@ namespace Models {
                 modified = true;
             }
 
-            if ( !destinationTown.Equals(update.destinationTown)) {
-                destinationTown = (Town) ModelStore.Get(update.destinationTown.id);
-                modified = true;
-            }
+            
+            // if ( !destinationTown.Equals(update.destinationTown)) {
+            //     destinationTown = (Town) ModelStore.Get(update.destinationTown.id);
+            //     modified = true;
+            // }
 
             if (inventory.Update(update.inventory)) {
                 modified = true;

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using Models;
 using Models.Helpers;
+using UnityEngine;
 
 namespace Models {
     public class Town : GuidModel, IUpdatable<Town> {
@@ -37,6 +38,10 @@ namespace Models {
             
             if (modified) {
                 Updated?.Invoke(this, EventArgs.Empty);
+            }
+
+            foreach(Boot b in boots){
+                Debug.Log("In model, for town " + name + " with id " + this.id + " we have boot: " + b.color);
             }
 
             return modified;

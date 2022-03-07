@@ -7,14 +7,14 @@ namespace Models
     public class GoldCardPile : IUpdatable<GoldCardPile>
     {
         public event EventHandler Updated;
-        public List<Card> cards { protected set; get; }
+        public List<GoldCard> cards { protected set; get; }
 
         public GoldCardPile() {
-            this.cards = new List<Card>();
+            this.cards = new List<GoldCard>();
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        protected GoldCardPile(List<Card> cards) {
+        protected GoldCardPile(List<GoldCard> cards) {
             this.cards = cards;
         }
 

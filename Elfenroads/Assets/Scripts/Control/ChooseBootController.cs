@@ -10,6 +10,7 @@ using Models;
 public class ChooseBootController : MonoBehaviour
 {
     public GameObject canvas;
+    public GameObject playerCanvas;
     public Button redButton;
     public Button blueButton;
     public Button greenButton;
@@ -18,7 +19,6 @@ public class ChooseBootController : MonoBehaviour
     public Button purpleButton;
     public TMPro.TMP_Text textBox;
 
-    private ColorBlock defaultBlock;
     private string playerName;
     private int numPlayers;
     private string sessionID; 
@@ -30,36 +30,38 @@ public class ChooseBootController : MonoBehaviour
         socket = inputSocket;
         socket.Instance.On("ColorChosen", updateColors); 
         canvas.SetActive(true);
+        playerCanvas.SetActive(true);
         playerName = sI.getClient().clientCredentials.username;
         numPlayers = sI.getClient().mySession.players.Count;
         Debug.Log("Number of players according to ChooseBoot: " + numPlayers);
         sessionID = sI.getClient().thisSessionID;
-        socket.Instance.On("GameState", updateTest); 
-        defaultBlock = redButton.colors; //Save for later.
+        socket.Instance.On("GameState", bootsChosen); 
     }
 
     //Either calls ElfenroadsControl, or will be called by ElfenroadsControl.
-    public void endChooseColors(){
+    public void endChooseColors(Game initialGame){
         Debug.Log("Reached endChooseColors!");
         socket.Instance.Off("ColorChosen");
+        socket.Instance.Off("GameState");
         canvas.SetActive(false);
-        //Calls ElfenroadsControl here.
+        playerCanvas.SetActive(true);
+        //*** Set color of player canvas, as well as other opponent UI elements
+        //As it is now, the Model will call the main game Controller once it has integrated the Game sucessfully.
+        Elfenroads.Model.initialGame(initialGame);
     }
 
-    public void updateTest(string input){
+    public void bootsChosen(string input){
         Debug.Log(input);
         var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
         Game initialGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
-        Debug.Log(initialGame);
-        //JObject jobj = JObject.Parse(input);
-        //JArray counterArr = JArray.Parse(jobj["counters"].ToString());
-        //Debug.Log(counterArr);
-        //List<Counter> counterList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Counter>>(counterArr.ToString(), jset);
-        // Debug.Log(counterList[0].GetType());
-        // Debug.Log("Should be true: " + (counterList[0] is TransportationCounter));
-        // Debug.Log("Fields: Id: " + counterList[0].id + ", Type: " + ((TransportationCounter) counterList[0]).transportType);
-        // Debug.Log("Should be true: " + (counterList[1] is MagicSpellCounter));
-        // Debug.Log("Fields: Id: " + counterList[1].id + ", Type: " + ((MagicSpellCounter) counterList[1]).spellType);
+        foreach (Road road in initialGame.board.roads) {
+            Town startTown = initialGame.board.GetTown(road.start.id);
+            Town endTown = initialGame.board.GetTown(road.end.id);
+            road.setStart(startTown);
+            road.endStart(endTown);
+        }
+        //Now, should pass the "Game" we deserialized to Elfenroads.Model for processing.
+        endChooseColors(initialGame);
     }
 
     public void updateColors(string input){
@@ -205,48 +207,24 @@ public class ChooseBootController : MonoBehaviour
     }
 
     public void disableButton(Button b){
-        b.enabled = false;
-        ColorBlock cb = new ColorBlock();
-        cb.disabledColor = defaultBlock.disabledColor;
-        cb.normalColor = defaultBlock.disabledColor;
-        cb.highlightedColor = defaultBlock.disabledColor;
-        b.colors = cb;
+        b.interactable = false;
     }
 
     public void enableAllButtons(){
-        redButton.enabled = true;
-        blueButton.enabled = true;
-        greenButton.enabled = true;
-        yellowButton.enabled = true;
-        blackButton.enabled = true;
-        purpleButton.enabled = true;
-
-        redButton.colors = defaultBlock;
-        blueButton.colors = defaultBlock;
-        greenButton.colors = defaultBlock;
-        yellowButton.colors = defaultBlock;
-        blackButton.colors = defaultBlock;
-        purpleButton.colors = defaultBlock;
+        redButton.interactable = true;
+        blueButton.interactable = true;
+        greenButton.interactable = true;
+        yellowButton.interactable = true;
+        blackButton.interactable = true;
+        purpleButton.interactable = true;
     }
 
     public void disableAllButtons(){
-        redButton.enabled = false;
-        blueButton.enabled = false;
-        greenButton.enabled = false;
-        yellowButton.enabled = false;
-        blackButton.enabled = false;
-        purpleButton.enabled = false;
-
-        ColorBlock cb = new ColorBlock();
-        cb.disabledColor = defaultBlock.disabledColor;
-        cb.normalColor = defaultBlock.disabledColor;
-        cb.highlightedColor = defaultBlock.disabledColor;
-
-        redButton.colors = cb;
-        blueButton.colors = cb;
-        greenButton.colors = cb;
-        yellowButton.colors = cb;
-        blackButton.colors = cb;
-        purpleButton.colors = cb;
+        redButton.interactable = false;
+        blueButton.interactable = false;
+        greenButton.interactable = false;
+        yellowButton.interactable = false;
+        blackButton.interactable = false;
+        purpleButton.interactable = false;
     }
 }
