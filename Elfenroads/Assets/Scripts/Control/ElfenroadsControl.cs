@@ -26,6 +26,7 @@ namespace Controls {
         public PlanTravelController planTravelController;
         public MoveBootController moveBootController;
         public FinishRoundController finishRoundController;
+        public PlayerInfoController playerInfoController;
 
         public GameObject PlayerCounters;
         public GameObject PlayerCards;
@@ -35,6 +36,8 @@ namespace Controls {
         public GameObject ChooseBootController;
 
         [HideInInspector]
+        public bool cameraLocked = true;
+        public bool draggablesLocked = true;
         public EventHandler LockCamera;
         public EventHandler UnlockCamera;
         public EventHandler LockDraggables;
@@ -42,10 +45,31 @@ namespace Controls {
         private Player thisPlayer;
         private Player currentPlayer;
 
+        private void cameraLock(object sender, EventArgs e){
+            cameraLocked = true;
+        }
+
+        private void cameraUnlock(object sender, EventArgs e){
+            cameraLocked = false;
+        }
+
+        private void draggableLock(object sender, EventArgs e){
+            draggablesLocked = true;
+        }
+
+        private void draggableUnlock(object sender, EventArgs e){
+            draggablesLocked = false;
+        }
+
         private void Awake() {
             Elfenroads.Control = this;
-            
+            LockCamera += cameraLock;
+            UnlockCamera += cameraUnlock;
+            LockDraggables += draggableLock;
+            UnlockDraggables += draggableUnlock;
         }
+        
+        
 
         private void Start() {
 
@@ -84,6 +108,7 @@ namespace Controls {
         //Called after an update has been integrated to the Model. Reads the current phase, and presents the appropriate canvas to the Player. (***Depending on the phase, should lock/unlock the camera as well***)
         public void prepareScreen(){
             disableCanvases();
+            playerInfoController.closeWindow();
 
             switch(Elfenroads.Model.game.currentPhase){
                 case DrawCounters dc:{

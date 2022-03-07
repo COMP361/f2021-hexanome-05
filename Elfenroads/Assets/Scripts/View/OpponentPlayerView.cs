@@ -33,7 +33,7 @@ public class OpponentPlayerView : MonoBehaviour
         } 
     }
 
-    public void expandInventory(){
+    public void expandThisInventory(){
         playerInfoController.openAndSetupWindow(playerModel);
     }
 }

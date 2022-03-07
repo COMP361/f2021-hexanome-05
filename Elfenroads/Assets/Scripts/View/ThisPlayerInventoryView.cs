@@ -31,12 +31,13 @@ public class ThisPlayerInventoryView : MonoBehaviour
     public TMPro.TMP_Text numTrollCards;
     public TMPro.TMP_Text numUnicornCards;
 
-    void expandInventory(){
+    public void expandMyInventory(){
         playerInfoController.openAndSetupWindow(playerModel);
     }
 
     public void setAndSubscribeToModel(Player inputPlayer){
          playerModel = inputPlayer;
+         setWindowTint(inputPlayer.boot.color);
          playerModel.Updated += onModelUpdated;
          onModelUpdated(null, null);
      }
@@ -228,4 +229,65 @@ public class ThisPlayerInventoryView : MonoBehaviour
     private static void setAmount(TMPro.TMP_Text text, int amount){
             text.text = amount.ToString() + "x";
         }
+
+    private void setWindowTint(Models.Color inputColor){
+        switch(inputColor){
+                case Models.Color.RED:{
+                    this.gameObject.GetComponent<Image>().color = new Color32(221, 76, 76, 255);
+                    foreach(Transform child in playerStats.transform){
+                        if(child.GetComponent<TMPro.TMP_Text>() != null){
+                            child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
+                        }
+                    }
+                    break;
+                }
+                case Models.Color.BLUE:{
+                    this.gameObject.GetComponent<Image>().color = new Color32(50, 127, 210, 255);
+                    foreach(Transform child in playerStats.transform){
+                        if(child.GetComponent<TMPro.TMP_Text>() != null){
+                            child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
+                        }
+                    }
+                    break;
+                }
+                case Models.Color.GREEN:{
+                    this.gameObject.GetComponent<Image>().color = new Color32(37, 131, 59, 255);
+                    foreach(Transform child in playerStats.transform){
+                        if(child.GetComponent<TMPro.TMP_Text>() != null){
+                            child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
+                        }
+                    }
+                    break;
+                }
+                case Models.Color.PURPLE:{
+                    this.gameObject.GetComponent<Image>().color = new Color32(169, 51, 203, 255);
+                    foreach(Transform child in playerStats.transform){
+                        if(child.GetComponent<TMPro.TMP_Text>() != null){
+                            child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
+                        }
+                    }
+                    break;
+                }
+                case Models.Color.YELLOW:{
+                    this.gameObject.GetComponent<Image>().color = new Color32(253, 223, 20, 255);
+                    foreach(Transform child in playerStats.transform){
+                        if(child.GetComponent<TMPro.TMP_Text>() != null){
+                            child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
+                        }
+                    }
+                    break;
+                }
+                case Models.Color.BLACK:{
+                    //Black is a little more involved, since we need to make the text white.
+                    this.gameObject.GetComponent<Image>().color = new Color32(42, 42, 44, 255);
+                    foreach(Transform child in playerStats.transform){
+                        if(child.GetComponent<TMPro.TMP_Text>() != null){
+                            child.GetComponent<TMPro.TMP_Text>().color = new Color32(243, 243, 243, 255);
+                        }
+                    }
+                    break;
+                }
+                default: Debug.Log("Invalid color!"); break;
+            }
+    }
 }
