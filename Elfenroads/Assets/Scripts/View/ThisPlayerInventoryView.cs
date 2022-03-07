@@ -8,8 +8,10 @@ public class ThisPlayerInventoryView : MonoBehaviour
 {
     private Player playerModel;
 
+    public PlayerInfoController playerInfoController;
     public GameObject playerCounters;
     public GameObject playerCards;
+    public GameObject playerStats;
 
     [Header("Counter TMPs")]
     public TMPro.TMP_Text numCloudCounters;
@@ -28,6 +30,10 @@ public class ThisPlayerInventoryView : MonoBehaviour
     public TMPro.TMP_Text numPigCards;
     public TMPro.TMP_Text numTrollCards;
     public TMPro.TMP_Text numUnicornCards;
+
+    void expandInventory(){
+        playerInfoController.openAndSetupWindow(playerModel);
+    }
 
     public void setAndSubscribeToModel(Player inputPlayer){
          playerModel = inputPlayer;
@@ -51,7 +57,13 @@ public class ThisPlayerInventoryView : MonoBehaviour
         //Now, we do the same for the cards.
         setCards();
 
-        //LATER: Need to get the object which represents the amount of points gained + card GridLayoutGroup ***
+        //Finally, we'll set the "Stats":
+        playerStats.transform.GetChild(0).gameObject.GetComponent<TMPro.TMP_Text>().text = playerModel.name;
+        if(playerModel.id == Elfenroads.Model.game.startingPlayer.id){
+            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nStartingPlayer: Y";
+        }else{
+            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nStartingPlayer: N";
+        } 
     }
 
     //Adjusts the Counter TMPs according to the model.

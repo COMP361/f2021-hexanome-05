@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3950933832795217000}
   - component: {fileID: 3950933832795217005}
   - component: {fileID: 3950933832795217006}
-  - component: {fileID: 5129672178607548978}
+  - component: {fileID: -771193913809455304}
   m_Layer: 0
-  m_Name: PigCounter
+  m_Name: PigCounterInv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5129672178607548978
+--- !u!114 &-771193913809455304
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,6 +85,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3950933832795217001}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8daa21e612c5a204c8e5f32d66d827a3, type: 3}
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Delegates: []

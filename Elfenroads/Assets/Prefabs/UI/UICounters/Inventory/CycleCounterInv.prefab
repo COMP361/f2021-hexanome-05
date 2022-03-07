@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7929174182774217132}
   - component: {fileID: 7929174182774217133}
   m_Layer: 0
-  m_Name: CycleCounter
+  m_Name: CycleCounterInv
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

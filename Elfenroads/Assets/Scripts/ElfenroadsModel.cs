@@ -9,9 +9,9 @@ namespace Models {
         public event EventHandler ModelReady;
         public List<GameObject> roadObjects;
         public List<GameObject> townObjects;
-        public List<GameObject> playerObjects; //Represents the player's inventories, which will be on the UI.
         public GameObject faceUpCounters;
         public GameObject mainPlayerObject;
+        public PlayerInfoController playerInfoController;
         //Save these for Elfengold, once we get to that.
         //public GameObject faceUpCards;
         //public GameObject auctionCounters;
@@ -50,9 +50,8 @@ namespace Models {
                 }
             }
             
-            //Now, playerObjects. We'll want to add the main player's inventory to the bottom part of the GUI, while the opponents will go above (DO LATER***)
-            foreach(GameObject p in playerObjects){
-            }
+            playerInfoController.createOpponentPrefabs(game.players);
+                        
             //Finally, the faceUpCounters object (later on, add a check here - we'll have to add a "drawCards" view instead if we're playing Elfengold) ***
             faceUpCounters.GetComponent<FaceUpCountersView>().setAndSubscribeToModel((DrawCounters) game.currentPhase);
             
