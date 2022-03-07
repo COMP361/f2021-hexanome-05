@@ -6,16 +6,12 @@ using Models;
 
 public class InfoButton : MonoBehaviour
 {
-    public GameObject targetWindow;
-
-    void Start() {
-        targetWindow.SetActive(false);
-        }       
+    public GameObject targetWindow;      
    
-     public void ShowCanvas(){
+    public void ShowHelpWindow(){
         if(!targetWindow.activeSelf){
                 targetWindow.SetActive(true);
                 Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
-            }
-     }
+        }
+    }
 }
