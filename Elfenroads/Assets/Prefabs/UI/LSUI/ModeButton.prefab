@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eff26ddbae2e9cb46b66eadd133d1fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: {fileID: 4770142730867636434}
 --- !u!1 &4770142730867636460
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,8 +167,8 @@ RectTransform:
   m_Father: {fileID: 4770142730435676017}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.05, y: 0}
+  m_AnchorMax: {x: 0.95, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -226,7 +227,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.1
+  m_fontSize: 19.85
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

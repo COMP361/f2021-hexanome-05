@@ -137,6 +137,7 @@ public class LobbyScript : MonoBehaviour
         infoText.text = "Deletion successful!";
         Debug.Log("Delete success: " + input);
         thisClient.hasSessionCreated = false;
+        wasDeleted = true;
         await thisClient.refreshSessions();
     }
 
@@ -227,19 +228,37 @@ public class LobbyScript : MonoBehaviour
         displaySessions(foundSessions);
     }
     
+    private bool wasDeleted = false;
+
     private void displaySessions(List<Session> foundSessions) {
+        bool createdRowExists = false;
+        GameObject existingRow = null;
+
         if(tableRow == null){
             return;
         }
         foreach (Transform child in tableRow.transform) {
             if(child == null){
                 return;
+            }else if(child.transform.GetChild(0).gameObject.GetComponent<TMPro.TMP_Text>().text == thisClient.clientCredentials.username && !wasDeleted){
+                createdRowExists = true;
+                existingRow = child.gameObject;
+                wasDeleted = false;
             }else{
                 Destroy(child.gameObject);
             }
         }
 
         foreach(Session session in foundSessions) {
+            if(session.hostPlayerName == Client.Instance().clientCredentials.username && createdRowExists){
+                if(session.players.Count >= 2 && existingRow.transform.childCount != 5){ //Change this value
+                    GameObject instantiatedButton = Instantiate(launchButton, existingRow.transform);
+                    instantiatedButton.transform.SetSiblingIndex(2);
+                    instantiatedButton.GetComponent<LaunchScript>().setSession(session);
+                    existingRow.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = session.players.Count + "/6";
+                }
+                continue;
+            }
             //Make the new row.
             if( session.launched && ( (!(Client.Instance().clientCredentials.username == "Elfenroads")) || (session.players.Contains(Client.Instance().clientCredentials.username)) ) ){ //If we find a session which was launched, no point to show it.
                 continue;
@@ -277,7 +296,6 @@ public class LobbyScript : MonoBehaviour
                 //Gamemode Selection
                 if(Client.Instance().clientCredentials.username == session.hostPlayerName){
                     GameObject instantiatedButton = Instantiate(modeButton, instantiatedRow.transform);
-                    instantiatedButton.GetComponent<ModeScript>().setSession(session);
                 } else {
                     
                 }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SessionInfo : MonoBehaviour
 {
     private Client thisClient;
-    private string GameMode;
+    private bool isElfenland = true;
     private string Variant;
 
     void Start(){
@@ -28,9 +28,9 @@ public class SessionInfo : MonoBehaviour
         return thisClient.thisSessionID;
     }
 
-    public void setGameMode(string mode){
-        GameMode = mode;
-        Debug.Log("Game mode is set to:" + this.GameMode);
+    public void setIsElfenLand(bool input){
+        isElfenland = input;
+        Debug.Log("isElfenLand set to: " + input);
     }
 
 }
