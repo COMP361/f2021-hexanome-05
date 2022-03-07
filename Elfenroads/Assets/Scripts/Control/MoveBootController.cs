@@ -214,9 +214,9 @@ namespace Controls
                 return;
             }else{
                 List<Guid> discardList = new List<Guid>();
-                foreach(GameObject card in cardsToDiscard){
-                discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
-            }
+                foreach(GameObject card in cardsToDiscard){ 
+                    discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
+                }
                 clearDiscard();
                 endTurnButton.SetActive(true);
                 discardWindow.SetActive(false);

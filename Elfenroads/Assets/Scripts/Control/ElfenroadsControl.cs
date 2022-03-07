@@ -22,8 +22,10 @@ namespace Controls {
         public GameObject DrawCounterCanvas;
         public GameObject PlanTravelCanvas;
         public GameObject MoveBootCanvas;
+        public GameObject FinishRoundCanvas;
         public PlanTravelController planTravelController;
         public MoveBootController moveBootController;
+        public FinishRoundController finishRoundController;
 
         public GameObject PlayerCounters;
         public GameObject PlayerCards;
@@ -129,6 +131,17 @@ namespace Controls {
                     }
                     break;
                 }
+                case FinishRound fr:{ //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
+                    Debug.Log("Phase is FinishRound!");
+                    FinishRoundCanvas.SetActive(true);
+                    PlayerCounters.SetActive(true);
+                    PlayerCards.SetActive(false);
+                    LockCamera?.Invoke(null, EventArgs.Empty);
+                    LockDraggables?.Invoke(null, EventArgs.Empty);
+                    finishRoundController.initialSetup(thisPlayer);
+                    //currentPlayer = null; //*** Would this break things?
+                    break;
+                }
                 default:{
                     Debug.Log("Phase not implemented!");
                     break;
@@ -180,7 +193,7 @@ namespace Controls {
         }
 
         // May need to pass in a road if the Town Guid can't be ascertained.
-        public async void moveBoot(Guid townGuid, List<Guid> cardsToUse){
+        public void moveBoot(Guid townGuid, List<Guid> cardsToUse){
             String[] stringArray = new String[cardsToUse.Count];
             for(int i = 0 ; i < cardsToUse.Count ; i++){
                 stringArray[i] = cardsToUse[i].ToString();
@@ -201,6 +214,14 @@ namespace Controls {
             JArray array = JArray.FromObject(cardsToDiscard);
             json.Add("card_ids", array);
             socket.Instance.Emit("DiscardTravelCards", json.ToString(), false);
+        }
+
+        public void finishRound(Guid counterToKeep){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("counter_id", counterToKeep);
+            //socket.Instance.Emit("CounterDiscarded", json.ToString(), false); //***
         }
 
         public void setThisPlayer(Player input){

@@ -10,7 +10,7 @@ public class ToggleMapScript : MonoBehaviour
     
 
     public void toggleCanvas(){
-        if(Elfenroads.Model.game.currentPhase is DrawCounters){
+        if(Elfenroads.Model.game.currentPhase is DrawCounters || Elfenroads.Model.game.currentPhase is FinishRound){
             if(targetWindow.activeSelf){
                 targetWindow.SetActive(false);
                 Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
