@@ -31,6 +31,8 @@ public class LobbyScript : MonoBehaviour
     public GameObject joinButton;
     public GameObject deleteButton;
     public GameObject leaveButton;
+    public GameObject modeButton;
+    public GameObject variantButton;
     public GameObject persistentObject;
     //public SocketIO sioCom.Instance;
     public SocketIOCommunicator sioCom;
@@ -267,10 +269,27 @@ public class LobbyScript : MonoBehaviour
                     GameObject instantiatedButton = Instantiate(deleteButton, instantiatedRow.transform);
                     instantiatedButton.GetComponent<DeleteScript>().setSession(session);
                 }else if(session.players.Contains(Client.Instance().clientCredentials.username) && (Client.Instance().clientCredentials.username != session.hostPlayerName)){
-                    //LEAVE BUTTON CREATED HERE. DO LATER. ***
-                    //GameObject instantiatedButton = Instantiate(leaveButton, instantiatedRow.transform);
-                    //instantiatedButton.GetComponent<LeaveScript>().setSession(session);
+                    //LEAVE BUTTON CREATED HERE
+                    GameObject instantiatedButton = Instantiate(leaveButton, instantiatedRow.transform);
+                    instantiatedButton.GetComponent<LeaveScript>().setSession(session);
                 }
+
+                //Gamemode Selection
+                if(Client.Instance().clientCredentials.username == session.hostPlayerName){
+                    GameObject instantiatedButton = Instantiate(modeButton, instantiatedRow.transform);
+                    instantiatedButton.GetComponent<ModeScript>().setSession(session);
+                } else {
+                    
+                }
+
+                //Variant Selection
+                // if(Client.Instance().clientCredentials.username == session.hostPlayerName){
+                //     GameObject instantiatedButton = Instantiate(variantButton, instantiatedRow.transform);
+                //     instantiatedButton.GetComponent<variantScript>().setSession(session);
+                // } else {
+                //     GameObject instantiatedButton = Instantiate(variantButton, instantiatedRow.transform);
+                // }
+
             }catch (Exception e){ //Try-catch put here for the case where "displaySessions" was running at the exact time the session was launched.
                 Debug.Log(e);
             }

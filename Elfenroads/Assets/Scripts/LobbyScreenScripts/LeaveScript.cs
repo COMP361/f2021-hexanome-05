@@ -7,19 +7,19 @@ public class LeaveScript : MonoBehaviour
 {
     private Session mySession = null;
     private Client client = Client.Instance();
-    private Button joinButton;
+    private Button leaveButton;
 
 
     void Start(){
-        joinButton = gameObject.GetComponent<Button>();
-        joinButton.onClick.AddListener(joinGame);
+        leaveButton = gameObject.GetComponent<Button>();
+        leaveButton.onClick.AddListener(leaveGame);
     }
 
     public void setSession(Session aSession){
         mySession = aSession;
     }
 
-    private async void joinGame(){
+    private async void leaveGame(){
         if(mySession == null){
             Debug.Log("Error in leaveButton, session was never set");
         }else{
