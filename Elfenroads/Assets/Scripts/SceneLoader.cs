@@ -8,10 +8,9 @@ using Models;
 
 public class SceneLoader : MonoBehaviour
 {
-    private Button button;
-
-	void OnEnable () {
-		
+	public string sceneName;
+	
+	public void loadScene(){
+		SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
 	}
-
 }

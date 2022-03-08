@@ -251,7 +251,7 @@ public class ThisPlayerInventoryView : MonoBehaviour
                     break;
                 }
                 case Models.Color.GREEN:{
-                    this.gameObject.GetComponent<Image>().color = new Color32(37, 131, 59, 255);
+                    this.gameObject.GetComponent<Image>().color = new Color32(46, 154, 71, 255);
                     foreach(Transform child in playerStats.transform){
                         if(child.GetComponent<TMPro.TMP_Text>() != null){
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
@@ -260,7 +260,7 @@ public class ThisPlayerInventoryView : MonoBehaviour
                     break;
                 }
                 case Models.Color.PURPLE:{
-                    this.gameObject.GetComponent<Image>().color = new Color32(169, 51, 203, 255);
+                    this.gameObject.GetComponent<Image>().color = new Color32(160, 45, 193, 255);
                     foreach(Transform child in playerStats.transform){
                         if(child.GetComponent<TMPro.TMP_Text>() != null){
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
@@ -278,11 +278,21 @@ public class ThisPlayerInventoryView : MonoBehaviour
                     break;
                 }
                 case Models.Color.BLACK:{
-                    //Black is a little more involved, since we need to make the text white.
+                    //Black is a little more involved, since we need to make the text white for the cards and counters as well.
                     this.gameObject.GetComponent<Image>().color = new Color32(42, 42, 44, 255);
                     foreach(Transform child in playerStats.transform){
                         if(child.GetComponent<TMPro.TMP_Text>() != null){
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(243, 243, 243, 255);
+                        }
+                    }
+                    foreach(Transform child in playerCounters.transform){
+                        foreach(Transform count in child){
+                            count.GetComponent<TMPro.TMP_Text>().color = new Color32(243, 243, 243, 255);
+                        }
+                    }
+                    foreach(Transform child in playerCards.transform){
+                        foreach(Transform count in child){
+                            count.GetComponent<TMPro.TMP_Text>().color = new Color32(243, 243, 243, 255);
                         }
                     }
                     break;

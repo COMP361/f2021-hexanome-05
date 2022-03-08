@@ -61,11 +61,11 @@ public class PlayerInfoController : MonoBehaviour
                     break;
                 }
                 case Models.Color.GREEN:{
-                    instantiatedTab.GetComponent<Image>().color = new Color32(37, 131, 59, 255);
+                    instantiatedTab.GetComponent<Image>().color = new Color32(46, 154, 71, 255);
                     break;
                 }
                 case Models.Color.PURPLE:{
-                    instantiatedTab.GetComponent<Image>().color = new Color32(169, 51, 203, 255);
+                    instantiatedTab.GetComponent<Image>().color = new Color32(160, 45, 193, 255);
                     break;
                 }
                 case Models.Color.YELLOW:{
@@ -306,6 +306,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
+                    playerCards.GetComponent<Image>().color = new Color32(192, 110, 110, 255);
+                    playerCounters.GetComponent<Image>().color = new Color32(192, 110, 110, 255);
                     break;
                 }
                 case Models.Color.BLUE:{
@@ -315,24 +317,30 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
+                    playerCards.GetComponent<Image>().color = new Color32(131, 159, 197, 255);
+                    playerCounters.GetComponent<Image>().color = new Color32(131, 159, 197, 255);
                     break;
                 }
                 case Models.Color.GREEN:{
-                    inventoryWindow.GetComponent<Image>().color = new Color32(37, 131, 59, 255);
+                    inventoryWindow.GetComponent<Image>().color = new Color32(46, 154, 71, 255);
                     foreach(Transform child in inventoryWindow.transform){
                         if(child.GetComponent<TMPro.TMP_Text>() != null){
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
+                    playerCards.GetComponent<Image>().color = new Color32(112, 207, 157, 255);
+                    playerCounters.GetComponent<Image>().color = new Color32(112, 207, 157, 255);
                     break;
                 }
                 case Models.Color.PURPLE:{
-                    inventoryWindow.GetComponent<Image>().color = new Color32(169, 51, 203, 255);
+                    inventoryWindow.GetComponent<Image>().color = new Color32(160, 45, 193, 255);
                     foreach(Transform child in inventoryWindow.transform){
                         if(child.GetComponent<TMPro.TMP_Text>() != null){
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
+                    playerCards.GetComponent<Image>().color = new Color32(219, 111, 203, 255);
+                    playerCounters.GetComponent<Image>().color = new Color32(219, 111, 203, 255);
                     break;
                 }
                 case Models.Color.YELLOW:{
@@ -342,6 +350,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
+                    playerCards.GetComponent<Image>().color = new Color32(255, 158, 59, 255);
+                    playerCounters.GetComponent<Image>().color = new Color32(255, 158, 59, 255);
                     break;
                 }
                 case Models.Color.BLACK:{
@@ -352,10 +362,11 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(243, 243, 243, 255);
                         }
                     }
+                    playerCards.GetComponent<Image>().color = new Color32(152, 152, 152, 255);
+                    playerCounters.GetComponent<Image>().color = new Color32(152, 152, 152, 255);
                     break;
                 }
                 default: Debug.Log("Invalid color!"); break;
             }
     }
-    
 }
