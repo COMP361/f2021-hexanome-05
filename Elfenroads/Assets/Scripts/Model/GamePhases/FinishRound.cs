@@ -20,7 +20,7 @@ namespace Models
             FinishRound updateTypecast = update as FinishRound;
             bool modified = false;
 
-            // stuff to be added in the future
+            // stuff
 
             if (modified) {
                 Updated?.Invoke(this, EventArgs.Empty);
