@@ -7,7 +7,7 @@ public class ModeScript : MonoBehaviour
 {
     private Client client = Client.Instance();
     private SessionInfo currentSession;
-    private bool isElfenLand = true;
+    private bool isElfenGold = true;
     
     void Start(){
         currentSession = GameObject.Find("SessionInfo").GetComponent<SessionInfo>();
@@ -15,9 +15,9 @@ public class ModeScript : MonoBehaviour
 
     public void toggleGameMode(bool isChecked){
         if(isChecked){
-            currentSession.setIsElfenLand(false);
+            currentSession.setIsElfenGold(true);
         }else{
-            currentSession.setIsElfenLand(true);
+            currentSession.setIsElfenGold(false);
         }
     }
 }

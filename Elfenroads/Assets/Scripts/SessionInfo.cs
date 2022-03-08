@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class SessionInfo : MonoBehaviour
 {
     private Client thisClient;
-    private bool isElfenland = true;
-    private string Variant;
+    public bool isElfenGold {set; get;}
+    public bool isLongerGame {set; get;}
+    public bool isHomeTown {set; get;}
 
     void Start(){
         DontDestroyOnLoad(this.gameObject);
-
     }
 
     // Start is called before the first frame update
@@ -28,9 +28,9 @@ public class SessionInfo : MonoBehaviour
         return thisClient.thisSessionID;
     }
 
-    public void setIsElfenLand(bool input){
-        isElfenland = input;
-        Debug.Log("isElfenLand set to: " + input);
+    public void setIsElfenGold(bool input){
+        isElfenGold = input;
+        Debug.Log("isElfenGold set to: " + input);
     }
 
 }
