@@ -115,6 +115,9 @@ namespace Controls {
                     DrawCounterCanvas.SetActive(true);
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dc.currentPlayer;
+                    if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
+                        DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                    }
                     TMPro.TMP_Text prompt = GameObject.Find("DrawCountersPrompt").GetComponent<TMPro.TMP_Text>(); 
                     if(currentPlayer.id == thisPlayer.id){
                         prompt.text = "Your turn! Draw a counter!";
