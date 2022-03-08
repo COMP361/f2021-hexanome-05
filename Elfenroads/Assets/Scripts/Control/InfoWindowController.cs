@@ -4,18 +4,19 @@ using System;
 using UnityEngine;
 using Models;
 
-public class AlwaysActiveUIController : MonoBehaviour
+public class InfoWindowController : MonoBehaviour
 {
 
     public GameObject helpWindow;
     public TMPro.TMP_Text PhaseName;
     public TMPro.TMP_Text PhaseExplanation;
+    public PlayerInfoController playerInfoController;
 
     [HideInInspector]
     public bool isOpen = false;
     
-    private bool cameraOnOpen;
-    private bool draggablesOnOpen;
+    private bool cameraOnOpen = true;
+    private bool draggablesOnOpen = true;
 
 
 	void Start()
@@ -108,15 +109,33 @@ public class AlwaysActiveUIController : MonoBehaviour
 
     public void CloseHelpWindow(){
         if(helpWindow.activeSelf){
+            isOpen = false;
+            if(cameraOnOpen){
+                Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
+            }else{
+                Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
+            }
+            if(draggablesOnOpen){
+                Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
+            }else{
+                 Elfenroads.Control.UnlockDraggables?.Invoke(null, EventArgs.Empty);
+            }
             helpWindow.SetActive(false);
-            Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
         }
     }
 
     public void ShowHelpWindow(){
+        if(playerInfoController.windowOpen){
+            return;
+        }
         if(!helpWindow.activeSelf){
-                helpWindow.SetActive(true);
-                Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
+            isOpen = true;
+            cameraOnOpen = Elfenroads.Control.cameraLocked;
+            draggablesOnOpen = Elfenroads.Control.draggablesLocked;
+            Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
+            Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
+            helpWindow.SetActive(true);
         }
     }
+    
 }

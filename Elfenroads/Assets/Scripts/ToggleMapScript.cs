@@ -8,11 +8,12 @@ public class ToggleMapScript : MonoBehaviour
 {
     public GameObject targetWindow;
     public PlayerInfoController playerInfoController;
+    public InfoWindowController infoWindowController;
     
 
     public void toggleCanvas(){
         //Don't want to allow toggling the map if a player inventory is open.
-        if(playerInfoController.windowOpen){
+        if(playerInfoController.windowOpen || infoWindowController.isOpen){
             return;
         }
 

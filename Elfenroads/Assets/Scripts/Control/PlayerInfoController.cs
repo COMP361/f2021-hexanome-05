@@ -15,6 +15,7 @@ public class PlayerInfoController : MonoBehaviour
     public RectTransform playerCards;
     public TMPro.TMP_Text playerName;
     public TMPro.TMP_Text playerStats;
+    public InfoWindowController infoWindowController;
 
     [Header("CounterPrefabs")]
     public GameObject cloudCounterPrefab;
@@ -87,8 +88,8 @@ public class PlayerInfoController : MonoBehaviour
     
 
     public void openAndSetupWindow(Player targetPlayer){
-        if(inventoryWindow.activeSelf){
-            //Do nothing if the window is already active.
+        if(inventoryWindow.activeSelf || infoWindowController.isOpen){
+            //Do nothing if the window is already active or if the info window is open.
             return;
         }
         //We'll need to save the previous lock states for use when closing the window.
