@@ -10,8 +10,14 @@ public class PlanTravelController : MonoBehaviour
     public GameObject invalidMovePrefab;
     public GameObject messagePrefab;
     public GameObject PlanTravelCanvas;
+    public PlayerInfoController playerInfoController;
+    public InfoWindowController infoWindowController;
 
     public void passTurn(){
+        if(playerInfoController.windowOpen || infoWindowController.isOpen){
+            invalidMessage("Close any open windows first!");
+            return;
+        }
         //If a Player chose to pass, we need only verify we're in the right phase, and that we are the current player.
         if(! (Elfenroads.Model.game.currentPhase is PlanTravelRoutes)){
             //Inform player move is invalid.

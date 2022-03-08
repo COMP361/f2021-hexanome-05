@@ -27,6 +27,7 @@ namespace Controls {
         public MoveBootController moveBootController;
         public FinishRoundController finishRoundController;
         public PlayerInfoController playerInfoController;
+        public InfoWindowController infoWindowController;
 
         public GameObject PlayerCounters;
         public GameObject PlayerCards;
@@ -110,18 +111,23 @@ namespace Controls {
         public void prepareScreen(){
             disableCanvases();
             playerInfoController.closeWindow();
+            infoWindowController.CloseHelpWindow();
 
             switch(Elfenroads.Model.game.currentPhase){
                 case DrawCounters dc:{
                     DrawCounterCanvas.SetActive(true);
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dc.currentPlayer;
+                    if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
+                        DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                    }
                     TMPro.TMP_Text prompt = GameObject.Find("DrawCountersPrompt").GetComponent<TMPro.TMP_Text>(); 
                     if(currentPlayer.id == thisPlayer.id){
                         prompt.text = "Your turn! Draw a counter!";
                     }else{
                         prompt.text = currentPlayer.name + " is drawing a counter...";
                     }
+                    infoWindowController.UpdateDrawCounterHelp();
                     break;
                 }
                 case PlanTravelRoutes pt:{
@@ -137,6 +143,7 @@ namespace Controls {
                     }else{
                         planTravelController.playerTurnMessage("It is " + currentPlayer.name + "'s  turn!" );
                     }
+                    infoWindowController.UpdatePlanTravelRoutesHelp();
                     break;
                 }
                 case MoveBoot mb:{
@@ -155,6 +162,7 @@ namespace Controls {
                             moveBootController.playerTurnMessage("It is " + currentPlayer.name + "'s  turn!" );
                         }
                     }
+                    infoWindowController.UpdateMoveBootHelp();
                     break;
                 }
                 case FinishRound fr:{ //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
@@ -166,6 +174,7 @@ namespace Controls {
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     finishRoundController.initialSetup(thisPlayer);
                     //currentPlayer = null; //*** Would this break things?
+                    infoWindowController.UpdateFinishRoundHelp();
                     break;
                 }
                 default:{
@@ -247,7 +256,7 @@ namespace Controls {
             json.Add("game_id", sessionInfo.getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
             json.Add("counter_id", counterToKeep);
-            //socket.Instance.Emit("CounterDiscarded", json.ToString(), false); //***
+            socket.Instance.Emit("CounterDiscarded", json.ToString(), false); //***
         }
 
         public void setThisPlayer(Player input){

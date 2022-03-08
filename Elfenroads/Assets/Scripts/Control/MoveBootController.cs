@@ -18,6 +18,8 @@ namespace Controls
         public GameObject endTurnButton;
         public RectTransform potentialDiscardLayoutGroup;
         public RectTransform toDiscardLayoutGroup;
+        public PlayerInfoController playerInfoController;
+        public InfoWindowController infoWindowController;
 
         public GameObject dragonCardPrefab;
         public GameObject trollCardPrefab;
@@ -109,6 +111,11 @@ namespace Controls
         }
 
         public void endTurnValidation(){
+            if(playerInfoController.windowOpen || infoWindowController.isOpen){
+            invalidMessage("Close any open windows first!");
+            return;
+            }
+
             //First, check that it is the player's turn and it is the right phase.
             if(! (Elfenroads.Model.game.currentPhase is MoveBoot)){
                 //Inform player move is invalid.
