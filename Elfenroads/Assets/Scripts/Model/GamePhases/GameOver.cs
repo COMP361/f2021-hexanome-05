@@ -8,16 +8,16 @@ namespace Models
     {
         override public event EventHandler Updated;
         public List<Player> playAgain { protected set; get; }
-        public List<Integer> scores { protected set; get; }
+        public List<int> scores { protected set; get; }
 
         
         public GameOver(){
             playAgain = new List<Player>();
-            scores = new List<Integer>();
+            scores = new List<int>();
         }
 
         [Newtonsoft.Json.JsonConstructor]
-        protected GameOver(List<Player> playAgain, List<Integer> scores){
+        protected GameOver(List<Player> playAgain, List<int> scores){
             this.playAgain = playAgain;
             this.scores = scores;
         }
@@ -27,7 +27,7 @@ namespace Models
         }
 
         override public bool Update(GamePhase update) {
-            DrawCounters updateTypecast = update as GameOver;
+            GameOver updateTypecast = update as GameOver;
             bool modified = false;
 
             // if (faceUpCounters.Update(updateTypecast.faceUpCounters)) {
