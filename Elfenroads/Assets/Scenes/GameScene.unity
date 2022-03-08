@@ -31949,6 +31949,7 @@ MonoBehaviour:
   planTravelController: {fileID: 86473973}
   moveBootController: {fileID: 572325403}
   finishRoundController: {fileID: 385405657}
+  alwaysActiveUIController: {fileID: 1505134798}
   PlayerCounters: {fileID: 1505401640}
   PlayerCards: {fileID: 435262394}
   MoveBootsManager: {fileID: 572325401}

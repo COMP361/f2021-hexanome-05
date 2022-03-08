@@ -26,6 +26,7 @@ namespace Controls {
         public PlanTravelController planTravelController;
         public MoveBootController moveBootController;
         public FinishRoundController finishRoundController;
+        public AlwaysActiveUIController alwaysActiveUIController;
 
         public GameObject PlayerCounters;
         public GameObject PlayerCards;
@@ -90,7 +91,8 @@ namespace Controls {
                     DrawCounterCanvas.SetActive(true);
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dc.currentPlayer;
-                    TMPro.TMP_Text prompt = GameObject.Find("DrawCountersPrompt").GetComponent<TMPro.TMP_Text>(); 
+                    TMPro.TMP_Text prompt = GameObject.Find("DrawCountersPrompt").GetComponent<TMPro.TMP_Text>();
+                    alwaysActiveUIController.UpdateDrawCounterHelp();
                     if(currentPlayer.id == thisPlayer.id){
                         prompt.text = "Your turn! Draw a counter!";
                     }else{
@@ -106,6 +108,7 @@ namespace Controls {
                     UnlockCamera?.Invoke(null, EventArgs.Empty);
                     UnlockDraggables?.Invoke(null, EventArgs.Empty);
                     currentPlayer = pt.currentPlayer;
+                    alwaysActiveUIController.UpdatePlanTravelRoutesHelp();
                     if(isCurrentPlayer()){
                         planTravelController.playerTurnMessage("It is your turn!");
                     }else{
@@ -120,6 +123,7 @@ namespace Controls {
                     PlayerCards.SetActive(true);
                     UnlockCamera?.Invoke(null, EventArgs.Empty);
                     UnlockDraggables?.Invoke(null, EventArgs.Empty);
+                    alwaysActiveUIController.UpdateMoveBootHelp();
                     
                     if(currentPlayer != mb.currentPlayer){
                         currentPlayer = mb.currentPlayer;
@@ -139,6 +143,7 @@ namespace Controls {
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     finishRoundController.initialSetup(thisPlayer);
+                    alwaysActiveUIController.UpdateFinishRoundHelp();
                     //currentPlayer = null; //*** Would this break things?
                     break;
                 }

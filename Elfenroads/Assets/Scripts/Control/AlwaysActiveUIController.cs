@@ -16,12 +16,44 @@ public class AlwaysActiveUIController : MonoBehaviour
 	{
         helpWindow.SetActive(false);
 
-        // switch to display chooseBoot help info
         //////////////////////////////////////////// To be edited later ////////////////////////
         PhaseName.text = "This is choose boot";
         PhaseExplanation.text = "A very long string, explanation for choose boot aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         //////////////////////////////////////////// To be edited later ////////////////////////
 	}
+
+    public void UpdateDrawCounterHelp(){
+        //////////////////////////////////////////// To be edited later ////////////////////////
+        PhaseName.text = "This is draw counters phase";
+        PhaseExplanation.text = "A very long string, explanation for draw counters aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        //////////////////////////////////////////// To be edited later ////////////////////////
+    }
+
+    public void UpdatePlanTravelRoutesHelp(){
+        //////////////////////////////////////////// To be edited later ////////////////////////
+        PhaseName.text = "This is plan travel route phase";
+        PhaseExplanation.text = "A very long string, explanation for plan travel route aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        //////////////////////////////////////////// To be edited later ////////////////////////
+    }
+
+    
+    public void UpdateMoveBootHelp(){
+        //////////////////////////////////////////// To be edited later ////////////////////////
+        PhaseName.text = "This is move boot phase";
+        PhaseExplanation.text = "A very long string, explanation for move boot aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        //////////////////////////////////////////// To be edited later ////////////////////////
+    }
+
+    
+    public void UpdateFinishRoundHelp(){
+        //////////////////////////////////////////// To be edited later ////////////////////////
+        PhaseName.text = "This is finish round phase";
+        PhaseExplanation.text = "A very long string, explanation for finish round aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        //////////////////////////////////////////// To be edited later ////////////////////////
+    }
+
+
+    /*
 
     void Update(){
         if (Elfenroads.Model.game.currentPhase is DrawCounters){
@@ -63,6 +95,8 @@ public class AlwaysActiveUIController : MonoBehaviour
             //////////////////////////////////////////// To be edited later ////////////////////////
         }
     }
+
+    */
 
     public void CloseHelpWindow(){
         if(helpWindow.activeSelf){
