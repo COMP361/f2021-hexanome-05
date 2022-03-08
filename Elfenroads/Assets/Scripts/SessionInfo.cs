@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Models;
 
 public class SessionInfo : MonoBehaviour
 {
@@ -33,4 +34,19 @@ public class SessionInfo : MonoBehaviour
         Debug.Log("isElfenGold set to: " + input);
     }
 
+    public Game.Variant getVariant() {
+        Game.Variant variant = 0;
+        
+        if (isElfenGold) {
+            variant |= Game.Variant.Elfengold;
+        }
+        if (isLongerGame) {
+            variant |= Game.Variant.LongerGame;
+        }
+        if (isHomeTown) {
+            variant |= Game.Variant.HomeTown;
+        }
+
+        return variant;
+    }
 }

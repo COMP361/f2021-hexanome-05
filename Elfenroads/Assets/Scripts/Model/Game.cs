@@ -113,11 +113,11 @@ namespace Models {
         [Flags]
         public enum Variant {
             Elfenland = 0,
-            Elfengold = 1 << 0,
-            LongerGame = 1 << 1, //Elfenland or Elfengold.
-            DestinationTown = 1 << 2, //Elfenland or Elfengold
-            RandomGoldTokens = 1 << 3, //Elfengold only.
-            ElfenWitch = 1 << 4 //Elfengold only.
+            Elfengold = 1,
+            LongerGame = 2, //Elfenland or Elfengold.
+            HomeTown = 4, //Elfenland or Elfengold
+            RandomGoldTokens = 8, //Elfengold only.
+            ElfenWitch = 16 //Elfengold only.
         }
     }
 }

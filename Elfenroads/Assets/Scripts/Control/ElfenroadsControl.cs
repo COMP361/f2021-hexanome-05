@@ -86,6 +86,7 @@ namespace Controls {
         if(playerName == sessionInfo.getClient().getSessionByID(sessionInfo.getSessionID()).hostPlayerName){
             Debug.Log("In the if statement");
             socket.Instance.Emit("InitializeGame", sessionInfo.getSessionID(), true); // Only the host should be doing this! ***
+            socket.Instance.Emit("ChooseVariant", JsonConvert.SerializeObject(sessionInfo.getVariant()), true); // Variant choices
         }
 
         //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function. *** SHOULD MAYBE BE MOVED OUTSIDE OF THIS START() FUNCTION? ***

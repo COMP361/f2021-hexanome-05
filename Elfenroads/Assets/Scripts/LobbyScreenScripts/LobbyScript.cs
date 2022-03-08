@@ -56,7 +56,7 @@ public class LobbyScript : MonoBehaviour
         thisClient.CreateSuccessEvent += createSuccessResult;
         thisClient.CreateFailureEvent += createFailure;
         
-        thisClient.LaunchSuccessEvent += launchFailure;
+        thisClient.LaunchSuccessEvent += launchSuccess;
         thisClient.LaunchFailureEvent += launchFailure;
         thisClient.DeleteSuccessEvent += deleteSuccess;
         thisClient.DeleteFailureEvent += deleteFailure;
@@ -147,7 +147,7 @@ public class LobbyScript : MonoBehaviour
     }
 
     //May be unnecessary.
-    public void launchSuccess(string input){
+    public void launchSuccess(string input) {
         Debug.Log("Launch success: " + input);
     }
     //May be unecessary.
