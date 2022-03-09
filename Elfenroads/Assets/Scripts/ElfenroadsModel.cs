@@ -51,10 +51,6 @@ namespace Models {
             }
             
             playerInfoController.createOpponentPrefabs(game.players);
-                        
-            //Finally, the faceUpCounters object (later on, add a check here - we'll have to add a "drawCards" view instead if we're playing Elfengold) ***
-            faceUpCounters.GetComponent<FaceUpCountersView>().setAndSubscribeToModel((DrawCounters) game.currentPhase);
-            
 
             //Next, we need to store all GuidModels into the store. That is, Townpieces, Towns, Roads, Players, Boots, Counters and Cards (I think that's it but feel free to double-check).
             foreach(Town t in game.board.towns){

@@ -173,6 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInfoController: {fileID: 791982035}
   infoWindowController: {fileID: 1435120665}
+  faceUpCountersView: {fileID: 1859623194}
 --- !u!1 &18568791 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8072134380740383198, guid: 2ee73869630405e418c7cb6f91f0f9cb, type: 3}
@@ -32186,6 +32187,7 @@ MonoBehaviour:
   MoveBootCanvas: {fileID: 148781220}
   FinishRoundCanvas: {fileID: 1654706685}
   EndOfGameCanvas: {fileID: 809184508}
+  drawCountersController: {fileID: 16797347}
   planTravelController: {fileID: 86473973}
   moveBootController: {fileID: 572325403}
   finishRoundController: {fileID: 385405657}

@@ -24,6 +24,7 @@ namespace Controls {
         public GameObject MoveBootCanvas;
         public GameObject FinishRoundCanvas;
         public GameObject EndOfGameCanvas;
+        public DrawCountersController drawCountersController;
         public PlanTravelController planTravelController;
         public MoveBootController moveBootController;
         public FinishRoundController finishRoundController;
@@ -129,6 +130,7 @@ namespace Controls {
                     if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
                         DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
                     }
+                    drawCountersController.updateFaceUpCounters(dc);
                     TMPro.TMP_Text prompt = GameObject.Find("DrawCountersPrompt").GetComponent<TMPro.TMP_Text>(); 
                     if(currentPlayer.id == thisPlayer.id){
                         prompt.text = "Your turn! Draw a counter!";

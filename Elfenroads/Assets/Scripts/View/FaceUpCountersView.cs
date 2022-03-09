@@ -14,7 +14,6 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
 
     private DrawCountersController myController;
     private GameObject sessionInfo;
-    private DrawCounters drawCountersModel;
 
     public GameObject dragonCounterPrefab;
     public GameObject trollCounterPrefab;
@@ -30,15 +29,8 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
         sessionInfo = GameObject.Find("SessionInfo");
     }
 
-    public void setAndSubscribeToModel(DrawCounters inputDrawCounters){
-         drawCountersModel = inputDrawCounters;
-         drawCountersModel.Updated += onModelUpdated;
-         onModelUpdated(null, null);
-     }
-
-     
-
-    void onModelUpdated(object sender, EventArgs e) {
+    //This should have been in the Controller. Don't do this for similar phases.
+    public void updateFaceUpCounters(DrawCounters drawCountersModel) {
         //Here, needs to add counters to the GridLayoutGroup according to the model. Instantiated Counters must also have their "GuidViewHelper" component's "Guid" fields set appropriately.
         Debug.Log("Model was updated!");
         //First, destroy all children (mwahahah)
@@ -126,31 +118,32 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
 
     //Called by the Counter GridElements (those instantiated by this script, and which will be made children of the GridLayoutGroup). Will be used to identify which counter was clicked.
     public void GUIClicked(GameObject clickedCounter){
-        if(drawCountersModel == null){
+
+        if(! (Elfenroads.Model.game.currentPhase is DrawCounters)){
             Debug.Log("Yay!");
             return;
         }
         
-        if( (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username) && Elfenroads.Model.game.currentPhase is DrawCounters){
+        if( (Elfenroads.Control.isCurrentPlayer()) && Elfenroads.Model.game.currentPhase is DrawCounters){
             myController.validateDrawCounter(clickedCounter);
         }else{
-            Debug.Log("Click invalid. Is it your turn? -> " + (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username));
+            Debug.Log("Click invalid. Is it your turn? -> " + (Elfenroads.Control.isCurrentPlayer()));
             Debug.Log("If so, then it is because the currentPhase is " + Elfenroads.Model.game.currentPhase);
         }
     }
 
     //Called by some other button or object representing a random draw, which has an Event trigger leading here.
     public void RandomCounterClicked(){
-        if(drawCountersModel == null){
+        if(! (Elfenroads.Model.game.currentPhase is DrawCounters)){
             Debug.Log("Model is null!");
             return;
         }
-        if( (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username) && Elfenroads.Model.game.currentPhase is DrawCounters){
+        if( (Elfenroads.Control.isCurrentPlayer()) && Elfenroads.Model.game.currentPhase is DrawCounters){
             Debug.Log("Random draw selected!");
             myController.validateDrawRandomCounter();
 
         }else{
-            Debug.Log("Click invalid. Is it your turn? -> " + (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username));
+            Debug.Log("Click invalid. Is it your turn? -> " + (Elfenroads.Control.isCurrentPlayer()));
             Debug.Log("If so, then it is because the currentPhase is " + Elfenroads.Model.game.currentPhase);
         }
     }
