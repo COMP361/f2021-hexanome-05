@@ -60,6 +60,7 @@ namespace Controls
                     return;
                 }else{
                     //We want to set up the helper window for a "caravan" move instead.
+                    //caravanMode = true;
                     
                 }
         }
@@ -70,7 +71,7 @@ namespace Controls
                 if(card.GetComponent<GuidViewHelper>().getGuid() == cardClicked.GetComponent<GuidViewHelper>().getGuid()){
                     //Transfer this card from topCards to ToDiscard
                     Debug.Log("Transferring from topCards to ToDiscard!");
-                    transferToDiscard(card);
+                    transferToBottom(card);
                     return;
                 }
             }
@@ -78,7 +79,7 @@ namespace Controls
                 if(card.GetComponent<GuidViewHelper>().getGuid() == cardClicked.GetComponent<GuidViewHelper>().getGuid()){
                     //Transfer this card from topCards to ToDiscard
                     Debug.Log("Transferring from topCards to ToDiscard");
-                    transferToCards(card);
+                    transferToTop(card);
                     return;
                 }
             }
@@ -90,8 +91,8 @@ namespace Controls
             return;
         }
 
-        private void transferToDiscard(GameObject card){
-            Debug.Log("In transferToDiscard!");
+        private void transferToBottom(GameObject card){
+            Debug.Log("In transferToBottom!");
             card.transform.SetParent(bottomLayoutGroup, false);
             LayoutRebuilder.ForceRebuildLayoutImmediate(bottomLayoutGroup);
             LayoutRebuilder.ForceRebuildLayoutImmediate(topLayoutGroup);
@@ -102,8 +103,8 @@ namespace Controls
             return;
         }
 
-        private void transferToCards(GameObject card){
-            Debug.Log("In transferToCards!");
+        private void transferToTop(GameObject card){
+            Debug.Log("In transferToTop!");
             card.transform.SetParent(topLayoutGroup, false);
             LayoutRebuilder.ForceRebuildLayoutImmediate(bottomLayoutGroup);
             LayoutRebuilder.ForceRebuildLayoutImmediate(topLayoutGroup);
@@ -251,14 +252,14 @@ namespace Controls
 
         public void cancelClicked(){
             if(caravanMode){
-
+                cancelWindow();
             }else{
-                cancelEndTurn();
+                cancelWindow();
             }
         }
 
         //Called by the "cancel" button. Simply closes the discard card window, clearing the arrays and GridLayoutGroups.
-        private void cancelEndTurn(){
+        private void cancelWindow(){
             clearDiscard();
             endTurnButton.SetActive(true);
             helperWindow.SetActive(false);
