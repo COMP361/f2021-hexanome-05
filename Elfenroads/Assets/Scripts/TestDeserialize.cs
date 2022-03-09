@@ -51,7 +51,7 @@ public class TestDeserialize : MonoBehaviour
         players.Add(secondPlayer);
         Board board = new Board(new List<Road>(), new List<Town>());
         GamePhase countersPhase = new DrawCounters(mainPlayer);
-        Game testGame = new Game(board, players, mainPlayer, Game.Variant.Elfenland);
+        Game testGame = new Game(board, players, mainPlayer, Game.Variant.Elfenland, 1);
         testGame.currentPhase = countersPhase;
         string serializedGame = Newtonsoft.Json.JsonConvert.SerializeObject(testGame, jset);
         Debug.Log(serializedGame);

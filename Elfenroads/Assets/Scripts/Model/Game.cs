@@ -17,6 +17,7 @@ namespace Models {
         public CardPile cards { protected set; get; }
         public CardPile discardPile { protected set; get;}
         public CounterPile counterPile { protected set; get; }
+        public int roundNumber;
 
         public Game(Board board) {
             this.board = board;
@@ -24,12 +25,13 @@ namespace Models {
         }
 
         // we should be using this constructor
-        public Game(Board board, List<Player> players, Player startingPlayer, Variant variant) {
+        public Game(Board board, List<Player> players, Player startingPlayer, Variant variant, int roundNumber) {
             this.board = board;
             this.players = new List<Player>(players);
             this.startingPlayer = startingPlayer;
             // this.currentPhase = new GamePhase(...)
             this.variant = variant;
+            this.roundNumber = roundNumber;
         }
 
         [Newtonsoft.Json.JsonConstructor]
@@ -88,6 +90,11 @@ namespace Models {
 
             if (variant != update.variant) {
                 variant = update.variant;
+                modified = true;
+            }
+
+            if(roundNumber != update.roundNumber){
+                roundNumber = update.roundNumber;
                 modified = true;
             }
 
