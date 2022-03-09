@@ -1,28 +1,24 @@
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-// using Unityengine.UI;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
-// public class VariantScript : MonoBehaviour
-// {
-//     private Session mySession = null;
-//     private Client client = client.Instance();
-
-//     private Dropdown dropdown;
-
-//     void Start(){
-//         modeDropDown.onClick.AddListener(selectVariant);
-//     }
-
-//     public void setSession(Session aSession) {
-//         mySession = aSession;
-//     }
+public class VariantScript : MonoBehaviour
+{
+    private Client client = Client.Instance();
+    private SessionInfo currentSession;
+    private bool isLongerGame = true;
+    private bool isHomeTown = true;
     
-//     public async void selectVariant(){
-//         if(mySession == null){
-//             Debug.Log("Error in variant dropdown, session was never set");
-//         } else{
-//             await client.refreshSessions();
-//         }
-//     }
-// }
+    void Start(){
+        currentSession = GameObject.Find("SessionInfo").GetComponent<SessionInfo>();
+    }
+
+    public void toggleGameMode(bool isChecked){
+        if(isChecked){
+            currentSession.setIsElfenGold(true);
+        }else{
+            currentSession.setIsElfenGold(false);
+        }
+    }
+}

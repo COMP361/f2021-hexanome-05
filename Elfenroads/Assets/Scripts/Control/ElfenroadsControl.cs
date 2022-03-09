@@ -86,7 +86,12 @@ namespace Controls {
         Debug.Log("Session info player name: " + playerName + ", Host player name: " + sessionInfo.getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName);
         if(playerName == sessionInfo.getClient().getSessionByID(sessionInfo.getSessionID()).hostPlayerName){
             Debug.Log("In the if statement");
-            socket.Instance.Emit("InitializeGame", sessionInfo.getSessionID(), true); // Only the host should be doing this! ***
+            // socket.Instance.Emit("InitializeGame", sessionInfo.getSessionID(), true); // Only the host should be doing this! ***
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getClient().thisSessionID);
+            json.Add("variant", JsonConvert.SerializeObject(sessionInfo.getVariant()));
+            Debug.Log(json.ToString());
+            socket.Instance.Emit("ChooseVariant", json.ToString(), false); // Variant choices
         }
 
         //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function. *** SHOULD MAYBE BE MOVED OUTSIDE OF THIS START() FUNCTION? ***

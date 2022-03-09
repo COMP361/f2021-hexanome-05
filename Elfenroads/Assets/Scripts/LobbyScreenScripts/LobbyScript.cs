@@ -56,7 +56,7 @@ public class LobbyScript : MonoBehaviour
         thisClient.CreateSuccessEvent += createSuccessResult;
         thisClient.CreateFailureEvent += createFailure;
         
-        thisClient.LaunchSuccessEvent += launchFailure;
+        thisClient.LaunchSuccessEvent += launchSuccess;
         thisClient.LaunchFailureEvent += launchFailure;
         thisClient.DeleteSuccessEvent += deleteSuccess;
         thisClient.DeleteFailureEvent += deleteFailure;
@@ -147,7 +147,7 @@ public class LobbyScript : MonoBehaviour
     }
 
     //May be unnecessary.
-    public void launchSuccess(string input){
+    public void launchSuccess(string input) {
         Debug.Log("Launch success: " + input);
     }
     //May be unecessary.
@@ -251,7 +251,7 @@ public class LobbyScript : MonoBehaviour
 
         foreach(Session session in foundSessions) {
             if(session.hostPlayerName == Client.Instance().clientCredentials.username && createdRowExists){
-                if(session.players.Count >= 2 && existingRow.transform.childCount != 5){ //Change this value
+                if(session.players.Count >= 2 && existingRow.transform.childCount != 4){ //Change this value
                     GameObject instantiatedButton = Instantiate(launchButton, existingRow.transform);
                     instantiatedButton.transform.SetSiblingIndex(2);
                     instantiatedButton.GetComponent<LaunchScript>().setSession(session);
@@ -294,18 +294,10 @@ public class LobbyScript : MonoBehaviour
                 }
 
                 //Gamemode Selection
-                if(Client.Instance().clientCredentials.username == session.hostPlayerName){
-                    GameObject instantiatedButton = Instantiate(modeButton, instantiatedRow.transform);
-                } else {
-                    
-                }
-
-                //Variant Selection
                 // if(Client.Instance().clientCredentials.username == session.hostPlayerName){
-                //     GameObject instantiatedButton = Instantiate(variantButton, instantiatedRow.transform);
-                //     instantiatedButton.GetComponent<variantScript>().setSession(session);
+                //     GameObject instantiatedButton = Instantiate(modeButton, instantiatedRow.transform);
                 // } else {
-                //     GameObject instantiatedButton = Instantiate(variantButton, instantiatedRow.transform);
+                    
                 // }
 
             }catch (Exception e){ //Try-catch put here for the case where "displaySessions" was running at the exact time the session was launched.
