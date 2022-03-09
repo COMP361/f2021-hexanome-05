@@ -14,10 +14,10 @@ namespace Controls
         public GameObject invalidMovePrefab;
         public GameObject messagePrefab;
         public GameObject MoveBootCanvas;
-        public GameObject discardWindow;
+        public GameObject helperWindow;
         public GameObject endTurnButton;
-        public RectTransform potentialDiscardLayoutGroup;
-        public RectTransform toDiscardLayoutGroup;
+        public RectTransform topLayoutGroup;
+        public RectTransform bottomLayoutGroup;
         public PlayerInfoController playerInfoController;
         public InfoWindowController infoWindowController;
 
@@ -32,8 +32,9 @@ namespace Controls
         public List<GameObject> roadObjects;
         private List<RoadView> roadViews;
 
-        private List<GameObject> playerCards;
-        private List<GameObject> cardsToDiscard;
+        private List<GameObject> topCards;
+        private List<GameObject> bottomCards;
+        private bool caravanMode = false;
 
         
         
@@ -44,7 +45,7 @@ namespace Controls
                 roadViews.Add(road.GetComponent<RoadView>());
             }
             subscribeToRoadClickEvents();
-            discardWindow.SetActive(false);
+            helperWindow.SetActive(false);
         }
 
         private void subscribeToRoadClickEvents() {
@@ -53,25 +54,30 @@ namespace Controls
             }
         }
 
-        //Going to keep this for now - likely will be used for the "exchange" counter.
         private void onRoadClicked(object sender, EventArgs args) { 
-                Debug.Log("road clicked!");
+                if(helperWindow.activeSelf || playerInfoController.windowOpen || infoWindowController.isOpen){
+                    invalidMessage("You already have an open window!");
+                    return;
+                }else{
+                    //We want to set up the helper window for a "caravan" move instead.
+                    
+                }
         }
 
         public void GUIClicked(GameObject cardClicked){
             Debug.Log("In the cardClicked function.");
-            foreach(GameObject card in playerCards){
+            foreach(GameObject card in topCards){
                 if(card.GetComponent<GuidViewHelper>().getGuid() == cardClicked.GetComponent<GuidViewHelper>().getGuid()){
-                    //Transfer this card from playerCards to ToDiscard
-                    Debug.Log("Transferring from playerCards to ToDiscard!");
+                    //Transfer this card from topCards to ToDiscard
+                    Debug.Log("Transferring from topCards to ToDiscard!");
                     transferToDiscard(card);
                     return;
                 }
             }
-            foreach(GameObject card in cardsToDiscard){
+            foreach(GameObject card in bottomCards){
                 if(card.GetComponent<GuidViewHelper>().getGuid() == cardClicked.GetComponent<GuidViewHelper>().getGuid()){
-                    //Transfer this card from playerCards to ToDiscard
-                    Debug.Log("Transferring from playerCards to ToDiscard");
+                    //Transfer this card from topCards to ToDiscard
+                    Debug.Log("Transferring from topCards to ToDiscard");
                     transferToCards(card);
                     return;
                 }
@@ -86,30 +92,30 @@ namespace Controls
 
         private void transferToDiscard(GameObject card){
             Debug.Log("In transferToDiscard!");
-            card.transform.SetParent(toDiscardLayoutGroup, false);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(toDiscardLayoutGroup);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
-            playerCards.Remove(card);
-            cardsToDiscard.Add(card);
-            Debug.Log("Player cards: " + playerCards.Count);
-            Debug.Log("Cards to discard: " + cardsToDiscard.Count);
+            card.transform.SetParent(bottomLayoutGroup, false);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(bottomLayoutGroup);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(topLayoutGroup);
+            topCards.Remove(card);
+            bottomCards.Add(card);
+            Debug.Log("Player cards: " + topCards.Count);
+            Debug.Log("Cards to discard: " + bottomCards.Count);
             return;
         }
 
         private void transferToCards(GameObject card){
             Debug.Log("In transferToCards!");
-            card.transform.SetParent(potentialDiscardLayoutGroup, false);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(toDiscardLayoutGroup);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
-            cardsToDiscard.Remove(card);
-            playerCards.Add(card);
-            Debug.Log("Player cards: " + playerCards.Count);
-            Debug.Log("Cards to discard: " + cardsToDiscard.Count);
+            card.transform.SetParent(topLayoutGroup, false);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(bottomLayoutGroup);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(topLayoutGroup);
+            bottomCards.Remove(card);
+            topCards.Add(card);
+            Debug.Log("Player cards: " + topCards.Count);
+            Debug.Log("Cards to discard: " + bottomCards.Count);
             return;
         }
 
         public void endTurnValidation(){
-            if(playerInfoController.windowOpen || infoWindowController.isOpen){
+            if(playerInfoController.windowOpen || infoWindowController.isOpen || helperWindow.activeSelf){
             invalidMessage("Close any open windows first!");
             return;
             }
@@ -134,126 +140,148 @@ namespace Controls
                 return;
             }else{
                 //If not, we'll have to enable the window allowing players to discard cards. This means getting Guids of Player cards and putting the UI elements into the GridLayoutGroup.
-                cardsToDiscard = new List<GameObject>();
-                playerCards = new List<GameObject>();
-                foreach(Card c in Elfenroads.Control.getThisPlayer().inventory.cards){
-                    switch(c){
-                        case TravelCard tc:
-                        {
-                            switch(tc.transportType){
-                                case TransportType.Dragon:
-                                {  
-                                    createAndAddToLayout(dragonCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.ElfCycle:
-                                {
-                                    createAndAddToLayout(cycleCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.MagicCloud:
-                                {
-                                    createAndAddToLayout(cloudCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.TrollWagon:
-                                {
-                                    createAndAddToLayout(trollCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.GiantPig:
-                                {
-                                    createAndAddToLayout(pigCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.Unicorn:
-                                {
-                                    createAndAddToLayout(unicornCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.Raft:
-                                {
-                                    createAndAddToLayout(raftCardPrefab, c);
-                                    break;
-                                }
-                                default: Debug.Log("Error: Card type invalid.") ; break;
-                            }
-                            break;
-                        }
-                        case WitchCard wc:
-                        {
-                            Debug.Log("Elfengold - Do later");
-                            break;
-                        }
-                        case GoldCard gc:
-                        {
-                            Debug.Log("Elfengold - Do later");
-                            break;
-                        }
-                        default: Debug.Log("Card is of undefined type!") ; break;
-                    }
-                }
-
+                loadPlayerCards();
                 //Now, we can enable the window.
                 endTurnButton.SetActive(false);
-                discardWindow.SetActive(true);
+                helperWindow.SetActive(true);
+                caravanMode = false;
                 Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
                 Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
             }
         }
 
+    private void loadPlayerCards(){
+        bottomCards = new List<GameObject>();
+        topCards = new List<GameObject>();
+        foreach(Card c in Elfenroads.Control.getThisPlayer().inventory.cards){
+            switch(c){
+                case TravelCard tc:
+                {
+                    switch(tc.transportType){
+                        case TransportType.Dragon:
+                        {  
+                            createAndAddToLayout(dragonCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.ElfCycle:
+                        {
+                            createAndAddToLayout(cycleCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.MagicCloud:
+                        {
+                            createAndAddToLayout(cloudCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.TrollWagon:
+                        {
+                            createAndAddToLayout(trollCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.GiantPig:
+                        {
+                            createAndAddToLayout(pigCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.Unicorn:
+                        {
+                            createAndAddToLayout(unicornCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.Raft:
+                        {
+                            createAndAddToLayout(raftCardPrefab, c);
+                            break;
+                        }
+                        default: Debug.Log("Error: Card type invalid.") ; break;
+                    }
+                    break;
+                }
+                case WitchCard wc:
+                {
+                    Debug.Log("Elfengold - Do later");
+                    break;
+                }
+                case GoldCard gc:
+                {
+                    Debug.Log("Elfengold - Do later");
+                    break;
+                }
+                default: Debug.Log("Card is of undefined type!") ; break;
+            }
+        }
+    }
+
         private void createAndAddToLayout(GameObject prefab, Card c){
             GameObject instantiatedCard = Instantiate(prefab, this.transform);
             instantiatedCard.GetComponent<GuidViewHelper>().setGuid(c.id);
             instantiatedCard.GetComponent<GuidViewHelper>().setContainer(this);
-            instantiatedCard.transform.SetParent(potentialDiscardLayoutGroup, false);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
-            playerCards.Add(instantiatedCard);
+            instantiatedCard.transform.SetParent(topLayoutGroup, false);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(topLayoutGroup);
+            topCards.Add(instantiatedCard);
             return;
         }
 
-        //Called by the "confirm" button. If there is the proper amount of cards in the "cardsToDiscard" array, their guids are passed to Control to emit to the server, and both arrays/GridLayoutGroups are cleared.
-        public void confirmDiscardCards(){
-            if(playerCards.Count != 4){
+        public void confirmClicked(){
+            if(caravanMode){
+
+            }else{
+                confirmDiscardCards();
+            }
+        }
+
+        //Called by the "confirm" button. If there is the proper amount of cards in the "bottomCards" array, their guids are passed to Control to emit to the server, and both arrays/GridLayoutGroups are cleared.
+        private void confirmDiscardCards(){
+            if(topCards.Count != 4){
                 invalidMessage("You must keep exactly 4 cards!");
                 return;
             }else{
                 List<Guid> discardList = new List<Guid>();
-                foreach(GameObject card in cardsToDiscard){ 
+                foreach(GameObject card in bottomCards){ 
                     discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
                 }
                 clearDiscard();
                 endTurnButton.SetActive(true);
-                discardWindow.SetActive(false);
+                helperWindow.SetActive(false);
+                caravanMode = false;
                 Elfenroads.Control.endTurn(discardList);
                 return;
             }
         }
 
+        public void cancelClicked(){
+            if(caravanMode){
+
+            }else{
+                cancelEndTurn();
+            }
+        }
+
         //Called by the "cancel" button. Simply closes the discard card window, clearing the arrays and GridLayoutGroups.
-        public void cancelEndTurn(){
+        private void cancelEndTurn(){
             clearDiscard();
             endTurnButton.SetActive(true);
-            discardWindow.SetActive(false);
+            helperWindow.SetActive(false);
+            caravanMode = false;
             Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
             Elfenroads.Control.UnlockDraggables?.Invoke(null, EventArgs.Empty);
         }
 
         private void clearDiscard(){
-            playerCards.Clear();
-            cardsToDiscard.Clear();
+            topCards.Clear();
+            bottomCards.Clear();
 
-            foreach(Transform child in potentialDiscardLayoutGroup){
+            foreach(Transform child in topLayoutGroup){
                 child.SetParent(null);
                 DestroyImmediate(child.gameObject);
             }
-            potentialDiscardLayoutGroup.DetachChildren();
+            topLayoutGroup.DetachChildren();
 
-            foreach(Transform child in toDiscardLayoutGroup){
+            foreach(Transform child in bottomLayoutGroup){
                 child.SetParent(null);
                 DestroyImmediate(child.gameObject);
             }
-            toDiscardLayoutGroup.DetachChildren();
+            bottomLayoutGroup.DetachChildren();
             
             return;
         }

@@ -883,7 +883,7 @@ GameObject:
   - component: {fileID: 63363046}
   - component: {fileID: 63363048}
   m_Layer: 0
-  m_Name: PotentialCardsToDiscard
+  m_Name: TopLayoutGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2422,7 +2422,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 572325403}
         m_TargetAssemblyTypeName: Controls.MoveBootController, Elfenroads
-        m_MethodName: confirmDiscardCards
+        m_MethodName: confirmClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2627,7 +2627,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &148781221
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7052,7 +7052,7 @@ GameObject:
   - component: {fileID: 523056910}
   - component: {fileID: 523056912}
   m_Layer: 0
-  m_Name: CardsToDiscard
+  m_Name: BottomLayoutGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8071,10 +8071,10 @@ MonoBehaviour:
   invalidMovePrefab: {fileID: 6005364027087520367, guid: f53cc4ef353f181438149e9657fc493d, type: 3}
   messagePrefab: {fileID: 6005364027087520367, guid: 694a2b26dc8c090429e138adff49379c, type: 3}
   MoveBootCanvas: {fileID: 148781220}
-  discardWindow: {fileID: 618980491}
+  helperWindow: {fileID: 618980491}
   endTurnButton: {fileID: 91074244}
-  potentialDiscardLayoutGroup: {fileID: 63363045}
-  toDiscardLayoutGroup: {fileID: 523056909}
+  topLayoutGroup: {fileID: 63363045}
+  bottomLayoutGroup: {fileID: 523056909}
   playerInfoController: {fileID: 791982035}
   infoWindowController: {fileID: 1435120665}
   dragonCardPrefab: {fileID: 4715525997405540839, guid: 9eb6df397bd460a428992dfd261fdc5d, type: 3}
@@ -8789,7 +8789,7 @@ GameObject:
   - component: {fileID: 618980494}
   - component: {fileID: 618980493}
   m_Layer: 0
-  m_Name: DiscardCardsWindow
+  m_Name: HelperWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15223,7 +15223,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 572325403}
         m_TargetAssemblyTypeName: Controls.MoveBootController, Elfenroads
-        m_MethodName: cancelEndTurn
+        m_MethodName: cancelClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -32192,7 +32192,7 @@ MonoBehaviour:
   finishRoundController: {fileID: 385405657}
   playerInfoController: {fileID: 791982035}
   infoWindowController: {fileID: 1435120665}
-  gameOverController: {fileID: 0}
+  gameOverController: {fileID: 1775445033}
   PlayerCounters: {fileID: 1505401640}
   PlayerCards: {fileID: 435262394}
   MoveBootsManager: {fileID: 572325401}
