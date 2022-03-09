@@ -31,10 +31,11 @@ namespace Controls
 
         public List<GameObject> roadObjects;
         private List<RoadView> roadViews;
-        public bool locked = true;
 
         private List<GameObject> playerCards;
         private List<GameObject> cardsToDiscard;
+
+        
         
 
         void Start() {
@@ -53,11 +54,8 @@ namespace Controls
         }
 
         //Going to keep this for now - likely will be used for the "exchange" counter.
-        private void onRoadClicked(object sender, EventArgs args) {
-            if(!locked){
-                //If we  made it here, then a road was clicked.
+        private void onRoadClicked(object sender, EventArgs args) { 
                 Debug.Log("road clicked!");
-            }
         }
 
         public void GUIClicked(GameObject cardClicked){

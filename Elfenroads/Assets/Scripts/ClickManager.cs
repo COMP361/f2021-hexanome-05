@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 public class ClickManager : MonoBehaviour
 {
 
@@ -18,7 +19,9 @@ public class ClickManager : MonoBehaviour
                 //Later, may want to structure so that ALL clickable game objects have an "onClick" function / inherit from the same class which has such a function.
                 if(hit.collider.gameObject.GetComponent<RoadView>() != null){
                     //We clicked on a road
-                    hit.collider.gameObject.GetComponent<RoadView>().OnClick();
+                    if(! EventSystem.current.IsPointerOverGameObject()){
+                        hit.collider.gameObject.GetComponent<RoadView>().OnClick();
+                    } 
                 }
             }
         }
