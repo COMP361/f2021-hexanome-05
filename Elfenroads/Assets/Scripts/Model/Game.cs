@@ -17,6 +17,7 @@ namespace Models {
         public CardPile cards { protected set; get; }
         public CardPile discardPile { protected set; get;}
         public CounterPile counterPile { protected set; get; }
+        public List<Counter> faceUpCounters { protected set; get; }
         public int roundNumber { protected set; get; }
 
         public Game(Board board) {
@@ -30,13 +31,15 @@ namespace Models {
             this.startingPlayer = startingPlayer;
             // this.currentPhase = new GamePhase(...)
             this.variant = variant;
+            this.roundNumber = 1;
             this.roundNumber = roundNumber;
         }
 
         [Newtonsoft.Json.JsonConstructor]
         protected Game(Board board, List<Player> players, Player startingPlayer,
                         GamePhase currentPhase, Variant variant, CardPile cards,
-                        CardPile discardPile, CounterPile counterPile, int roundNumber) {
+                        CardPile discardPile, CounterPile counterPile, int roundNumber,
+                        List<Counter> faceUpCounters ) {
             this.board = board;
             this.players = players;
             this.startingPlayer = startingPlayer;
@@ -46,6 +49,7 @@ namespace Models {
             this.discardPile = discardPile;
             this.counterPile = counterPile;
             this.roundNumber = roundNumber;
+            this.faceUpCounters = new List<Counter>();
         }
 
         public Player GetPlayer(string name) {
@@ -71,6 +75,10 @@ namespace Models {
 
             if ( !startingPlayer.Equals(update.startingPlayer) ) {
                 startingPlayer = (Player) ModelStore.Get(update.startingPlayer.id);
+                modified = true;
+            }
+
+            if (faceUpCounters.Update(update.faceUpCounters)) {
                 modified = true;
             }
 
