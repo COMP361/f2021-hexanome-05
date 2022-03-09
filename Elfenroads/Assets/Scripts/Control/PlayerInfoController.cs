@@ -110,7 +110,7 @@ public class PlayerInfoController : MonoBehaviour
             toPresent = toPresent + "   -   StartingPlayer: No";
         }
 
-        if(targetPlayer.destinationTown != null){
+        if((targetPlayer.destinationTown != null) && (targetPlayer.id == Elfenroads.Control.getThisPlayer().id)){
             toPresent = toPresent + "   -   DestinationTown: " + targetPlayer.destinationTown.name;
         }
         playerStats.text = toPresent;

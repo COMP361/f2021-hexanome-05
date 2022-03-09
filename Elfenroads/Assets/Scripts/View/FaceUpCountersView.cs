@@ -36,6 +36,8 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
          onModelUpdated(null, null);
      }
 
+     
+
     void onModelUpdated(object sender, EventArgs e) {
         //Here, needs to add counters to the GridLayoutGroup according to the model. Instantiated Counters must also have their "GuidViewHelper" component's "Guid" fields set appropriately.
         Debug.Log("Model was updated!");

@@ -122,6 +122,8 @@ namespace Controls {
             switch(Elfenroads.Model.game.currentPhase){
                 case DrawCounters dc:{
                     DrawCounterCanvas.SetActive(true);
+                    PlayerCounters.SetActive(true);
+                    PlayerCards.SetActive(false);
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dc.currentPlayer;
                     if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
