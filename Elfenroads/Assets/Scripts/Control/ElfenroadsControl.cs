@@ -23,11 +23,13 @@ namespace Controls {
         public GameObject PlanTravelCanvas;
         public GameObject MoveBootCanvas;
         public GameObject FinishRoundCanvas;
+        public GameObject EndOfGameCanvas;
         public PlanTravelController planTravelController;
         public MoveBootController moveBootController;
         public FinishRoundController finishRoundController;
         public PlayerInfoController playerInfoController;
         public InfoWindowController infoWindowController;
+        public GameOverController gameOverController;
 
         public GameObject PlayerCounters;
         public GameObject PlayerCards;
@@ -181,6 +183,11 @@ namespace Controls {
                     infoWindowController.UpdateFinishRoundHelp();
                     break;
                 }
+                case GameOver go:{
+                    EndOfGameCanvas.SetActive(true);
+                    gameOverController.updateTexts();
+                    break;
+                }
                 default:{
                     Debug.Log("Phase not implemented!");
                     break;
@@ -191,6 +198,9 @@ namespace Controls {
         private void disableCanvases(){
             DrawCounterCanvas.SetActive(false);
             PlanTravelCanvas.SetActive(false);
+            MoveBootCanvas.SetActive(false);
+            FinishRoundCanvas.SetActive(false);
+            EndOfGameCanvas.SetActive(false);
         }
 
 
@@ -255,11 +265,16 @@ namespace Controls {
             socket.Instance.Emit("DiscardTravelCards", json.ToString(), false);
         }
 
-        public void finishRound(Guid counterToKeep){
+        public void finishRound(List<Guid> countersToDiscard){
+            String[] stringArray = new String[countersToDiscard.Count];
+            for(int i = 0 ; i < countersToDiscard.Count ; i++){
+                stringArray[i] = countersToDiscard[i].ToString();
+            }
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
-            json.Add("counter_id", counterToKeep);
+            json.Add("counter_ids", JsonConvert.SerializeObject(stringArray));
+            Debug.Log("Emitting counter with id " + countersToDiscard + " to server!");
             socket.Instance.Emit("CounterDiscarded", json.ToString(), false); //***
         }
 

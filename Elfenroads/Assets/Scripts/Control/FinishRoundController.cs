@@ -30,7 +30,18 @@ public class FinishRoundController : MonoBehaviour, GuidHelperContainer
 
     public void initialSetup(Player thisPlayer){
         //If this player has <= 1 counters, show the "waiting window". Otherwise, show the "mainWindow" and allow them to discard counters.
-        if(thisPlayer.inventory.counters.Count <= 1){
+        int countNotIncludeObstacle = 0;
+        foreach(Counter c in thisPlayer.inventory.counters){
+            switch(c){
+                case TransportationCounter tc:{
+                    countNotIncludeObstacle++;
+                    break;
+                }
+                default: break;
+            }
+        }
+
+        if(countNotIncludeObstacle <= 1){
             mainWindow.SetActive(false);
             toggleMapButton.SetActive(false);
             waitingWindow.SetActive(true);
@@ -108,10 +119,15 @@ public class FinishRoundController : MonoBehaviour, GuidHelperContainer
             return;
         }else{
             //In this case, the move is valid. Inform the Server, clear the lists and layouts disable the window, and enable the "waiting" window. 
-            clearDiscard();
             mainWindow.SetActive(false);
             waitingWindow.SetActive(true);
-            Elfenroads.Control.finishRound(countersToKeep[0].GetComponent<GuidViewHelper>().getGuid());
+            
+            List<Guid> results = new List<Guid>();
+            foreach(GameObject counter in countersToDiscard){
+                 results.Add(counter.GetComponent<GuidViewHelper>().getGuid());
+            }
+            Elfenroads.Control.finishRound(results);
+            clearDiscard();
         }
     }
 
