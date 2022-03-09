@@ -23,13 +23,13 @@ public class InfoWindowController : MonoBehaviour
 	{
         helpWindow.SetActive(false);
 
-        PhaseName.text = "Choose Your Boot";
+        PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber + " - Choose Your Boot";
         PhaseExplanation.text = "Please click on any of the select buttons to choose your boot." + "\n" +
         "A grey button indicates that another player has already chosen this boot.";
 	}
 
     public void UpdateDrawCounterHelp(){
-        PhaseName.text = "Draw Counters";
+        PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber +" - Draw Counters";
         PhaseExplanation.text = "The goal of this phase is to add counters to your inventory for use in the PlanTravel phase." + "\n" +
                                 "- Please click on the desired counter to keep it. You could also click the counter pile to draw randomly." + "\n" +
                                 "- Your inventory is shown at the bottom of the screen. Click 'expand' to see your cards!" + "\n" +
@@ -38,7 +38,7 @@ public class InfoWindowController : MonoBehaviour
     }
 
     public void UpdatePlanTravelRoutesHelp(){
-        PhaseName.text = "Plan Travel Routes";
+        PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber + " - Plan Travel Routes";
         PhaseExplanation.text = "The goal of this phase is to place counters, enabling you to use cards on them in the next phase." + "\n" + 
                                 "- You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" + 
                                 "- To place a counter/obstacle on the road, drag the item from your inventory to the road." + "\n" +
@@ -47,7 +47,7 @@ public class InfoWindowController : MonoBehaviour
 
     
     public void UpdateMoveBootHelp(){
-        PhaseName.text = "Move Your ElfenBoot";
+        PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber + " - Move Your ElfenBoot";
         PhaseExplanation.text = "The goal of this phase is to play cards on roads with counters to visit Towns and earn points!" + "\n" +
                                 "You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" +
                                 "To move your boot, drag the card type you want to use on the target road, lake or stream." + "\n" +
@@ -57,7 +57,7 @@ public class InfoWindowController : MonoBehaviour
 
     
     public void UpdateFinishRoundHelp(){
-        PhaseName.text = "Finish The Round";
+        PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber + " - Finish The Round";
         PhaseExplanation.text = "I will be adding help text here once we implemented this phase";
     }
 
