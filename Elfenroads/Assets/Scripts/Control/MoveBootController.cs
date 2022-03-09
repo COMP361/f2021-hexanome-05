@@ -15,6 +15,8 @@ namespace Controls
         public GameObject messagePrefab;
         public GameObject MoveBootCanvas;
         public GameObject helperWindow;
+        public TMPro.TMP_Text topText;
+        public TMPro.TMP_Text bottomText;
         public GameObject endTurnButton;
         public RectTransform topLayoutGroup;
         public RectTransform bottomLayoutGroup;
@@ -35,6 +37,7 @@ namespace Controls
         private List<GameObject> topCards;
         private List<GameObject> bottomCards;
         private bool caravanMode = false;
+        private int targetRoadCost = 0;
 
         
         
@@ -55,13 +58,29 @@ namespace Controls
         }
 
         private void onRoadClicked(object sender, EventArgs args) { 
+            Road targetRoad = (Road) sender;
                 if(helperWindow.activeSelf || playerInfoController.windowOpen || infoWindowController.isOpen){
                     invalidMessage("You already have an open window!");
                     return;
+                }else if(targetRoad.roadType == TerrainType.Lake || targetRoad.roadType == TerrainType.Stream){
+                    invalidMessage("Caravans can't be used here!");
+                    return;
                 }else{
                     //We want to set up the helper window for a "caravan" move instead.
-                    //caravanMode = true;
-                    
+                    caravanMode = true;
+                    loadPlayerCards();
+                    endTurnButton.SetActive(false);
+                    helperWindow.SetActive(true);
+                    Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
+                    Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
+                    targetRoadCost = 3;
+                    foreach(Counter c in targetRoad.counters){
+                        if(c is ObstacleCounter){
+                            targetRoadCost = 4;
+                        }
+                    }
+                    topText.text = "Select the " + targetRoadCost + " cards you will use for this caravan:";
+                    bottomText.text = "Cards to use for the caravan: ";
                 }
         }
 
@@ -148,6 +167,8 @@ namespace Controls
                 caravanMode = false;
                 Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
                 Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
+                topText.text = "Choose cards to discard until only four are left:";
+                bottomText.text = "Discarded Cards: ";
             }
         }
 
@@ -225,9 +246,27 @@ namespace Controls
 
         public void confirmClicked(){
             if(caravanMode){
-
+                confirmCaravan();
             }else{
                 confirmDiscardCards();
+            }
+        }
+
+        private void confirmCaravan(){
+            if(bottomCards.Count != targetRoadCost){
+                invalidMessage("Your caravan should include exactly " + targetRoadCost + " cards!");
+                return;
+            }else{
+                List<Guid> discardList = new List<Guid>();
+                foreach(GameObject card in bottomCards){ 
+                    discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
+                }
+                clearDiscard();
+                endTurnButton.SetActive(true);
+                helperWindow.SetActive(false);
+                caravanMode = false;
+                Elfenroads.Control.endTurn(discardList);
+                return;
             }
         }
 
@@ -250,16 +289,8 @@ namespace Controls
             }
         }
 
-        public void cancelClicked(){
-            if(caravanMode){
-                cancelWindow();
-            }else{
-                cancelWindow();
-            }
-        }
-
         //Called by the "cancel" button. Simply closes the discard card window, clearing the arrays and GridLayoutGroups.
-        private void cancelWindow(){
+        public void cancelWindow(){
             clearDiscard();
             endTurnButton.SetActive(true);
             helperWindow.SetActive(false);

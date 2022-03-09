@@ -77,7 +77,7 @@ namespace Models {
             }
 
             //Again, later on we'll need some kind of check here if we're in an ElfenGold game. ***
-            foreach(Counter c in ((DrawCounters) game.currentPhase).faceUpCounters){
+            foreach(Counter c in game.faceUpCounters){
                 ModelStore.Add(c);
             }
 

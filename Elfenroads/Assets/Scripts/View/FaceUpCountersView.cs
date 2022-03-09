@@ -41,7 +41,8 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
         transform.DetachChildren();
 
         //Now, loop through the counters of the model, instantiating appropriate counters each time.
-        foreach(Counter c in drawCountersModel.faceUpCounters){
+        Debug.Log("Updated drawcounters!");
+        foreach(Counter c in Elfenroads.Model.game.faceUpCounters){
             switch(c){
                 case TransportationCounter tc:
                 {

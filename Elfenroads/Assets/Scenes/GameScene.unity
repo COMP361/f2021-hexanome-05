@@ -2350,7 +2350,7 @@ GameObject:
   - component: {fileID: 122822498}
   - component: {fileID: 122822497}
   m_Layer: 0
-  m_Name: ConfirmDiscardCardsButton
+  m_Name: ConfirmButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8072,6 +8072,8 @@ MonoBehaviour:
   messagePrefab: {fileID: 6005364027087520367, guid: 694a2b26dc8c090429e138adff49379c, type: 3}
   MoveBootCanvas: {fileID: 148781220}
   helperWindow: {fileID: 618980491}
+  topText: {fileID: 1467886059}
+  bottomText: {fileID: 1914613237}
   endTurnButton: {fileID: 91074244}
   topLayoutGroup: {fileID: 63363045}
   bottomLayoutGroup: {fileID: 523056909}
@@ -15151,7 +15153,7 @@ GameObject:
   - component: {fileID: 1048993174}
   - component: {fileID: 1048993173}
   m_Layer: 0
-  m_Name: CancelDiscardCardsButton
+  m_Name: CancelButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15223,7 +15225,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 572325403}
         m_TargetAssemblyTypeName: Controls.MoveBootController, Elfenroads
-        m_MethodName: cancelClicked
+        m_MethodName: cancelWindow
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
