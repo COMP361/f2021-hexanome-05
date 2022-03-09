@@ -49,7 +49,7 @@ namespace Models {
             this.discardPile = discardPile;
             this.counterPile = counterPile;
             this.roundNumber = roundNumber;
-            this.faceUpCounters = new List<Counter>();
+            this.faceUpCounters = faceUpCounters;
         }
 
         public Player GetPlayer(string name) {
