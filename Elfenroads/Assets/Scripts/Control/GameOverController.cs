@@ -18,19 +18,34 @@ public class GameOverController : MonoBehaviour
         scores.Sort(new ScoreComparer());
         scores.Reverse();
 
+        // int highestScore = -1;
+
+        // foreach(KeyValuePair<int, string> kvp in scores){
+        //     if(kvp.Key > highestScore){
+        //         highestScore = kvp.Key;
+        //     }
+        // }
+        // List<string> winners = new List<string>();
+        // foreach(KeyValuePair<int, string> kvp in scores){
+        //     if(kvp.Key == highestScore){
+        //         winners.Add(kvp.Value);
+        //     }
+        // }
+
         int highestScore = -1;
 
-        foreach(KeyValuePair<int, string> kvp in scores){
-            if(kvp.Key > highestScore){
-                highestScore = kvp.Key;
+        foreach(int score in ((GameOver) Elfenroads.Model.game.currentPhase).scores){
+            if(score > highestScore){
+                highestScore = score;
             }
         }
         List<string> winners = new List<string>();
-        foreach(KeyValuePair<int, string> kvp in scores){
-            if(kvp.Key == highestScore){
-                winners.Add(kvp.Value);
+        for(int j = 0 ; j < ((GameOver) Elfenroads.Model.game.currentPhase).scores.Count ; j++){
+            if(((GameOver) Elfenroads.Model.game.currentPhase).scores[j] == highestScore){
+                winners.Add(Elfenroads.Model.game.players[j].name);
             }
         }
+
         string winText = "Congratulations ";
         if(winners.Count == 1){
             winText += winners[0] + " for the victory!";
@@ -48,7 +63,8 @@ public class GameOverController : MonoBehaviour
             winText += " for the victory!";
         }
         winnerText.text = winText;
-        leaderBoardText.text = getScoresString(scores);
+        //leaderBoardText.text = getScoresString(scores);
+        leaderBoardText.text = getScoresVariant();
 
         for(int i = 0 ; i < ((GameOver) Elfenroads.Model.game.currentPhase).scores.Count ; i++ ){
             int curScore = ((GameOver) Elfenroads.Model.game.currentPhase).scores[i];
@@ -76,6 +92,25 @@ public class GameOverController : MonoBehaviour
 
 		return results;
 	}
+
+    public string getScoresVariant(){
+        string results = "Leaderboard: ";
+		int curScore = -1;
+		int position = 0;
+		for(int i=0; i<((GameOver) Elfenroads.Model.game.currentPhase).scores.Count; i++){
+			int nowScore = ((GameOver) Elfenroads.Model.game.currentPhase).scores[i];
+            Player curPlayer = Elfenroads.Model.game.players[i];
+
+			if((curScore != nowScore)){
+				curScore = nowScore;
+				position++;
+				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points!";
+			}else{
+				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points!";
+			}
+		}
+		return results;
+    }
 
 
     private class ScoreComparer : IComparer<KeyValuePair<int, string>>{
