@@ -59,8 +59,12 @@ namespace Models
                     modified = true;
                 }
                 // update each item
-                IEnumerable<bool> results = toUpdate.Zip<T, T, bool>(deserialized,
-                                            (itemToUpdate, itemDeserialized) => { return itemToUpdate.Update(itemDeserialized); });
+                List<bool> results = new List<bool>();
+                for (int i = 0; i < toUpdate.Count; i++) {
+                    results.Add(toUpdate[i].Update(deserialized[i]));
+                }
+                // IEnumerable<bool> results = toUpdate.Zip<T, T, bool>(deserialized,
+                //                            (itemToUpdate, itemDeserialized) => { return itemToUpdate.Update(itemDeserialized); });
                 
                 // check if at least one item was modified
                 if (results.Any( (result) => { return result; })) {
