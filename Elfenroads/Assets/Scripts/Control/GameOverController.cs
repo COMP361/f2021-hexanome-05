@@ -49,6 +49,12 @@ public class GameOverController : MonoBehaviour
         }
         winnerText.text = winText;
         leaderBoardText.text = getScoresString(scores);
+
+        for(int i = 0 ; i < ((GameOver) Elfenroads.Model.game.currentPhase).scores.Count ; i++ ){
+            int curScore = ((GameOver) Elfenroads.Model.game.currentPhase).scores[i];
+            string playerName = Elfenroads.Model.game.players[i].name;
+            Debug.Log(playerName + " has score " + curScore);
+        }
     }
 
 
