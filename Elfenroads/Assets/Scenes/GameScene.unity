@@ -15504,12 +15504,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camSpeed: 10
-  zoomSpeed: 0
-  limitX: 6
-  limitY: 12
-  scrollSpeed: 1000
-  minZoom: 12.8
-  maxZoom: 16
+  scrollSpeed: 800
+  smoothingFactor: 8
   locked: 1
 --- !u!1 &1059892395
 GameObject:
