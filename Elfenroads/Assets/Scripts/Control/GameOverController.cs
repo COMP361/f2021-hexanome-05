@@ -16,6 +16,7 @@ public class GameOverController : MonoBehaviour
             scores.Add(new KeyValuePair<int, string>(p.inventory.townPieces.Count, p.name));
         }
         scores.Sort(new ScoreComparer());
+        scores.Reverse();
 
         int highestScore = -1;
 

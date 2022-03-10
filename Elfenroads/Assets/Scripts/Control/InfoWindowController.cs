@@ -48,10 +48,11 @@ public class InfoWindowController : MonoBehaviour
     public void UpdateMoveBootHelp(){
         PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber + " - Move Your ElfenBoot";
         PhaseExplanation.text = "The goal of this phase is to play cards on roads with counters to visit Towns and earn points!" + "\n" +
-                                "-You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" +
-                                "-To move your boot, drag the card type you want to use on the target road, lake or stream." + "\n" +
-                                "-You can take many moves until you are satisfied, at which point you can click 'EndTurn'." + "\n" +
-                                "-However, if you have more than 4 cards when you try to end, you must discard any extras.";
+                                "- You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" +
+                                "- To move your boot, drag the card type you want to use on the target road, lake or stream." + "\n" +
+                                "- Alternatively, you can click a road to play a 'Caravan', where you play 3 or 4 of any card." + "\n" +
+                                "- You can move until you are satisfied, at which point you can click 'EndTurn'." + "\n" +
+                                "- However, if you have more than 4 cards when you try to end, you must discard any extras.";
     }
 
     

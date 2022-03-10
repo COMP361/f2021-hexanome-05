@@ -38,9 +38,7 @@ namespace Controls
         private List<GameObject> bottomCards;
         private bool caravanMode = false;
         private int targetRoadCost = 0;
-
-        
-        
+        private Town targetTown;
 
         void Start() {
             roadViews = new List<RoadView>();
@@ -59,11 +57,27 @@ namespace Controls
 
         private void onRoadClicked(object sender, EventArgs args) { 
             Road targetRoad = (Road) sender;
+                if(! Elfenroads.Control.isCurrentPlayer()){
+                    //Inform player they are not the current player.
+                    invalidMessage("Not your turn!");
+                    return;
+                }
+                if(targetRoad.roadType == TerrainType.Lake || targetRoad.roadType == TerrainType.Stream || targetRoad.counters.Count < 1){
+                    invalidMessage("Caravan can't be used here!");
+                    return;
+                }
+                targetTown = null;
+                if(targetRoad.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
+                    targetTown = targetRoad.end;
+                }else if(targetRoad.end.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
+                    targetTown = targetRoad.start;
+                }else{
+                    invalidMessage("Boot not adjacent to this road!");
+                    return;
+                }
+
                 if(helperWindow.activeSelf || playerInfoController.windowOpen || infoWindowController.isOpen){
                     invalidMessage("You already have an open window!");
-                    return;
-                }else if(targetRoad.roadType == TerrainType.Lake || targetRoad.roadType == TerrainType.Stream){
-                    invalidMessage("Caravans can't be used here!");
                     return;
                 }else{
                     //We want to set up the helper window for a "caravan" move instead.
@@ -265,7 +279,7 @@ namespace Controls
                 endTurnButton.SetActive(true);
                 helperWindow.SetActive(false);
                 caravanMode = false;
-                Elfenroads.Control.endTurn(discardList);
+                Elfenroads.Control.moveBoot(targetTown.id, discardList);
                 return;
             }
         }
