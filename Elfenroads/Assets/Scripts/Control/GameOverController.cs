@@ -70,7 +70,7 @@ public class GameOverController : MonoBehaviour
 				position++;
 				results += "\n" + position + ": " + curKVP.Value + " with " + curKVP.Key + " points!";
 			}else{
-				results += "\n" + position + ": " + curKVP.Value + " with " + curKVP.Value + " points!";
+				results += "\n" + position + ": " + curKVP.Value + " with " + curKVP.Key + " points!";
 			}
 		}
 
