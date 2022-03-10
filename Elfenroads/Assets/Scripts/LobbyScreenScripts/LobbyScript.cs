@@ -245,7 +245,9 @@ public class LobbyScript : MonoBehaviour
                 existingRow = child.gameObject;
                 wasDeleted = false;
             }else{
-                Destroy(child.gameObject);
+                if(child != null && child.gameObject != null){
+                    DestroyImmediate(child.gameObject);
+                }
             }
         }
 

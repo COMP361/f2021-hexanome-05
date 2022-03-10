@@ -11,6 +11,7 @@ public class SceneLoader : MonoBehaviour
 	public string sceneName;
 	
 	public void loadScene(){
+		GameObject.Find("SessionInfo").GetComponent<SessionInfo>().getClient().socket.Instance.Close(); ///*** PLEASE
 		SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
 	}
 }
