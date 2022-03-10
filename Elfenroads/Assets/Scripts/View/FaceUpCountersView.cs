@@ -46,7 +46,7 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
             switch(c){
                 case TransportationCounter tc:
                 {
-                    Debug.Log("Transport type of " + c.id + " is: " + tc.transportType);
+                    //Debug.Log("Transport type of " + c.id + " is: " + tc.transportType);
                     switch(tc.transportType){
                         case TransportType.Dragon:
                         {  

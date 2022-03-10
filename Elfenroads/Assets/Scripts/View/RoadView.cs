@@ -43,6 +43,7 @@ public class RoadView : MonoBehaviour {
         List<Slot> tSlots = target.getSlots();
         foreach(Slot s in tSlots){
             if(s.obj != null){
+                Debug.Log("Removed " + s.obj + " from " + gameObject.name);
                 Destroy(s.obj);
                 s.obj = null;
             }
