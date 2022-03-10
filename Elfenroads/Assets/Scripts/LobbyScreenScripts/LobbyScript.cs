@@ -192,7 +192,7 @@ public class LobbyScript : MonoBehaviour
 
     private void refreshSuccess(string result){
         //Debug.Log("Refresh str: " + result);
-        //Debug.Log(result);
+        Debug.Log(result);
         var jsonString = result.Replace('"', '\"');
 
         //After getting a bunch of sessions, we need to use the result string to create rows.
@@ -231,44 +231,18 @@ public class LobbyScript : MonoBehaviour
     private bool wasDeleted = false;
 
     private void displaySessions(List<Session> foundSessions) {
-        // bool createdRowExists = false;
-        // GameObject existingRow = null;
-
-        // if(tableRow == null){
-        //     return;
-        // }
-        // foreach (Transform child in tableRow.transform) {
-        //     if(child == null){
-        //         return;
-        //     }else if(child.transform.GetChild(0).gameObject.GetComponent<TMPro.TMP_Text>().text == thisClient.clientCredentials.username && !wasDeleted){
-        //         createdRowExists = true;
-        //         existingRow = child.gameObject;
-        //         wasDeleted = false;
-        //     }else{
-        //         if(child != null && child.gameObject != null){
-        //             DestroyImmediate(child.gameObject);
-        //         }
-        //     }
-        // }
         if(tableRow == null){
             return;
         }
-        foreach(Transform child in tableRow.transform){
-            if(child != null && child.gameObject != null){
-                DestroyImmediate(child.gameObject);
+        foreach (Transform child in tableRow.transform) {
+            if(child == null){
+                return;
+            }else{
+                Destroy(child.gameObject);
             }
         }
 
         foreach(Session session in foundSessions) {
-            // if(session.hostPlayerName == Client.Instance().clientCredentials.username && createdRowExists){
-            //     if(session.players.Count >= 2 && existingRow.transform.childCount != 4){ //Change this value
-            //         GameObject instantiatedButton = Instantiate(launchButton, existingRow.transform);
-            //         instantiatedButton.transform.SetSiblingIndex(2);
-            //         instantiatedButton.GetComponent<LaunchScript>().setSession(session);
-            //         existingRow.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = session.players.Count + "/6";
-            //     }
-            //     continue;
-            // }
             //Make the new row.
             if( session.launched && ( (!(Client.Instance().clientCredentials.username == "Elfenroads")) || (session.players.Contains(Client.Instance().clientCredentials.username)) ) ){ //If we find a session which was launched, no point to show it.
                 continue;
@@ -298,18 +272,10 @@ public class LobbyScript : MonoBehaviour
                     GameObject instantiatedButton = Instantiate(deleteButton, instantiatedRow.transform);
                     instantiatedButton.GetComponent<DeleteScript>().setSession(session);
                 }else if(session.players.Contains(Client.Instance().clientCredentials.username) && (Client.Instance().clientCredentials.username != session.hostPlayerName)){
-                    //LEAVE BUTTON CREATED HERE
-                    GameObject instantiatedButton = Instantiate(leaveButton, instantiatedRow.transform);
-                    instantiatedButton.GetComponent<LeaveScript>().setSession(session);
+                    //LEAVE BUTTON CREATED HERE. DO LATER. ***
+                    //GameObject instantiatedButton = Instantiate(leaveButton, instantiatedRow.transform);
+                    //instantiatedButton.GetComponent<LeaveScript>().setSession(session);
                 }
-
-                //Gamemode Selection
-                // if(Client.Instance().clientCredentials.username == session.hostPlayerName){
-                //     GameObject instantiatedButton = Instantiate(modeButton, instantiatedRow.transform);
-                // } else {
-                    
-                // }
-
             }catch (Exception e){ //Try-catch put here for the case where "displaySessions" was running at the exact time the session was launched.
                 Debug.Log(e);
             }
