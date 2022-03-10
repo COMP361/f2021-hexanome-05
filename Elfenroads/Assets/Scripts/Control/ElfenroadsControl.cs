@@ -47,7 +47,7 @@ namespace Controls {
         public EventHandler LockDraggables;
         public EventHandler UnlockDraggables;
         private Player thisPlayer;
-        private Player currentPlayer;
+        public Player currentPlayer;
 
         private void cameraLock(object sender, EventArgs e){
             cameraLocked = true;
@@ -119,6 +119,7 @@ namespace Controls {
             disableCanvases();
             playerInfoController.closeWindow();
             infoWindowController.CloseHelpWindow();
+            playerInfoController.updateViews();
 
             switch(Elfenroads.Model.game.currentPhase){
                 case DrawCounters dc:{

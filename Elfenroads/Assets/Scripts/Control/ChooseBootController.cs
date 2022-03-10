@@ -31,11 +31,16 @@ public class ChooseBootController : MonoBehaviour
         socket.Instance.On("ColorChosen", updateColors); 
         canvas.SetActive(true);
         playerCanvas.SetActive(true);
+        Invoke("disablePlayerCanvas", 0.1f);
         playerName = sI.getClient().clientCredentials.username;
         numPlayers = sI.getClient().mySession.players.Count;
         Debug.Log("Number of players according to ChooseBoot: " + numPlayers);
         sessionID = sI.getClient().thisSessionID;
         socket.Instance.On("GameState", bootsChosen); 
+    }
+
+    private void disablePlayerCanvas(){
+        playerCanvas.SetActive(false);
     }
 
     //Either calls ElfenroadsControl, or will be called by ElfenroadsControl.

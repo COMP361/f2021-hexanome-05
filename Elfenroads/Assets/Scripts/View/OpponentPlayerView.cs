@@ -26,11 +26,25 @@ public class OpponentPlayerView : MonoBehaviour
 
     void onModelUpdated(object sender, EventArgs e) {
         playerName.text = playerModel.name;
-        if(playerModel.id == Elfenroads.Model.game.startingPlayer.id){
-            stats.text = "P: " + playerModel.inventory.townPieces.Count + "\nStartPlayer: Y";
+        Player curPlayer = Elfenroads.Model.getCurrentPlayer();
+        if(curPlayer == null){
+            stats.text = "P: " + playerModel.inventory.townPieces.Count;
+        }else if(curPlayer.id == playerModel.id){
+            stats.text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: Y";
         }else{
-            stats.text = "P: " + playerModel.inventory.townPieces.Count + "\nStartPlayer: N";
+            stats.text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: N";
         } 
+    }
+
+    public void updateTexts(){
+        Player curPlayer = Elfenroads.Model.getCurrentPlayer();
+        if(curPlayer == null){
+            stats.text = "P: " + playerModel.inventory.townPieces.Count;
+        }else if(curPlayer.id == playerModel.id){
+            stats.text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: Y";
+        }else{
+            stats.text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: N";
+        }
     }
 
     public void expandThisInventory(){

@@ -60,11 +60,25 @@ public class ThisPlayerInventoryView : MonoBehaviour
 
         //Finally, we'll set the "Stats":
         playerStats.transform.GetChild(0).gameObject.GetComponent<TMPro.TMP_Text>().text = playerModel.name;
-        if(playerModel.id == Elfenroads.Model.game.startingPlayer.id){
-            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nStartingPlayer: Y";
+        Player curPlayer = Elfenroads.Model.getCurrentPlayer();
+        if(curPlayer == null){
+            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count;
+        }else if(curPlayer.id == playerModel.id){
+            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: Y";
         }else{
-            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nStartingPlayer: N";
+            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: N";
         } 
+    }
+
+    public void updateTexts(){
+        Player curPlayer = Elfenroads.Model.getCurrentPlayer();
+        if(curPlayer == null){
+            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count;
+        }else if(curPlayer.id == playerModel.id){
+            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: Y";
+        }else{
+            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: N";
+        }
     }
 
     //Adjusts the Counter TMPs according to the model.

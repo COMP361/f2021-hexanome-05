@@ -47,6 +47,7 @@ namespace Models {
                 if(p.name == GameObject.Find("SessionInfo").GetComponent<SessionInfo>().getClient().clientCredentials.username){
                     mainPlayerObject.GetComponent<ThisPlayerInventoryView>().setAndSubscribeToModel(p); 
                     Elfenroads.Control.setThisPlayer(p);
+                    playerInfoController.setThisPlayer(mainPlayerObject);
                 }
             }
             
@@ -97,9 +98,32 @@ namespace Models {
             ModelReady?.Invoke(game, EventArgs.Empty); // Calls all of the Game's views
         }
 
-        // public Player getCurrentPlayer() {
-        
-        // }
+        public Player getCurrentPlayer() {
+
+            switch(game.currentPhase){
+                case DrawCounters dc:{
+                    return dc.currentPlayer;
+                }
+                case PlanTravelRoutes pt:{
+                    return pt.currentPlayer;
+                }
+                case MoveBoot mb:{
+                    return  mb.currentPlayer;
+                }
+                case FinishRound fr:{ //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
+                    return null;
+                }
+                case GameOver go:{
+                    return null;
+                    break;
+                }
+                default:{
+                    Debug.Log("Phase not implemented!");
+                    break;
+                }
+            }
+            return null;
+        }
 
     }
 

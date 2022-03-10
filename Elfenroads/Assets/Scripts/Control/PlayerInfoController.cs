@@ -41,6 +41,8 @@ public class PlayerInfoController : MonoBehaviour
 
     private bool onOpenCameraLock;
     private bool onOpenDraggableLock;
+    private GameObject thisPlayerView;
+    private List<GameObject> opponentViews = new List<GameObject>();
 
 
     //Called on initial game setup.
@@ -51,6 +53,7 @@ public class PlayerInfoController : MonoBehaviour
             }
             GameObject instantiatedTab = Instantiate(opponentTabPrefab, opponentsLayout);
             instantiatedTab.GetComponent<OpponentPlayerView>().setAndSubscribeToModel(p);
+            opponentViews.Add(instantiatedTab);
 
             switch(p.boot.color){
                 case Models.Color.RED:{
@@ -84,6 +87,17 @@ public class PlayerInfoController : MonoBehaviour
             }
         }
         LayoutRebuilder.ForceRebuildLayoutImmediate(opponentsLayout);
+    }
+
+    public void setThisPlayer(GameObject input){
+        thisPlayerView = input;
+    }
+
+    public void updateViews(){
+        foreach(GameObject opponentView in opponentViews){
+            opponentView.GetComponent<OpponentPlayerView>().updateTexts();
+        }
+        thisPlayerView.GetComponent<ThisPlayerInventoryView>().updateTexts();
     }
     
 
