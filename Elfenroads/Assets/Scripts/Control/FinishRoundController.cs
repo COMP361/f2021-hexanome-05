@@ -114,20 +114,27 @@ public class FinishRoundController : MonoBehaviour, GuidHelperContainer
     }
 
     public void validateConfimSelection(){
-        if(countersToKeep.Count != 1){
-            invalidMessage("You must keep exactly one counter!");
-            return;
-        }else{
-            //In this case, the move is valid. Inform the Server, clear the lists and layouts disable the window, and enable the "waiting" window. 
-            mainWindow.SetActive(false);
-            waitingWindow.SetActive(true);
-            
-            List<Guid> results = new List<Guid>();
-            foreach(GameObject counter in countersToDiscard){
-                 results.Add(counter.GetComponent<GuidViewHelper>().getGuid());
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfenland)){
+            if(countersToKeep.Count != 1){
+                invalidMessage("You must keep exactly one counter!");
+                return;
+            }else{
+                //In this case, the move is valid. Inform the Server, clear the lists and layouts disable the window, and enable the "waiting" window. 
+                mainWindow.SetActive(false);
+                waitingWindow.SetActive(true);
+                
+                List<Guid> results = new List<Guid>();
+                foreach(GameObject counter in countersToDiscard){
+                    results.Add(counter.GetComponent<GuidViewHelper>().getGuid());
+                }
+                Elfenroads.Control.finishRound(results);
+                clearDiscard();
             }
-            Elfenroads.Control.finishRound(results);
-            clearDiscard();
+        }else if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+            //*** Add elfengold stuff here.
+
+        }else{
+            invalidMessage("ERROR: BAD VARIANT - RESTART GAME");
         }
     }
 

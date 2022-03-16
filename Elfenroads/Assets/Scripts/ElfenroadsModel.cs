@@ -77,9 +77,13 @@ namespace Models {
                 ModelStore.Add(c);
             }
 
-            //Again, later on we'll need some kind of check here if we're in an ElfenGold game. ***
-            foreach(Counter c in game.faceUpCounters){
+            //Add items to store depending on whether or not we're in ElfenGold or ElfenLand.
+            if(game.variant.HasFlag(Game.Variant.Elfenland)){
+                foreach(Counter c in game.faceUpCounters){
                 ModelStore.Add(c);
+                }
+            }else{
+                //**Add cards from DrawCards here.
             }
 
             //Now that the Model is fully integrated, we can tell the main Game controller to prepare the screen accordingly, and begin listening for GameState updates.

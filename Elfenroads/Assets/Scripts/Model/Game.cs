@@ -33,6 +33,7 @@ namespace Models {
             this.variant = variant;
             this.roundNumber = 1;
             this.roundNumber = roundNumber;
+            
         }
 
         [Newtonsoft.Json.JsonConstructor]
@@ -129,7 +130,7 @@ namespace Models {
         public enum Variant {
             Elfenland = 0,
             Elfengold = 1,
-            LongerGame = 2, //Elfenland or Elfengold.
+            LongerGame = 2, //Elfenland only
             HomeTown = 4, //Elfenland or Elfengold
             RandomGoldTokens = 8, //Elfengold only.
             ElfenWitch = 16 //Elfengold only.

@@ -56,6 +56,7 @@ public class PlanTravelController : MonoBehaviour
         //Here, we'll figure out which Counter was passed in based on the counterType parameter.
         TransportType? passedCounter = null;
         ObstacleType? passedObstacle = null;
+        bool isGold = false;
 
         //First, we need to figure out which counter we're dealing with.
         switch(counterType){
@@ -88,19 +89,19 @@ public class PlanTravelController : MonoBehaviour
                 break;
             }
             case "SeaObstacle":{
-                Debug.Log("Elfengold, not implemented!");
+                passedObstacle = ObstacleType.Sea;
                 break;
             }
-            case "Exchange":{
-                Debug.Log("Elfengold, not implemented!");
-                break;
-            }
-            case "Double":{
-                Debug.Log("Elfengold, not implemented!");
-                break;
-            }
+            // case "Exchange":{ //Won't be used in this scenario.
+            //     Debug.Log("Elfengold, not implemented!");
+            //     break;
+            // }
+            // case "Double":{
+            //     Debug.Log("Elfengold, not implemented!");
+            //     break;
+            // }
             case "Gold":{
-                Debug.Log("Elfengold, not implemented!");
+                isGold = true;
                 break;
             }
             default: Debug.Log("Illegal name on DragScript!"); break;
@@ -140,32 +141,37 @@ public class PlanTravelController : MonoBehaviour
 
         }else if((passedObstacle != null) && (passedCounter == null)){ //In this case, an obstacle was passed in.
             //Verification here is simple. First, check that the road has a counter on it.
-            if(road.counters.Count == 0){
-                invalidMessage("Road has no counter!");
-                return;
-            }else if(road.counters.Count == 2){
-                invalidMessage("Obstacle already exists!");
-                return;
-            }
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                //Elfengold stuff here***
+            }else{
+                if(road.counters.Count == 0){
+                    invalidMessage("Road has no counter!");
+                    return;
+                }else if(road.counters.Count == 2){
+                    invalidMessage("Obstacle already exists!");
+                    return;
+                }
 
-            //Then, verify that the Player has an obstacle counter.
-            bool ownsIt = false;
-            Guid guidToPass = Guid.Empty;
-            foreach(Counter c in Elfenroads.Control.getThisPlayer().inventory.counters){
-                if(c is ObstacleCounter){
-                    if(((ObstacleCounter) c).obstacleType == passedObstacle){
-                        ownsIt = true;
-                        guidToPass = c.id;
+                //Then, verify that the Player has an obstacle counter.
+                bool ownsIt = false;
+                Guid guidToPass = Guid.Empty;
+                foreach(Counter c in Elfenroads.Control.getThisPlayer().inventory.counters){
+                    if(c is ObstacleCounter){
+                        if(((ObstacleCounter) c).obstacleType == passedObstacle){
+                            ownsIt = true;
+                            guidToPass = c.id;
+                        }
                     }
                 }
+                if(! ownsIt){
+                    invalidMessage("Missing counter!");
+                    return;
+                }
+                //Hooray! Move is valid and we can send the command.
+                Elfenroads.Control.placeCounter(guidToPass, road.id);
             }
-            if(! ownsIt){
-                invalidMessage("Missing counter!");
-                return;
-            }
-
-            //Hooray! Move is valid and we can send the command.
-            Elfenroads.Control.placeCounter(guidToPass, road.id);
+        }else if(isGold == true){
+            Debug.Log("Gold counter dragged!");
         }else{
             Debug.Log("Double-check draggable names!");
         }

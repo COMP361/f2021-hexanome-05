@@ -99,7 +99,6 @@ namespace Controls
         }
 
         public void GUIClicked(GameObject cardClicked){
-            Debug.Log("In the cardClicked function.");
             foreach(GameObject card in topCards){
                 if(card.GetComponent<GuidViewHelper>().getGuid() == cardClicked.GetComponent<GuidViewHelper>().getGuid()){
                     //Transfer this card from topCards to ToDiscard
@@ -116,7 +115,6 @@ namespace Controls
                     return;
                 }
             }
-
             
             //If we make it here, give an invalid message. ***Fatal error?
             invalidMessage("Could not find card in either layouts!");
@@ -166,7 +164,7 @@ namespace Controls
                 invalidMessage("Not your turn!");
                 return;
             }
-            //This is callled if "endTurn" was pressed. If the player has less than or equal to 4 travelcards, simply call endTurn on ElfenroadsControl with an empty list.
+            //This is callled if "endTurn" was pressed. If the player has less than or equal to 4 travelcards, simply call endTurn on ElfenroadsControl with an empty list. May need Elfenroad change here?***
             int numCards = Elfenroads.Control.getThisPlayer().inventory.cards.Count;
             if(numCards <= 4){
                 List<Guid> emptyList = new List<Guid>();
@@ -233,17 +231,7 @@ namespace Controls
                     }
                     break;
                 }
-                case WitchCard wc:
-                {
-                    Debug.Log("Elfengold - Do later");
-                    break;
-                }
-                case GoldCard gc:
-                {
-                    Debug.Log("Elfengold - Do later");
-                    break;
-                }
-                default: Debug.Log("Card is of undefined type!") ; break;
+                default: Debug.Log("Card is of undefined type!") ; break; // Note: WitchCard will be a button instead, since it can do two things. Will need to add some kind of 'witchmode' button/boolean. ***
             }
         }
     }
@@ -540,7 +528,7 @@ namespace Controls
                 }
                 case TerrainType.Stream:{
                     if( cardType is TransportType.Raft) {
-                        //A little more involved here. Need to check where the player is. If he's on the start town, only costs 1. Otherwise costs 2. ***
+                        //A little more involved here. Need to check where the player is. If he's on the start town, only costs 1. Otherwise costs 2.
                         if(road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
                             cost++;
                             return cost;

@@ -117,6 +117,9 @@ public class PlayerInfoController : MonoBehaviour
         
         playerName.text = targetPlayer.name + "'s Inventory!";
         string toPresent = "Points: " + targetPlayer.inventory.townPieces.Count;
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+            toPresent = "   -   Gold: " + targetPlayer.inventory.gold;
+        }
 
         if(targetPlayer.id == Elfenroads.Model.game.startingPlayer.id){
             toPresent = toPresent + "   -   StartingPlayer: Yes";
@@ -124,7 +127,7 @@ public class PlayerInfoController : MonoBehaviour
             toPresent = toPresent + "   -   StartingPlayer: No";
         }
 
-        if((targetPlayer.destinationTown != null) && (targetPlayer.id == Elfenroads.Control.getThisPlayer().id)){
+        if((targetPlayer.destinationTown != null) && (targetPlayer.id == Elfenroads.Control.getThisPlayer().id) && Elfenroads.Model.game.variant.HasFlag(Game.Variant.HomeTown)){
             toPresent = toPresent + "   -   DestinationTown: " + targetPlayer.destinationTown.name;
         }
         playerStats.text = toPresent;

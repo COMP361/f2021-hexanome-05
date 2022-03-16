@@ -60,25 +60,29 @@ public class ThisPlayerInventoryView : MonoBehaviour
 
         //Finally, we'll set the "Stats":
         playerStats.transform.GetChild(0).gameObject.GetComponent<TMPro.TMP_Text>().text = playerModel.name;
-        Player curPlayer = Elfenroads.Model.getCurrentPlayer();
-        if(curPlayer == null){
-            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count;
-        }else if(curPlayer.id == playerModel.id){
-            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: Y";
-        }else{
-            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: N";
-        } 
+        updateTexts();
     }
 
     public void updateTexts(){
         Player curPlayer = Elfenroads.Model.getCurrentPlayer();
         if(curPlayer == null){
             playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count;
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text += " G: " + playerModel.inventory.gold;
+            }
         }else if(curPlayer.id == playerModel.id){
-            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: Y";
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + " G: " + playerModel.inventory.gold  + "\nCurrentPlayer: Y";
+            }else{
+                playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: Y";
+            }
         }else{
-            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: N";
-        }
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + " G: " + playerModel.inventory.gold  + "\nCurrentPlayer: N";
+            }else{
+                playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: N";
+            }
+        } 
     }
 
     //Adjusts the Counter TMPs according to the model.

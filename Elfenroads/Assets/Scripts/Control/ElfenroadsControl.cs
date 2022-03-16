@@ -89,7 +89,7 @@ namespace Controls {
         Debug.Log("Session info player name: " + playerName + ", Host player name: " + sessionInfo.getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName);
         if(playerName == sessionInfo.getClient().getSessionByID(sessionInfo.getSessionID()).hostPlayerName){
             Debug.Log("In the if statement");
-            // socket.Instance.Emit("InitializeGame", sessionInfo.getSessionID(), true); // Only the host should be doing this! ***
+            // socket.Instance.Emit("InitializeGame", sessionInfo.getSessionID(), true); // Only the host should be doing this! 
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getClient().thisSessionID);
             json.Add("variant", JsonConvert.SerializeObject(sessionInfo.getVariant()));
@@ -97,10 +97,10 @@ namespace Controls {
             socket.Instance.Emit("ChooseVariant", json.ToString(), false); // Variant choices
         }
 
-        //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function. *** SHOULD MAYBE BE MOVED OUTSIDE OF THIS START() FUNCTION? ***
+        //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function.
         ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(sessionInfo, socket);
         Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty); //**May need verification.
-        //Once the Server recieves all colors, it can send the initial game state to the Clients and the game begins. *** REMEMBER TO UN-LOCK THE CAMERA + CLICKING!
+        //Once the Server recieves all colors, it can send the initial game state to the Clients and the game begins. 
         }
 
         public void beginListening(){
@@ -114,7 +114,7 @@ namespace Controls {
             Elfenroads.Model.updatedGame(newGame);
         }
 
-        //Called after an update has been integrated to the Model. Reads the current phase, and presents the appropriate canvas to the Player. (***Depending on the phase, should lock/unlock the camera as well***)
+        //Called after an update has been integrated to the Model. Reads the current phase, and presents the appropriate canvas to the Player. (Depending on the phase, should lock/unlock the camera as well)
         public void prepareScreen(){
             disableCanvases();
             playerInfoController.closeWindow();
@@ -193,6 +193,15 @@ namespace Controls {
                     gameOverController.updateTexts();
                     break;
                 }
+                /*
+                case DrawCards dCa{
+
+                    break;
+                }
+                case Auction a{
+                    break;
+                }
+                */
                 default:{
                     Debug.Log("Phase not implemented!");
                     break;
@@ -280,7 +289,7 @@ namespace Controls {
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
             json.Add("counter_ids", JsonConvert.SerializeObject(stringArray));
             Debug.Log("Emitting counter with id " + countersToDiscard + " to server!");
-            socket.Instance.Emit("CounterDiscarded", json.ToString(), false); //***
+            socket.Instance.Emit("CounterDiscarded", json.ToString(), false); 
         }
 
         public void setThisPlayer(Player input){
