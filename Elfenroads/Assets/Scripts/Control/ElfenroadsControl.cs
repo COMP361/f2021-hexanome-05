@@ -155,6 +155,10 @@ namespace Controls {
                         planTravelController.playerTurnMessage("It is " + currentPlayer.name + "'s  turn!" );
                     }
                     infoWindowController.UpdatePlanTravelRoutesHelp();
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        PlanTravelCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                        PlanTravelCanvas.transform.GetChild(1).gameObject.SetActive(true);
+                    }
                     break;
                 }
                 case MoveBoot mb:{
@@ -174,6 +178,12 @@ namespace Controls {
                         }
                     }
                     infoWindowController.UpdateMoveBootHelp();
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        MoveBootCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                    }
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.ElfenWitch)){
+                        MoveBootCanvas.transform.GetChild(1).gameObject.SetActive(true);
+                    }
                     break;
                 }
                 case FinishRound fr:{ //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
