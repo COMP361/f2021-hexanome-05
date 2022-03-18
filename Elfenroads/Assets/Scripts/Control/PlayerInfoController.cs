@@ -26,6 +26,10 @@ public class PlayerInfoController : MonoBehaviour
     public GameObject trollCounterPrefab;
     public GameObject unicornCounterPrefab;
     public GameObject backOfCounterPrefab;
+    public GameObject doubleCounterPrefab;
+    public GameObject exchangeCounterPrefab;
+    public GameObject goldCounterPrefab;
+    public GameObject seaCounterPrefab;
     [Header("CardPrefabs")]
     public GameObject cloudCardPrefab;
     public GameObject cycleCardPrefab;
@@ -35,6 +39,7 @@ public class PlayerInfoController : MonoBehaviour
     public GameObject trollCardPrefab;
     public GameObject unicornCardPrefab;
     public GameObject backOfCardPrefab;
+    public GameObject witchCardPrefab;
 
     [HideInInspector]
     public bool windowOpen = false;
@@ -193,17 +198,23 @@ public class PlayerInfoController : MonoBehaviour
                 }
                 case MagicSpellCounter msc:
                 {
-                    Debug.Log("Not implemented!");
+                    if(msc.spellType == SpellType.Exchange){
+                        createAndAddToLayout(exchangeCounterPrefab, playerCounters);
+                    }else if(msc.spellType == SpellType.Double){
+                        createAndAddToLayout(doubleCounterPrefab, playerCounters);
+                    }
                     break;
                 }
                 case GoldCounter gc:
                 {
-                    Debug.Log("Not implemented!");
+                    createAndAddToLayout(goldCounterPrefab,playerCounters);
                     break;
                 }
                 case ObstacleCounter oc:{
                     if(oc.obstacleType == ObstacleType.Land){
                         createAndAddToLayout(landCounterPrefab, playerCounters);
+                    }else if(oc.obstacleType == ObstacleType.Sea){
+                        createAndAddToLayout(seaCounterPrefab, playerCounters);
                     }
                     break;
                 }
@@ -266,14 +277,14 @@ public class PlayerInfoController : MonoBehaviour
                 }
                 case WitchCard wc:
                 {
-                    Debug.Log("Not implemented!");
+                    createAndAddToLayout(witchCardPrefab, playerCards);
                     break;
                 }
-                case GoldCard gc:
-                {
-                    Debug.Log("Not implemented!");
-                    break;
-                }
+                // case GoldCard gc: //Players can't hold these
+                // {
+                //     Debug.Log("Not implemented!");
+                //     break;
+                // }
                 default: Debug.Log("Card is of undefined type!") ; break;
             }
         }

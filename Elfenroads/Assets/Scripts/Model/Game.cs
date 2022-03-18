@@ -18,6 +18,7 @@ namespace Models {
         public CardPile discardPile { protected set; get;}
         public CounterPile counterPile { protected set; get; }
         public List<Counter> faceUpCounters { protected set; get; }
+        public List<Card> faceUpCards {protected set; get; }
         public int roundNumber { protected set; get; }
 
         public Game(Board board) {
@@ -40,7 +41,7 @@ namespace Models {
         protected Game(Board board, List<Player> players, Player startingPlayer,
                         GamePhase currentPhase, Variant variant, CardPile cards,
                         CardPile discardPile, CounterPile counterPile, int roundNumber,
-                        List<Counter> faceUpCounters ) {
+                        List<Counter> faceUpCounters, List<Card> faceUpCards ) {
             this.board = board;
             this.players = players;
             this.startingPlayer = startingPlayer;
@@ -51,6 +52,7 @@ namespace Models {
             this.counterPile = counterPile;
             this.roundNumber = roundNumber;
             this.faceUpCounters = faceUpCounters;
+            this.faceUpCards = faceUpCards;
         }
 
         public Player GetPlayer(string name) {
@@ -80,6 +82,10 @@ namespace Models {
             }
 
             if (faceUpCounters.Update(update.faceUpCounters)) {
+                modified = true;
+            }
+
+            if(faceUpCards.Update(update.faceUpCards)){
                 modified = true;
             }
 
