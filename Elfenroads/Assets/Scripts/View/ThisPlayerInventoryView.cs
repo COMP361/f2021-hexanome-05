@@ -43,6 +43,9 @@ public class ThisPlayerInventoryView : MonoBehaviour
          playerModel.Updated += onModelUpdated;
          if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
              playerCounters.GetComponent<GridLayoutGroup>().spacing = new Vector2(85f, 10f);
+             foreach(Transform child in playerCounters.transform){
+                child.gameObject.GetComponent<DragScript>().resetStartingPositions();
+             }
          }
          onModelUpdated(null, null);
      }

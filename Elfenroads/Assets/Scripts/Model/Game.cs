@@ -85,9 +85,9 @@ namespace Models {
                 modified = true;
             }
 
-            if(faceUpCards.Update(update.faceUpCards)){
-                modified = true;
-            }
+            // if(faceUpCards.Update(update.faceUpCards)){
+            //     modified = true;
+            // }
 
             // might fuck up ***
             if (currentPhase.isCompatible(update.currentPhase)) {
