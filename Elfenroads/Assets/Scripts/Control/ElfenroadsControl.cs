@@ -248,6 +248,14 @@ namespace Controls {
             socket.Instance.Emit("DrawRandomCounter", json.ToString(), false);
         }
 
+        public void SelectCounter(Guid counterToKeepSecret){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("counter_id", counterToKeepSecret);
+            socket.Instance.Emit("SelectCounter", json.ToString(), false);
+        }
+
         public void placeCounter(Guid counterGuid, Guid roadGuid){
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());

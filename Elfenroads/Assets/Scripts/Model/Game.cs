@@ -85,7 +85,7 @@ namespace Models {
                 modified = true;
             }
 
-            // if(faceUpCards.Update(update.faceUpCards)){
+            // if(faceUpCards.Update(update.faceUpCards)){ *** UNCOMMENT LATER
             //     modified = true;
             // }
 

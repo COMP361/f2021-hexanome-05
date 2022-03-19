@@ -26,7 +26,7 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
 
     void Start(){
         myController = GameObject.Find("DrawCountersController").GetComponent<DrawCountersController>();
-        sessionInfo = GameObject.Find("SessionInfo");
+        sessionInfo = GameObject.Find("SessionInfo"); //Why?
     }
 
     //This should have been in the Controller. Don't do this for similar phases.
@@ -96,17 +96,16 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
                 }
                 case MagicSpellCounter msc:
                 {
-                    Debug.Log("Elfengold - Do later");
+                    Debug.Log("Elfengold - This should never happen!");
                     break;
                 }
                 case GoldCounter gc:
                 {
-                    Debug.Log("Elfengold - Do later");
+                    Debug.Log("Elfengold - This should never happen!");
                     break;
                 }
                 case ObstacleCounter obc:
                 {
-                    //*** Add sea obstacle later, during elfengold.
                     GameObject instantiatedCounter = Instantiate(landObstaclePrefab, this.transform);
                     instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
                     instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
