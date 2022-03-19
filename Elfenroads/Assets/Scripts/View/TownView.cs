@@ -29,6 +29,13 @@ public class TownView : MonoBehaviour {
     public GameObject blackTownPiecePrefab;
     public GameObject blackBootPrefab;
 
+    public Sprite goldValueTwo;
+    public Sprite goldValueThree;
+    public Sprite goldValueFour;
+    public Sprite goldValueFive;
+    public Sprite goldValueSix;
+    public Sprite goldValueSeven;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,13 +64,42 @@ public class TownView : MonoBehaviour {
         //     if(colCount == 0) rowCount++;
         // }
         boots = new Slots(6, 3, gameObject.transform.position + new Vector3(-0.3f, 0.5f, 0f), 0.35f, 0.6f);
-
-
     }
 
     public void setAndSubscribeToModel(Town t){
             modelTown = t;
             modelTown.Updated += onModelUpdated;
+
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                switch(modelTown.goldValue){
+                    case (2):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueTwo;
+                        break;
+                    }
+                    case (3):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueThree;
+                        break;
+                    }
+                    case (4):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueFour;
+                        break;
+                    }
+                    case (5):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueFive;
+                        break;
+                    }
+                    case (6):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueSix;
+                        break;
+                    }
+                    case (7):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueSeven;
+                        break;
+                    }
+                    default: Debug.Log("Unapplicable gold value!"); break;
+                }
+            }
+
             this.onModelUpdated(null, null); //When subscribing initially, want the view to take effect. 
             
     }
