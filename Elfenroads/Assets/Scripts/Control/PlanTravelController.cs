@@ -13,6 +13,13 @@ public class PlanTravelController : MonoBehaviour
     public PlayerInfoController playerInfoController;
     public InfoWindowController infoWindowController;
 
+    public GameObject doubleButton;
+    private bool usingDouble = false;
+    private Guid currentDouble = Guid.Empty;
+    private bool usingExchange = false;
+    private Guid currentExchange = Guid.Empty;
+
+
     public void passTurn(){
         if(playerInfoController.windowOpen || infoWindowController.isOpen){
             invalidMessage("Close any open windows first!");
@@ -51,7 +58,6 @@ public class PlanTravelController : MonoBehaviour
             invalidMessage("Not your turn!");
             return;
         }
-
 
         //Here, we'll figure out which Counter was passed in based on the counterType parameter.
         TransportType? passedCounter = null;
@@ -109,20 +115,41 @@ public class PlanTravelController : MonoBehaviour
 
         //Now that we know what we have, we can go case by case.
         if((passedObstacle == null) && (passedCounter != null)){ //In this case, a normal TransportCounter was passed in.
-            //First, verify that the road has no counters on it.
-            if(road.counters.Count != 0){
-                invalidMessage("Road occupied!");
-                return;
-            }
-            //Next, check that the passed-in counter is compatible with the road.
+            bool ownsIt = false;
+            Guid guidToPass = Guid.Empty;
+
+            //Check that the passed-in counter is compatible with the road.
             if(!compatibleWithRoad(passedCounter, road.roadType)){
                 invalidMessage("Incompatible counter!");
                 return;
             }
+            //Verify that the road has no counters on it (with double case first)
+            if(usingDouble && !hasDouble(road)){
+                //Here, we're using a double spell so check that we have a second counter.
+                foreach(Counter c in Elfenroads.Control.getThisPlayer().inventory.counters){
+                    if(c is TransportationCounter){
+                        if(((TransportationCounter) c).transportType == passedCounter){
+                            ownsIt = true;
+                            guidToPass = c.id;
+                        }
+                    }
+                }
+                if(! ownsIt){
+                    invalidMessage("Missing counter!");
+                    return;
+                }
+
+                //Yahoo! Move is valid and we can send the command.
+                Elfenroads.Control.playDoubleCounter(currentDouble, guidToPass, road.id);
+                turnOffSpells();
+                return;
+            }
+            if(road.counters.Count != 0){
+                invalidMessage("Road occupied!");
+                return;
+            }
 
             //Finally, verify that the Player owns a counter of that type.
-            bool ownsIt = false;
-            Guid guidToPass = Guid.Empty;
             foreach(Counter c in Elfenroads.Control.getThisPlayer().inventory.counters){
                 if(c is TransportationCounter){
                     if(((TransportationCounter) c).transportType == passedCounter){
@@ -138,16 +165,44 @@ public class PlanTravelController : MonoBehaviour
 
             //Yahoo! Move is valid and we can send the command.
             Elfenroads.Control.placeCounter(guidToPass, road.id);
+            turnOffSpells();
 
         }else if((passedObstacle != null) && (passedCounter == null)){ //In this case, an obstacle was passed in.
-            //Verification here is simple. First, check that the road has a counter on it.
+            //First, check if we're in elfengold or not.
             if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
-                //Elfengold stuff here***
+                if(road.counters.Count == 0 && road.roadType != TerrainType.Stream && road.roadType != TerrainType.Lake){
+                    invalidMessage("Road has no counter!");
+                    return;
+                }else if(hasObstacleOrGold(road)){
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        invalidMessage("Obstacle or GoldCounter already exists!");
+                        return;
+                    }
+                }
+
+                //Then, verify that the Player has an obstacle counter.
+                bool ownsIt = false;
+                Guid guidToPass = Guid.Empty;
+                foreach(Counter c in Elfenroads.Control.getThisPlayer().inventory.counters){
+                    if(c is ObstacleCounter){
+                        if(((ObstacleCounter) c).obstacleType == passedObstacle){
+                            ownsIt = true;
+                            guidToPass = c.id;
+                        }
+                    }
+                }
+                if(! ownsIt){
+                    invalidMessage("Missing counter!");
+                    return;
+                }
+                //Hooray! Move is valid and we can send the command.
+                Elfenroads.Control.placeCounter(guidToPass, road.id);
+                turnOffSpells();
             }else{
                 if(road.counters.Count == 0){
                     invalidMessage("Road has no counter!");
                     return;
-                }else if(road.counters.Count == 2){
+                }else if(hasObstacleOrGold(road)){
                     invalidMessage("Obstacle already exists!");
                     return;
                 }
@@ -169,14 +224,47 @@ public class PlanTravelController : MonoBehaviour
                 }
                 //Hooray! Move is valid and we can send the command.
                 Elfenroads.Control.placeCounter(guidToPass, road.id);
+                turnOffSpells();
             }
         }else if(isGold == true){
             Debug.Log("Gold counter dragged!");
+            if(road.counters.Count == 0){
+                invalidMessage("Road has no counter!");
+                return;
+            }else if(hasObstacleOrGold(road)){
+                invalidMessage("Obstacle or GoldCounter already exists!");
+            }
+            //Then, verify that the Player has a gold counter.
+                bool ownsIt = false;
+                Guid guidToPass = Guid.Empty;
+                foreach(Counter c in Elfenroads.Control.getThisPlayer().inventory.counters){
+                    if(c is GoldCounter){
+                        ownsIt = true;
+                        guidToPass = c.id;
+                    }
+                }
+                if(! ownsIt){
+                    invalidMessage("Missing counter!");
+                    return;
+                }
+                //Hooray! Move is valid and we can send the command.
+                Elfenroads.Control.placeCounter(guidToPass, road.id);
+                turnOffSpells();
         }else{
             Debug.Log("Double-check draggable names!");
         }
     }
 
+    private bool hasObstacleOrGold(Road road){
+        bool result = false;
+        foreach(Counter c in road.counters){
+            if(c is ObstacleCounter || c is GoldCounter){
+                result = true;
+            }
+        }
+        return result;
+    }
+    
     private bool compatibleWithRoad(TransportType? counterType, TerrainType roadType){
         //A counter will be compatible with a road according to the transportation chart.
         switch(roadType){
@@ -201,6 +289,71 @@ public class PlanTravelController : MonoBehaviour
             }
         }   
         return false; //If we somehow make it here, just return false;
+    }
+
+    public void toggleDoubleSpell(){
+        if(usingDouble){
+            usingDouble = false;
+            return;
+        }
+
+        bool ownsIt = false;
+            foreach(Counter c in Elfenroads.Control.getThisPlayer().inventory.counters){
+                if(c is MagicSpellCounter){
+                    if(((MagicSpellCounter) c).spellType == SpellType.Double){
+                        ownsIt = true;
+                        currentDouble = c.id;
+                    }
+                }
+            }
+            if(! ownsIt){
+                invalidMessage("No Double Spell owned!");
+                return;
+            }else{
+                usingDouble = true;
+            }
+    }
+    
+    private void turnOffSpells(){
+        usingDouble = false;
+        usingExchange = false;
+        currentDouble = Guid.Empty;
+        currentExchange = Guid.Empty;
+        //*** Also stop highlighting the spells here.
+    }
+
+    private bool hasDouble(Road road){
+        int transpCounters = 0;
+        foreach(Counter c in road.counters){
+            if(c is TransportationCounter){
+                transpCounters++;
+            }
+        }
+
+        return transpCounters > 1;
+    }
+
+    public void toggleExchangeSpell(){
+        if(usingExchange){
+            usingExchange = false;
+            return;
+        }
+
+        bool ownsIt = false;
+            foreach(Counter c in Elfenroads.Control.getThisPlayer().inventory.counters){
+                if(c is MagicSpellCounter){
+                    if(((MagicSpellCounter) c).spellType == SpellType.Exchange){
+                        ownsIt = true;
+                        currentExchange = c.id;
+                    }
+                }
+            }
+            if(! ownsIt){
+                invalidMessage("No Exchange Spell owned!");
+                return;
+            }else{
+                usingExchange = true;
+            }
     }
 
     public void playerTurnMessage(string message){

@@ -265,6 +265,27 @@ namespace Controls {
             socket.Instance.Emit("PlaceCounter", json.ToString(), false);
         }
 
+        public void playDoubleCounter(Guid spellGuid, Guid counterGuid, Guid roadGuid){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("road_id", roadGuid);
+            json.Add("counter_id", counterGuid);
+            json.Add("spell_id", spellGuid);
+            //socket.Instance.Emit("PlayDouble", json.ToString(), false); //Uncomment later***
+        }
+
+        public void playExchangeCounter(Guid road1, Guid counter1, Guid road2, Guid counter2){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("roadOne_id", road1);
+            json.Add("counterOne_id", counter1);
+            json.Add("roadTwo_id", road2);
+            json.Add("counterTwo_id", counter2);
+            //socket.Instance.Emit("PlayExchange", json.ToString(), false); //Uncomment later***
+        }
+
         public void passTurn(){
             Debug.Log("About to emit PassTurn!");
             JObject json = new JObject();

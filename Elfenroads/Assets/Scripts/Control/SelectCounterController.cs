@@ -24,7 +24,7 @@ public class SelectCounterController : MonoBehaviour, GuidHelperContainer
     public GameObject doubleCounterPrefab;
 
     public void setupSelectCounter(){
-        List<Counter> passedInCounters = new List<Counter>(); //Replace later with tuple of counters from the server.
+        List<Counter> passedInCounters = new List<Counter>(); //Replace later with tuple of counters from the server ***
 
         //Then, create the prefabs for the two counters here.
         foreach(Counter c in passedInCounters){
@@ -123,6 +123,5 @@ public class SelectCounterController : MonoBehaviour, GuidHelperContainer
         Elfenroads.Control.SelectCounter(counterClicked.GetComponent<GuidViewHelper>().getGuid());
         mainWindow.SetActive(false);
         waitingWindow.SetActive(true);
-
     }
 }
