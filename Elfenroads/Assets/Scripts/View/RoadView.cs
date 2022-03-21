@@ -23,6 +23,8 @@ public class RoadView : MonoBehaviour {
     public GameObject unicornCounterPrefab;
     public GameObject pigCounterPrefab;
     public GameObject landObstaclePrefab;
+    public GameObject seaObstaclePrefab;
+    public GameObject goldCounterPrefab;
 
     //private List<Slot> counterSlots;
     private Slots counters;
@@ -71,36 +73,42 @@ public class RoadView : MonoBehaviour {
                         case TransportType.Dragon:
                         {  
                             GameObject parameter = Instantiate(dragonCounterPrefab, Vector3.zero, Quaternion.identity);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.ElfCycle:
                         {
                             GameObject parameter = Instantiate(cycleCounterPrefab, Vector3.zero, Quaternion.identity);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.MagicCloud:
                         {
                             GameObject parameter = Instantiate(cloudCounterPrefab, Vector3.zero, Quaternion.identity);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.TrollWagon:
                         {
                             GameObject parameter = Instantiate(trollCounterPrefab, Vector3.zero, Quaternion.identity);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.GiantPig:
                         {
                             GameObject parameter = Instantiate(pigCounterPrefab, Vector3.zero, Quaternion.identity);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.Unicorn:
                         {
                             GameObject parameter = Instantiate(unicornCounterPrefab, Vector3.zero, Quaternion.identity);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
@@ -108,21 +116,24 @@ public class RoadView : MonoBehaviour {
                     }
                     break;
                 }
-                case MagicSpellCounter msc:
-                {
-                    Debug.Log("Elfengold - Do later");
-                    break;
-                }
                 case GoldCounter gc:
                 {
-                    Debug.Log("Elfengold - Do later");
+                    GameObject parameter = Instantiate(goldCounterPrefab, Vector3.zero, Quaternion.identity);
+                    parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                    counters.addToSlot(parameter, this.gameObject);
                     break;
                 }
                 case ObstacleCounter obc:
                 {
-                    //*** Add sea obstacle later, during elfengold.
-                    GameObject parameter = Instantiate(landObstaclePrefab, Vector3.zero, Quaternion.identity);
-                    counters.addToSlot(parameter, this.gameObject);
+                    if(obc.obstacleType == ObstacleType.Land){
+                        GameObject parameter = Instantiate(landObstaclePrefab, Vector3.zero, Quaternion.identity);
+                        parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                        counters.addToSlot(parameter, this.gameObject);
+                    }else{
+                        GameObject parameter = Instantiate(seaObstaclePrefab, Vector3.zero, Quaternion.identity);
+                        parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                        counters.addToSlot(parameter, this.gameObject);
+                    }
                     break;
                 }
                 default: Debug.Log("Counter is of undefined type!") ; break;

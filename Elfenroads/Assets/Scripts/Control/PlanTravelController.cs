@@ -14,10 +14,13 @@ public class PlanTravelController : MonoBehaviour
     public InfoWindowController infoWindowController;
 
     public GameObject doubleButton;
+    public GameObject exchangeButton;
     private bool usingDouble = false;
     private Guid currentDouble = Guid.Empty;
     private bool usingExchange = false;
     private Guid currentExchange = Guid.Empty;
+    private TransportationCounter firstCounter = null;
+    private Road firstRoad = null;
 
 
     public void passTurn(){
@@ -292,6 +295,10 @@ public class PlanTravelController : MonoBehaviour
     }
 
     public void toggleDoubleSpell(){
+        if(usingExchange){
+            invalidMessage("You can only use one spell at a time!");
+            return;
+        }
         if(usingDouble){
             usingDouble = false;
             return;
@@ -319,6 +326,8 @@ public class PlanTravelController : MonoBehaviour
         usingExchange = false;
         currentDouble = Guid.Empty;
         currentExchange = Guid.Empty;
+        firstCounter = null;
+        firstRoad = null;
         //*** Also stop highlighting the spells here.
     }
 
@@ -334,8 +343,15 @@ public class PlanTravelController : MonoBehaviour
     }
 
     public void toggleExchangeSpell(){
+        if(usingDouble){
+            invalidMessage("You can only use one spell at a time!");
+            return;
+        }
         if(usingExchange){
             usingExchange = false;
+            currentExchange = Guid.Empty;
+            firstCounter = null;
+            firstRoad = null;
             return;
         }
 
@@ -356,6 +372,41 @@ public class PlanTravelController : MonoBehaviour
             }
     }
 
+    public void counterClicked(Counter clickedCounter, Road counterRoad){
+        if(!usingExchange){
+            invalidMessage("Swapping requires an exchange spell!");
+            return;
+        }
+        if(!(clickedCounter is TransportationCounter)){
+            invalidMessage("Can only swap transportation counters!");
+            return;
+        }
+        TransportationCounter tc = (TransportationCounter) clickedCounter;
+        //Case where the first counter has been selected.
+        if(firstCounter == null || firstRoad == null){
+            firstCounter = tc;
+            firstRoad = counterRoad;
+            affirmMessage("Counter selected for swap!");
+            return;
+        }else{ //Case where the second counter has been selected.
+            //Find out if the second counter is on the same road as the first.
+
+            //Figure out if the first counter is compatible with the second counter's road.
+            if(!compatibleWithRoad(firstCounter.transportType, counterRoad.roadType)){
+                invalidMessage("Invalid swap!");
+                return;
+            }
+            //Figure out if the second counter is compatible with the first counter's road.
+            if(!compatibleWithRoad(tc.transportType, firstRoad.roadType)){
+                invalidMessage("Invalid swap!");
+                return;
+            }
+            //If we make it here, the swap is valid. *** Talk with server to figure out parameters) ***
+            Elfenroads.Control.playExchangeCounter(firstRoad.id, firstCounter.id, counterRoad.id, clickedCounter.id);
+            turnOffSpells();
+        }
+    }
+
     public void playerTurnMessage(string message){
         GameObject messageBox = Instantiate(messagePrefab, PlanTravelCanvas.transform.position, Quaternion.identity, PlanTravelCanvas.transform);
         messageBox.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = message;
@@ -369,4 +420,14 @@ public class PlanTravelController : MonoBehaviour
         Destroy(invalidBox, 2f);
     }
 
+    private void affirmMessage(string message){
+        GameObject validBox = Instantiate(invalidMovePrefab, Input.mousePosition, Quaternion.identity, PlanTravelCanvas.transform);
+        validBox.GetComponent<TMPro.TMP_Text>().text = message;
+        validBox.GetComponent<TMPro.TMP_Text>().color = new Color32(77, 255, 0, 255);
+        Destroy(validBox, 2f);
+    }
+
+    void Update(){
+        //Function here to make spell counters blink if time permits.
+    }
 }

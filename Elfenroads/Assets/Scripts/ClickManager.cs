@@ -25,6 +25,10 @@ public class ClickManager : MonoBehaviour
                         if((! EventSystem.current.IsPointerOverGameObject()) && Elfenroads.Model.game.currentPhase is MoveBoot){
                             hit.collider.gameObject.GetComponent<RoadView>().OnClick();
                         } 
+                    }else if(hit.collider.gameObject.GetComponent<TownView>() != null){
+                        hit.collider.gameObject.GetComponent<TownView>().OnClick();
+                    }else if(hit.collider.gameObject.GetComponent<CounterClickerScript>() != null){
+                        hit.collider.gameObject.GetComponent<CounterClickerScript>().OnClick();
                     }
                 }
             }

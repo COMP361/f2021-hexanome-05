@@ -207,65 +207,8 @@ public class TownView : MonoBehaviour {
         }
     }
 
-    //Need to make prefabs for each color of boot and townpiece, and use the color enum to figure out which color to add/remove (parameters change from GameObject obj -> Color color)
+    //Towns can be clicked on the MoveBoot phase during Elfengold, when a witch card is used.
+    public void OnClick(){
 
-    // public void addTownPieceToSlot(Models.Color color){
-    //     foreach(Slot s in townPieceSlots){
-    //         if(s.obj == null){
-    //             GameObject newPiece = Instantiate(townPiecePrefab, new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f), Quaternion.identity);
-    //             s.obj = newPiece;
-    //             return;
-    //         }
-    //     }
-    //     Debug.Log("No slot found!");
-    // }
-
-    // public void removeTownPieceFromSlot(GameObject obj){ 
-    //     foreach(Slot s in townPieceSlots){
-    //         if(s.obj == obj){
-    //             s.obj = null;
-    //             return;
-    //         }else{
-    //             Debug.Log("Nothing to remove!");
-    //         }
-    //     }
-    // }
-
-    // public void addBootToSlot(Models.Color color){
-
-    //     foreach(Slot s in bootSlots){
-    //         if(s.obj == null){
-    //             GameObject newBoot = Instantiate(bootPrefab, new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f), Quaternion.identity);
-    //             s.obj = newBoot;
-    //             return;
-    //         }
-    //     }
-    //     Debug.Log("No slot found!");
-    // }
-
-    // public void removeBootFromSlot(GameObject obj){ 
-    //     foreach(Slot s in bootSlots){
-    //         if(s.obj == obj){
-    //             s.obj = null;
-    //             return;
-    //         }else{
-    //             Debug.Log("Nothing to remove!");
-    //         }
-    //     }
-    // }
-
-    // public void removeAllFromSlots(){
-    //     foreach (Slot s in bootSlots){
-    //         if(s.obj != null){
-    //             Destroy(s.obj);
-    //             s.obj = null;
-    //         }
-    //     }
-    //     foreach (Slot s in townPieceSlots){
-    //         if(s.obj != null){
-    //             Destroy(s.obj);
-    //             s.obj = null;
-    //         }
-    //     }
-    // }
+    }
 }

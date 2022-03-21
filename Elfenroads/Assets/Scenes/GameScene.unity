@@ -1255,6 +1255,7 @@ MonoBehaviour:
   playerInfoController: {fileID: 791982035}
   infoWindowController: {fileID: 1435120665}
   doubleButton: {fileID: 2098226862}
+  exchangeButton: {fileID: 691218647}
 --- !u!1 &90625845
 GameObject:
   m_ObjectHideFlags: 0
@@ -36444,7 +36445,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1851948987
 RectTransform:
   m_ObjectHideFlags: 0
