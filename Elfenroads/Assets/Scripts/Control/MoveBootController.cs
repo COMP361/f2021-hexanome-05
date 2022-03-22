@@ -43,6 +43,8 @@ namespace Controls
         private Town targetTown;
 
         private int goldAccrued;
+        private bool witchInUse;
+        private Guid currentWitch;
 
         void Start() {
             roadViews = new List<RoadView>();
@@ -51,6 +53,16 @@ namespace Controls
             }
             subscribeToRoadClickEvents();
             helperWindow.SetActive(false);
+        }
+
+        public void updateEGStuff(){
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.ElfenWitch)){
+                    MoveBootCanvas.transform.GetChild(1).gameObject.SetActive(true);
+                }
+                MoveBootCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                MoveBootCanvas.transform.GetChild(0).gameObject.transform.GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Accrued Gold: " + goldAccrued;
+            }
         }
 
         private void subscribeToRoadClickEvents() {
@@ -356,6 +368,27 @@ namespace Controls
             Elfenroads.Control.endAndTakeGold(goldAccrued);
             cancelElfenGold();
         }
+
+        public void toggleWitch(){
+        if(witchInUse){
+            witchInUse = false;
+            return;
+        }
+
+        bool ownsIt = false;
+            foreach(Card c in Elfenroads.Control.getThisPlayer().inventory.cards){
+                if(c is WitchCard){
+                    ownsIt = true;
+                    currentWitch = c.id;
+                }
+            }
+            if(! ownsIt){
+                invalidMessage("No witch owned!");
+                return;
+            }else{
+                witchInUse = true;
+            }
+    }
 
         public void validateMoveBoot(string cardType, Road road){
             Debug.Log("Checking for boot of color: " + Elfenroads.Control.getThisPlayer().boot.color);

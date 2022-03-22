@@ -184,6 +184,7 @@ namespace Controls {
                     if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.ElfenWitch)){
                         MoveBootCanvas.transform.GetChild(1).gameObject.SetActive(true);
                     }
+                    moveBootController.updateEGStuff();
                     break;
                 }
                 case FinishRound fr:{ //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
