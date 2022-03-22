@@ -318,6 +318,21 @@ namespace Controls {
             socket.Instance.Emit("DiscardTravelCards", json.ToString(), false);
         }
 
+        public void endAndTakeGold(int amount){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("gold", amount);
+            //socket.Instance.Emit("endAndTakeGold", json.ToString(), false);
+        }
+
+        public void endAndDrawCards(){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            //socket.Instance.Emit("endAndDrawCards", json.ToString(), false);
+        }
+
         public void finishRound(List<Guid> countersToDiscard){
             String[] stringArray = new String[countersToDiscard.Count];
             for(int i = 0 ; i < countersToDiscard.Count ; i++){

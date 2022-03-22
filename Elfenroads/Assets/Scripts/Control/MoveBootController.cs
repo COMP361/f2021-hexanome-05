@@ -15,6 +15,7 @@ namespace Controls
         public GameObject messagePrefab;
         public GameObject MoveBootCanvas;
         public GameObject helperWindow;
+        public GameObject EGHelperWindow;
         public TMPro.TMP_Text topText;
         public TMPro.TMP_Text bottomText;
         public GameObject endTurnButton;
@@ -40,6 +41,8 @@ namespace Controls
         private bool caravanMode = false;
         private int targetRoadCost = 0;
         private Town targetTown;
+
+        private int goldAccrued;
 
         void Start() {
             roadViews = new List<RoadView>();
@@ -77,7 +80,7 @@ namespace Controls
                     return;
                 }
 
-                if(helperWindow.activeSelf || playerInfoController.windowOpen || infoWindowController.isOpen){
+                if(helperWindow.activeSelf || playerInfoController.windowOpen || infoWindowController.isOpen || EGHelperWindow.activeSelf){
                     invalidMessage("You already have an open window!");
                     return;
                 }else{
@@ -148,7 +151,7 @@ namespace Controls
         }
 
         public void endTurnValidation(){
-            if(playerInfoController.windowOpen || infoWindowController.isOpen || helperWindow.activeSelf){
+            if(playerInfoController.windowOpen || infoWindowController.isOpen || helperWindow.activeSelf || EGHelperWindow.activeSelf){
             invalidMessage("Close any open windows first!");
             return;
             }
@@ -165,11 +168,25 @@ namespace Controls
                 invalidMessage("Not your turn!");
                 return;
             }
+
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                EGHelperWindow.SetActive(true);
+                EGHelperWindow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Would you like to end your turn by drawing two travel cards or by taking your " + goldAccrued + " accumulated gold?";
+                EGHelperWindow.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Take " + goldAccrued + " Gold";
+                caravanMode = false;
+                Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
+                Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
+                endTurnButton.SetActive(false);
+                return;
+            }
+
+
             //This is callled if "endTurn" was pressed. If the player has less than or equal to 4 travelcards, simply call endTurn on ElfenroadsControl with an empty list. May need Elfenroad change here?***
             int numCards = Elfenroads.Control.getThisPlayer().inventory.cards.Count;
             if(numCards <= 4){
                 List<Guid> emptyList = new List<Guid>();
                 Elfenroads.Control.endTurn(emptyList);
+                goldAccrued = 0;
                 return;
             }else{
                 //If not, we'll have to enable the window allowing players to discard cards. This means getting Guids of Player cards and putting the UI elements into the GridLayoutGroup.
@@ -288,6 +305,7 @@ namespace Controls
                 helperWindow.SetActive(false);
                 caravanMode = false;
                 Elfenroads.Control.endTurn(discardList);
+                goldAccrued = 0;
                 return;
             }
         }
@@ -301,6 +319,7 @@ namespace Controls
             Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
             Elfenroads.Control.UnlockDraggables?.Invoke(null, EventArgs.Empty);
         }
+
 
         private void clearDiscard(){
             topCards.Clear();
@@ -319,6 +338,23 @@ namespace Controls
             bottomLayoutGroup.DetachChildren();
             
             return;
+        }
+
+        public void cancelElfenGold(){
+            endTurnButton.SetActive(true);
+            EGHelperWindow.SetActive(false);
+            Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
+            Elfenroads.Control.UnlockDraggables?.Invoke(null, EventArgs.Empty);
+        }
+
+        public void EGendAndTakeCards(){
+            Elfenroads.Control.endAndDrawCards();
+            cancelElfenGold();
+        }
+
+        public void EGendAndTakeGold(){
+            Elfenroads.Control.endAndTakeGold(goldAccrued);
+            cancelElfenGold();
         }
 
         public void validateMoveBoot(string cardType, Road road){
@@ -450,13 +486,20 @@ namespace Controls
                 if(road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
                     Guid town = road.end.id;
                     Debug.Log("Moving to town " + road.end.name + " which has ID: " + road.end.id);
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        goldAccrued += road.end.goldValue;
+                    }
                     Elfenroads.Control.moveBoot(town, cardsToPass);
+                    
                 }else{
                     Guid town = road.start.id;
                     Debug.Log("Moving to town " + road.start.name + " which has ID: " + road.start.id);
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        goldAccrued += road.start.goldValue;
+                    }
                     Elfenroads.Control.moveBoot(town, cardsToPass);
+                    
                 }
-
             }else{
                 Debug.Log("Double-check draggable names!");
             }
