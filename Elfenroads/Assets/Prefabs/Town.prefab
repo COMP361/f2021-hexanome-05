@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 8072134380740383196}
   - component: {fileID: 8072134380740383195}
   - component: {fileID: -6721322369690542522}
+  - component: {fileID: -7203296887748259359}
   m_Layer: 0
   m_Name: Town
   m_TagString: Untagged
@@ -180,7 +181,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   townName: 
   isStartingTown: 0
-  myGoldValue: {fileID: 0}
   redTownPiecePrefab: {fileID: 7441020426772035190, guid: 1c68fdf2ae03bc945b97bc2e37e05863, type: 3}
   redBootPrefab: {fileID: 1758054998159331222, guid: 094e893439bd84841a1ab96c5fba56be, type: 3}
   blueTownPiecePrefab: {fileID: 7441020426772035190, guid: 65a8e71e6e99d8b4aa5aafc0706ef141, type: 3}
@@ -199,3 +199,36 @@ MonoBehaviour:
   goldValueFive: {fileID: 21300000, guid: 7642e824ce2c8e9489fd98d21e8f8f92, type: 3}
   goldValueSix: {fileID: 21300000, guid: 077ef8ccc6e286249b9aa73cdcc70c72, type: 3}
   goldValueSeven: {fileID: 21300000, guid: 0e01111c856eedf4eab0f0435dbccdea, type: 3}
+--- !u!60 &-7203296887748259359
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8072134380740383198}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0.08, y: 0.07, z: 0.08, w: 0.07}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 0.2, y: 0.2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.48999998, y: 0.5}
+      - {x: -0.5, y: 0.48999998}
+      - {x: -0.5, y: -0.48999998}
+      - {x: -0.48999998, y: -0.5}
+      - {x: 0.48999998, y: -0.5}
+      - {x: 0.5, y: -0.48999998}
+      - {x: 0.5, y: 0.48999998}
+      - {x: 0.48999998, y: 0.5}

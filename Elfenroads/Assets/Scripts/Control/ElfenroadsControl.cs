@@ -92,6 +92,7 @@ namespace Controls {
             // socket.Instance.Emit("InitializeGame", sessionInfo.getSessionID(), true); // Only the host should be doing this! 
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getClient().thisSessionID);
+            Debug.Log(sessionInfo.getVariant());
             json.Add("variant", JsonConvert.SerializeObject(sessionInfo.getVariant()));
             Debug.Log(json.ToString());
             socket.Instance.Emit("ChooseVariant", json.ToString(), false); // Variant choices
@@ -308,6 +309,15 @@ namespace Controls {
             json.Add("town_id", townGuid);
             json.Add("card_ids", JsonConvert.SerializeObject(stringArray)); // Serialization is not the same as "ToString"
             socket.Instance.Emit("MoveBoot", json.ToString(), false);
+        }
+
+        public void magicFlight(Guid witchGuid, Guid townGuid){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("town_id", townGuid);
+            json.Add("witch_id", witchGuid); 
+            //socket.Instance.Emit("MagicFlight", json.ToString(), false);
         }
 
         public void endTurn(List<Guid> cardsToDiscard){

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Models;
+using Controls;
 
 
 public class TownView : MonoBehaviour {
@@ -96,7 +97,11 @@ public class TownView : MonoBehaviour {
                         transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueSeven;
                         break;
                     }
-                    default: Debug.Log("Unapplicable gold value!"); break;
+                    default:{
+                        Debug.Log("This must be elfenhold!");
+                        transform.GetChild(0).gameObject.SetActive(false);
+                        break;
+                    } 
                 }
             }
 
@@ -209,6 +214,14 @@ public class TownView : MonoBehaviour {
 
     //Towns can be clicked on the MoveBoot phase during Elfengold, when a witch card is used.
     public void OnClick(){
+        Debug.Log("Town clicked!");
+        if(Elfenroads.Model.game == null){
+            return;
+        }
+
+        if(Elfenroads.Model.game.currentPhase is MoveBoot && Elfenroads.Model.game.variant.HasFlag(Game.Variant.ElfenWitch)){
+            GameObject.Find("MoveBootController").GetComponent<MoveBootController>().attemptMagicFlight(modelTown);
+        }
 
     }
 }

@@ -427,7 +427,13 @@ public class PlanTravelController : MonoBehaviour
         Destroy(validBox, 2f);
     }
 
+    //Add functions which highlight double/exchange buttons when selected, if there is time.
     void Update(){
-        //Function here to make spell counters blink if time permits.
+        if(usingDouble){
+            
+        }
+        if(usingExchange){
+
+        }
     }
 }

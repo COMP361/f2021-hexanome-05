@@ -31,7 +31,6 @@ namespace Controls
         public GameObject unicornCardPrefab;
         public GameObject pigCardPrefab;
         public GameObject raftCardPrefab;
-        //public GameObject witchCardPrefab;
 
         public List<GameObject> roadObjects;
         private List<RoadView> roadViews;
@@ -42,9 +41,9 @@ namespace Controls
         private int targetRoadCost = 0;
         private Town targetTown;
 
-        private int goldAccrued;
-        private bool witchInUse;
-        private Guid currentWitch;
+        private int goldAccrued = 0;
+        private bool witchInUse = false;
+        private Guid currentWitch = Guid.Empty;
 
         void Start() {
             roadViews = new List<RoadView>();
@@ -298,6 +297,8 @@ namespace Controls
                 helperWindow.SetActive(false);
                 caravanMode = false;
                 Elfenroads.Control.moveBoot(targetTown.id, discardList);
+                witchInUse = false;
+                currentWitch = Guid.Empty;
                 return;
             }
         }
@@ -362,20 +363,22 @@ namespace Controls
         public void EGendAndTakeCards(){
             Elfenroads.Control.endAndDrawCards();
             cancelElfenGold();
+            goldAccrued = 0;
         }
 
         public void EGendAndTakeGold(){
             Elfenroads.Control.endAndTakeGold(goldAccrued);
             cancelElfenGold();
+            goldAccrued = 0;
         }
 
         public void toggleWitch(){
-        if(witchInUse){
-            witchInUse = false;
-            return;
-        }
+            if(witchInUse){
+                witchInUse = false;
+                return;
+            }
 
-        bool ownsIt = false;
+            bool ownsIt = false;
             foreach(Card c in Elfenroads.Control.getThisPlayer().inventory.cards){
                 if(c is WitchCard){
                     ownsIt = true;
@@ -386,9 +389,35 @@ namespace Controls
                 invalidMessage("No witch owned!");
                 return;
             }else{
+                if(Elfenroads.Control.getThisPlayer().inventory.gold < 1){
+                    invalidMessage("No gold!");
+                    return;
+                }
                 witchInUse = true;
             }
-    }
+        }   
+
+        public void attemptMagicFlight(Town targetTown){
+            if(!witchInUse){
+                invalidMessage("You must use a witch for a magic flight!");
+                return;
+            }
+            if(Elfenroads.Control.getThisPlayer().inventory.gold < 3){
+                invalidMessage("You need 3 gold for a magic flight!");
+                return;
+            }
+            foreach(Boot b in targetTown.boots){
+                if(b.color == Elfenroads.Control.getThisPlayer().boot.color){
+                    invalidMessage("You are already in this town!");
+                    return;
+                }
+            }
+            //If we made it here, the magic flight is allowed.
+            Elfenroads.Control.magicFlight(currentWitch, targetTown.id);
+            witchInUse = false;
+            currentWitch = Guid.Empty;
+
+        }
 
         public void validateMoveBoot(string cardType, Road road){
             Debug.Log("Checking for boot of color: " + Elfenroads.Control.getThisPlayer().boot.color);
@@ -514,6 +543,9 @@ namespace Controls
                     invalidMessage("Not enough cards!");
                     return;
                 }
+                if(witchInUse){
+                    cardsToPass.Add(currentWitch);
+                }
 
                 //All good! We can send the command to the Server.
                 if(road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
@@ -523,6 +555,8 @@ namespace Controls
                         goldAccrued += road.end.goldValue;
                     }
                     Elfenroads.Control.moveBoot(town, cardsToPass);
+                    witchInUse = false;
+                    currentWitch = Guid.Empty;
                     
                 }else{
                     Guid town = road.start.id;
@@ -531,7 +565,8 @@ namespace Controls
                         goldAccrued += road.start.goldValue;
                     }
                     Elfenroads.Control.moveBoot(town, cardsToPass);
-                    
+                    witchInUse = false;
+                    currentWitch = Guid.Empty;
                 }
             }else{
                 Debug.Log("Double-check draggable names!");
@@ -543,11 +578,14 @@ namespace Controls
 
             //First, figure out if there is an obstacle on the road. If so, cost is set to 1.
             int cost = 0;
-            foreach(Counter c in road.counters){
+            if(!witchInUse){
+                foreach(Counter c in road.counters){
                 if(c is ObstacleCounter){
                     cost = 1;
+                    }
                 }
             }
+            
             if((! compatibleWithCounter) && (road.roadType != TerrainType.Lake && road.roadType != TerrainType.Stream)){
                 //If the counter is not compatible, the player must be trying to use a caravan.
                 cost = cost + 3;
