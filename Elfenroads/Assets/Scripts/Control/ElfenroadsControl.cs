@@ -210,7 +210,12 @@ namespace Controls {
 
                     break;
                 }
+                case SelectCounters sc{
+                    
+                    break;
+                }
                 case Auction a{
+                    
                     break;
                 }
                 */
@@ -250,6 +255,28 @@ namespace Controls {
             socket.Instance.Emit("DrawRandomCounter", json.ToString(), false);
         }
 
+        public void drawCard(GameObject clickedCard){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("card_id", clickedCard.GetComponent<GuidViewHelper>().getGuid());
+            socket.Instance.Emit("PickCard", json.ToString(), false);
+        }
+
+        public void takeGoldCards(){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            socket.Instance.Emit("TakeGoldCards", json.ToString(), false);
+        }
+
+        public void drawRandomCard(){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            socket.Instance.Emit("DrawRandomCard");
+        }
+
         public void SelectCounter(Guid counterToKeepSecret){
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
@@ -274,7 +301,7 @@ namespace Controls {
             json.Add("road_id", roadGuid);
             json.Add("counter_id", counterGuid);
             json.Add("spell_id", spellGuid);
-            //socket.Instance.Emit("PlayDouble", json.ToString(), false); //Uncomment later***
+            socket.Instance.Emit("PlayDouble", json.ToString(), false); 
         }
 
         public void playExchangeCounter(Guid road1, Guid counter1, Guid road2, Guid counter2){
@@ -285,7 +312,7 @@ namespace Controls {
             json.Add("counterOne_id", counter1);
             json.Add("roadTwo_id", road2);
             json.Add("counterTwo_id", counter2);
-            //socket.Instance.Emit("PlayExchange", json.ToString(), false); //Uncomment later***
+            socket.Instance.Emit("PlayExchange", json.ToString(), false); 
         }
 
         public void passTurn(){
@@ -311,15 +338,6 @@ namespace Controls {
             socket.Instance.Emit("MoveBoot", json.ToString(), false);
         }
 
-        public void magicFlight(Guid witchGuid, Guid townGuid){
-            JObject json = new JObject();
-            json.Add("game_id", sessionInfo.getSessionID());
-            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
-            json.Add("town_id", townGuid);
-            json.Add("witch_id", witchGuid); 
-            //socket.Instance.Emit("MagicFlight", json.ToString(), false);
-        }
-
         public void endTurn(List<Guid> cardsToDiscard){
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
@@ -329,19 +347,28 @@ namespace Controls {
             socket.Instance.Emit("DiscardTravelCards", json.ToString(), false);
         }
 
+        public void magicFlight(Guid witchGuid, Guid townGuid){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("town_id", townGuid);
+            json.Add("witch_id", witchGuid); 
+            socket.Instance.Emit("MagicFlight", json.ToString(), false);
+        }
+
         public void endAndTakeGold(int amount){
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
             json.Add("gold", amount);
-            //socket.Instance.Emit("endAndTakeGold", json.ToString(), false);
+            socket.Instance.Emit("endAndTakeGold", json.ToString(), false);
         }
 
         public void endAndDrawCards(){
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
-            //socket.Instance.Emit("endAndDrawCards", json.ToString(), false);
+            socket.Instance.Emit("endAndDrawCards", json.ToString(), false);
         }
 
         public void finishRound(List<Guid> countersToDiscard){

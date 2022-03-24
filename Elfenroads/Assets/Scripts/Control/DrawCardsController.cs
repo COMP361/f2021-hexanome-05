@@ -17,12 +17,6 @@ public class DrawCardsController : MonoBehaviour, GuidHelperContainer
     public GameObject raftCardPrefab;
     public GameObject witchCardPrefab;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public void updateFaceUpCards() { //Later needs to take DrawCards Model to set GoldCardDeck attributes ***
         //Here, needs to add cards to the GridLayoutGroup according to the model. Instantiated Cards must also have their "GuidViewHelper" component's "Guid" fields set appropriately.
         Debug.Log("Model was updated!");
@@ -110,22 +104,42 @@ public class DrawCardsController : MonoBehaviour, GuidHelperContainer
         }
     }
 
+    //Handles the (very little) needed validation for drawing a card.
     public void GUIClicked(GameObject clickedCard){
-
         // if(! (Elfenroads.Model.game.currentPhase is DrawCards)){
         //     Debug.Log("Yay!");
         //     return;
         // }
-        
         if( Elfenroads.Control.isCurrentPlayer() ){
-            validateDrawCard(clickedCard);
+            Elfenroads.Control.drawCard(clickedCard);
         }else{
             Debug.Log("Click invalid. Is it your turn? -> " + (Elfenroads.Control.isCurrentPlayer()));
-            Debug.Log("If so, then it is because the currentPhase is " + Elfenroads.Model.game.currentPhase);
         }
     }
 
-    private void validateDrawCard(GameObject cardClicked){
 
+
+    public void takeGoldCards(){
+        // if(! (Elfenroads.Model.game.currentPhase is DrawCards)){
+        //     Debug.Log("Yay!");
+        //     return;
+        // }
+        if( Elfenroads.Control.isCurrentPlayer() ){
+            Elfenroads.Control.takeGoldCards();
+        }else{
+            Debug.Log("Click invalid. Is it your turn? -> " + (Elfenroads.Control.isCurrentPlayer()));
+        }
+    }
+
+    public void takeRandomCard(){
+        // if(! (Elfenroads.Model.game.currentPhase is DrawCards)){
+        //     Debug.Log("Yay!");
+        //     return;
+        // }
+        if( Elfenroads.Control.isCurrentPlayer() ){
+            Elfenroads.Control.drawRandomCard();
+        }else{
+            Debug.Log("Click invalid. Is it your turn? -> " + (Elfenroads.Control.isCurrentPlayer()));
+        }
     }
 }

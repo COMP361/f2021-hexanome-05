@@ -12008,7 +12008,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1321529387057022328, guid: 19c8fffba11987c499a9e58d0c495df2, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1321529387057022328, guid: 19c8fffba11987c499a9e58d0c495df2, type: 3}
       propertyPath: m_AnchorMin.x
@@ -12016,15 +12016,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1321529387057022328, guid: 19c8fffba11987c499a9e58d0c495df2, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1321529387057022328, guid: 19c8fffba11987c499a9e58d0c495df2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1321529387057022328, guid: 19c8fffba11987c499a9e58d0c495df2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 426
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1321529387057022328, guid: 19c8fffba11987c499a9e58d0c495df2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12056,11 +12056,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1321529387057022328, guid: 19c8fffba11987c499a9e58d0c495df2, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 514.08
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1321529387057022328, guid: 19c8fffba11987c499a9e58d0c495df2, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -236.9027
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1321529387057022328, guid: 19c8fffba11987c499a9e58d0c495df2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -22722,7 +22722,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5497491685932610970, guid: d59f8e175ce9fd14ab33ef1416950972, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5497491685932610970, guid: d59f8e175ce9fd14ab33ef1416950972, type: 3}
       propertyPath: m_AnchorMin.x
@@ -22730,15 +22730,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5497491685932610970, guid: d59f8e175ce9fd14ab33ef1416950972, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5497491685932610970, guid: d59f8e175ce9fd14ab33ef1416950972, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5497491685932610970, guid: d59f8e175ce9fd14ab33ef1416950972, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 426
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5497491685932610970, guid: d59f8e175ce9fd14ab33ef1416950972, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22770,11 +22770,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5497491685932610970, guid: d59f8e175ce9fd14ab33ef1416950972, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 184.08002
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5497491685932610970, guid: d59f8e175ce9fd14ab33ef1416950972, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -236.9027
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5497491685932610970, guid: d59f8e175ce9fd14ab33ef1416950972, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -27890,7 +27890,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1409636410
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27989,6 +27989,7 @@ GameObject:
   - component: {fileID: 1416290859}
   - component: {fileID: 1416290861}
   - component: {fileID: 1416290860}
+  - component: {fileID: 1416290862}
   m_Layer: 5
   m_Name: GoldCards
   m_TagString: Untagged
@@ -28055,6 +28056,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416290858}
   m_CullTransparentMesh: 1
+--- !u!114 &1416290862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416290858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1416290860}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1089241967}
+        m_TargetAssemblyTypeName: DrawCardsController, Elfenroads
+        m_MethodName: takeGoldCards
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1422064631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37329,7 +37386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1851948987
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38033,7 +38090,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6007085349581255686, guid: 53041a0f37a10c94cad8748f1c0958cd, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6007085349581255686, guid: 53041a0f37a10c94cad8748f1c0958cd, type: 3}
       propertyPath: m_AnchorMin.x
@@ -38041,15 +38098,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6007085349581255686, guid: 53041a0f37a10c94cad8748f1c0958cd, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6007085349581255686, guid: 53041a0f37a10c94cad8748f1c0958cd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6007085349581255686, guid: 53041a0f37a10c94cad8748f1c0958cd, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 426
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6007085349581255686, guid: 53041a0f37a10c94cad8748f1c0958cd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -38081,11 +38138,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6007085349581255686, guid: 53041a0f37a10c94cad8748f1c0958cd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 844.08
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6007085349581255686, guid: 53041a0f37a10c94cad8748f1c0958cd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -236.9027
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6007085349581255686, guid: 53041a0f37a10c94cad8748f1c0958cd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -41863,6 +41920,7 @@ GameObject:
   - component: {fileID: 2076970094}
   - component: {fileID: 2076970096}
   - component: {fileID: 2076970095}
+  - component: {fileID: 2076970097}
   m_Layer: 5
   m_Name: FaceDownCards
   m_TagString: Untagged
@@ -41928,6 +41986,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2076970093}
   m_CullTransparentMesh: 1
+--- !u!114 &2076970097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2076970093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 2076970095}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1089241967}
+        m_TargetAssemblyTypeName: DrawCardsController, Elfenroads
+        m_MethodName: takeRandomCard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &2078366088
 PrefabInstance:
   m_ObjectHideFlags: 0
