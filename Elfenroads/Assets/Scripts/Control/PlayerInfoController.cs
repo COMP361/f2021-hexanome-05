@@ -13,6 +13,8 @@ public class PlayerInfoController : MonoBehaviour
     public RectTransform opponentsLayout;
     public RectTransform playerCounters;
     public RectTransform playerCards;
+    public GameObject playerCountersGraphic;
+    public GameObject playerCardsGraphic;
     public TMPro.TMP_Text playerName;
     public TMPro.TMP_Text playerStats;
     public InfoWindowController infoWindowController;
@@ -335,8 +337,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(192, 110, 110, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(192, 110, 110, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(192, 110, 110, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(192, 110, 110, 255);
                     break;
                 }
                 case Models.Color.BLUE:{
@@ -346,8 +348,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(131, 159, 197, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(131, 159, 197, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(131, 159, 197, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(131, 159, 197, 255);
                     break;
                 }
                 case Models.Color.GREEN:{
@@ -357,8 +359,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(112, 207, 157, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(112, 207, 157, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(112, 207, 157, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(112, 207, 157, 255);
                     break;
                 }
                 case Models.Color.PURPLE:{
@@ -368,8 +370,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(219, 111, 203, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(219, 111, 203, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(219, 111, 203, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(219, 111, 203, 255);
                     break;
                 }
                 case Models.Color.YELLOW:{
@@ -379,8 +381,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(255, 158, 59, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(255, 158, 59, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(255, 158, 59, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(255, 158, 59, 255);
                     break;
                 }
                 case Models.Color.BLACK:{
@@ -391,8 +393,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(243, 243, 243, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(152, 152, 152, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(152, 152, 152, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(152, 152, 152, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(152, 152, 152, 255);
                     break;
                 }
                 default: Debug.Log("Invalid color!"); break;
