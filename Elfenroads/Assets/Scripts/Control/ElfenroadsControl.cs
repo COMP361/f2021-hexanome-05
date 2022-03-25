@@ -285,6 +285,21 @@ namespace Controls {
             socket.Instance.Emit("SelectCounter", json.ToString(), false);
         }
 
+        public void placeBid(int amountToBid){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("bid_amount", amountToBid);
+            socket.Instance.Emit("PlaceBid", json.ToString(), false);
+        }
+
+        public void passAuction(){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            socket.Instance.Emit("PassAuction", json.ToString(), false);
+        }
+
         public void placeCounter(Guid counterGuid, Guid roadGuid){
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
