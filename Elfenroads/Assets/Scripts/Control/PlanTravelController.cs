@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Models;
 
 public class PlanTravelController : MonoBehaviour
@@ -427,13 +428,39 @@ public class PlanTravelController : MonoBehaviour
         Destroy(validBox, 2f);
     }
 
-    //Add functions which highlight double/exchange buttons when selected, if there is time.
+    //Just here to test functionality.
+    public void buttonTesterDouble(){
+        if(usingDouble){
+            usingDouble = false;
+        }else{
+            usingDouble = true;
+        }
+    }
+
+    public void buttonTesterExchange(){
+        if(usingExchange){
+            usingExchange = false;
+        }else{
+            usingExchange = true;
+        }
+    }
+
+    Color32 normalColor = new Color32(255, 255, 255, 255);
+    Color32 spellColor = new Color32(166, 64, 229, 255);
+    UnityEngine.Color lerpedColorDouble = new Color32(255, 255, 255, 255);
+    UnityEngine.Color lerpedColorExchange = new Color32(255, 255, 255, 255);
     void Update(){
         if(usingDouble){
-            
+            lerpedColorDouble = UnityEngine.Color.Lerp(normalColor, spellColor, Mathf.PingPong(Time.time, 1));
+            doubleButton.GetComponent<Image>().color = lerpedColorDouble;
+        }else{
+            doubleButton.GetComponent<Image>().color = normalColor;
         }
         if(usingExchange){
-
+            lerpedColorExchange = UnityEngine.Color.Lerp(normalColor, spellColor, Mathf.PingPong(Time.time, 1));
+            exchangeButton.GetComponent<Image>().color = lerpedColorExchange;
+        }else{
+            exchangeButton.GetComponent<Image>().color = normalColor;
         }
     }
 }

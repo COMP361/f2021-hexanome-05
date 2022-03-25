@@ -19,6 +19,7 @@ namespace Controls
         public TMPro.TMP_Text topText;
         public TMPro.TMP_Text bottomText;
         public GameObject endTurnButton;
+        public GameObject witchButton;
         public RectTransform topLayoutGroup;
         public RectTransform bottomLayoutGroup;
         public PlayerInfoController playerInfoController;
@@ -57,7 +58,7 @@ namespace Controls
         public void updateEGStuff(){
             if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
                 if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.ElfenWitch)){
-                    MoveBootCanvas.transform.GetChild(1).gameObject.SetActive(true);
+                    witchButton.SetActive(true);
                 }
                 MoveBootCanvas.transform.GetChild(0).gameObject.SetActive(true);
                 MoveBootCanvas.transform.GetChild(0).gameObject.transform.GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Accrued Gold: " + goldAccrued;
@@ -672,5 +673,19 @@ namespace Controls
             messageBox.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = message;
             Destroy(messageBox, 1.9f);
         }
+
+        Color32 normalColor = new Color32(255, 255, 255, 255);
+        Color32 spellColor = new Color32(166, 64, 229, 255);
+        UnityEngine.Color lerpedColorWitch = new Color32(255, 255, 255, 255);
+
+        void Update(){
+            if(witchInUse){
+                lerpedColorWitch = UnityEngine.Color.Lerp(normalColor, spellColor, Mathf.PingPong(Time.time, 1));
+                witchButton.GetComponent<Image>().color = lerpedColorWitch;
+            }else{
+                witchButton.GetComponent<Image>().color = normalColor;
+            }
+        }
+
     }
 }
