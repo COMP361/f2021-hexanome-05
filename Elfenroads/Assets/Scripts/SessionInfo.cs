@@ -10,6 +10,8 @@ public class SessionInfo : MonoBehaviour
     public bool isElfenGold {set; get;}
     public bool isLongerGame {set; get;}
     public bool isHomeTown {set; get;}
+    public bool isElvenWitch {set; get;}
+    public bool isRandomDistribution {set; get;}
 
     void Start(){
         DontDestroyOnLoad(this.gameObject);
@@ -39,10 +41,19 @@ public class SessionInfo : MonoBehaviour
         
         if (isElfenGold) {
             variant |= Game.Variant.Elfengold;
+            if (isElvenWitch) {
+                variant |= Game.Variant.ElfenWitch;
+            }
+            if (isRandomDistribution) {
+                variant |= Game.Variant.RandomGoldTokens;
+            }
         }
-        if (isLongerGame) {
-            variant |= Game.Variant.LongerGame;
+        else {
+            if (isLongerGame) {
+                variant |= Game.Variant.LongerGame;
+            }
         }
+
         if (isHomeTown) {
             variant |= Game.Variant.HomeTown;
         }

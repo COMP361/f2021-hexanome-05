@@ -105,26 +105,19 @@ namespace Models {
         public Player getCurrentPlayer() {
 
             switch(game.currentPhase){
-                case DrawCounters dc:{
+                case DrawCounters dc:
                     return dc.currentPlayer;
-                }
-                case PlanTravelRoutes pt:{
+                case PlanTravelRoutes pt:
                     return pt.currentPlayer;
-                }
-                case MoveBoot mb:{
+                case MoveBoot mb:
                     return  mb.currentPlayer;
-                }
-                case FinishRound fr:{ //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
+                case FinishRound fr: //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
                     return null;
-                }
-                case GameOver go:{
+                case GameOver go:
                     return null;
-                    break;
-                }
-                default:{
+                default:
                     Debug.Log("Phase not implemented!");
                     break;
-                }
             }
             return null;
         }
