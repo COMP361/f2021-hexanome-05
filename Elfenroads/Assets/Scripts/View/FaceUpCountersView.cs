@@ -72,8 +72,8 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
                         case TransportType.TrollWagon:
                         {
                             GameObject instantiatedCounter = Instantiate(trollCounterPrefab, this.transform);
-                         instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                         instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.GiantPig:

@@ -8,8 +8,25 @@ public class AuctionController : MonoBehaviour
     public GameObject AuctionCanvas;
     public GameObject invalidMovePrefab;
     public GameObject messagePrefab;
+    public RectTransform countersLeftLayoutGroup;
+    public RectTransform currentCounterLayoutGroup;
 
-    public int thisPlayerBid = 0;
+    public GameObject dragonCounterPrefab;
+    public GameObject trollCounterPrefab;
+    public GameObject cloudCounterPrefab;
+    public GameObject cycleCounterPrefab;
+    public GameObject unicornCounterPrefab;
+    public GameObject pigCounterPrefab;
+    public GameObject landObstaclePrefab;
+    public GameObject seaObstaclePrefab;
+    public GameObject goldCounterPrefab;
+    public GameObject doubleCounterPrefab;
+    public GameObject exchangeCounterPrefab;
+
+
+    private Counter counterUpForAuction;
+
+    private int thisPlayerBid = 0;
 
     public void passTurn(){
         if(! (Elfenroads.Model.game.currentPhase is Auction)){
