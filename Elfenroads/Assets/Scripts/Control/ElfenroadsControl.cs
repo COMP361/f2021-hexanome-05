@@ -265,6 +265,7 @@ namespace Controls {
         }
 
         public void drawCard(GameObject clickedCard){
+            Debug.Log("Clicked card emit!");
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
@@ -281,9 +282,11 @@ namespace Controls {
 
         public void drawRandomCard(){
             JObject json = new JObject();
+            Debug.Log("Game ID: " + sessionInfo.getSessionID());
+            Debug.Log("Player ID: " + Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
             json.Add("game_id", sessionInfo.getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
-            socket.Instance.Emit("DrawRandomCard");
+            socket.Instance.Emit("DrawRandomCard", json.ToString(), false);
         }
 
         public void SelectCounter(Guid counterToKeepSecret){
