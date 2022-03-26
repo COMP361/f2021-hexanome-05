@@ -5,6 +5,11 @@ using Models;
 
 public class AuctionController : MonoBehaviour
 {
+
+    public AuctionCounterView waitingCountersView;
+    public CounterBeingAuctionedView currentCounterView;
+
+
     public GameObject AuctionCanvas;
     public GameObject invalidMovePrefab;
     public GameObject messagePrefab;
@@ -23,10 +28,21 @@ public class AuctionController : MonoBehaviour
     public GameObject doubleCounterPrefab;
     public GameObject exchangeCounterPrefab;
 
-
     private Counter counterUpForAuction;
 
     private int thisPlayerBid = 0;
+
+
+    
+    public void updateWaitingCounters(Auction au){
+        waitingCountersView.updateWaitingCounters(au);
+    }
+
+    
+    public void updateCurrentCounter(Auction au){
+        currentCounterView.updateCurrentCounter(au);
+    }
+
 
     public void passTurn(){
         if(! (Elfenroads.Model.game.currentPhase is Auction)){
@@ -41,6 +57,7 @@ public class AuctionController : MonoBehaviour
         
         Elfenroads.Control.passTurn();
     }
+
 
     public void placeBid(){
         if(! (Elfenroads.Model.game.currentPhase is Auction)){

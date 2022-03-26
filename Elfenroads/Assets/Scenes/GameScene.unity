@@ -16259,7 +16259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3950933832795217000, guid: 1caf9fe4b9802ef408847b69bc1089f5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3950933832795217000, guid: 1caf9fe4b9802ef408847b69bc1089f5, type: 3}
       propertyPath: m_AnchorMin.x
@@ -16267,15 +16267,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3950933832795217000, guid: 1caf9fe4b9802ef408847b69bc1089f5, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3950933832795217000, guid: 1caf9fe4b9802ef408847b69bc1089f5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3950933832795217000, guid: 1caf9fe4b9802ef408847b69bc1089f5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3950933832795217000, guid: 1caf9fe4b9802ef408847b69bc1089f5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -16307,11 +16307,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3950933832795217000, guid: 1caf9fe4b9802ef408847b69bc1089f5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 81.09274
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3950933832795217000, guid: 1caf9fe4b9802ef408847b69bc1089f5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -103.29874
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3950933832795217000, guid: 1caf9fe4b9802ef408847b69bc1089f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -17328,7 +17328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &921140962
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24857,6 +24857,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecb616581070ea24eb29bd006334cdb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dragonCounterPrefab: {fileID: 0}
+  trollCounterPrefab: {fileID: 0}
+  cloudCounterPrefab: {fileID: 0}
+  cycleCounterPrefab: {fileID: 0}
+  unicornCounterPrefab: {fileID: 0}
+  pigCounterPrefab: {fileID: 0}
+  landObstaclePrefab: {fileID: 0}
+  seaObstaclePrefab: {fileID: 0}
+  goldCounterPrefab: {fileID: 0}
+  doubleCounterPrefab: {fileID: 0}
+  exchangeCounterPrefab: {fileID: 0}
+  countersLeftLayoutGroup: {fileID: 0}
+  currentCounterLayoutGroup: {fileID: 0}
 --- !u!1 &1237897858
 GameObject:
   m_ObjectHideFlags: 0
@@ -25884,6 +25897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11699d003adc35c449494b9b68a374ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  auctionCounterView: {fileID: 0}
   AuctionCanvas: {fileID: 921140961}
   invalidMovePrefab: {fileID: 6005364027087520367, guid: f53cc4ef353f181438149e9657fc493d, type: 3}
   messagePrefab: {fileID: 6005364027087520367, guid: 694a2b26dc8c090429e138adff49379c, type: 3}
