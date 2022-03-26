@@ -22360,6 +22360,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardsLayout: {fileID: 298885204}
+  turnPrompt: {fileID: 663836584}
+  goldCardAmt: {fileID: 828820550}
+  invalidMovePrefab: {fileID: 6005364027087520367, guid: f53cc4ef353f181438149e9657fc493d, type: 3}
+  DrawCardsCanvas: {fileID: 1409636409}
   dragonCardPrefab: {fileID: 4715525997405540839, guid: 9eb6df397bd460a428992dfd261fdc5d, type: 3}
   trollCardPrefab: {fileID: 3400815970541584631, guid: 2847adc15e5e4c540a3753fac31e8684, type: 3}
   cloudCardPrefab: {fileID: 5497491685932610969, guid: d59f8e175ce9fd14ab33ef1416950972, type: 3}
@@ -42946,7 +42950,9 @@ MonoBehaviour:
   MoveBootCanvas: {fileID: 148781220}
   FinishRoundCanvas: {fileID: 1654706685}
   EndOfGameCanvas: {fileID: 809184508}
+  DrawCardsCanvas: {fileID: 1409636409}
   drawCountersController: {fileID: 16797347}
+  drawCardsController: {fileID: 1089241967}
   planTravelController: {fileID: 86473973}
   moveBootController: {fileID: 572325403}
   finishRoundController: {fileID: 385405657}

@@ -44,20 +44,20 @@ public class TestDeserialize : MonoBehaviour
         // string json = @"{""$type"":""Models.TransportationCounter, Elfenroads"", ""transportType"":2, ""id"":""768113a1-ea8e-7a13-5b16-0488fd56187f""}";
         // Debug.Log("Our string: " + json);
         // Counter countersTest = Newtonsoft.Json.JsonConvert.DeserializeObject<Counter>(json, jset);
-        Player mainPlayer = new Player("test", Models.Color.RED);
-        Player secondPlayer = new Player("test2", Models.Color.BLUE);
-        List<Player> players = new List<Player>();
-        players.Add(mainPlayer);
-        players.Add(secondPlayer);
-        Board board = new Board(new List<Road>(), new List<Town>());
-        GamePhase countersPhase = new DrawCounters(mainPlayer);
-        Game testGame = new Game(board, players, mainPlayer, Game.Variant.Elfenland, 1);
-        testGame.currentPhase = countersPhase;
-        string serializedGame = Newtonsoft.Json.JsonConvert.SerializeObject(testGame, jset);
-        Debug.Log(serializedGame);
-        Card testCard = new TravelCard(TransportType.Dragon);
-        string serializedCard = Newtonsoft.Json.JsonConvert.SerializeObject(testCard, jset);
-        Debug.Log(serializedCard);
+        // Player mainPlayer = new Player("test", Models.Color.RED);
+        // Player secondPlayer = new Player("test2", Models.Color.BLUE);
+        // List<Player> players = new List<Player>();
+        // players.Add(mainPlayer);
+        // players.Add(secondPlayer);
+        // Board board = new Board(new List<Road>(), new List<Town>());
+        // //GamePhase countersPhase = new DrawCounters(mainPlayer);
+        // Game testGame = new Game(board, players, mainPlayer, Game.Variant.Elfenland, 1);
+        // testGame.currentPhase = countersPhase;
+        // string serializedGame = Newtonsoft.Json.JsonConvert.SerializeObject(testGame, jset);
+        // Debug.Log(serializedGame);
+        // Card testCard = new TravelCard(TransportType.Dragon);
+        // string serializedCard = Newtonsoft.Json.JsonConvert.SerializeObject(testCard, jset);
+        // Debug.Log(serializedCard);
     }
 
 }

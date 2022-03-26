@@ -8,6 +8,12 @@ using Models;
 public class DrawCardsController : MonoBehaviour, GuidHelperContainer
 {
     public RectTransform cardsLayout;
+    public TMPro.TMP_Text turnPrompt;
+    public TMPro.TMP_Text goldCardAmt;
+    public GameObject invalidMovePrefab;
+    public GameObject DrawCardsCanvas;
+    private int totalAmt = 0;
+    [Header("CardPrefabs")]
     public GameObject dragonCardPrefab;
     public GameObject trollCardPrefab;
     public GameObject cloudCardPrefab;
@@ -26,13 +32,17 @@ public class DrawCardsController : MonoBehaviour, GuidHelperContainer
             DestroyImmediate(child.gameObject);
         }
         cardsLayout.DetachChildren();
+        if(Elfenroads.Control.isCurrentPlayer()){
+            turnPrompt.text = "Your turn! Draw a card!";
+        }else{
+            turnPrompt.text = Elfenroads.Control.currentPlayer.name + " is drawing a card...";
+        }
 
         //Now, loop through the cards of the model, instantiating appropriate cards each time.
         foreach(Card c in Elfenroads.Model.game.faceUpCards){
             switch(c){
                 case TravelCard tc:
                 {
-                    //Debug.Log("Transport type of " + c.id + " is: " + tc.transportType);
                     switch(tc.transportType){
                         case TransportType.Dragon:
                         {  
@@ -102,14 +112,20 @@ public class DrawCardsController : MonoBehaviour, GuidHelperContainer
                 default: Debug.Log("Card is of undefined type!") ; break;
             }
         }
+
+        totalAmt = 0;
+        foreach(GoldCard gc in Elfenroads.Model.game.goldCardDeck){
+            totalAmt = totalAmt + 3;
+        }
+        goldCardAmt.text = "Gold in deck: " + totalAmt;
     }
 
     //Handles the (very little) needed validation for drawing a card.
     public void GUIClicked(GameObject clickedCard){
-        // if(! (Elfenroads.Model.game.currentPhase is DrawCards)){
-        //     Debug.Log("Yay!");
-        //     return;
-        // }
+        if(! (Elfenroads.Model.game.currentPhase is DrawCards)){
+            Debug.Log("Hey! How are you clicking this? It isn't DrawCards!");
+            return;
+        }
         if( Elfenroads.Control.isCurrentPlayer() ){
             Elfenroads.Control.drawCard(clickedCard);
         }else{
@@ -120,10 +136,16 @@ public class DrawCardsController : MonoBehaviour, GuidHelperContainer
 
 
     public void takeGoldCards(){
-        // if(! (Elfenroads.Model.game.currentPhase is DrawCards)){
-        //     Debug.Log("Yay!");
-        //     return;
-        // }
+        if(! (Elfenroads.Model.game.currentPhase is DrawCards)){
+            Debug.Log("Hey! How are you clicking this? It isn't DrawCards!");
+            return;
+        }
+
+        if(totalAmt == 0){
+            invalidMessage("No cards in the deck!");
+            return;
+        }
+
         if( Elfenroads.Control.isCurrentPlayer() ){
             Elfenroads.Control.takeGoldCards();
         }else{
@@ -132,14 +154,21 @@ public class DrawCardsController : MonoBehaviour, GuidHelperContainer
     }
 
     public void takeRandomCard(){
-        // if(! (Elfenroads.Model.game.currentPhase is DrawCards)){
-        //     Debug.Log("Yay!");
-        //     return;
-        // }
+        if(! (Elfenroads.Model.game.currentPhase is DrawCards)){
+            Debug.Log("Hey! How are you clicking this? It isn't DrawCards!");
+            return;
+        }
         if( Elfenroads.Control.isCurrentPlayer() ){
             Elfenroads.Control.drawRandomCard();
         }else{
             Debug.Log("Click invalid. Is it your turn? -> " + (Elfenroads.Control.isCurrentPlayer()));
         }
+    }
+
+    private void invalidMessage(string message){
+        Debug.Log("Invalid message: " + message);
+        GameObject invalidBox = Instantiate(invalidMovePrefab, Input.mousePosition, Quaternion.identity, DrawCardsCanvas.transform);
+        invalidBox.GetComponent<TMPro.TMP_Text>().text = message;
+        Destroy(invalidBox, 2f);
     }
 }

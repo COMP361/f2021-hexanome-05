@@ -20,6 +20,7 @@ namespace Models {
         public List<Counter> faceUpCounters { protected set; get; }
         public List<Card> faceUpCards {protected set; get; }
         public int roundNumber { protected set; get; }
+        public List<GoldCard> goldCardDeck { protected set; get; }
 
         public Game(Board board) {
             this.board = board;
@@ -41,7 +42,7 @@ namespace Models {
         protected Game(Board board, List<Player> players, Player startingPlayer,
                         GamePhase currentPhase, Variant variant, CardPile cards,
                         CardPile discardPile, CounterPile counterPile, int roundNumber,
-                        List<Counter> faceUpCounters, List<Card> faceUpCards ) {
+                        List<Counter> faceUpCounters, List<Card> faceUpCards, List<GoldCard> goldCardDeck ) {
             this.board = board;
             this.players = players;
             this.startingPlayer = startingPlayer;
@@ -53,6 +54,7 @@ namespace Models {
             this.roundNumber = roundNumber;
             this.faceUpCounters = faceUpCounters;
             this.faceUpCards = faceUpCards;
+            this.goldCardDeck = goldCardDeck;
         }
 
         public Player GetPlayer(string name) {
@@ -85,9 +87,13 @@ namespace Models {
                 modified = true;
             }
 
-            // if(faceUpCards.Update(update.faceUpCards)){ *** UNCOMMENT LATER
-            //     modified = true;
-            // }
+             if(faceUpCards.Update(update.faceUpCards)){ 
+                 modified = true;
+             }
+
+             if(goldCardDeck.Update(update.goldCardDeck)){
+                 modified = true;
+             }
 
             // might fuck up ***
             if (currentPhase.isCompatible(update.currentPhase)) {

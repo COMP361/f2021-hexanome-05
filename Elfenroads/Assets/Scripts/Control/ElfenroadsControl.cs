@@ -24,7 +24,9 @@ namespace Controls {
         public GameObject MoveBootCanvas;
         public GameObject FinishRoundCanvas;
         public GameObject EndOfGameCanvas;
+        public GameObject DrawCardsCanvas;
         public DrawCountersController drawCountersController;
+        public DrawCardsController drawCardsController;
         public PlanTravelController planTravelController;
         public MoveBootController moveBootController;
         public FinishRoundController finishRoundController;
@@ -205,11 +207,18 @@ namespace Controls {
                     gameOverController.updateTexts();
                     break;
                 }
-                /*
-                case DrawCards dCa{
-
+                case DrawCards dCa:{
+                    DrawCardsCanvas.SetActive(true);
+                    LockCamera?.Invoke(null, EventArgs.Empty);
+                    LockDraggables?.Invoke(null, EventArgs.Empty);
+                    currentPlayer = dCa.currentPlayer;
+                    if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
+                        DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                    }
+                    drawCardsController.updateFaceUpCards();
                     break;
                 }
+                /*
                 case SelectCounters sc{
                     
                     break;

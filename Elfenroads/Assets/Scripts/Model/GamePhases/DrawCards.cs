@@ -4,28 +4,27 @@ using Models.Helpers;
 
 namespace Models
 {
-    public class DrawCounters : GamePhase 
+    public class DrawCards : GamePhase 
     {
         override public event EventHandler Updated;
         public Player currentPlayer { protected set; get; }
 
         
-        // public DrawCounters(Player currentPlayer){
+        // public DrawCards(Player currentPlayer){
         //     this.currentPlayer = currentPlayer;
-        //     playersPassed = new List<Player>();
         // }
 
         [Newtonsoft.Json.JsonConstructor]
-        protected DrawCounters(Player currentPlayer){
+        protected DrawCards(Player currentPlayer){
             this.currentPlayer = currentPlayer;
         }
 
         override public bool isCompatible(GamePhase update) {
-            return update as DrawCounters != null;
+            return update as DrawCards != null;
         }
 
         override public bool Update(GamePhase update) {
-            DrawCounters updateTypecast = update as DrawCounters;
+            DrawCards updateTypecast = update as DrawCards;
             bool modified = false;
 
 
@@ -33,10 +32,6 @@ namespace Models
                 currentPlayer = (Player) ModelStore.Get(updateTypecast.currentPlayer.id);
                 modified = true;
             }
-
-            // if (playersPassed.Update(updateTypecast.playersPassed)) {
-            //     modified = true;
-            // }
 
             if (modified) {
                 Updated?.Invoke(this, EventArgs.Empty);
