@@ -78,12 +78,17 @@ namespace Models {
             }
 
             //Add items to store depending on whether or not we're in ElfenGold or ElfenLand.
-            if(game.variant.HasFlag(Game.Variant.Elfenland)){
+            if(game.variant.HasFlag(Game.Variant.Elfengold)){
+                foreach(Card c in game.faceUpCards){
+                    ModelStore.Add(c);
+                }
+                foreach(GoldCard gc in game.goldCardDeck){
+                    ModelStore.Add(gc);
+                }
+            }else{
                 foreach(Counter c in game.faceUpCounters){
                 ModelStore.Add(c);
                 }
-            }else{
-                //**Add cards from DrawCards here.
             }
 
             //Now that the Model is fully integrated, we can tell the main Game controller to prepare the screen accordingly, and begin listening for GameState updates.
@@ -115,6 +120,8 @@ namespace Models {
                     return null;
                 case GameOver go:
                     return null;
+                case DrawCards dCa:
+                    return dCa.currentPlayer;
                 default:
                     Debug.Log("Phase not implemented!");
                     break;

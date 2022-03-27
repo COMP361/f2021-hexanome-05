@@ -25,7 +25,7 @@ public class DrawCardsController : MonoBehaviour, GuidHelperContainer
 
     public void updateFaceUpCards() { //Later needs to take DrawCards Model to set GoldCardDeck attributes ***
         //Here, needs to add cards to the GridLayoutGroup according to the model. Instantiated Cards must also have their "GuidViewHelper" component's "Guid" fields set appropriately.
-        Debug.Log("Model was updated!");
+        Debug.Log("Model was updated! Gold cards: " + Elfenroads.Model.game.goldCardDeck.Count);
         //First, destroy all children (mwahahah)
         foreach(Transform child in cardsLayout){
             child.SetParent(null);
