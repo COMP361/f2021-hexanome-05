@@ -77,7 +77,7 @@ public class LobbyService
 
         UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
         if (request.responseCode == STATUS_OK) {
-            Debug.Log("Login success!");
+            //Debug.Log("Login success!");
             LoginSuccessEvent(request.downloadHandler.text);
         }
         else {
