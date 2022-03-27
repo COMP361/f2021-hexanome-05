@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using Models.Helpers;
+using UnityEngine; //Don't kill me Dan
 
 
 namespace Models {
@@ -92,6 +93,7 @@ namespace Models {
              }
 
              if(goldCardDeck.Update(update.goldCardDeck)){
+                 Debug.Log("GoldCard deck modified");
                  modified = true;
              }
 
