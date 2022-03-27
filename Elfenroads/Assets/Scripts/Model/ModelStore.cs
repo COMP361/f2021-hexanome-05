@@ -13,6 +13,10 @@ namespace Models{
             }
             return _instance;
         }
+
+        public static void ResetInstance() {
+            _instance = null;
+        }
         protected Dictionary<Guid, GuidModel> dict;
 
         protected ModelStore() {

@@ -11,4 +11,10 @@ public abstract class Elfenroads : MonoBehaviour
     public static ElfenroadsControl Control;
     public static ElfenroadsView View;
     public static ElfenroadsModel Model;
+
+    public static void ResetInstances() {
+        Control = null;
+        View = null;
+        Model = null;
+    }
 }

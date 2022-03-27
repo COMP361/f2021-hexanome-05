@@ -250,8 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eff26ddbae2e9cb46b66eadd133d1fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSession: {fileID: 0}
-  isElfenGold: 1
 --- !u!114 &41525863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2006,7 +2004,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537859569}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.48893, y: 5.496531, z: -2.8860722}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2914,7 +2912,6 @@ GameObject:
   m_Component:
   - component: {fileID: 777749250}
   - component: {fileID: 777749252}
-  - component: {fileID: 777749251}
   m_Layer: 5
   m_Name: Random Gold Token Distribution Variant
   m_TagString: Untagged
@@ -2943,20 +2940,6 @@ RectTransform:
   m_AnchoredPosition: {x: 486.70007, y: -26.400007}
   m_SizeDelta: {x: 210, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &777749251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777749249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eff26ddbae2e9cb46b66eadd133d1fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentSession: {fileID: 0}
-  isElfenGold: 1
 --- !u!114 &777749252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5105,36 +5088,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1123611544}
   m_CullTransparentMesh: 1
---- !u!1 &1151502780
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1151502781}
-  m_Layer: 0
-  m_Name: DeserializationTester
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1151502781
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1151502780}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7046471, y: 0.013480786, z: -0.6666747}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1172507786
 GameObject:
   m_ObjectHideFlags: 0
@@ -7126,7 +7079,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1938600537}
   - component: {fileID: 1938600539}
-  - component: {fileID: 1938600538}
   m_Layer: 5
   m_Name: Elven Witch Variant
   m_TagString: Untagged
@@ -7156,20 +7108,6 @@ RectTransform:
   m_AnchoredPosition: {x: 770.4, y: 5.0001}
   m_SizeDelta: {x: 210, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1938600538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938600536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eff26ddbae2e9cb46b66eadd133d1fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentSession: {fileID: 0}
-  isElfenGold: 1
 --- !u!114 &1938600539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8526,20 +8464,6 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_IsOn: 0
---- !u!114 &2235853004073161315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8938130867220565755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eff26ddbae2e9cb46b66eadd133d1fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentSession: {fileID: 0}
-  isElfenGold: 1
 --- !u!114 &2353576590894457320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9417,7 +9341,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9173891362765558337}
   - component: {fileID: 2185230515955822144}
-  - component: {fileID: 2235853004073161315}
   m_Layer: 5
   m_Name: Longer Game Variant
   m_TagString: Untagged

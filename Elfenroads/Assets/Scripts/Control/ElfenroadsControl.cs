@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firesplash.UnityAssets.SocketIO;
 using Models;
-using UnityEngine.UI;
-using Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine.SceneManagement;
+
 
 
 
@@ -104,6 +104,8 @@ namespace Controls {
         ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(sessionInfo, socket);
         Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty); //**May need verification.
         //Once the Server recieves all colors, it can send the initial game state to the Clients and the game begins. 
+
+        socket.Instance.On("Quit", quit);
         }
 
         public void beginListening(){
@@ -409,6 +411,23 @@ namespace Controls {
             json.Add("counter_ids", JsonConvert.SerializeObject(stringArray));
             Debug.Log("Emitting counter with id " + countersToDiscard + " to server!");
             socket.Instance.Emit("CounterDiscarded", json.ToString(), false); 
+        }
+
+        public void requestQuit() {
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            socket.Instance.Emit("Quit", json.ToString(), false);
+        }
+
+        public void quit(string input) {
+            Elfenroads.ResetInstances();
+            Client.ResetInstance();
+            ModelStore.ResetInstance();
+            socket.Instance.Close();
+            Destroy(GameObject.Find("SessionInfo"));
+            Destroy(GameObject.Find("Listener"));
+		    SceneManager.LoadScene("MenuScene", LoadSceneMode.Single);
         }
 
         public void setThisPlayer(Player input){
