@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4959312200108055269}
   - component: {fileID: 4959312200108055268}
+  - component: {fileID: -3817112882959274598}
   m_Layer: 0
   m_Name: UnicornCounter
   m_TagString: Untagged
@@ -82,3 +83,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-3817112882959274598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4959312200108055275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d82c4eb02628db045923c3bb90d1eca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

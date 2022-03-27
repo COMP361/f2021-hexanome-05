@@ -14,7 +14,6 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
 
     private DrawCountersController myController;
     private GameObject sessionInfo;
-    private DrawCounters drawCountersModel;
 
     public GameObject dragonCounterPrefab;
     public GameObject trollCounterPrefab;
@@ -27,16 +26,11 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
 
     void Start(){
         myController = GameObject.Find("DrawCountersController").GetComponent<DrawCountersController>();
-        sessionInfo = GameObject.Find("SessionInfo");
+        sessionInfo = GameObject.Find("SessionInfo"); //Why?
     }
 
-    public void setAndSubscribeToModel(DrawCounters inputDrawCounters){
-         drawCountersModel = inputDrawCounters;
-         drawCountersModel.Updated += onModelUpdated;
-         onModelUpdated(null, null);
-     }
-
-    void onModelUpdated(object sender, EventArgs e) {
+    //This should have been in the Controller. Don't do this for similar phases.
+    public void updateFaceUpCounters(DrawCounters drawCountersModel) {
         //Here, needs to add counters to the GridLayoutGroup according to the model. Instantiated Counters must also have their "GuidViewHelper" component's "Guid" fields set appropriately.
         Debug.Log("Model was updated!");
         //First, destroy all children (mwahahah)
@@ -47,11 +41,12 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
         transform.DetachChildren();
 
         //Now, loop through the counters of the model, instantiating appropriate counters each time.
-        foreach(Counter c in drawCountersModel.faceUpCounters){
+        Debug.Log("Updated drawcounters!");
+        foreach(Counter c in Elfenroads.Model.game.faceUpCounters){
             switch(c){
                 case TransportationCounter tc:
                 {
-                    Debug.Log("Transport type of " + c.id + " is: " + tc.transportType);
+                    //Debug.Log("Transport type of " + c.id + " is: " + tc.transportType);
                     switch(tc.transportType){
                         case TransportType.Dragon:
                         {  
@@ -77,8 +72,8 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
                         case TransportType.TrollWagon:
                         {
                             GameObject instantiatedCounter = Instantiate(trollCounterPrefab, this.transform);
-                         instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                         instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
+                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.GiantPig:
@@ -101,17 +96,16 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
                 }
                 case MagicSpellCounter msc:
                 {
-                    Debug.Log("Elfengold - Do later");
+                    Debug.Log("Elfengold - This should never happen!");
                     break;
                 }
                 case GoldCounter gc:
                 {
-                    Debug.Log("Elfengold - Do later");
+                    Debug.Log("Elfengold - This should never happen!");
                     break;
                 }
                 case ObstacleCounter obc:
                 {
-                    //*** Add sea obstacle later, during elfengold.
                     GameObject instantiatedCounter = Instantiate(landObstaclePrefab, this.transform);
                     instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
                     instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
@@ -124,31 +118,32 @@ public class FaceUpCountersView : MonoBehaviour, GuidHelperContainer
 
     //Called by the Counter GridElements (those instantiated by this script, and which will be made children of the GridLayoutGroup). Will be used to identify which counter was clicked.
     public void GUIClicked(GameObject clickedCounter){
-        if(drawCountersModel == null){
+
+        if(! (Elfenroads.Model.game.currentPhase is DrawCounters)){
             Debug.Log("Yay!");
             return;
         }
         
-        if( (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username) && Elfenroads.Model.game.currentPhase is DrawCounters){
+        if( (Elfenroads.Control.isCurrentPlayer()) && Elfenroads.Model.game.currentPhase is DrawCounters){
             myController.validateDrawCounter(clickedCounter);
         }else{
-            Debug.Log("Click invalid. Is it your turn? -> " + (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username));
+            Debug.Log("Click invalid. Is it your turn? -> " + (Elfenroads.Control.isCurrentPlayer()));
             Debug.Log("If so, then it is because the currentPhase is " + Elfenroads.Model.game.currentPhase);
         }
     }
 
     //Called by some other button or object representing a random draw, which has an Event trigger leading here.
     public void RandomCounterClicked(){
-        if(drawCountersModel == null){
+        if(! (Elfenroads.Model.game.currentPhase is DrawCounters)){
             Debug.Log("Model is null!");
             return;
         }
-        if( (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username) && Elfenroads.Model.game.currentPhase is DrawCounters){
+        if( (Elfenroads.Control.isCurrentPlayer()) && Elfenroads.Model.game.currentPhase is DrawCounters){
             Debug.Log("Random draw selected!");
             myController.validateDrawRandomCounter();
 
         }else{
-            Debug.Log("Click invalid. Is it your turn? -> " + (drawCountersModel.currentPlayer.name == sessionInfo.GetComponent<SessionInfo>().getClient().clientCredentials.username));
+            Debug.Log("Click invalid. Is it your turn? -> " + (Elfenroads.Control.isCurrentPlayer()));
             Debug.Log("If so, then it is because the currentPhase is " + Elfenroads.Model.game.currentPhase);
         }
     }

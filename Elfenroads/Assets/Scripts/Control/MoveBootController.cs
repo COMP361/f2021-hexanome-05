@@ -14,10 +14,14 @@ namespace Controls
         public GameObject invalidMovePrefab;
         public GameObject messagePrefab;
         public GameObject MoveBootCanvas;
-        public GameObject discardWindow;
+        public GameObject helperWindow;
+        public GameObject EGHelperWindow;
+        public TMPro.TMP_Text topText;
+        public TMPro.TMP_Text bottomText;
         public GameObject endTurnButton;
-        public RectTransform potentialDiscardLayoutGroup;
-        public RectTransform toDiscardLayoutGroup;
+        public GameObject witchButton;
+        public RectTransform topLayoutGroup;
+        public RectTransform bottomLayoutGroup;
         public PlayerInfoController playerInfoController;
         public InfoWindowController infoWindowController;
 
@@ -31,11 +35,16 @@ namespace Controls
 
         public List<GameObject> roadObjects;
         private List<RoadView> roadViews;
-        public bool locked = true;
 
-        private List<GameObject> playerCards;
-        private List<GameObject> cardsToDiscard;
-        
+        private List<GameObject> topCards;
+        private List<GameObject> bottomCards;
+        private bool caravanMode = false;
+        private int targetRoadCost = 0;
+        private Town targetTown;
+
+        private int goldAccrued = 0;
+        private bool witchInUse = false;
+        private Guid currentWitch = Guid.Empty;
 
         void Start() {
             roadViews = new List<RoadView>();
@@ -43,7 +52,17 @@ namespace Controls
                 roadViews.Add(road.GetComponent<RoadView>());
             }
             subscribeToRoadClickEvents();
-            discardWindow.SetActive(false);
+            helperWindow.SetActive(false);
+        }
+
+        public void updateEGStuff(){
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.ElfenWitch)){
+                    witchButton.SetActive(true);
+                }
+                MoveBootCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                MoveBootCanvas.transform.GetChild(0).gameObject.transform.GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Accrued Gold: " + goldAccrued;
+            }
         }
 
         private void subscribeToRoadClickEvents() {
@@ -52,33 +71,66 @@ namespace Controls
             }
         }
 
-        //Going to keep this for now - likely will be used for the "exchange" counter.
-        private void onRoadClicked(object sender, EventArgs args) {
-            if(!locked){
-                //If we  made it here, then a road was clicked.
-                Debug.Log("road clicked!");
-            }
+        private void onRoadClicked(object sender, EventArgs args) { 
+            Road targetRoad = (Road) sender;
+                if(! Elfenroads.Control.isCurrentPlayer()){
+                    //Inform player they are not the current player.
+                    invalidMessage("Not your turn!");
+                    return;
+                }
+                if(targetRoad.roadType == TerrainType.Lake || targetRoad.roadType == TerrainType.Stream || targetRoad.counters.Count < 1){
+                    invalidMessage("Caravan can't be used here!");
+                    return;
+                }
+                targetTown = null;
+                if(targetRoad.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
+                    targetTown = targetRoad.end;
+                }else if(targetRoad.end.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
+                    targetTown = targetRoad.start;
+                }else{
+                    invalidMessage("Boot not adjacent to this road!");
+                    return;
+                }
+
+                if(helperWindow.activeSelf || playerInfoController.windowOpen || infoWindowController.isOpen || EGHelperWindow.activeSelf){
+                    invalidMessage("You already have an open window!");
+                    return;
+                }else{
+                    //We want to set up the helper window for a "caravan" move instead.
+                    caravanMode = true;
+                    loadPlayerCards();
+                    endTurnButton.SetActive(false);
+                    helperWindow.SetActive(true);
+                    Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
+                    Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
+                    targetRoadCost = 3;
+                    foreach(Counter c in targetRoad.counters){
+                        if(c is ObstacleCounter){
+                            targetRoadCost = 4;
+                        }
+                    }
+                    topText.text = "Select the " + targetRoadCost + " cards you will use for this caravan:";
+                    bottomText.text = "Cards to use for the caravan: ";
+                }
         }
 
         public void GUIClicked(GameObject cardClicked){
-            Debug.Log("In the cardClicked function.");
-            foreach(GameObject card in playerCards){
+            foreach(GameObject card in topCards){
                 if(card.GetComponent<GuidViewHelper>().getGuid() == cardClicked.GetComponent<GuidViewHelper>().getGuid()){
-                    //Transfer this card from playerCards to ToDiscard
-                    Debug.Log("Transferring from playerCards to ToDiscard!");
-                    transferToDiscard(card);
+                    //Transfer this card from topCards to ToDiscard
+                    Debug.Log("Transferring from topCards to ToDiscard!");
+                    transferToBottom(card);
                     return;
                 }
             }
-            foreach(GameObject card in cardsToDiscard){
+            foreach(GameObject card in bottomCards){
                 if(card.GetComponent<GuidViewHelper>().getGuid() == cardClicked.GetComponent<GuidViewHelper>().getGuid()){
-                    //Transfer this card from playerCards to ToDiscard
-                    Debug.Log("Transferring from playerCards to ToDiscard");
-                    transferToCards(card);
+                    //Transfer this card from topCards to ToDiscard
+                    Debug.Log("Transferring from topCards to ToDiscard");
+                    transferToTop(card);
                     return;
                 }
             }
-
             
             //If we make it here, give an invalid message. ***Fatal error?
             invalidMessage("Could not find card in either layouts!");
@@ -86,32 +138,32 @@ namespace Controls
             return;
         }
 
-        private void transferToDiscard(GameObject card){
-            Debug.Log("In transferToDiscard!");
-            card.transform.SetParent(toDiscardLayoutGroup, false);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(toDiscardLayoutGroup);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
-            playerCards.Remove(card);
-            cardsToDiscard.Add(card);
-            Debug.Log("Player cards: " + playerCards.Count);
-            Debug.Log("Cards to discard: " + cardsToDiscard.Count);
+        private void transferToBottom(GameObject card){
+            Debug.Log("In transferToBottom!");
+            card.transform.SetParent(bottomLayoutGroup, false);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(bottomLayoutGroup);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(topLayoutGroup);
+            topCards.Remove(card);
+            bottomCards.Add(card);
+            Debug.Log("Player cards: " + topCards.Count);
+            Debug.Log("Cards to discard: " + bottomCards.Count);
             return;
         }
 
-        private void transferToCards(GameObject card){
-            Debug.Log("In transferToCards!");
-            card.transform.SetParent(potentialDiscardLayoutGroup, false);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(toDiscardLayoutGroup);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
-            cardsToDiscard.Remove(card);
-            playerCards.Add(card);
-            Debug.Log("Player cards: " + playerCards.Count);
-            Debug.Log("Cards to discard: " + cardsToDiscard.Count);
+        private void transferToTop(GameObject card){
+            Debug.Log("In transferToTop!");
+            card.transform.SetParent(topLayoutGroup, false);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(bottomLayoutGroup);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(topLayoutGroup);
+            bottomCards.Remove(card);
+            topCards.Add(card);
+            Debug.Log("Player cards: " + topCards.Count);
+            Debug.Log("Cards to discard: " + bottomCards.Count);
             return;
         }
 
         public void endTurnValidation(){
-            if(playerInfoController.windowOpen || infoWindowController.isOpen){
+            if(playerInfoController.windowOpen || infoWindowController.isOpen || helperWindow.activeSelf || EGHelperWindow.activeSelf){
             invalidMessage("Close any open windows first!");
             return;
             }
@@ -128,136 +180,244 @@ namespace Controls
                 invalidMessage("Not your turn!");
                 return;
             }
-            //This is callled if "endTurn" was pressed. If the player has less than or equal to 4 travelcards, simply call endTurn on ElfenroadsControl with an empty list.
+
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                EGHelperWindow.SetActive(true);
+                EGHelperWindow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Would you like to end your turn by drawing two travel cards or by taking your " + goldAccrued + " accumulated gold?";
+                EGHelperWindow.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Take " + goldAccrued + " Gold";
+                caravanMode = false;
+                Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
+                Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
+                endTurnButton.SetActive(false);
+                return;
+            }
+
+
+            //This is callled if "endTurn" was pressed. If the player has less than or equal to 4 travelcards, simply call endTurn on ElfenroadsControl with an empty list. May need Elfenroad change here?***
             int numCards = Elfenroads.Control.getThisPlayer().inventory.cards.Count;
             if(numCards <= 4){
                 List<Guid> emptyList = new List<Guid>();
                 Elfenroads.Control.endTurn(emptyList);
+                goldAccrued = 0;
                 return;
             }else{
                 //If not, we'll have to enable the window allowing players to discard cards. This means getting Guids of Player cards and putting the UI elements into the GridLayoutGroup.
-                cardsToDiscard = new List<GameObject>();
-                playerCards = new List<GameObject>();
-                foreach(Card c in Elfenroads.Control.getThisPlayer().inventory.cards){
-                    switch(c){
-                        case TravelCard tc:
-                        {
-                            switch(tc.transportType){
-                                case TransportType.Dragon:
-                                {  
-                                    createAndAddToLayout(dragonCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.ElfCycle:
-                                {
-                                    createAndAddToLayout(cycleCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.MagicCloud:
-                                {
-                                    createAndAddToLayout(cloudCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.TrollWagon:
-                                {
-                                    createAndAddToLayout(trollCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.GiantPig:
-                                {
-                                    createAndAddToLayout(pigCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.Unicorn:
-                                {
-                                    createAndAddToLayout(unicornCardPrefab, c);
-                                    break;
-                                }
-                                case TransportType.Raft:
-                                {
-                                    createAndAddToLayout(raftCardPrefab, c);
-                                    break;
-                                }
-                                default: Debug.Log("Error: Card type invalid.") ; break;
-                            }
-                            break;
-                        }
-                        case WitchCard wc:
-                        {
-                            Debug.Log("Elfengold - Do later");
-                            break;
-                        }
-                        case GoldCard gc:
-                        {
-                            Debug.Log("Elfengold - Do later");
-                            break;
-                        }
-                        default: Debug.Log("Card is of undefined type!") ; break;
-                    }
-                }
-
+                loadPlayerCards();
                 //Now, we can enable the window.
                 endTurnButton.SetActive(false);
-                discardWindow.SetActive(true);
+                helperWindow.SetActive(true);
+                caravanMode = false;
                 Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
                 Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
+                topText.text = "Choose cards to discard until only four are left:";
+                bottomText.text = "Discarded Cards: ";
             }
         }
+
+    private void loadPlayerCards(){
+        bottomCards = new List<GameObject>();
+        topCards = new List<GameObject>();
+        foreach(Card c in Elfenroads.Control.getThisPlayer().inventory.cards){
+            switch(c){
+                case TravelCard tc:
+                {
+                    switch(tc.transportType){
+                        case TransportType.Dragon:
+                        {  
+                            createAndAddToLayout(dragonCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.ElfCycle:
+                        {
+                            createAndAddToLayout(cycleCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.MagicCloud:
+                        {
+                            createAndAddToLayout(cloudCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.TrollWagon:
+                        {
+                            createAndAddToLayout(trollCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.GiantPig:
+                        {
+                            createAndAddToLayout(pigCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.Unicorn:
+                        {
+                            createAndAddToLayout(unicornCardPrefab, c);
+                            break;
+                        }
+                        case TransportType.Raft:
+                        {
+                            createAndAddToLayout(raftCardPrefab, c);
+                            break;
+                        }
+                        default: Debug.Log("Error: Card type invalid.") ; break;
+                    }
+                    break;
+                }
+                default: Debug.Log("Card is of undefined type!") ; break; // Note: WitchCard will be a button instead, since it can do two things. Will need to add some kind of 'witchmode' button/boolean. ***
+            }
+        }
+    }
 
         private void createAndAddToLayout(GameObject prefab, Card c){
             GameObject instantiatedCard = Instantiate(prefab, this.transform);
             instantiatedCard.GetComponent<GuidViewHelper>().setGuid(c.id);
             instantiatedCard.GetComponent<GuidViewHelper>().setContainer(this);
-            instantiatedCard.transform.SetParent(potentialDiscardLayoutGroup, false);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(potentialDiscardLayoutGroup);
-            playerCards.Add(instantiatedCard);
+            instantiatedCard.transform.SetParent(topLayoutGroup, false);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(topLayoutGroup);
+            topCards.Add(instantiatedCard);
             return;
         }
 
-        //Called by the "confirm" button. If there is the proper amount of cards in the "cardsToDiscard" array, their guids are passed to Control to emit to the server, and both arrays/GridLayoutGroups are cleared.
-        public void confirmDiscardCards(){
-            if(playerCards.Count != 4){
-                invalidMessage("You must keep exactly 4 cards!");
+        public void confirmClicked(){
+            if(caravanMode){
+                confirmCaravan();
+            }else{
+                confirmDiscardCards();
+            }
+        }
+
+        private void confirmCaravan(){
+            if(bottomCards.Count != targetRoadCost){
+                invalidMessage("Your caravan should include exactly " + targetRoadCost + " cards!");
                 return;
             }else{
                 List<Guid> discardList = new List<Guid>();
-                foreach(GameObject card in cardsToDiscard){ 
+                foreach(GameObject card in bottomCards){ 
                     discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
                 }
                 clearDiscard();
                 endTurnButton.SetActive(true);
-                discardWindow.SetActive(false);
+                helperWindow.SetActive(false);
+                caravanMode = false;
+                Elfenroads.Control.moveBoot(targetTown.id, discardList);
+                witchInUse = false;
+                currentWitch = Guid.Empty;
+                return;
+            }
+        }
+
+        //Called by the "confirm" button. If there is the proper amount of cards in the "bottomCards" array, their guids are passed to Control to emit to the server, and both arrays/GridLayoutGroups are cleared.
+        private void confirmDiscardCards(){
+            if(topCards.Count != 4){
+                invalidMessage("You must keep exactly 4 cards!");
+                return;
+            }else{
+                List<Guid> discardList = new List<Guid>();
+                foreach(GameObject card in bottomCards){ 
+                    discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
+                }
+                clearDiscard();
+                endTurnButton.SetActive(true);
+                helperWindow.SetActive(false);
+                caravanMode = false;
                 Elfenroads.Control.endTurn(discardList);
+                goldAccrued = 0;
                 return;
             }
         }
 
         //Called by the "cancel" button. Simply closes the discard card window, clearing the arrays and GridLayoutGroups.
-        public void cancelEndTurn(){
+        public void cancelWindow(){
             clearDiscard();
             endTurnButton.SetActive(true);
-            discardWindow.SetActive(false);
+            helperWindow.SetActive(false);
+            caravanMode = false;
             Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
             Elfenroads.Control.UnlockDraggables?.Invoke(null, EventArgs.Empty);
         }
 
+
         private void clearDiscard(){
-            playerCards.Clear();
-            cardsToDiscard.Clear();
+            topCards.Clear();
+            bottomCards.Clear();
 
-            foreach(Transform child in potentialDiscardLayoutGroup){
+            foreach(Transform child in topLayoutGroup){
                 child.SetParent(null);
                 DestroyImmediate(child.gameObject);
             }
-            potentialDiscardLayoutGroup.DetachChildren();
+            topLayoutGroup.DetachChildren();
 
-            foreach(Transform child in toDiscardLayoutGroup){
+            foreach(Transform child in bottomLayoutGroup){
                 child.SetParent(null);
                 DestroyImmediate(child.gameObject);
             }
-            toDiscardLayoutGroup.DetachChildren();
+            bottomLayoutGroup.DetachChildren();
             
             return;
+        }
+
+        public void cancelElfenGold(){
+            endTurnButton.SetActive(true);
+            EGHelperWindow.SetActive(false);
+            Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
+            Elfenroads.Control.UnlockDraggables?.Invoke(null, EventArgs.Empty);
+        }
+
+        public void EGendAndTakeCards(){
+            Elfenroads.Control.endAndDrawCards();
+            cancelElfenGold();
+            goldAccrued = 0;
+        }
+
+        public void EGendAndTakeGold(){
+            Elfenroads.Control.endAndTakeGold(goldAccrued);
+            cancelElfenGold();
+            goldAccrued = 0;
+        }
+
+        public void toggleWitch(){
+            if(witchInUse){
+                witchInUse = false;
+                return;
+            }
+
+            bool ownsIt = false;
+            foreach(Card c in Elfenroads.Control.getThisPlayer().inventory.cards){
+                if(c is WitchCard){
+                    ownsIt = true;
+                    currentWitch = c.id;
+                }
+            }
+            if(! ownsIt){
+                invalidMessage("No witch owned!");
+                return;
+            }else{
+                if(Elfenroads.Control.getThisPlayer().inventory.gold < 1){
+                    invalidMessage("No gold!");
+                    return;
+                }
+                witchInUse = true;
+            }
+        }   
+
+        public void attemptMagicFlight(Town targetTown){
+            if(!witchInUse){
+                invalidMessage("You must use a witch for a magic flight!");
+                return;
+            }
+            if(Elfenroads.Control.getThisPlayer().inventory.gold < 3){
+                invalidMessage("You need 3 gold for a magic flight!");
+                return;
+            }
+            foreach(Boot b in targetTown.boots){
+                if(b.color == Elfenroads.Control.getThisPlayer().boot.color){
+                    invalidMessage("You are already in this town!");
+                    return;
+                }
+            }
+            //If we made it here, the magic flight is allowed.
+            Elfenroads.Control.magicFlight(currentWitch, targetTown.id);
+            witchInUse = false;
+            currentWitch = Guid.Empty;
+
         }
 
         public void validateMoveBoot(string cardType, Road road){
@@ -384,18 +544,31 @@ namespace Controls
                     invalidMessage("Not enough cards!");
                     return;
                 }
+                if(witchInUse){
+                    cardsToPass.Add(currentWitch);
+                }
 
                 //All good! We can send the command to the Server.
                 if(road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
                     Guid town = road.end.id;
                     Debug.Log("Moving to town " + road.end.name + " which has ID: " + road.end.id);
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        goldAccrued += road.end.goldValue;
+                    }
                     Elfenroads.Control.moveBoot(town, cardsToPass);
+                    witchInUse = false;
+                    currentWitch = Guid.Empty;
+                    
                 }else{
                     Guid town = road.start.id;
                     Debug.Log("Moving to town " + road.start.name + " which has ID: " + road.start.id);
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        goldAccrued += road.start.goldValue;
+                    }
                     Elfenroads.Control.moveBoot(town, cardsToPass);
+                    witchInUse = false;
+                    currentWitch = Guid.Empty;
                 }
-
             }else{
                 Debug.Log("Double-check draggable names!");
             }
@@ -406,11 +579,14 @@ namespace Controls
 
             //First, figure out if there is an obstacle on the road. If so, cost is set to 1.
             int cost = 0;
-            foreach(Counter c in road.counters){
+            if(!witchInUse){
+                foreach(Counter c in road.counters){
                 if(c is ObstacleCounter){
                     cost = 1;
+                    }
                 }
             }
+            
             if((! compatibleWithCounter) && (road.roadType != TerrainType.Lake && road.roadType != TerrainType.Stream)){
                 //If the counter is not compatible, the player must be trying to use a caravan.
                 cost = cost + 3;
@@ -468,7 +644,7 @@ namespace Controls
                 }
                 case TerrainType.Stream:{
                     if( cardType is TransportType.Raft) {
-                        //A little more involved here. Need to check where the player is. If he's on the start town, only costs 1. Otherwise costs 2. ***
+                        //A little more involved here. Need to check where the player is. If he's on the start town, only costs 1. Otherwise costs 2.
                         if(road.start.boots.Contains(Elfenroads.Control.getThisPlayer().boot)){
                             cost++;
                             return cost;
@@ -497,5 +673,19 @@ namespace Controls
             messageBox.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = message;
             Destroy(messageBox, 1.9f);
         }
+
+        Color32 normalColor = new Color32(255, 255, 255, 255);
+        Color32 spellColor = new Color32(166, 64, 229, 255);
+        UnityEngine.Color lerpedColorWitch = new Color32(255, 255, 255, 255);
+
+        void Update(){
+            if(witchInUse){
+                lerpedColorWitch = UnityEngine.Color.Lerp(normalColor, spellColor, Mathf.PingPong(Time.time, 1));
+                witchButton.GetComponent<Image>().color = lerpedColorWitch;
+            }else{
+                witchButton.GetComponent<Image>().color = normalColor;
+            }
+        }
+
     }
 }

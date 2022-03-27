@@ -21,6 +21,8 @@ public class ThisPlayerInventoryView : MonoBehaviour
     public TMPro.TMP_Text numPigCounters;
     public TMPro.TMP_Text numTrollCounters;
     public TMPro.TMP_Text numUnicornCounters;
+    public TMPro.TMP_Text numSeaObstacles;
+    public TMPro.TMP_Text numGoldCounters;
 
     [Header("Card TMPs")]
     public TMPro.TMP_Text numCloudCards;
@@ -39,6 +41,12 @@ public class ThisPlayerInventoryView : MonoBehaviour
          playerModel = inputPlayer;
          setWindowTint(inputPlayer.boot.color);
          playerModel.Updated += onModelUpdated;
+         if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+             playerCounters.GetComponent<GridLayoutGroup>().spacing = new Vector2(85f, 10f);
+             foreach(Transform child in playerCounters.transform){
+                child.gameObject.GetComponent<DragScript>().resetStartingPositions();
+             }
+         }
          onModelUpdated(null, null);
      }
 
@@ -60,10 +68,28 @@ public class ThisPlayerInventoryView : MonoBehaviour
 
         //Finally, we'll set the "Stats":
         playerStats.transform.GetChild(0).gameObject.GetComponent<TMPro.TMP_Text>().text = playerModel.name;
-        if(playerModel.id == Elfenroads.Model.game.startingPlayer.id){
-            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nStartingPlayer: Y";
+        updateTexts();
+    }
+
+    public void updateTexts(){
+        Player curPlayer = Elfenroads.Model.getCurrentPlayer();
+        if(curPlayer == null){
+            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count;
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text += " G: " + playerModel.inventory.gold;
+            }
+        }else if(curPlayer.id == playerModel.id){
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + " G: " + playerModel.inventory.gold  + "\nCurrentPlayer: Y";
+            }else{
+                playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: Y";
+            }
         }else{
-            playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nStartingPlayer: N";
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + " G: " + playerModel.inventory.gold  + "\nCurrentPlayer: N";
+            }else{
+                playerStats.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: N";
+            }
         } 
     }
 
@@ -77,6 +103,8 @@ public class ThisPlayerInventoryView : MonoBehaviour
         int unicornCounters = 0;
         int pigCounters = 0;
         int landObstacles = 0;
+        int seaObstacles = 0;
+        int goldCounters = 0;
 
         //Then, assign appropriate counters as in RoadView.
          foreach(Counter c in playerModel.inventory.counters){
@@ -118,20 +146,24 @@ public class ThisPlayerInventoryView : MonoBehaviour
                     }
                     break;
                 }
-                case MagicSpellCounter msc:
-                {
-                    Debug.Log("Elfengold - Do later");
-                    break;
-                }
+                // case MagicSpellCounter msc: //Won't be shown in the bar below the player.
+                // {
+                //     Debug.Log("Elfengold - Do later");
+                //     break;
+                // }
                 case GoldCounter gc:
                 {
-                    Debug.Log("Elfengold - Do later");
+                    goldCounters++;
                     break;
                 }
                 case ObstacleCounter obc:
                 {
                     //*** Add sea obstacle later, during elfengold.
-                    landObstacles++;
+                    if(obc.obstacleType is ObstacleType.Land){
+                        landObstacles++;
+                    }else{
+                        seaObstacles++;
+                    }
                     break;
                 }
                 default: Debug.Log("Counter is of undefined type!") ; break;
@@ -145,6 +177,8 @@ public class ThisPlayerInventoryView : MonoBehaviour
         setAmount(numPigCounters, pigCounters);
         setAmount(numTrollCounters, trollCounters);
         setAmount(numUnicornCounters, unicornCounters);
+        setAmount(numSeaObstacles, seaObstacles);
+        setAmount(numGoldCounters, goldCounters);
     }
 
     //Does the same as setCounters, but for the cards.

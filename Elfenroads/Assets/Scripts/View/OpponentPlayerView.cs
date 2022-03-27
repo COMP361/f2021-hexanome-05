@@ -26,10 +26,29 @@ public class OpponentPlayerView : MonoBehaviour
 
     void onModelUpdated(object sender, EventArgs e) {
         playerName.text = playerModel.name;
-        if(playerModel.id == Elfenroads.Model.game.startingPlayer.id){
-            stats.text = "P: " + playerModel.inventory.townPieces.Count + "\nStartPlayer: Y";
+        Player curPlayer = Elfenroads.Model.getCurrentPlayer();
+        updateTexts();
+    }
+
+    public void updateTexts(){
+        Player curPlayer = Elfenroads.Model.getCurrentPlayer();
+        if(curPlayer == null){
+            stats.text = "P: " + playerModel.inventory.townPieces.Count;
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                stats.text += " G: " + playerModel.inventory.gold;
+            }
+        }else if(curPlayer.id == playerModel.id){
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                stats.text = "P: " + playerModel.inventory.townPieces.Count + " G: " + playerModel.inventory.gold  + "\nCurrentPlayer: Y";
+            }else{
+                stats.text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: Y";
+            }
         }else{
-            stats.text = "P: " + playerModel.inventory.townPieces.Count + "\nStartPlayer: N";
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                stats.text = "P: " + playerModel.inventory.townPieces.Count + " G: " + playerModel.inventory.gold  + "\nCurrentPlayer: N";
+            }else{
+                stats.text = "P: " + playerModel.inventory.townPieces.Count + "\nCurrentPlayer: N";
+            }
         } 
     }
 

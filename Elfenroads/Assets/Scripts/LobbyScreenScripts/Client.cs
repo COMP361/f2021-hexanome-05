@@ -19,6 +19,10 @@ public class Client : ClientInterface
         return instance;
     }
 
+    public static void ResetInstance() {
+        instance = null;
+    }
+
     private LobbyService lobbyService;
     //private string serverPath = "http://beta.sandbox.icu:1337/"; // Did this get changed? ***
     //private bool isAdmin = false;

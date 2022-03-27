@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Models;
+using Controls;
 
 
 public class TownView : MonoBehaviour {
@@ -28,6 +29,13 @@ public class TownView : MonoBehaviour {
     public GameObject purpleBootPrefab;
     public GameObject blackTownPiecePrefab;
     public GameObject blackBootPrefab;
+
+    public Sprite goldValueTwo;
+    public Sprite goldValueThree;
+    public Sprite goldValueFour;
+    public Sprite goldValueFive;
+    public Sprite goldValueSix;
+    public Sprite goldValueSeven;
 
     // Start is called before the first frame update
     void Start()
@@ -57,13 +65,46 @@ public class TownView : MonoBehaviour {
         //     if(colCount == 0) rowCount++;
         // }
         boots = new Slots(6, 3, gameObject.transform.position + new Vector3(-0.3f, 0.5f, 0f), 0.35f, 0.6f);
-
-
     }
 
     public void setAndSubscribeToModel(Town t){
             modelTown = t;
             modelTown.Updated += onModelUpdated;
+
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                switch(modelTown.goldValue){
+                    case (2):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueTwo;
+                        break;
+                    }
+                    case (3):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueThree;
+                        break;
+                    }
+                    case (4):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueFour;
+                        break;
+                    }
+                    case (5):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueFive;
+                        break;
+                    }
+                    case (6):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueSix;
+                        break;
+                    }
+                    case (7):{
+                        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite = goldValueSeven;
+                        break;
+                    }
+                    default:{
+                        Debug.Log("This must be elfenhold!");
+                        transform.GetChild(0).gameObject.SetActive(false);
+                        break;
+                    } 
+                }
+            }
+
             this.onModelUpdated(null, null); //When subscribing initially, want the view to take effect. 
             
     }
@@ -171,65 +212,16 @@ public class TownView : MonoBehaviour {
         }
     }
 
-    //Need to make prefabs for each color of boot and townpiece, and use the color enum to figure out which color to add/remove (parameters change from GameObject obj -> Color color)
+    //Towns can be clicked on the MoveBoot phase during Elfengold, when a witch card is used.
+    public void OnClick(){
+        Debug.Log("Town clicked!");
+        if(Elfenroads.Model.game == null){
+            return;
+        }
 
-    // public void addTownPieceToSlot(Models.Color color){
-    //     foreach(Slot s in townPieceSlots){
-    //         if(s.obj == null){
-    //             GameObject newPiece = Instantiate(townPiecePrefab, new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f), Quaternion.identity);
-    //             s.obj = newPiece;
-    //             return;
-    //         }
-    //     }
-    //     Debug.Log("No slot found!");
-    // }
+        if(Elfenroads.Model.game.currentPhase is MoveBoot && Elfenroads.Model.game.variant.HasFlag(Game.Variant.ElfenWitch)){
+            GameObject.Find("MoveBootController").GetComponent<MoveBootController>().attemptMagicFlight(modelTown);
+        }
 
-    // public void removeTownPieceFromSlot(GameObject obj){ 
-    //     foreach(Slot s in townPieceSlots){
-    //         if(s.obj == obj){
-    //             s.obj = null;
-    //             return;
-    //         }else{
-    //             Debug.Log("Nothing to remove!");
-    //         }
-    //     }
-    // }
-
-    // public void addBootToSlot(Models.Color color){
-
-    //     foreach(Slot s in bootSlots){
-    //         if(s.obj == null){
-    //             GameObject newBoot = Instantiate(bootPrefab, new Vector3(s.xCoord, s.yCoord, gameObject.transform.position.z + 0.5f), Quaternion.identity);
-    //             s.obj = newBoot;
-    //             return;
-    //         }
-    //     }
-    //     Debug.Log("No slot found!");
-    // }
-
-    // public void removeBootFromSlot(GameObject obj){ 
-    //     foreach(Slot s in bootSlots){
-    //         if(s.obj == obj){
-    //             s.obj = null;
-    //             return;
-    //         }else{
-    //             Debug.Log("Nothing to remove!");
-    //         }
-    //     }
-    // }
-
-    // public void removeAllFromSlots(){
-    //     foreach (Slot s in bootSlots){
-    //         if(s.obj != null){
-    //             Destroy(s.obj);
-    //             s.obj = null;
-    //         }
-    //     }
-    //     foreach (Slot s in townPieceSlots){
-    //         if(s.obj != null){
-    //             Destroy(s.obj);
-    //             s.obj = null;
-    //         }
-    //     }
-    // }
+    }
 }

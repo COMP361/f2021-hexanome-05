@@ -15,7 +15,7 @@ public class GuidViewHelper : MonoBehaviour,  IPointerClickHandler
     }
 
     public void setContainer(GuidHelperContainer c){
-        Debug.Log("Container set!");
+        //Debug.Log("Container set!");
         controller = c;
     }
 

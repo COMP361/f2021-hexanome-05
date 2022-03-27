@@ -17,6 +17,7 @@ public class FinishRoundController : MonoBehaviour, GuidHelperContainer
     public GameObject invalidMovePrefab;
     public RectTransform potentialDiscardLayoutGroup;
     public RectTransform countersToDiscardLayoutGroup;
+    public TMPro.TMP_Text topPrompt;
 
     public GameObject dragonCounterPrefab;
     public GameObject trollCounterPrefab;
@@ -24,13 +25,35 @@ public class FinishRoundController : MonoBehaviour, GuidHelperContainer
     public GameObject cycleCounterPrefab;
     public GameObject unicornCounterPrefab;
     public GameObject pigCounterPrefab;
+    public GameObject landCounterPrefab;
+    public GameObject seaCounterPrefab;
+    public GameObject doubleCounterPrefab;
+    public GameObject exchangeCounterPrefab;
+    public GameObject goldCounterPrefab;
 
     private List<GameObject> countersToKeep;
     private List<GameObject> countersToDiscard;
 
     public void initialSetup(Player thisPlayer){
-        //If this player has <= 1 counters, show the "waiting window". Otherwise, show the "mainWindow" and allow them to discard counters.
-        if(thisPlayer.inventory.counters.Count <= 1){
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+            topPrompt.text = "Choose counters to discard until only two are left:";
+        }
+
+        //If this player has <= 1 counters, show the "waiting window". Otherwise, show the "mainWindow" and allow them to discard counters. In elfengold, player must have <= 2 counters.
+        int countNotIncludeObstacle = 0;
+        int countIncludeObstacle = 0;
+        foreach(Counter c in thisPlayer.inventory.counters){
+            countIncludeObstacle++;
+            switch(c){
+                case TransportationCounter tc:{
+                    countNotIncludeObstacle++;
+                    break;
+                }
+                default: break;
+            }
+        }
+
+        if( (Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold) && countIncludeObstacle <= 2) || (Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfenland) && countNotIncludeObstacle <= 1) ){ //Potential bug with flags here? ***
             mainWindow.SetActive(false);
             toggleMapButton.SetActive(false);
             waitingWindow.SetActive(true);
@@ -79,16 +102,27 @@ public class FinishRoundController : MonoBehaviour, GuidHelperContainer
                     }
                     case MagicSpellCounter msc:
                     {
-                        Debug.Log("Not implemented!");
+                        if(msc.spellType == SpellType.Exchange){
+                            createAndAddToLayout(exchangeCounterPrefab,c);
+                        }else if(msc.spellType == SpellType.Double){
+                            createAndAddToLayout(doubleCounterPrefab,c);
+                        }
                         break;
                     }
                     case GoldCounter gc:
                     {
-                        Debug.Log("Not implemented!");
+                        createAndAddToLayout(goldCounterPrefab,c);
                         break;
                     }
                     case ObstacleCounter oc:{
-                        Debug.Log("Not implemented!");
+                        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                            if(oc.obstacleType == ObstacleType.Land){
+                                createAndAddToLayout(landCounterPrefab,c);
+                            }else if(oc.obstacleType == ObstacleType.Sea){
+                                createAndAddToLayout(seaCounterPrefab,c);
+                            }
+                            break;
+                        }
                         break;
                     }
                     default: Debug.Log("Counter is of undefined type!") ; break;
@@ -103,15 +137,40 @@ public class FinishRoundController : MonoBehaviour, GuidHelperContainer
     }
 
     public void validateConfimSelection(){
-        if(countersToKeep.Count != 1){
-            invalidMessage("You must keep exactly one counter!");
-            return;
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){ //***Bug here maybe, involving flags? -> Seemed like it when Elfengold was checked first.
+            if(countersToKeep.Count != 2){
+                invalidMessage("You must keep exactly two counters!");
+                return;
+            }else{
+                //In this case, the move is valid. Inform the Server, clear the lists and layouts disable the window, and enable the "waiting" window. 
+                mainWindow.SetActive(false);
+                waitingWindow.SetActive(true);
+                
+                List<Guid> results = new List<Guid>();
+                foreach(GameObject counter in countersToDiscard){
+                    results.Add(counter.GetComponent<GuidViewHelper>().getGuid());
+                }
+                Elfenroads.Control.finishRound(results);
+                clearDiscard();
+            }
+        }else if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfenland)){
+            if(countersToKeep.Count != 1){
+                invalidMessage("You must keep exactly one counter!");
+                return;
+            }else{
+                //In this case, the move is valid. Inform the Server, clear the lists and layouts disable the window, and enable the "waiting" window. 
+                mainWindow.SetActive(false);
+                waitingWindow.SetActive(true);
+                
+                List<Guid> results = new List<Guid>();
+                foreach(GameObject counter in countersToDiscard){
+                    results.Add(counter.GetComponent<GuidViewHelper>().getGuid());
+                }
+                Elfenroads.Control.finishRound(results);
+                clearDiscard();
+            }
         }else{
-            //In this case, the move is valid. Inform the Server, clear the lists and layouts disable the window, and enable the "waiting" window. 
-            clearDiscard();
-            mainWindow.SetActive(false);
-            waitingWindow.SetActive(true);
-            Elfenroads.Control.finishRound(countersToKeep[0].GetComponent<GuidViewHelper>().getGuid());
+            invalidMessage("ERROR: BAD VARIANT - RESTART GAME");
         }
     }
 

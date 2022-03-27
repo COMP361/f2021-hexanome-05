@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Firesplash.UnityAssets.SocketIO;
 using Models;
-using UnityEngine.UI;
-using Views;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine.SceneManagement;
+
 
 
 
@@ -23,11 +23,16 @@ namespace Controls {
         public GameObject PlanTravelCanvas;
         public GameObject MoveBootCanvas;
         public GameObject FinishRoundCanvas;
+        public GameObject EndOfGameCanvas;
+        public GameObject DrawCardsCanvas;
+        public DrawCountersController drawCountersController;
+        public DrawCardsController drawCardsController;
         public PlanTravelController planTravelController;
         public MoveBootController moveBootController;
         public FinishRoundController finishRoundController;
         public PlayerInfoController playerInfoController;
         public InfoWindowController infoWindowController;
+        public GameOverController gameOverController;
 
         public GameObject PlayerCounters;
         public GameObject PlayerCards;
@@ -44,7 +49,7 @@ namespace Controls {
         public EventHandler LockDraggables;
         public EventHandler UnlockDraggables;
         private Player thisPlayer;
-        private Player currentPlayer;
+        public Player currentPlayer;
 
         private void cameraLock(object sender, EventArgs e){
             cameraLocked = true;
@@ -86,18 +91,21 @@ namespace Controls {
         Debug.Log("Session info player name: " + playerName + ", Host player name: " + sessionInfo.getClient().getSessionByID(obj.GetComponent<SessionInfo>().getSessionID()).hostPlayerName);
         if(playerName == sessionInfo.getClient().getSessionByID(sessionInfo.getSessionID()).hostPlayerName){
             Debug.Log("In the if statement");
-            // socket.Instance.Emit("InitializeGame", sessionInfo.getSessionID(), true); // Only the host should be doing this! ***
+            // socket.Instance.Emit("InitializeGame", sessionInfo.getSessionID(), true); // Only the host should be doing this! 
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getClient().thisSessionID);
+            Debug.Log(sessionInfo.getVariant());
             json.Add("variant", JsonConvert.SerializeObject(sessionInfo.getVariant()));
             Debug.Log(json.ToString());
             socket.Instance.Emit("ChooseVariant", json.ToString(), false); // Variant choices
         }
 
-        //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function. *** SHOULD MAYBE BE MOVED OUTSIDE OF THIS START() FUNCTION? ***
+        //Once that's done, all Players will need to choose their boots. So, call the "ChooseBootController"'s start choosing function.
         ChooseBootController.GetComponent<ChooseBootController>().beginChooseColors(sessionInfo, socket);
         Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty); //**May need verification.
-        //Once the Server recieves all colors, it can send the initial game state to the Clients and the game begins. *** REMEMBER TO UN-LOCK THE CAMERA + CLICKING!
+        //Once the Server recieves all colors, it can send the initial game state to the Clients and the game begins. 
+
+        socket.Instance.On("Quit", quit);
         }
 
         public void beginListening(){
@@ -111,20 +119,24 @@ namespace Controls {
             Elfenroads.Model.updatedGame(newGame);
         }
 
-        //Called after an update has been integrated to the Model. Reads the current phase, and presents the appropriate canvas to the Player. (***Depending on the phase, should lock/unlock the camera as well***)
+        //Called after an update has been integrated to the Model. Reads the current phase, and presents the appropriate canvas to the Player. (Depending on the phase, should lock/unlock the camera as well)
         public void prepareScreen(){
             disableCanvases();
             playerInfoController.closeWindow();
             infoWindowController.CloseHelpWindow();
+            playerInfoController.updateViews();
 
             switch(Elfenroads.Model.game.currentPhase){
                 case DrawCounters dc:{
                     DrawCounterCanvas.SetActive(true);
+                    PlayerCounters.SetActive(true);
+                    PlayerCards.SetActive(false);
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dc.currentPlayer;
                     if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
                         DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
                     }
+                    drawCountersController.updateFaceUpCounters(dc);
                     TMPro.TMP_Text prompt = GameObject.Find("DrawCountersPrompt").GetComponent<TMPro.TMP_Text>(); 
                     if(currentPlayer.id == thisPlayer.id){
                         prompt.text = "Your turn! Draw a counter!";
@@ -148,6 +160,10 @@ namespace Controls {
                         planTravelController.playerTurnMessage("It is " + currentPlayer.name + "'s  turn!" );
                     }
                     infoWindowController.UpdatePlanTravelRoutesHelp();
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        PlanTravelCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                        PlanTravelCanvas.transform.GetChild(1).gameObject.SetActive(true);
+                    }
                     break;
                 }
                 case MoveBoot mb:{
@@ -167,6 +183,13 @@ namespace Controls {
                         }
                     }
                     infoWindowController.UpdateMoveBootHelp();
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        MoveBootCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                    }
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.ElfenWitch)){
+                        MoveBootCanvas.transform.GetChild(1).gameObject.SetActive(true);
+                    }
+                    moveBootController.updateEGStuff();
                     break;
                 }
                 case FinishRound fr:{ //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
@@ -181,6 +204,32 @@ namespace Controls {
                     infoWindowController.UpdateFinishRoundHelp();
                     break;
                 }
+                case GameOver go:{
+                    EndOfGameCanvas.SetActive(true);
+                    gameOverController.updateTexts();
+                    break;
+                }
+                case DrawCards dCa:{
+                    DrawCardsCanvas.SetActive(true);
+                    LockCamera?.Invoke(null, EventArgs.Empty);
+                    LockDraggables?.Invoke(null, EventArgs.Empty);
+                    currentPlayer = dCa.currentPlayer;
+                    if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
+                        DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                    }
+                    drawCardsController.updateFaceUpCards();
+                    break;
+                }
+                /*
+                case SelectCounters sc{
+                    
+                    break;
+                }
+                case Auction a{
+                    
+                    break;
+                }
+                */
                 default:{
                     Debug.Log("Phase not implemented!");
                     break;
@@ -191,6 +240,9 @@ namespace Controls {
         private void disableCanvases(){
             DrawCounterCanvas.SetActive(false);
             PlanTravelCanvas.SetActive(false);
+            MoveBootCanvas.SetActive(false);
+            FinishRoundCanvas.SetActive(false);
+            EndOfGameCanvas.SetActive(false);
         }
 
 
@@ -214,6 +266,54 @@ namespace Controls {
             socket.Instance.Emit("DrawRandomCounter", json.ToString(), false);
         }
 
+        public void drawCard(GameObject clickedCard){
+            Debug.Log("Clicked card emit!");
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("card_id", clickedCard.GetComponent<GuidViewHelper>().getGuid());
+            socket.Instance.Emit("PickCard", json.ToString(), false);
+        }
+
+        public void takeGoldCards(){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            socket.Instance.Emit("TakeGoldCards", json.ToString(), false);
+        }
+
+        public void drawRandomCard(){
+            JObject json = new JObject();
+            Debug.Log("Game ID: " + sessionInfo.getSessionID());
+            Debug.Log("Player ID: " + Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            socket.Instance.Emit("DrawRandomCard", json.ToString(), false);
+        }
+
+        public void SelectCounter(Guid counterToKeepSecret){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("counter_id", counterToKeepSecret);
+            socket.Instance.Emit("SelectCounter", json.ToString(), false);
+        }
+
+        public void placeBid(int amountToBid){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("bid_amount", amountToBid);
+            socket.Instance.Emit("PlaceBid", json.ToString(), false);
+        }
+
+        public void passAuction(){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            socket.Instance.Emit("PassAuction", json.ToString(), false);
+        }
+
         public void placeCounter(Guid counterGuid, Guid roadGuid){
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
@@ -221,6 +321,27 @@ namespace Controls {
             json.Add("road_id", roadGuid);
             json.Add("counter_id", counterGuid);
             socket.Instance.Emit("PlaceCounter", json.ToString(), false);
+        }
+
+        public void playDoubleCounter(Guid spellGuid, Guid counterGuid, Guid roadGuid){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("road_id", roadGuid);
+            json.Add("counter_id", counterGuid);
+            json.Add("spell_id", spellGuid);
+            socket.Instance.Emit("PlayDouble", json.ToString(), false); 
+        }
+
+        public void playExchangeCounter(Guid road1, Guid counter1, Guid road2, Guid counter2){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("roadOne_id", road1);
+            json.Add("counterOne_id", counter1);
+            json.Add("roadTwo_id", road2);
+            json.Add("counterTwo_id", counter2);
+            socket.Instance.Emit("PlayExchange", json.ToString(), false); 
         }
 
         public void passTurn(){
@@ -255,12 +376,58 @@ namespace Controls {
             socket.Instance.Emit("DiscardTravelCards", json.ToString(), false);
         }
 
-        public void finishRound(Guid counterToKeep){
+        public void magicFlight(Guid witchGuid, Guid townGuid){
             JObject json = new JObject();
             json.Add("game_id", sessionInfo.getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
-            json.Add("counter_id", counterToKeep);
-            socket.Instance.Emit("CounterDiscarded", json.ToString(), false); //***
+            json.Add("town_id", townGuid);
+            json.Add("witch_id", witchGuid); 
+            socket.Instance.Emit("MagicFlight", json.ToString(), false);
+        }
+
+        public void endAndTakeGold(int amount){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("gold", amount);
+            socket.Instance.Emit("endAndTakeGold", json.ToString(), false);
+        }
+
+        public void endAndDrawCards(){
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            socket.Instance.Emit("endAndDrawCards", json.ToString(), false);
+        }
+
+        public void finishRound(List<Guid> countersToDiscard){
+            String[] stringArray = new String[countersToDiscard.Count];
+            for(int i = 0 ; i < countersToDiscard.Count ; i++){
+                stringArray[i] = countersToDiscard[i].ToString();
+            }
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("counter_ids", JsonConvert.SerializeObject(stringArray));
+            Debug.Log("Emitting counter with id " + countersToDiscard + " to server!");
+            socket.Instance.Emit("CounterDiscarded", json.ToString(), false); 
+        }
+
+        public void requestQuit() {
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            socket.Instance.Emit("Quit", json.ToString(), false);
+        }
+
+        public void quit(string input) {
+            Elfenroads.ResetInstances();
+            Client.ResetInstance();
+            ModelStore.ResetInstance();
+            socket.Instance.Close();
+            Destroy(GameObject.Find("SessionInfo"));
+            Destroy(GameObject.Find("Listener"));
+		    SceneManager.LoadScene("MenuScene", LoadSceneMode.Single);
         }
 
         public void setThisPlayer(Player input){

@@ -41,6 +41,10 @@ public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         Elfenroads.Control.UnlockDraggables += unlockDrag;
     }
 
+    public void resetStartingPositions(){
+        StartCoroutine("getPositions");
+    }
+
 
     public void OnBeginDrag(PointerEventData data){
         if(!locked){

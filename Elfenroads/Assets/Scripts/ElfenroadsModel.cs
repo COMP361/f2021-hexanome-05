@@ -47,14 +47,11 @@ namespace Models {
                 if(p.name == GameObject.Find("SessionInfo").GetComponent<SessionInfo>().getClient().clientCredentials.username){
                     mainPlayerObject.GetComponent<ThisPlayerInventoryView>().setAndSubscribeToModel(p); 
                     Elfenroads.Control.setThisPlayer(p);
+                    playerInfoController.setThisPlayer(mainPlayerObject);
                 }
             }
             
             playerInfoController.createOpponentPrefabs(game.players);
-                        
-            //Finally, the faceUpCounters object (later on, add a check here - we'll have to add a "drawCards" view instead if we're playing Elfengold) ***
-            faceUpCounters.GetComponent<FaceUpCountersView>().setAndSubscribeToModel((DrawCounters) game.currentPhase);
-            
 
             //Next, we need to store all GuidModels into the store. That is, Townpieces, Towns, Roads, Players, Boots, Counters and Cards (I think that's it but feel free to double-check).
             foreach(Town t in game.board.towns){
@@ -80,9 +77,18 @@ namespace Models {
                 ModelStore.Add(c);
             }
 
-            //Again, later on we'll need some kind of check here if we're in an ElfenGold game. ***
-            foreach(Counter c in ((DrawCounters) game.currentPhase).faceUpCounters){
+            //Add items to store depending on whether or not we're in ElfenGold or ElfenLand.
+            if(game.variant.HasFlag(Game.Variant.Elfengold)){
+                foreach(Card c in game.faceUpCards){
+                    ModelStore.Add(c);
+                }
+                foreach(GoldCard gc in game.goldCardDeck){
+                    ModelStore.Add(gc);
+                }
+            }else{
+                foreach(Counter c in game.faceUpCounters){
                 ModelStore.Add(c);
+                }
             }
 
             //Now that the Model is fully integrated, we can tell the main Game controller to prepare the screen accordingly, and begin listening for GameState updates.
@@ -101,9 +107,27 @@ namespace Models {
             ModelReady?.Invoke(game, EventArgs.Empty); // Calls all of the Game's views
         }
 
-        // public Player getCurrentPlayer() {
-        
-        // }
+        public Player getCurrentPlayer() {
+
+            switch(game.currentPhase){
+                case DrawCounters dc:
+                    return dc.currentPlayer;
+                case PlanTravelRoutes pt:
+                    return pt.currentPlayer;
+                case MoveBoot mb:
+                    return  mb.currentPlayer;
+                case FinishRound fr: //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
+                    return null;
+                case GameOver go:
+                    return null;
+                case DrawCards dCa:
+                    return dCa.currentPlayer;
+                default:
+                    Debug.Log("Phase not implemented!");
+                    break;
+            }
+            return null;
+        }
 
     }
 

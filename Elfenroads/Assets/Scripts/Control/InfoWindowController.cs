@@ -22,8 +22,7 @@ public class InfoWindowController : MonoBehaviour
 	void Start()
 	{
         helpWindow.SetActive(false);
-
-        PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber + " - Choose Your Boot";
+        PhaseName.text = "Choose Your Boot";
         PhaseExplanation.text = "Please click on any of the select buttons to choose your boot." + "\n" +
         "A grey button indicates that another player has already chosen this boot.";
 	}
@@ -39,73 +38,64 @@ public class InfoWindowController : MonoBehaviour
 
     public void UpdatePlanTravelRoutesHelp(){
         PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber + " - Plan Travel Routes";
-        PhaseExplanation.text = "The goal of this phase is to place counters, enabling you to use cards on them in the next phase." + "\n" + 
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+            PhaseExplanation.text = "The goal of this phase is to place counters, enabling you to use cards on them in the next phase." + "\n" + 
+                                "- You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" + 
+                                "- To place a counter/obstacle on the road, drag the item from your inventory to the road." + "\n" +
+                                "- To use a Double spell, click the icon. Once enabled, it will allow you to drag counters onto already-occupied roads. Click the icon again to cancel." + "\n" +
+                                "- To use an Exchange spell, click the icon, then click the two counters you would like to swap. Click the icon again to cancel." + "\n" +
+                                "- If you do not have anymore counters to place, click pass.";
+        }else{
+            PhaseExplanation.text = "The goal of this phase is to place counters, enabling you to use cards on them in the next phase." + "\n" + 
                                 "- You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" + 
                                 "- To place a counter/obstacle on the road, drag the item from your inventory to the road." + "\n" +
                                 "- If you do not have anymore counters to place, click pass.";
+        }
     }
 
     
     public void UpdateMoveBootHelp(){
         PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber + " - Move Your ElfenBoot";
-        PhaseExplanation.text = "The goal of this phase is to play cards on roads with counters to visit Towns and earn points!" + "\n" +
-                                "You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" +
-                                "To move your boot, drag the card type you want to use on the target road, lake or stream." + "\n" +
-                                "You can take many moves until you are satisfied, at which point you can click 'EndTurn'." + "\n" +
-                                "However, if you have more than 4 cards when you try to end, you must discard any extras.";
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.ElfenWitch)){
+            PhaseExplanation.text = "The goal of this phase is to play cards on roads with counters to visit Towns and earn points!" + "\n" +
+                                    "- You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" +
+                                    "- To move your boot, drag the card type you want to use on the target road, lake or stream. You will accumulate gold according to a town's gold value for each move." + "\n" +
+                                    "- Alternatively, you can click a road to play a 'Caravan', where you play 3 or 4 of any card." + "\n" +
+                                    "- You can move until you are satisfied, at which point you can click 'EndTurn'." + "\n" +
+                                    "- Once ending, you can cash in your accumulated gold, or draw two TravelCards from the supply.";
+        }else if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+            PhaseExplanation.text = "The goal of this phase is to play cards on roads with counters to visit Towns and earn points!" + "\n" +
+                                    "- You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" +
+                                    "- To move your boot, drag the card type you want to use on the target road, lake or stream. You will accumulate gold according to a town's gold value for each move." + "\n" +
+                                    "- Alternatively, you can click a road to play a 'Caravan', where you play 3 or 4 of any card." + "\n" +
+                                    "- You can move until you are satisfied, at which point you can click 'EndTurn'." + "\n" +
+                                    "- Once ending, you can cash in your accumulated gold, or draw two TravelCards from the supply." + "\n" +
+                                    "- You can click the 'Witch' Button to activate her. While under its effect, you can click on a Town for a magic flight, or drag cards as usual, avoiding obstacle costs. Click the button again to cancel.";
+        }else{
+            PhaseExplanation.text = "The goal of this phase is to play cards on roads with counters to visit Towns and earn points!" + "\n" +
+                                    "- You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" +
+                                    "- To move your boot, drag the card type you want to use on the target road, lake or stream." + "\n" +
+                                    "- Alternatively, you can click a road to play a 'Caravan', where you play 3 or 4 of any card." + "\n" +
+                                    "- You can move until you are satisfied, at which point you can click 'EndTurn'." + "\n" +
+                                    "- However, if you have more than 4 cards when you try to end, you must discard any extras.";
+        }
     }
 
     
     public void UpdateFinishRoundHelp(){
         PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber + " - Finish The Round";
-        PhaseExplanation.text = "I will be adding help text here once we implemented this phase";
-    }
-
-
-    /*
-
-    void Update(){
-        if (Elfenroads.Model.game.currentPhase is DrawCounters){
-            //////////////////////////////////////////// To be edited later ////////////////////////
-            PhaseName.text = "This is draw counters phase";
-            PhaseExplanation.text = "A very long string, explanation for draw counters aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-            //////////////////////////////////////////// To be edited later ////////////////////////
-
-        }
-        else if (Elfenroads.Model.game.currentPhase is Auction){
-            //////////////////////////////////////////// To be edited later ////////////////////////
-            PhaseName.text = "This is auction phase";
-            PhaseExplanation.text = "A very long string, explanation for auction aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-            //////////////////////////////////////////// To be edited later ////////////////////////
-        }
-        else if (Elfenroads.Model.game.currentPhase is FinishRound){
-            //////////////////////////////////////////// To be edited later ////////////////////////
-            PhaseName.text = "This is finish round phase";
-            PhaseExplanation.text = "A very long string, explanation for finish round aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-            //////////////////////////////////////////// To be edited later ////////////////////////
-        }
-        else if (Elfenroads.Model.game.currentPhase is PlanTravelRoutes){
-            //////////////////////////////////////////// To be edited later ////////////////////////
-            PhaseName.text = "This is plan travel route phase";
-            PhaseExplanation.text = "A very long string, explanation for plan travel route aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-            //////////////////////////////////////////// To be edited later ////////////////////////
-        }
-        else if (Elfenroads.Model.game.currentPhase is MoveBoot){
-            //////////////////////////////////////////// To be edited later ////////////////////////
-            PhaseName.text = "This is move boot phase";
-            PhaseExplanation.text = "A very long string, explanation for move boot aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-            //////////////////////////////////////////// To be edited later ////////////////////////
-        }
-        ////////////////////////// more phases to be added once they are defined //////////////////
-        else {
-            //////////////////////////////////////////// To be edited later ////////////////////////
-            PhaseName.text = "This is choose boot";
-            PhaseExplanation.text = "A very long string, explanation for choose boot aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-            //////////////////////////////////////////// To be edited later ////////////////////////
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+            PhaseExplanation.text = "If you have more than 1 counter (not including the obstacle) you must discard any extras before moving on to the next round." + "\n" +
+                                "-If you had one or less counters, just kick back and wait for other players to discard their extras!" + "\n" + 
+                                "-You can still study the map using the Map button! Use WASD to pan around, and zoom in/out with the mouse wheel." + "\n" +
+                                "-Checking your cards is a good idea to ensure you keep the best-possible counter!";
+        }else{
+            PhaseExplanation.text = "If you have more than 2 counters you must discard any extras before moving on to the next round." + "\n" +
+                                "-If you had 2 or less counters, just kick back and wait for other players to discard their extras!" + "\n" + 
+                                "-You can still study the map using the Map button! Use WASD to pan around, and zoom in/out with the mouse wheel." + "\n" +
+                                "-Checking your cards and gold is a good idea to ensure you keep the most useful counters!";
         }
     }
-
-    */
 
     public void CloseHelpWindow(){
         if(helpWindow.activeSelf){

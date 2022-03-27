@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4770142730435676021}
   - component: {fileID: 4770142730435676022}
   - component: {fileID: 4770142730435676023}
-  - component: {fileID: 8515925006784323027}
   m_Layer: 5
   m_Name: ModeButton
   m_TagString: Untagged
@@ -122,19 +121,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8515925006784323027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4770142730435676018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eff26ddbae2e9cb46b66eadd133d1fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mode: {fileID: 4770142730867636434}
 --- !u!1 &4770142730867636460
 GameObject:
   m_ObjectHideFlags: 0

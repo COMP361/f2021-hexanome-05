@@ -6,17 +6,20 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public float camSpeed;
-    public float zoomSpeed;
-    public float limitX;
-    public float limitY;
+    // public float zoomSpeed;
+    // public float limitX;
+    // public float limitY;
     public float scrollSpeed;
 
-    public float minZoom = 10f;
-    public float maxZoom = 16f;
+    public float smoothingFactor = 8f;
+
+    // public float minZoom = 8f;
+    // public float maxZoom = 16f;
     public bool locked = true;
+    private float targetZoom = 16f;
 
     void Start(){
-        Camera.main.orthographicSize = 14f;
+        Camera.main.orthographicSize = 16f;
         Elfenroads.Control.LockCamera += lockCamera;
         Elfenroads.Control.UnlockCamera += unlockCamera;
 
@@ -70,7 +73,7 @@ public class CameraController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if(!locked){
 
@@ -90,20 +93,18 @@ public class CameraController : MonoBehaviour
             }
             float scroll = Input.GetAxis("Mouse ScrollWheel");
 
-            //Move the camera up/down/left/right
-            newPos.x = Mathf.Clamp(newPos.x, -limitX, limitX);
-            newPos.y = Mathf.Clamp(newPos.y, -limitY, limitY);
-
             //Adjust zoom
-            float orthoSizeCur = Camera.main.orthographicSize;
-            orthoSizeCur += (-scroll) * scrollSpeed * Time.deltaTime;
-            orthoSizeCur = Mathf.Clamp(orthoSizeCur, minZoom, maxZoom);
-            Camera.main.orthographicSize = orthoSizeCur;
+            targetZoom += (-scroll) * scrollSpeed * Time.deltaTime / (float) Math.Exp(-Time.deltaTime);
+            targetZoom = Mathf.Clamp(targetZoom, 8f, 16f);
+            float diff = targetZoom - Camera.main.orthographicSize;
+            Camera.main.orthographicSize += diff / (1f + smoothingFactor * (float) Math.Exp(-Time.deltaTime));
+
+            //Move the camera up/down/left/right
+            float zoomLevel = (16.0f - Camera.main.orthographicSize) / 8.0f; // 0f = fully zoomed out, 1f = fully zoomed in
+            newPos.x = Mathf.Clamp(newPos.x, - 14.0f * zoomLevel, 14.0f * zoomLevel);
+            newPos.y = Mathf.Clamp(newPos.y, - 6.0f * zoomLevel - 8.0f , 7.5f * zoomLevel + 4.5f);
 
             transform.position = newPos;
-
         }
-
-        
     }
 }

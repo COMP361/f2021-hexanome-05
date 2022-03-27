@@ -13,6 +13,8 @@ public class PlayerInfoController : MonoBehaviour
     public RectTransform opponentsLayout;
     public RectTransform playerCounters;
     public RectTransform playerCards;
+    public GameObject playerCountersGraphic;
+    public GameObject playerCardsGraphic;
     public TMPro.TMP_Text playerName;
     public TMPro.TMP_Text playerStats;
     public InfoWindowController infoWindowController;
@@ -26,6 +28,10 @@ public class PlayerInfoController : MonoBehaviour
     public GameObject trollCounterPrefab;
     public GameObject unicornCounterPrefab;
     public GameObject backOfCounterPrefab;
+    public GameObject doubleCounterPrefab;
+    public GameObject exchangeCounterPrefab;
+    public GameObject goldCounterPrefab;
+    public GameObject seaCounterPrefab;
     [Header("CardPrefabs")]
     public GameObject cloudCardPrefab;
     public GameObject cycleCardPrefab;
@@ -35,12 +41,15 @@ public class PlayerInfoController : MonoBehaviour
     public GameObject trollCardPrefab;
     public GameObject unicornCardPrefab;
     public GameObject backOfCardPrefab;
+    public GameObject witchCardPrefab;
 
     [HideInInspector]
     public bool windowOpen = false;
 
     private bool onOpenCameraLock;
     private bool onOpenDraggableLock;
+    private GameObject thisPlayerView;
+    private List<GameObject> opponentViews = new List<GameObject>();
 
 
     //Called on initial game setup.
@@ -51,6 +60,7 @@ public class PlayerInfoController : MonoBehaviour
             }
             GameObject instantiatedTab = Instantiate(opponentTabPrefab, opponentsLayout);
             instantiatedTab.GetComponent<OpponentPlayerView>().setAndSubscribeToModel(p);
+            opponentViews.Add(instantiatedTab);
 
             switch(p.boot.color){
                 case Models.Color.RED:{
@@ -85,6 +95,17 @@ public class PlayerInfoController : MonoBehaviour
         }
         LayoutRebuilder.ForceRebuildLayoutImmediate(opponentsLayout);
     }
+
+    public void setThisPlayer(GameObject input){
+        thisPlayerView = input;
+    }
+
+    public void updateViews(){
+        foreach(GameObject opponentView in opponentViews){
+            opponentView.GetComponent<OpponentPlayerView>().updateTexts();
+        }
+        thisPlayerView.GetComponent<ThisPlayerInventoryView>().updateTexts();
+    }
     
 
     public void openAndSetupWindow(Player targetPlayer){
@@ -103,6 +124,9 @@ public class PlayerInfoController : MonoBehaviour
         
         playerName.text = targetPlayer.name + "'s Inventory!";
         string toPresent = "Points: " + targetPlayer.inventory.townPieces.Count;
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+            toPresent = "   -   Gold: " + targetPlayer.inventory.gold;
+        }
 
         if(targetPlayer.id == Elfenroads.Model.game.startingPlayer.id){
             toPresent = toPresent + "   -   StartingPlayer: Yes";
@@ -110,7 +134,7 @@ public class PlayerInfoController : MonoBehaviour
             toPresent = toPresent + "   -   StartingPlayer: No";
         }
 
-        if(targetPlayer.destinationTown != null){
+        if((targetPlayer.destinationTown != null) && (targetPlayer.id == Elfenroads.Control.getThisPlayer().id) && Elfenroads.Model.game.variant.HasFlag(Game.Variant.HomeTown)){
             toPresent = toPresent + "   -   DestinationTown: " + targetPlayer.destinationTown.name;
         }
         playerStats.text = toPresent;
@@ -176,17 +200,23 @@ public class PlayerInfoController : MonoBehaviour
                 }
                 case MagicSpellCounter msc:
                 {
-                    Debug.Log("Not implemented!");
+                    if(msc.spellType == SpellType.Exchange){
+                        createAndAddToLayout(exchangeCounterPrefab, playerCounters);
+                    }else if(msc.spellType == SpellType.Double){
+                        createAndAddToLayout(doubleCounterPrefab, playerCounters);
+                    }
                     break;
                 }
                 case GoldCounter gc:
                 {
-                    Debug.Log("Not implemented!");
+                    createAndAddToLayout(goldCounterPrefab,playerCounters);
                     break;
                 }
                 case ObstacleCounter oc:{
                     if(oc.obstacleType == ObstacleType.Land){
                         createAndAddToLayout(landCounterPrefab, playerCounters);
+                    }else if(oc.obstacleType == ObstacleType.Sea){
+                        createAndAddToLayout(seaCounterPrefab, playerCounters);
                     }
                     break;
                 }
@@ -249,14 +279,14 @@ public class PlayerInfoController : MonoBehaviour
                 }
                 case WitchCard wc:
                 {
-                    Debug.Log("Not implemented!");
+                    createAndAddToLayout(witchCardPrefab, playerCards);
                     break;
                 }
-                case GoldCard gc:
-                {
-                    Debug.Log("Not implemented!");
-                    break;
-                }
+                // case GoldCard gc: //Players can't hold these
+                // {
+                //     Debug.Log("Not implemented!");
+                //     break;
+                // }
                 default: Debug.Log("Card is of undefined type!") ; break;
             }
         }
@@ -307,8 +337,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(192, 110, 110, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(192, 110, 110, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(192, 110, 110, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(192, 110, 110, 255);
                     break;
                 }
                 case Models.Color.BLUE:{
@@ -318,8 +348,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(131, 159, 197, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(131, 159, 197, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(131, 159, 197, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(131, 159, 197, 255);
                     break;
                 }
                 case Models.Color.GREEN:{
@@ -329,8 +359,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(112, 207, 157, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(112, 207, 157, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(112, 207, 157, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(112, 207, 157, 255);
                     break;
                 }
                 case Models.Color.PURPLE:{
@@ -340,8 +370,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(219, 111, 203, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(219, 111, 203, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(219, 111, 203, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(219, 111, 203, 255);
                     break;
                 }
                 case Models.Color.YELLOW:{
@@ -351,8 +381,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(1, 1, 1, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(255, 158, 59, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(255, 158, 59, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(255, 158, 59, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(255, 158, 59, 255);
                     break;
                 }
                 case Models.Color.BLACK:{
@@ -363,8 +393,8 @@ public class PlayerInfoController : MonoBehaviour
                             child.GetComponent<TMPro.TMP_Text>().color = new Color32(243, 243, 243, 255);
                         }
                     }
-                    playerCards.GetComponent<Image>().color = new Color32(152, 152, 152, 255);
-                    playerCounters.GetComponent<Image>().color = new Color32(152, 152, 152, 255);
+                    playerCardsGraphic.GetComponent<Image>().color = new Color32(152, 152, 152, 255);
+                    playerCountersGraphic.GetComponent<Image>().color = new Color32(152, 152, 152, 255);
                     break;
                 }
                 default: Debug.Log("Invalid color!"); break;
