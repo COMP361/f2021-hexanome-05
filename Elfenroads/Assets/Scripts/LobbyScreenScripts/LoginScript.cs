@@ -39,6 +39,11 @@ public class LoginScript : MonoBehaviour
 
     //Function mostly just ensure fields are filled, and then calls the "LobbyService"'s script through the client.
     void login(){
+        thisClient.hasSessionCreated = false;
+        thisClient.sessions = null;
+        thisClient.clientCredentials = new ClientCredentials();
+        thisClient.mySession = null;
+        thisClient.thisSessionID = null;
         if(usernameBox.GetComponent<TMP_InputField>().text == "" || passwordBox.GetComponent<TMP_InputField>().text == ""){
             return;
         }else{
@@ -76,6 +81,8 @@ public class LoginScript : MonoBehaviour
         Debug.Log("Player acc token: " + thisClient.clientCredentials.accessToken);
         Debug.Log("Player ref token: " + thisClient.clientCredentials.refreshToken);
 
+        lobbyScreen = GameObject.Find("Canvas").transform.Find("Lobby Screen").gameObject;
+        loginScreen = GameObject.Find("Canvas").transform.Find("Login Screen").gameObject;
         loginScreen.SetActive(false);
         lobbyScreen.SetActive(true);
     }

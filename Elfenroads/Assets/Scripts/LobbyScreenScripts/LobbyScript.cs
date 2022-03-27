@@ -221,6 +221,7 @@ public class LobbyScript : MonoBehaviour
             {
                 thisClient.thisSessionID = session.sessionID;
                 thisClient.mySession = session;
+                persistentObject = GameObject.Find("SessionInfo");
                 persistentObject.GetComponent<SessionInfo>().setClient();
             }
         }
