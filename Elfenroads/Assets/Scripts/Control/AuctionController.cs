@@ -37,13 +37,14 @@ public class AuctionController : MonoBehaviour
     private int thisPlayerBid;
 
 
-    void Start(){
-        auctionModel = (Auction) Elfenroads.Model.game.currentPhase;
-    }
+    //Please review how 'currentPhase' works. This logic is flawed (the auction will never be the currentPhase at the start of any game)
+    // void Start(){
+    //     auctionModel = (Auction) Elfenroads.Model.game.currentPhase;
+    // }
 
-    void Update(){
-        thisPlayerBid = auctionModel.highestBid;
-    }
+    // void Update(){
+    //     thisPlayerBid = auctionModel.highestBid;
+    // }
 
     
     public void updateWaitingCounters(Auction au){
