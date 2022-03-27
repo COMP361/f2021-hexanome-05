@@ -6,11 +6,15 @@ using Models;
 public class AuctionController : MonoBehaviour
 {
 
+    public Auction auctionModel;
+
     public AuctionCounterView waitingCountersView;
     public CounterBeingAuctionedView currentCounterView;
 
 
     public GameObject AuctionCanvas;
+    public GameObject ResultCanvas;
+
     public GameObject invalidMovePrefab;
     public GameObject messagePrefab;
     public RectTransform countersLeftLayoutGroup;
@@ -30,8 +34,16 @@ public class AuctionController : MonoBehaviour
 
     private Counter counterUpForAuction;
 
-    private int thisPlayerBid = 0;
+    private int thisPlayerBid;
 
+
+    void Start(){
+        auctionModel = (Auction) Elfenroads.Model.game.currentPhase;
+    }
+
+    void Update(){
+        thisPlayerBid = auctionModel.highestBid;
+    }
 
     
     public void updateWaitingCounters(Auction au){
@@ -72,6 +84,24 @@ public class AuctionController : MonoBehaviour
         // Add checks here ***
 
         Elfenroads.Control.placeBid(thisPlayerBid);
+    }
+
+    public void minusClicked(){
+        thisPlayerBid = thisPlayerBid - 1;
+        updateBid();
+    }
+
+    public void plusClicked(){
+        thisPlayerBid = thisPlayerBid + 1;
+        updateBid();
+    }
+
+    public void updateBid(){
+        // update bid value displayed 
+    }
+
+    public void iSeeClicked(){
+        // 
     }
 
     public void playerTurnMessage(string message){

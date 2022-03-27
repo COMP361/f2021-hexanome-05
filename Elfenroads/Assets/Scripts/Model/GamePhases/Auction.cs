@@ -22,6 +22,7 @@ namespace Models
             return countersForAuction[0];
         }
 
+
         [Newtonsoft.Json.JsonConstructor]
         protected Auction(List<Counter> countersForAuction, int highestBid, Player highestBidder, Player currentPlayer) {
             this.countersForAuction = countersForAuction;
