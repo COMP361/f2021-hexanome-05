@@ -15,8 +15,11 @@ public class AuctionController : MonoBehaviour
     public RectTransform countersLeftLayoutGroup;
     public RectTransform currentCounterLayoutGroup;
     public RectTransform soldCounterLayoutGroup;
-    
+    public TMPro.TMP_Text currentHighestBidText;
+    public TMPro.TMP_Text currentBidText;
 
+    
+    [Header("Counter Prefabs")]
     public GameObject dragonCounterPrefab;
     public GameObject trollCounterPrefab;
     public GameObject cloudCounterPrefab;
@@ -30,14 +33,7 @@ public class AuctionController : MonoBehaviour
     public GameObject exchangeCounterPrefab;
 
     private Counter counterUpForAuction;
-
     private int thisPlayerBid;
-
-
-    //Please review how 'currentPhase' works. This logic is flawed (the auction will never be the currentPhase at the start of any game)
-    // void Start(){
-    //     auctionModel = (Auction) Elfenroads.Model.game.currentPhase;
-    // }
 
     //Called every time we get state and it is currently an auction.
     public void updateAuction(Auction auction){
@@ -50,6 +46,7 @@ public class AuctionController : MonoBehaviour
         currentCounter.Add(auctionModel.getCurrentAuctioningCounter());
         updateLayoutGroup(currentCounterLayoutGroup, currentCounter);
 
+        currentHighestBidText.text = "The current highest bidder is " + auctionModel.highestBidder + " with a bid of " + auctionModel.highestBid + " gold. Place your bid:";
 
         if( (counterUpForAuction != null) && (auctionModel.getCurrentAuctioningCounter().id != counterUpForAuction.id)){
             //Enable popup window here ***

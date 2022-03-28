@@ -14638,6 +14638,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aab977619957a2439923e57aa600113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myController: {fileID: 0}
+  sessionInfo: {fileID: 0}
   dragonCounterPrefab: {fileID: 3809492794757087743, guid: d90e944c94a80ab48a2249dc9e9b3da0, type: 3}
   trollCounterPrefab: {fileID: 3809492794757087743, guid: cafb96764d813654681ffb85a6a744ea, type: 3}
   cloudCounterPrefab: {fileID: 3809492794757087743, guid: 9efffb6a60a71bd4bb6b9783e0b1303e, type: 3}
@@ -19766,6 +19768,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4405169175344604f86f9680e3063bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myController: {fileID: 0}
+  sessionInfo: {fileID: 0}
   dragonCounterPrefab: {fileID: 3809492794757087743, guid: d90e944c94a80ab48a2249dc9e9b3da0, type: 3}
   trollCounterPrefab: {fileID: 3809492794757087743, guid: cafb96764d813654681ffb85a6a744ea, type: 3}
   cloudCounterPrefab: {fileID: 3809492794757087743, guid: 9efffb6a60a71bd4bb6b9783e0b1303e, type: 3}
@@ -25614,6 +25618,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecb616581070ea24eb29bd006334cdb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myController: {fileID: 0}
+  sessionInfo: {fileID: 0}
   dragonCounterPrefab: {fileID: 0}
   trollCounterPrefab: {fileID: 0}
   cloudCounterPrefab: {fileID: 0}
@@ -26787,14 +26793,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11699d003adc35c449494b9b68a374ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitingCountersView: {fileID: 1236439426}
-  currentCounterView: {fileID: 734136972}
   AuctionCanvas: {fileID: 921140961}
   ResultCanvas: {fileID: 1383807064}
   invalidMovePrefab: {fileID: 6005364027087520367, guid: f53cc4ef353f181438149e9657fc493d, type: 3}
   messagePrefab: {fileID: 6005364027087520367, guid: 694a2b26dc8c090429e138adff49379c, type: 3}
   countersLeftLayoutGroup: {fileID: 1236439421}
   currentCounterLayoutGroup: {fileID: 734136971}
+  soldCounterLayoutGroup: {fileID: 951514549}
+  currentHighestBidText: {fileID: 0}
+  currentBidText: {fileID: 0}
   dragonCounterPrefab: {fileID: 3809492794757087743, guid: d90e944c94a80ab48a2249dc9e9b3da0, type: 3}
   trollCounterPrefab: {fileID: 3809492794757087743, guid: cafb96764d813654681ffb85a6a744ea, type: 3}
   cloudCounterPrefab: {fileID: 3809492794757087743, guid: 9efffb6a60a71bd4bb6b9783e0b1303e, type: 3}
@@ -42069,7 +42076,7 @@ GameObject:
   - component: {fileID: 1994285335}
   - component: {fileID: 1994285334}
   m_Layer: 5
-  m_Name: CurrentBidPrompt
+  m_Name: CurrentHighestBidPrompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42089,10 +42096,10 @@ RectTransform:
   m_Father: {fileID: 1562985930}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.54800004, y: 0.45}
+  m_AnchorMin: {x: 0.54800004, y: 0.43}
   m_AnchorMax: {x: 0.95, y: 0.55}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 34}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1994285334
 MonoBehaviour:
@@ -42114,7 +42121,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The current highest bid is: xx'
+  m_text: 'The current highest bidder is ryan with a bid of 23 gold. Place your bid:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8cd2689fcdc2b6a4d9e9b07a7fe0e017, type: 2}
   m_sharedMaterial: {fileID: -764607382435083489, guid: 8cd2689fcdc2b6a4d9e9b07a7fe0e017, type: 2}
@@ -42141,11 +42148,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 64.1
+  m_fontSize: 34
   m_fontSizeBase: 65
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 50
+  m_fontSizeMin: 10
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
