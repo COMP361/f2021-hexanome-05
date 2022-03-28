@@ -33,6 +33,7 @@ public class LobbyScript : MonoBehaviour
     public GameObject leaveButton;
     public GameObject modeButton;
     public GameObject variantButton;
+    public GameObject logoutButton;
     public GameObject persistentObject;
     //public SocketIO sioCom.Instance;
     public SocketIOCommunicator sioCom;
@@ -221,7 +222,6 @@ public class LobbyScript : MonoBehaviour
             {
                 thisClient.thisSessionID = session.sessionID;
                 thisClient.mySession = session;
-                persistentObject = GameObject.Find("SessionInfo");
                 persistentObject.GetComponent<SessionInfo>().setClient();
             }
         }
@@ -232,18 +232,34 @@ public class LobbyScript : MonoBehaviour
     private bool wasDeleted = false;
 
     private void displaySessions(List<Session> foundSessions) {
+        bool createdRowExists = false;
+        GameObject existingRow = null;
+
         if(tableRow == null){
             return;
         }
         foreach (Transform child in tableRow.transform) {
             if(child == null){
                 return;
+            }else if(child.transform.GetChild(0).gameObject.GetComponent<TMPro.TMP_Text>().text == thisClient.clientCredentials.username && !wasDeleted){
+                createdRowExists = true;
+                existingRow = child.gameObject;
+                wasDeleted = false;
             }else{
                 Destroy(child.gameObject);
             }
         }
 
         foreach(Session session in foundSessions) {
+            if(session.hostPlayerName == Client.Instance().clientCredentials.username && createdRowExists){
+                if(session.players.Count >= 2 && existingRow.transform.childCount != 4){ //Change this value
+                    GameObject instantiatedButton = Instantiate(launchButton, existingRow.transform);
+                    instantiatedButton.transform.SetSiblingIndex(2);
+                    instantiatedButton.GetComponent<LaunchScript>().setSession(session);
+                    existingRow.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = session.players.Count + "/6";
+                }
+                continue;
+            }
             //Make the new row.
             if( session.launched && ( (!(Client.Instance().clientCredentials.username == "Elfenroads")) || (session.players.Contains(Client.Instance().clientCredentials.username)) ) ){ //If we find a session which was launched, no point to show it.
                 continue;
@@ -273,10 +289,10 @@ public class LobbyScript : MonoBehaviour
                     GameObject instantiatedButton = Instantiate(deleteButton, instantiatedRow.transform);
                     instantiatedButton.GetComponent<DeleteScript>().setSession(session);
                 }else if(session.players.Contains(Client.Instance().clientCredentials.username) && (Client.Instance().clientCredentials.username != session.hostPlayerName)){
-                    //LEAVE BUTTON CREATED HERE. DO LATER. ***
-                    //GameObject instantiatedButton = Instantiate(leaveButton, instantiatedRow.transform);
-                    //instantiatedButton.GetComponent<LeaveScript>().setSession(session);
+                    GameObject instantiatedButton = Instantiate(leaveButton, instantiatedRow.transform);
+                    instantiatedButton.GetComponent<LeaveScript>().setSession(session);
                 }
+
             }catch (Exception e){ //Try-catch put here for the case where "displaySessions" was running at the exact time the session was launched.
                 Debug.Log(e);
             }
