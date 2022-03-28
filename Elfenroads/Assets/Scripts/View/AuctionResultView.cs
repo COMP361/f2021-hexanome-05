@@ -51,32 +51,32 @@ public class AuctionResultView : MonoBehaviour
                 switch(tc.transportType){
                     case TransportType.Dragon:
                     {  
-                        GameObject instantiatedCounter = Instantiate(dragonCounterPrefab, this.transform);
+                        GameObject instantiatedCounter = Instantiate(dragonCounterPrefab, currentCounterLayoutGroup);
                         break;
                     }
                     case TransportType.ElfCycle:
                     {
-                        GameObject instantiatedCounter = Instantiate(cycleCounterPrefab, this.transform);
+                        GameObject instantiatedCounter = Instantiate(cycleCounterPrefab, currentCounterLayoutGroup);
                         break;
                     }
                     case TransportType.MagicCloud:
                     {
-                        GameObject instantiatedCounter = Instantiate(cloudCounterPrefab, this.transform);
+                        GameObject instantiatedCounter = Instantiate(cloudCounterPrefab, currentCounterLayoutGroup);
                         break;
                     }
                     case TransportType.TrollWagon:
                     {
-                        GameObject instantiatedCounter = Instantiate(trollCounterPrefab, this.transform);
+                        GameObject instantiatedCounter = Instantiate(trollCounterPrefab, currentCounterLayoutGroup);
                         break;
                     }
                     case TransportType.GiantPig:
                     {
-                        GameObject instantiatedCounter = Instantiate(pigCounterPrefab, this.transform);
+                        GameObject instantiatedCounter = Instantiate(pigCounterPrefab, currentCounterLayoutGroup);
                         break;
                     }
                     case TransportType.Unicorn:
                     {
-                        GameObject instantiatedCounter = Instantiate(unicornCounterPrefab, this.transform);
+                        GameObject instantiatedCounter = Instantiate(unicornCounterPrefab, currentCounterLayoutGroup);
                         break;
                     }
                         
@@ -89,12 +89,12 @@ public class AuctionResultView : MonoBehaviour
                 switch(msc.spellType){
                     case SpellType.Exchange:
                     {
-                        GameObject instantiatedCounter = Instantiate(exchangeCounterPrefab, this.transform);
+                        GameObject instantiatedCounter = Instantiate(exchangeCounterPrefab, currentCounterLayoutGroup);
                         break;
                     }
                     case SpellType.Double:
                     {
-                        GameObject instantiatedCounter = Instantiate(doubleCounterPrefab, this.transform);
+                        GameObject instantiatedCounter = Instantiate(doubleCounterPrefab, currentCounterLayoutGroup);
                         break;
                     }
                 }
@@ -102,7 +102,7 @@ public class AuctionResultView : MonoBehaviour
             }
             case GoldCounter gc:
             {
-                GameObject instantiatedCounter = Instantiate(goldCounterPrefab, this.transform);
+                GameObject instantiatedCounter = Instantiate(goldCounterPrefab, currentCounterLayoutGroup);
                 break;
             }
             case ObstacleCounter obc:
@@ -110,12 +110,12 @@ public class AuctionResultView : MonoBehaviour
                 switch(obc.obstacleType){
                     case ObstacleType.Land:
                     {
-                        GameObject instantiatedCounter = Instantiate(landObstaclePrefab, this.transform);
+                        GameObject instantiatedCounter = Instantiate(landObstaclePrefab, currentCounterLayoutGroup);
                         break;
                     }
                     case ObstacleType.Sea:
                     {
-                        GameObject instantiatedCounter = Instantiate(seaObstaclePrefab, this.transform);
+                        GameObject instantiatedCounter = Instantiate(seaObstaclePrefab, currentCounterLayoutGroup);
                         break;
                     }
                 }
