@@ -34,6 +34,7 @@ namespace Controls {
         public PlayerInfoController playerInfoController;
         public InfoWindowController infoWindowController;
         public GameOverController gameOverController;
+        public AuctionController auctionController;
 
         public GameObject PlayerCounters;
         public GameObject PlayerCards;
@@ -229,7 +230,10 @@ namespace Controls {
                 */
                 case Auction a:{
                     AuctionMainCanvas.SetActive(true);
-                    
+                    currentPlayer = a.currentPlayer;
+                    LockCamera?.Invoke(null, EventArgs.Empty);
+                    LockDraggables?.Invoke(null, EventArgs.Empty);
+                    auctionController.updateAuction(a);
                     break;
                 }
                 

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Models;
 using Views;
-public class AuctionCounterView : MonoBehaviour, GuidHelperContainer
+public class AuctionCounterView : MonoBehaviour
 {   
 
     private AuctionController myController;
@@ -53,43 +53,31 @@ public class AuctionCounterView : MonoBehaviour, GuidHelperContainer
                         case TransportType.Dragon:
                         {  
                            GameObject instantiatedCounter = Instantiate(dragonCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.ElfCycle:
                         {
                             GameObject instantiatedCounter = Instantiate(cycleCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.MagicCloud:
                         {
                             GameObject instantiatedCounter = Instantiate(cloudCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.TrollWagon:
                         {
                             GameObject instantiatedCounter = Instantiate(trollCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.GiantPig:
                         {
                             GameObject instantiatedCounter = Instantiate(pigCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case TransportType.Unicorn:
                         {
                             GameObject instantiatedCounter = Instantiate(unicornCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         
@@ -103,15 +91,11 @@ public class AuctionCounterView : MonoBehaviour, GuidHelperContainer
                         case SpellType.Exchange:
                         {
                             GameObject instantiatedCounter = Instantiate(exchangeCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case SpellType.Double:
                         {
                             GameObject instantiatedCounter = Instantiate(doubleCounterPrefab, this.transform);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                     }
@@ -120,8 +104,6 @@ public class AuctionCounterView : MonoBehaviour, GuidHelperContainer
                 case GoldCounter gc:
                 {
                     GameObject instantiatedCounter = Instantiate(goldCounterPrefab, this.transform);
-                    instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                    instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                     break;
                 }
                 case ObstacleCounter obc:
@@ -130,15 +112,11 @@ public class AuctionCounterView : MonoBehaviour, GuidHelperContainer
                         case ObstacleType.Land:
                         {
                             GameObject instantiatedCounter = Instantiate(landObstaclePrefab, this.transform);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                         case ObstacleType.Sea:
                         {
                             GameObject instantiatedCounter = Instantiate(seaObstaclePrefab, this.transform);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setGuid(c.id);
-                            instantiatedCounter.GetComponent<GuidViewHelper>().setContainer(this);
                             break;
                         }
                     }
@@ -148,19 +126,13 @@ public class AuctionCounterView : MonoBehaviour, GuidHelperContainer
             }
         }
     }
-    
 
-    public void GUIClicked(GameObject clickedCounter){
-         // well, it does nothing
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        //im copy-pasting Max'code and I know nothing what it does lol
-        float width = this.gameObject.GetComponent<RectTransform>().rect.width;
-        Vector2 newSize = new Vector2(width / 5.75f, width / 5.75f);
-        this.gameObject.GetComponent<GridLayoutGroup>().cellSize = newSize;
-    }
+    // // Update is called once per frame
+    // void Update()
+    // {
+    //     //im copy-pasting Max'code and I know nothing what it does lol
+    //     float width = this.gameObject.GetComponent<RectTransform>().rect.width;
+    //     Vector2 newSize = new Vector2(width / 5.75f, width / 5.75f);
+    //     this.gameObject.GetComponent<GridLayoutGroup>().cellSize = newSize;
+    // }
 }

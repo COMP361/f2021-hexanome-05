@@ -19,6 +19,7 @@ public class AuctionController : MonoBehaviour
     public GameObject messagePrefab;
     public RectTransform countersLeftLayoutGroup;
     public RectTransform currentCounterLayoutGroup;
+    
 
     public GameObject dragonCounterPrefab;
     public GameObject trollCounterPrefab;
@@ -41,22 +42,14 @@ public class AuctionController : MonoBehaviour
     // void Start(){
     //     auctionModel = (Auction) Elfenroads.Model.game.currentPhase;
     // }
-    
-    public void updateBid(Auction au){
-        thisPlayerBid = auctionModel.highestBid;
+
+    //Called every time we get state and it is currently an auction.
+    public void updateAuction(Auction auction){
+        auctionModel = auction;
+        thisPlayerBid = auctionModel.highestBid + 1;
+        waitingCountersView.updateWaitingCounters(auction);
+        currentCounterView.updateCurrentCounter(auction);
     }
-
-
-    
-    public void updateWaitingCounters(Auction au){
-        waitingCountersView.updateWaitingCounters(au);
-    }
-
-    
-    public void updateCurrentCounter(Auction au){
-        currentCounterView.updateCurrentCounter(au);
-    }
-
 
     public void passAuction(){
         if(! (Elfenroads.Model.game.currentPhase is Auction)){
@@ -94,6 +87,10 @@ public class AuctionController : MonoBehaviour
     }
 
     public void minusClicked(){
+        if (thisPlayerBid - 1 < auctionModel.highestBid){
+            invalidMessage("You can only bid higher!");
+            return;
+        }
         thisPlayerBid = thisPlayerBid - 1;
         updateBid();
     }
