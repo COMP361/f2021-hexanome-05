@@ -41,10 +41,11 @@ public class AuctionController : MonoBehaviour
     // void Start(){
     //     auctionModel = (Auction) Elfenroads.Model.game.currentPhase;
     // }
+    
+    public void updateBid(Auction au){
+        thisPlayerBid = auctionModel.highestBid;
+    }
 
-    // void Update(){
-    //     thisPlayerBid = auctionModel.highestBid;
-    // }
 
     
     public void updateWaitingCounters(Auction au){
@@ -57,7 +58,7 @@ public class AuctionController : MonoBehaviour
     }
 
 
-    public void passTurn(){
+    public void passAuction(){
         if(! (Elfenroads.Model.game.currentPhase is Auction)){
             invalidMessage("Incorrect phase!");
             return;
@@ -68,7 +69,7 @@ public class AuctionController : MonoBehaviour
             return;
         }
         
-        Elfenroads.Control.passTurn();
+        Elfenroads.Control.passAuction();
     }
 
 
@@ -82,9 +83,14 @@ public class AuctionController : MonoBehaviour
             invalidMessage("Not your turn!");
             return;
         }
-        // Add checks here ***
-
-        Elfenroads.Control.placeBid(thisPlayerBid);
+        
+        if (thisPlayerBid > auctionModel.highestBid){
+            Elfenroads.Control.placeBid(thisPlayerBid);
+        }
+        else{
+            invalidMessage("You can only bid higher!");
+            return;
+        }
     }
 
     public void minusClicked(){

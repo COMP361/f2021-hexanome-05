@@ -25,6 +25,7 @@ namespace Controls {
         public GameObject FinishRoundCanvas;
         public GameObject EndOfGameCanvas;
         public GameObject DrawCardsCanvas;
+        public GameObject AuctionMainCanvas;
         public DrawCountersController drawCountersController;
         public DrawCardsController drawCardsController;
         public PlanTravelController planTravelController;
@@ -225,11 +226,13 @@ namespace Controls {
                     
                     break;
                 }
-                case Auction a{
+                */
+                case Auction a:{
+                    AuctionMainCanvas.SetActive(true);
                     
                     break;
                 }
-                */
+                
                 default:{
                     Debug.Log("Phase not implemented!");
                     break;
@@ -239,6 +242,7 @@ namespace Controls {
 
         private void disableCanvases(){
             DrawCounterCanvas.SetActive(false);
+            AuctionMainCanvas.SetActive(false);
             PlanTravelCanvas.SetActive(false);
             MoveBootCanvas.SetActive(false);
             FinishRoundCanvas.SetActive(false);
