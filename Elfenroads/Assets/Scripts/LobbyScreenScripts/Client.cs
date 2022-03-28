@@ -86,10 +86,6 @@ public class Client : ClientInterface
         lobbyService.Login(username, password);
     }
 
-    // public void Logout(){
-    //     lobbyService.Logout();
-    // }
-
     // public void getRole(){
     //     lobbyService.getRole(clientCredentials.refreshToken);
     // }

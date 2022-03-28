@@ -193,7 +193,9 @@ public class LobbyService
     private void OnLeaveCompleted(AsyncOperation operation){
         UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
         if (request.responseCode == STATUS_OK) {
-            LeaveSuccessEvent(request.downloadHandler.text);
+            // LeaveSuccessEvent(request.downloadHandler.text);
+            //Potentially since there is no session to be displayed anymore.
+            Debug.Log("Leave successful!");
         }
         else {
             LeaveFailureEvent(request.error + "\n" + request.downloadHandler.text); 
