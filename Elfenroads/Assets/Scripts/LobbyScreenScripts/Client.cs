@@ -24,7 +24,6 @@ public class Client : ClientInterface
     }
 
     private LobbyService lobbyService;
-    //private string serverPath = "http://beta.sandbox.icu:1337/"; // Did this get changed? ***
     //private bool isAdmin = false;
     public bool hasSessionCreated = false;
     public ClientCredentials clientCredentials;
