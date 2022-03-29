@@ -52,6 +52,7 @@ public class GameOverController : MonoBehaviour
                     winners.Add(scores[j].Value.name);
                 }
             }
+            leaderBoardText.text = fillLeaderboardElfengold(scores);
 
         }else{
             foreach(KeyValuePair<int, Player> kvp in scores){
@@ -75,7 +76,7 @@ public class GameOverController : MonoBehaviour
             }
 
             //Now we must fill the leaderboard.
-            leaderBoardText.text = fillLeaderboardElfenland();
+            leaderBoardText.text = fillLeaderboardElfenland(scores);
         }
 
         // foreach(int score in ((GameOver) Elfenroads.Model.game.currentPhase).scores){
@@ -110,28 +111,48 @@ public class GameOverController : MonoBehaviour
         //leaderBoardText.text = getScoresVariant();
     }
 
-    public string fillLeaderboardElfenland(){
+    public string fillLeaderboardElfenland(List<KeyValuePair<int,Player>> sortedScores){
         string results = "Leaderboard: ";
 		int curScore = -1;
+        int curCards = -1;
 		int position = 0;
-		for(int i=0; i<((GameOver) Elfenroads.Model.game.currentPhase).scores.Count; i++){
-			int nowScore = ((GameOver) Elfenroads.Model.game.currentPhase).scores[i];
-            Player curPlayer = Elfenroads.Model.game.players[i];
+		for(int i=0; i < sortedScores.Count; i++){
+			int nowScore = sortedScores[i].Key;
+            Player curPlayer = sortedScores[i].Value;
 
-			if((curScore != nowScore)){
+			if((curScore != nowScore || curCards !=  curPlayer.inventory.cards.Count)){
 				curScore = nowScore;
+                curCards = curPlayer.inventory.cards.Count;
 				position++;
-				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points!";
+				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points and " + curPlayer.inventory.cards.Count + " cards!";
 			}else{
-				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points!";
+				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points and " + curPlayer.inventory.cards.Count + " cards!";
 			}
 		}
 		return results;
     }
 
-    public string fillLeaderboardElfengold(){
+    public string fillLeaderboardElfengold(List<KeyValuePair<int,Player>> sortedScores){
         string results = "Leaderboard: ";
-        return results;
+		int curScore = -1;
+        int curCards = -1;
+        int curGold = -1;
+		int position = 0;
+		for(int i=0; i < sortedScores.Count; i++){
+			int nowScore = sortedScores[i].Key;
+            Player curPlayer = sortedScores[i].Value;
+
+			if((curScore != nowScore|| curCards !=  curPlayer.inventory.cards.Count || curGold != curPlayer.inventory.gold)){
+				curScore = nowScore;
+                curGold = curPlayer.inventory.gold;
+                curCards = curPlayer.inventory.cards.Count;
+				position++;
+				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points, " + curPlayer.inventory.gold + " gold and " + curPlayer.inventory.cards.Count + " cards!";
+			}else{
+				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points, " + curPlayer.inventory.gold + " gold and " + curPlayer.inventory.cards.Count + " cards!";
+			}
+		}
+		return results;
     }
 
 
