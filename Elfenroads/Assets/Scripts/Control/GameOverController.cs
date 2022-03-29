@@ -35,9 +35,21 @@ public class GameOverController : MonoBehaviour
                     highestCards = kvp.Value.inventory.cards.Count;
                 }
                 if(kvp.Key == highestScore){ 
-                    if(kvp.Value.inventory.cards.Count > highestCards){
+                    if(kvp.Value.inventory.gold > highestGold){
+                        highestGold = kvp.Value.inventory.gold; //Set the new highest gold and cards.
                         highestCards = kvp.Value.inventory.cards.Count;
                     }
+                    if(kvp.Value.inventory.gold == highestGold){
+                        if(kvp.Value.inventory.cards.Count > highestCards){
+                        highestCards = kvp.Value.inventory.cards.Count; //Set the new highest cards.
+                        }
+                    }
+                }
+            }
+
+            for(int j = 0 ; j < scores.Count; j++){
+                if((scores[j].Key == highestScore) && (scores[j].Value.inventory.gold == highestGold) && (scores[j].Value.inventory.cards.Count == highestCards) ){
+                    winners.Add(scores[j].Value.name);
                 }
             }
 
@@ -57,10 +69,8 @@ public class GameOverController : MonoBehaviour
             }
             //Now we know the highest score, plus the highest amount of cards from those who have the highest score. So display the winners now:
             for(int j = 0 ; j < scores.Count; j++){
-                if(scores[j].Key == highestScore){
-                    if(scores[j].Value.inventory.cards.Count == highestCards){
-                        winners.Add(scores[j].Value.name);
-                    }
+                if((scores[j].Key == highestScore) && (scores[j].Value.inventory.cards.Count == highestCards)){
+                    winners.Add(scores[j].Value.name);
                 }
             }
 
