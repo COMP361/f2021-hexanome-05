@@ -2136,49 +2136,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491768709}
   m_CullTransparentMesh: 1
---- !u!1 &537859569
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 537859570}
-  - component: {fileID: 537859571}
-  m_Layer: 0
-  m_Name: SessionInfo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &537859570
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537859569}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &537859571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537859569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d83bd60a64a70f444960c6c774a39fae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &596197463
 GameObject:
   m_ObjectHideFlags: 0
@@ -3132,7 +3089,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 537859571}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SessionInfo, Elfenroads
         m_MethodName: set_isRandomDistribution
         m_Mode: 0
@@ -3497,7 +3454,7 @@ RectTransform:
   - {fileID: 411063880}
   - {fileID: 1855413022}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6136,7 +6093,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1447853081
 GameObject:
@@ -6789,7 +6746,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1657269844
 GameObject:
@@ -6821,7 +6778,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1657269846
 MonoBehaviour:
@@ -7088,7 +7045,6 @@ MonoBehaviour:
   modeButton: {fileID: 4770142730435676018, guid: 821f22543e2c0d445a252ddc587f92dc, type: 3}
   variantButton: {fileID: 4770142730435676018, guid: 94608c498b92e9a41aef84f1e85a9c2d, type: 3}
   logoutButton: {fileID: 0}
-  persistentObject: {fileID: 537859569}
   sioCom: {fileID: 1657269846}
 --- !u!1 &1863083407
 GameObject:
@@ -7384,7 +7340,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 537859571}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SessionInfo, Elfenroads
         m_MethodName: set_isElvenWitch
         m_Mode: 0
@@ -7655,7 +7611,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 537859571}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SessionInfo, Elfenroads
         m_MethodName: set_isElfenGold
         m_Mode: 0
@@ -8038,7 +7994,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2083247676
 GameObject:
@@ -8404,7 +8360,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 537859571}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SessionInfo, Elfenroads
         m_MethodName: set_isHomeTown
         m_Mode: 0
@@ -8605,7 +8561,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 537859571}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SessionInfo, Elfenroads
         m_MethodName: set_isLongerGame
         m_Mode: 0
@@ -8809,7 +8765,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 537859571}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SessionInfo, Elfenroads
         m_MethodName: set_isElfenGold
         m_Mode: 0

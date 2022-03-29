@@ -34,7 +34,6 @@ public class LobbyScript : MonoBehaviour
     public GameObject modeButton;
     public GameObject variantButton;
     public GameObject logoutButton;
-    public GameObject persistentObject;
     //public SocketIO sioCom.Instance;
     public SocketIOCommunicator sioCom;
     private Client thisClient;
@@ -222,7 +221,8 @@ public class LobbyScript : MonoBehaviour
             {
                 thisClient.thisSessionID = session.sessionID;
                 thisClient.mySession = session;
-                persistentObject.GetComponent<SessionInfo>().setClient();
+                //persistentObject.GetComponent<SessionInfo>().setClient();
+                SessionInfo.Instance().setClient();
             }
         }
         //Call something here to visually update the rows of the table based on the client info (excluding launched sessions). These rows should include a "Launch" button if it is the current client's session, and a "join" button otherwise.
