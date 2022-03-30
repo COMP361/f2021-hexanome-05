@@ -11,24 +11,10 @@ public class VariantSelectorScript : MonoBehaviour
     public bool isRandomDistribution {set; get;}
 
     void Update(){
-        if(isElfenGold){
-            SessionInfo.Instance().isElfenGold = isElfenGold;
-        }
-
-        if(isLongerGame){
-            SessionInfo.Instance().isLongerGame = isLongerGame;
-        }
-
-        if(isHomeTown){
-            SessionInfo.Instance().isHomeTown = isHomeTown;
-        }
-
-        if(isElvenWitch){
-            SessionInfo.Instance().isElvenWitch = isElvenWitch;
-        }
-
-        if(isRandomDistribution){
-            SessionInfo.Instance().isRandomDistribution = isElvenWitch;
-        }
+        SessionInfo.Instance().isElfenGold = isElfenGold;
+        SessionInfo.Instance().isLongerGame = isLongerGame;
+        SessionInfo.Instance().isHomeTown = isHomeTown;
+        SessionInfo.Instance().isElvenWitch = isElvenWitch;
+        SessionInfo.Instance().isRandomDistribution = isElvenWitch;
     }
 }

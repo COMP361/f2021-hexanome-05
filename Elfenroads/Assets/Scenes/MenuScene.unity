@@ -3092,7 +3092,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1983357183}
         m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isRandomDistribution
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7343,7 +7343,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1983357183}
         m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isElvenWitch
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7627,7 +7627,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1983357183}
         m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isElfenGold
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8376,7 +8376,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1983357183}
         m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isHomeTown
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8577,7 +8577,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1983357183}
         m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isLongerGame
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8781,7 +8781,7 @@ MonoBehaviour:
       - m_Target: {fileID: 1983357183}
         m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isElfenGold
-        m_Mode: 6
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
