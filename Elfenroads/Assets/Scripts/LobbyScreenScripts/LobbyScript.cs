@@ -193,6 +193,7 @@ public class LobbyScript : MonoBehaviour
     private void refreshSuccess(string result){
         //Debug.Log("Refresh str: " + result);
         //Debug.Log(result);
+        thisClient.hasSessionCreated = false;
         var jsonString = result.Replace('"', '\"');
 
         //After getting a bunch of sessions, we need to use the result string to create rows.

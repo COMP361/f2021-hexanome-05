@@ -42,6 +42,11 @@ namespace Models {
                 modified = true;
             }
 
+            if(gold != update.gold){
+                gold = update.gold;
+                modified = true;
+            }
+
             if (modified) {
                 Updated?.Invoke(this, EventArgs.Empty);
             }

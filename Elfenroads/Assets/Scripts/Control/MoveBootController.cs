@@ -61,7 +61,7 @@ namespace Controls
                     witchButton.SetActive(true);
                 }
                 MoveBootCanvas.transform.GetChild(0).gameObject.SetActive(true);
-                MoveBootCanvas.transform.GetChild(0).gameObject.transform.GetChild(0).GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Accrued Gold: " + goldAccrued;
+                MoveBootCanvas.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Accrued Gold: " + goldAccrued;
             }
         }
 
