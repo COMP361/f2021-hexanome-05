@@ -10841,7 +10841,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.9
+  m_fontSize: 45.85
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -26800,8 +26800,9 @@ MonoBehaviour:
   countersLeftLayoutGroup: {fileID: 1236439421}
   currentCounterLayoutGroup: {fileID: 734136971}
   soldCounterLayoutGroup: {fileID: 951514549}
-  currentHighestBidText: {fileID: 0}
-  currentBidText: {fileID: 0}
+  currentHighestBidText: {fileID: 1994285334}
+  currentBidText: {fileID: 1247228567}
+  soldCounterText: {fileID: 977904914}
   dragonCounterPrefab: {fileID: 3809492794757087743, guid: d90e944c94a80ab48a2249dc9e9b3da0, type: 3}
   trollCounterPrefab: {fileID: 3809492794757087743, guid: cafb96764d813654681ffb85a6a744ea, type: 3}
   cloudCounterPrefab: {fileID: 3809492794757087743, guid: 9efffb6a60a71bd4bb6b9783e0b1303e, type: 3}
@@ -27665,7 +27666,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1321109098}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1286055678}
+        m_TargetAssemblyTypeName: AuctionController, Elfenroads
+        m_MethodName: plusClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1321109098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35302,7 +35315,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1674616878}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1286055678}
+        m_TargetAssemblyTypeName: AuctionController, Elfenroads
+        m_MethodName: minusClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1674616878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40994,7 +41019,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3809492794757087736, guid: 9a2585525937e6e4989c7bf0339df5da, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -135.61241
+      value: -135.58972
       objectReference: {fileID: 0}
     - target: {fileID: 3809492794757087736, guid: 9a2585525937e6e4989c7bf0339df5da, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -41101,7 +41126,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1931049405}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1286055678}
+        m_TargetAssemblyTypeName: AuctionController, Elfenroads
+        m_MethodName: placeBid
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1931049405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43716,7 +43753,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2040853071}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1286055678}
+        m_TargetAssemblyTypeName: AuctionController, Elfenroads
+        m_MethodName: passAuction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2040853071
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,6 +17,7 @@ public class AuctionController : MonoBehaviour
     public RectTransform soldCounterLayoutGroup;
     public TMPro.TMP_Text currentHighestBidText;
     public TMPro.TMP_Text currentBidText;
+    public TMPro.TMP_Text soldCounterText;
 
     
     [Header("Counter Prefabs")]
@@ -47,9 +48,11 @@ public class AuctionController : MonoBehaviour
         updateLayoutGroup(currentCounterLayoutGroup, currentCounter);
 
         currentHighestBidText.text = "The current highest bidder is " + auctionModel.highestBidder + " with a bid of " + auctionModel.highestBid + " gold. Place your bid:";
+        currentBidText.text = auctionModel.highestBid + "";
 
         if( (counterUpForAuction != null) && (auctionModel.getCurrentAuctioningCounter().id != counterUpForAuction.id)){
             //Enable popup window here ***
+            soldCounterText.text = auctionModel.highestBidder + " obtained:";
             List<Counter> soldCounter = new List<Counter>();
             soldCounter.Add(counterUpForAuction);
             updateLayoutGroup(soldCounterLayoutGroup, soldCounter);
@@ -99,20 +102,20 @@ public class AuctionController : MonoBehaviour
             return;
         }
         thisPlayerBid = thisPlayerBid - 1;
-        updateBid();
+        updateBid(thisPlayerBid);
     }
 
     public void plusClicked(){
         thisPlayerBid = thisPlayerBid + 1;
-        updateBid();
+        updateBid(thisPlayerBid);
     }
 
-    public void updateBid(){
-        // update bid value displayed 
+    public void updateBid(int thisPlayerBid){
+        currentBidText.text = "" + thisPlayerBid;
     }
 
     public void iSeeClicked(){
-        // 
+        ResultCanvas.SetActive(false); 
     }
 
     public void playerTurnMessage(string message){
