@@ -3089,10 +3089,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SessionInfo, Elfenroads
+      - m_Target: {fileID: 1983357183}
+        m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isRandomDistribution
-        m_Mode: 0
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7340,10 +7340,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SessionInfo, Elfenroads
+      - m_Target: {fileID: 1983357183}
+        m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isElvenWitch
-        m_Mode: 0
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7362,6 +7362,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1983357182}
+  - component: {fileID: 1983357183}
   m_Layer: 5
   m_Name: LoadSession
   m_TagString: Untagged
@@ -7394,6 +7395,18 @@ RectTransform:
   m_AnchoredPosition: {x: -389.03064, y: 181.33319}
   m_SizeDelta: {x: 542.4841, y: 88.4786}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1983357183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983357181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9521656ba0eba48b0e6e9ef6698112, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2011900192
 GameObject:
   m_ObjectHideFlags: 0
@@ -7611,10 +7624,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SessionInfo, Elfenroads
+      - m_Target: {fileID: 1983357183}
+        m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isElfenGold
-        m_Mode: 0
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8360,10 +8373,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SessionInfo, Elfenroads
+      - m_Target: {fileID: 1983357183}
+        m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isHomeTown
-        m_Mode: 0
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8561,10 +8574,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SessionInfo, Elfenroads
+      - m_Target: {fileID: 1983357183}
+        m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isLongerGame
-        m_Mode: 0
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8765,10 +8778,10 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SessionInfo, Elfenroads
+      - m_Target: {fileID: 1983357183}
+        m_TargetAssemblyTypeName: VariantSelectorScript, Elfenroads
         m_MethodName: set_isElfenGold
-        m_Mode: 0
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
