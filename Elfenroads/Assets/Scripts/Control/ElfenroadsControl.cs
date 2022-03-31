@@ -433,8 +433,8 @@ namespace Controls {
 
         public void save() {
             JObject json = new JObject();
-            json.Add("game_id", sessionInfo.getSessionID());
-            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("game_id", SessionInfo.Instance().getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(SessionInfo.Instance().getClient().clientCredentials.username).id);
             json.Add("savegame_id", GameObject.Find("Savegame ID").GetComponent<TMPro.TMP_InputField>().text);
             socket.Instance.Emit("Save", json.ToString(), false);
         }
