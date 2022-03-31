@@ -438,6 +438,14 @@ namespace Controls {
 		    SceneManager.LoadScene("MenuScene", LoadSceneMode.Single);
         }
 
+        public void save() {
+            JObject json = new JObject();
+            json.Add("game_id", sessionInfo.getSessionID());
+            json.Add("player_id", Elfenroads.Model.game.GetPlayer(sessionInfo.getClient().clientCredentials.username).id);
+            json.Add("savegame_id", GameObject.Find("Savegame ID").GetComponent<TMPro.TMP_InputField>().text);
+            socket.Instance.Emit("Save", json.ToString(), false);
+        }
+
         public void setThisPlayer(Player input){
             thisPlayer = input;
         }
