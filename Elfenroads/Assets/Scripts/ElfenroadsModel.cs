@@ -44,7 +44,7 @@ namespace Models {
 
             //Next, add the main player object.
             foreach(Player p in game.players){
-                if(p.name == GameObject.Find("SessionInfo").GetComponent<SessionInfo>().getClient().clientCredentials.username){
+                if(p.name == SessionInfo.Instance().getClient().clientCredentials.username){
                     mainPlayerObject.GetComponent<ThisPlayerInventoryView>().setAndSubscribeToModel(p); 
                     Elfenroads.Control.setThisPlayer(p);
                     playerInfoController.setThisPlayer(mainPlayerObject);

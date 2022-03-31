@@ -10,41 +10,86 @@ public class GameOverController : MonoBehaviour
     public TMPro.TMP_Text leaderBoardText;
 
     public void updateTexts(){
-        List<KeyValuePair<int, string>> scores = new List<KeyValuePair<int, string>>();
+        //Represents player score and name.
+        List<KeyValuePair<int, Player>> scores = new List<KeyValuePair<int, Player>>();
         
-        foreach(Player p in Elfenroads.Model.game.players){
-            scores.Add(new KeyValuePair<int, string>(p.inventory.townPieces.Count, p.name));
+        for(int i = 0 ; i < Elfenroads.Model.game.players.Count; i++){
+            scores.Add(new KeyValuePair<int, Player>(((GameOver) Elfenroads.Model.game.currentPhase).scores[i], Elfenroads.Model.game.players[i]));
         }
         scores.Sort(new ScoreComparer());
-        scores.Reverse();
+        scores.Reverse(); //Scores should now be in order.
 
-        // int highestScore = -1;
+        //Setup things for score calculation.
+        List<string> winners = new List<string>();
+        int highestScore = -1;
+        int highestCards = -1;
 
-        // foreach(KeyValuePair<int, string> kvp in scores){
-        //     if(kvp.Key > highestScore){
-        //         highestScore = kvp.Key;
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+            //If we're in elfengold, need to take gold into account as well.
+            int highestGold = -1;
+            foreach(KeyValuePair<int, Player> kvp in scores){
+                //If the key is greater than the current highest score.
+                if(kvp.Key > highestScore){
+                    highestScore = kvp.Key; //Set the new highest score, gold and cards.
+                    highestGold = kvp.Value.inventory.gold;
+                    highestCards = kvp.Value.inventory.cards.Count;
+                }
+                if(kvp.Key == highestScore){ 
+                    if(kvp.Value.inventory.gold > highestGold){
+                        highestGold = kvp.Value.inventory.gold; //Set the new highest gold and cards.
+                        highestCards = kvp.Value.inventory.cards.Count;
+                    }
+                    if(kvp.Value.inventory.gold == highestGold){
+                        if(kvp.Value.inventory.cards.Count > highestCards){
+                        highestCards = kvp.Value.inventory.cards.Count; //Set the new highest cards.
+                        }
+                    }
+                }
+            }
+
+            for(int j = 0 ; j < scores.Count; j++){
+                if((scores[j].Key == highestScore) && (scores[j].Value.inventory.gold == highestGold) && (scores[j].Value.inventory.cards.Count == highestCards) ){
+                    winners.Add(scores[j].Value.name);
+                }
+            }
+            leaderBoardText.text = fillLeaderboardElfengold(scores);
+
+        }else{
+            foreach(KeyValuePair<int, Player> kvp in scores){
+                //If we've found a new high score, the highestCards (which represent the most cards among the winning players) are changed as well.
+                if(kvp.Key > highestScore){
+                    highestScore = kvp.Key;
+                    highestCards = kvp.Value.inventory.cards.Count;
+                }
+                //If we're equal to the highest score, check for highestCards.
+                if(kvp.Key == highestScore){ 
+                    if(kvp.Value.inventory.cards.Count > highestCards){
+                        highestCards = kvp.Value.inventory.cards.Count;
+                    }
+                }
+            }
+            //Now we know the highest score, plus the highest amount of cards from those who have the highest score. So display the winners now:
+            for(int j = 0 ; j < scores.Count; j++){
+                if((scores[j].Key == highestScore) && (scores[j].Value.inventory.cards.Count == highestCards)){
+                    winners.Add(scores[j].Value.name);
+                }
+            }
+
+            //Now we must fill the leaderboard.
+            leaderBoardText.text = fillLeaderboardElfenland(scores);
+        }
+
+        // foreach(int score in ((GameOver) Elfenroads.Model.game.currentPhase).scores){
+        //     if(score > highestScore){
+        //         highestScore = score;
         //     }
         // }
         // List<string> winners = new List<string>();
-        // foreach(KeyValuePair<int, string> kvp in scores){
-        //     if(kvp.Key == highestScore){
-        //         winners.Add(kvp.Value);
+        // for(int j = 0 ; j < ((GameOver) Elfenroads.Model.game.currentPhase).scores.Count ; j++){
+        //     if(((GameOver) Elfenroads.Model.game.currentPhase).scores[j] == highestScore){
+        //         winners.Add(Elfenroads.Model.game.players[j].name);
         //     }
         // }
-
-        int highestScore = -1;
-
-        foreach(int score in ((GameOver) Elfenroads.Model.game.currentPhase).scores){
-            if(score > highestScore){
-                highestScore = score;
-            }
-        }
-        List<string> winners = new List<string>();
-        for(int j = 0 ; j < ((GameOver) Elfenroads.Model.game.currentPhase).scores.Count ; j++){
-            if(((GameOver) Elfenroads.Model.game.currentPhase).scores[j] == highestScore){
-                winners.Add(Elfenroads.Model.game.players[j].name);
-            }
-        }
 
         string winText = "Congratulations ";
         if(winners.Count == 1){
@@ -63,59 +108,72 @@ public class GameOverController : MonoBehaviour
             winText += " for the victory!";
         }
         winnerText.text = winText;
-        //leaderBoardText.text = getScoresString(scores);
-        leaderBoardText.text = getScoresVariant();
-
-        for(int i = 0 ; i < ((GameOver) Elfenroads.Model.game.currentPhase).scores.Count ; i++ ){
-            int curScore = ((GameOver) Elfenroads.Model.game.currentPhase).scores[i];
-            string playerName = Elfenroads.Model.game.players[i].name;
-            Debug.Log(playerName + " has score " + curScore);
-        }
+        //leaderBoardText.text = getScoresVariant();
     }
 
-
-    public string getScoresString(List<KeyValuePair<int,string>> scores){
-		string results = "Leaderboard: ";
-		int curScore = -1;
-		int position = 0;
-		for(int i=0; i<scores.Count; i++){
-			KeyValuePair<int,string> curKVP = scores[i];
-
-			if((curScore != curKVP.Key)){
-				curScore = curKVP.Key;
-				position++;
-				results += "\n" + position + ": " + curKVP.Value + " with " + curKVP.Key + " points!";
-			}else{
-				results += "\n" + position + ": " + curKVP.Value + " with " + curKVP.Key + " points!";
-			}
-		}
-
-		return results;
-	}
-
-    public string getScoresVariant(){
+    public string fillLeaderboardElfenland(List<KeyValuePair<int,Player>> sortedScores){
         string results = "Leaderboard: ";
 		int curScore = -1;
+        int curCards = -1;
 		int position = 0;
-		for(int i=0; i<((GameOver) Elfenroads.Model.game.currentPhase).scores.Count; i++){
-			int nowScore = ((GameOver) Elfenroads.Model.game.currentPhase).scores[i];
-            Player curPlayer = Elfenroads.Model.game.players[i];
+		for(int i=0; i < sortedScores.Count; i++){
+			int nowScore = sortedScores[i].Key;
+            Player curPlayer = sortedScores[i].Value;
 
-			if((curScore != nowScore)){
+			if((curScore != nowScore || curCards !=  curPlayer.inventory.cards.Count)){
 				curScore = nowScore;
+                curCards = curPlayer.inventory.cards.Count;
 				position++;
-				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points!";
+				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points and " + curPlayer.inventory.cards.Count + " cards!";
 			}else{
-				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points!";
+				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points and " + curPlayer.inventory.cards.Count + " cards!";
+			}
+		}
+		return results;
+    }
+
+    public string fillLeaderboardElfengold(List<KeyValuePair<int,Player>> sortedScores){
+        string results = "Leaderboard: ";
+		int curScore = -1;
+        int curCards = -1;
+        int curGold = -1;
+		int position = 0;
+		for(int i=0; i < sortedScores.Count; i++){
+			int nowScore = sortedScores[i].Key;
+            Player curPlayer = sortedScores[i].Value;
+
+			if((curScore != nowScore|| curCards !=  curPlayer.inventory.cards.Count || curGold != curPlayer.inventory.gold)){
+				curScore = nowScore;
+                curGold = curPlayer.inventory.gold;
+                curCards = curPlayer.inventory.cards.Count;
+				position++;
+				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points, " + curPlayer.inventory.gold + " gold and " + curPlayer.inventory.cards.Count + " cards!";
+			}else{
+				results += "\n" + position + ": " + curPlayer.name + " with " + nowScore + " points, " + curPlayer.inventory.gold + " gold and " + curPlayer.inventory.cards.Count + " cards!";
 			}
 		}
 		return results;
     }
 
 
-    private class ScoreComparer : IComparer<KeyValuePair<int, string>>{
-        public int Compare(KeyValuePair<int, string> kv1, KeyValuePair<int, string> kv2){
-            return kv1.Key.CompareTo(kv2.Key);
+    private class ScoreComparer : IComparer<KeyValuePair<int, Player>>{
+        public int Compare(KeyValuePair<int, Player> kv1, KeyValuePair<int, Player> kv2){
+
+            //If two players have a tie, check other stuff.
+            if(kv1.Key.CompareTo(kv2.Key) == 0){
+                //In Elfengold, we check for amount of gold and then amount of travelCards to break ties.
+                if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                    if(kv1.Value.inventory.gold.CompareTo(kv2.Value.inventory.gold) == 0){ 
+                        return kv1.Value.inventory.cards.Count.CompareTo(kv2.Value.inventory.cards.Count);
+                    }else{
+                        return kv1.Value.inventory.gold.CompareTo(kv2.Value.inventory.gold);
+                    }
+                }else{ //In Elfenlands, we check for amount of travel cards to break ties.
+                    return kv1.Value.inventory.cards.Count.CompareTo(kv2.Value.inventory.cards.Count);
+                }
+            }else{
+                return kv1.Key.CompareTo(kv2.Key);
+            }
         }
     }
 }

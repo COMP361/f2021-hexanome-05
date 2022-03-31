@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Models;
 
-public class SessionInfo : MonoBehaviour
+public class SessionInfo 
 {
+
     private Client thisClient;
     public bool isElfenGold {set; get;}
     public bool isLongerGame {set; get;}
@@ -13,14 +13,31 @@ public class SessionInfo : MonoBehaviour
     public bool isElvenWitch {set; get;}
     public bool isRandomDistribution {set; get;}
 
-    void Start(){
-        DontDestroyOnLoad(this.gameObject);
+    private static SessionInfo instance; // Using the singleton pattern
+
+    // returns singleton instance.
+    public static SessionInfo Instance() {
+        if (instance == null) {
+            instance = new SessionInfo();
+        }
+
+        return instance;
     }
 
-    // Start is called before the first frame update
+    public SessionInfo(){
+        isElfenGold = false;
+        isLongerGame = false;
+        isHomeTown = false;
+        isElvenWitch = false;
+        isRandomDistribution = false;
+    }
+
+    public void resetSingleton(){
+        instance = null;
+    }
+
     public void setClient(){
         thisClient = Client.Instance();
-        Debug.Log("SessionInfo object ID is now " + thisClient.thisSessionID);
     }
 
     public Client getClient(){

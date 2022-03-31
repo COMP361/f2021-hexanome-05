@@ -129,6 +129,17 @@ public class PlanTravelController : MonoBehaviour
             }
             //Verify that the road has no counters on it (with double case first)
             if(usingDouble && !hasDouble(road)){
+
+                //Need an extra check to ensure the player isn't trying to put a counter of the same type as the one already on the road.
+                foreach(Counter c in road.counters){
+                    if(c is TransportationCounter){
+                        if(((TransportationCounter) c).transportType == passedCounter){
+                            invalidMessage("Counter of this type already exists!");
+                            return;
+                        }
+                    }
+                }
+
                 //Here, we're using a double spell so check that we have a second counter.
                 foreach(Counter c in Elfenroads.Control.getThisPlayer().inventory.counters){
                     if(c is TransportationCounter){
@@ -391,7 +402,9 @@ public class PlanTravelController : MonoBehaviour
             return;
         }else{ //Case where the second counter has been selected.
             //Find out if the second counter is on the same road as the first.
-
+            if(firstCounter.transportType == tc.transportType){
+                invalidMessage("Can't swap identical counters!");
+            }
             //Figure out if the first counter is compatible with the second counter's road.
             if(!compatibleWithRoad(firstCounter.transportType, counterRoad.roadType)){
                 invalidMessage("Invalid swap!");
