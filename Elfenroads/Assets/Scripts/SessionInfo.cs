@@ -7,6 +7,7 @@ public class SessionInfo
 {
 
     private Client thisClient;
+    public string savegame_id {set; get;}
     public bool isElfenGold {set; get;}
     public bool isLongerGame {set; get;}
     public bool isHomeTown {set; get;}
@@ -30,6 +31,7 @@ public class SessionInfo
         isHomeTown = false;
         isElvenWitch = false;
         isRandomDistribution = false;
+        savegame_id = "";
     }
 
     public void resetSingleton(){

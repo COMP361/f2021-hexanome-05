@@ -5,30 +5,17 @@ using UnityEngine.UI;
 
 public class DropDownHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        var dropdown = transform.GetComponent<Dropdown>();
-        List<string> items = new List<string>() { "","Chris' saved game 1" , "Elfenroads saved file #2"};
-        
-        foreach(var item in items)
-        {
-            dropdown.options.Add(new Dropdown.OptionData() { text = item });
-        }
-      //  DropdownItemSelected(dropdown);
-     //   dropdown.onValueChanged.AddListener(delegate { DropdownItemSelected(dropdown); });
+    public Dropdown dropdown;
 
-    }
-    /*
-    void DropdownItemSelected(Dropdown dropdown)
+    async void OnEnable()
     {
-        int index = dropdown.value;
-        TextBox.text = dropdown.options[index].text;
+        var savegames = await Client.Instance().getSavegames();
+        dropdown.ClearOptions();
+        dropdown.AddOptions(savegames);
     }
-    */
-    // Update is called once per frame
-    void Update()
+
+    public void OnValueChanged()
     {
-        
+        SessionInfo.Instance().savegame_id = dropdown.options[dropdown.value].text;
     }
 }
