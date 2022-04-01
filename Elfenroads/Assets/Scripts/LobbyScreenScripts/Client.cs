@@ -5,6 +5,7 @@ using Models;
 using SocketIOClient;
 using System.Threading.Tasks;
 using Firesplash.UnityAssets.SocketIO;
+using System;
 
 public class Client : ClientInterface
 {
@@ -121,6 +122,10 @@ public class Client : ClientInterface
 
     public void delete(Session aSession){
         lobbyService.delete(aSession, clientCredentials);
+    }
+
+    public async Task<List<String>> getSavegames() {
+        return await lobbyService.getSavegames(); // this is as dumb as it looks. what does this Client class do, anyway?
     }
 
     public Session getSessionByID(string ID){
