@@ -41281,6 +41281,7 @@ MonoBehaviour:
   EndOfGameCanvas: {fileID: 809184508}
   DrawCardsCanvas: {fileID: 1409636409}
   AuctionMainCanvas: {fileID: 921140961}
+  SelectCounterCanvas: {fileID: 9820864}
   drawCountersController: {fileID: 16797347}
   drawCardsController: {fileID: 1089241967}
   planTravelController: {fileID: 86473973}
@@ -41290,6 +41291,7 @@ MonoBehaviour:
   infoWindowController: {fileID: 1435120665}
   gameOverController: {fileID: 1775445033}
   auctionController: {fileID: 1286055678}
+  selectCounterController: {fileID: 2016603409}
   PlayerCounters: {fileID: 1505401640}
   PlayerCards: {fileID: 435262394}
   MoveBootsManager: {fileID: 572325401}

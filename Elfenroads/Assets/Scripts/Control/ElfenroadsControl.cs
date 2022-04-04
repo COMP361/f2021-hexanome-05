@@ -25,6 +25,7 @@ namespace Controls {
         public GameObject EndOfGameCanvas;
         public GameObject DrawCardsCanvas;
         public GameObject AuctionMainCanvas;
+        public GameObject SelectCounterCanvas;
         public DrawCountersController drawCountersController;
         public DrawCardsController drawCardsController;
         public PlanTravelController planTravelController;
@@ -34,6 +35,7 @@ namespace Controls {
         public InfoWindowController infoWindowController;
         public GameOverController gameOverController;
         public AuctionController auctionController;
+        public SelectCounterController selectCounterController;
 
         public GameObject PlayerCounters;
         public GameObject PlayerCards;
@@ -210,18 +212,21 @@ namespace Controls {
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dCa.currentPlayer;
+                    //Activate the window, if it was deactivated.
                     if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
                         DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
                     }
                     drawCardsController.updateFaceUpCards();
                     break;
                 }
-                /*
-                case SelectCounters sc{
-                    
+                case SelectCounter sc:{
+                    SelectCounterCanvas.SetActive(true);
+                    currentPlayer = sc.currentPlayer;
+                    LockCamera?.Invoke(null, EventArgs.Empty);
+                    LockDraggables?.Invoke(null, EventArgs.Empty);
+                    selectCounterController.setupSelectCounter(sc);
                     break;
                 }
-                */
                 case Auction a:{
                     AuctionMainCanvas.SetActive(true);
                     currentPlayer = a.currentPlayer;
@@ -230,7 +235,6 @@ namespace Controls {
                     auctionController.updateAuction(a);
                     break;
                 }
-                
                 default:{
                     Debug.Log("Phase not implemented!");
                     break;
@@ -239,12 +243,14 @@ namespace Controls {
         }
 
         private void disableCanvases(){
+            DrawCardsCanvas.SetActive(false);
             DrawCounterCanvas.SetActive(false);
             AuctionMainCanvas.SetActive(false);
             PlanTravelCanvas.SetActive(false);
             MoveBootCanvas.SetActive(false);
             FinishRoundCanvas.SetActive(false);
             EndOfGameCanvas.SetActive(false);
+            SelectCounterCanvas.SetActive(false);
         }
 
 
