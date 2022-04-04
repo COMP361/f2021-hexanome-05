@@ -44,7 +44,7 @@ namespace Models {
 
             //Next, add the main player object.
             foreach(Player p in game.players){
-                if(p.name == GameObject.Find("SessionInfo").GetComponent<SessionInfo>().getClient().clientCredentials.username){
+                if(p.name == SessionInfo.Instance().getClient().clientCredentials.username){
                     mainPlayerObject.GetComponent<ThisPlayerInventoryView>().setAndSubscribeToModel(p); 
                     Elfenroads.Control.setThisPlayer(p);
                     playerInfoController.setThisPlayer(mainPlayerObject);
@@ -79,11 +79,8 @@ namespace Models {
 
             //Add items to store depending on whether or not we're in ElfenGold or ElfenLand.
             if(game.variant.HasFlag(Game.Variant.Elfengold)){
-                foreach(Card c in game.faceUpCards){
+                foreach(Counter c in ((SelectCounter) game.currentPhase).counters){
                     ModelStore.Add(c);
-                }
-                foreach(GoldCard gc in game.goldCardDeck){
-                    ModelStore.Add(gc);
                 }
             }else{
                 foreach(Counter c in game.faceUpCounters){
@@ -122,6 +119,8 @@ namespace Models {
                     return null;
                 case DrawCards dCa:
                     return dCa.currentPlayer;
+                case SelectCounter sc:
+                    return sc.currentPlayer;
                 default:
                     Debug.Log("Phase not implemented!");
                     break;

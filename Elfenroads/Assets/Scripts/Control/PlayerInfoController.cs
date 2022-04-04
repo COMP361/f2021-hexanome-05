@@ -55,7 +55,7 @@ public class PlayerInfoController : MonoBehaviour
     //Called on initial game setup.
     public void createOpponentPrefabs(List<Player> players){
         foreach(Player p in players){
-            if(p.name == GameObject.Find("SessionInfo").GetComponent<SessionInfo>().getClient().clientCredentials.username){
+            if(p.name == SessionInfo.Instance().getClient().clientCredentials.username){
                 continue;
             }
             GameObject instantiatedTab = Instantiate(opponentTabPrefab, opponentsLayout);

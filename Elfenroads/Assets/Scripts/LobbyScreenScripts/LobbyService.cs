@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 using System.Text;
 using Models;
 using System.Threading.Tasks;
+using System;
+using Newtonsoft.Json.Linq;
 
 public class LobbyService
 {
@@ -50,6 +52,7 @@ public class LobbyService
     public event DeleteFailure DeleteFailureEvent;
 
     const string LS_PATH = "https://mysandbox.icu/LobbyService";
+    const string GAMESERVICE_USERNAME = "Elfenroads";
 
     // Status code reference:
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
@@ -134,7 +137,7 @@ public class LobbyService
 
     public void createSession(string playerName, string token){ //POST /api/sessions. Request body is a json.
         //Doing this differently than in Login bc the LobbyService or SOMETHING was being goofy and wouldn't allow it.
-        SessionCreator jsonObj = new SessionCreator();
+        SessionCreator jsonObj = new SessionCreator(SessionInfo.Instance().savegame_id);
         jsonObj.creator = playerName;
         string bodyJsonString = JsonUtility.ToJson(jsonObj);
         Debug.Log(bodyJsonString);
@@ -205,6 +208,40 @@ public class LobbyService
         request.Dispose();
     }
 
+    public async Task<List<String>> getSavegames() {
+
+        UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/gameservices/" + GAMESERVICE_USERNAME
+                + "/savegames?access_token=" + Client.Instance().clientCredentials.accessToken);
+        
+        // I like this pattern.
+        var tcs = new TaskCompletionSource<string>();
+
+        request.SendWebRequest().completed += (AsyncOperation operation) => {
+            UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
+            if (request.error != null) {
+                tcs.SetException(new Exception(request.error));
+            }
+            else {
+                tcs.SetResult(request.downloadHandler.text);
+            }
+            request.Dispose();
+        };
+
+        var savegame_ids = new List<String>() {""};
+
+        try {
+            JArray result = JArray.Parse(await tcs.Task);
+            
+            foreach (JObject savegame in result) {
+                savegame_ids.Add(savegame.Property("savegameid").Value.ToString());
+            }
+        }
+        catch (Exception e) {
+            Debug.LogException(e);
+        }
+
+        return savegame_ids;
+    }
 
     public void launch(Session aSession, ClientCredentials aClientCredentials){
         Debug.Log("Request looks like: " + LS_PATH + "/api/sessions/" + aSession.sessionID + "?access_token=" + aClientCredentials.accessToken);
@@ -252,5 +289,9 @@ public class SessionCreator{
     public string creator;
     public string game = "Elfenroads";
     public string savegame = "";
+
+    public SessionCreator(string savegame_id) {
+        this.savegame = savegame_id;
+    }
 }
 

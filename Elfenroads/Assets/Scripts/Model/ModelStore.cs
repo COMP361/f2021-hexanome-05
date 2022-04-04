@@ -23,7 +23,7 @@ namespace Models{
             dict = new Dictionary<Guid, GuidModel>();
         }
         public static void Add(GuidModel model) {
-            Debug.Log("Type: " + model.GetType() + " with Id:" + model.id );
+            //Debug.Log("Type: " + model.GetType() + " with Id:" + model.id );
             StoreInstance().dict.Add(model.id, model);
         }
 
