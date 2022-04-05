@@ -16,6 +16,8 @@ public class AuctionController : MonoBehaviour
     public RectTransform currentCounterLayoutGroup;
     public RectTransform soldCounterLayoutGroup;
     public TMPro.TMP_Text currentHighestBidText;
+    public TMPro.TMP_Text turnText;
+    public TMPro.TMP_Text passedPlayersText;
     public TMPro.TMP_Text currentBidText;
     public TMPro.TMP_Text soldCounterText;
 
@@ -43,29 +45,27 @@ public class AuctionController : MonoBehaviour
             soldCounterText.text = auctionModel.highestBidder + " obtained:";
             List<Counter> soldCounter = new List<Counter>();
             soldCounter.Add(counterUpForAuction);
-            updateLayoutGroup(soldCounterLayoutGroup, soldCounter);
+            updateLayoutGroup(soldCounterLayoutGroup, soldCounter, false);
         }
 
         thisPlayerBid = auctionModel.highestBid + 1;
         counterUpForAuction = auctionModel.getCurrentAuctioningCounter();
-        updateLayoutGroup(countersLeftLayoutGroup, auctionModel.countersForAuction);
+        updateLayoutGroup(countersLeftLayoutGroup, auctionModel.countersForAuction, true);
         List<Counter> currentCounter = new List<Counter>();
         currentCounter.Add(auctionModel.getCurrentAuctioningCounter());
-        updateLayoutGroup(currentCounterLayoutGroup, currentCounter);
-        string toPresent = "";
+        updateLayoutGroup(currentCounterLayoutGroup, currentCounter, false);
 
         if(auctionModel.highestBidder == null){
-            toPresent = toPresent + "There are no bids on this counter yet.";
+            currentHighestBidText.text = "There are no bids on this counter yet.";
         }else{
-            toPresent = toPresent + "The current highest bidder is " + auctionModel.highestBidder.name + " with a bid of " + auctionModel.highestBid + " gold.";
+            currentHighestBidText.text = "The current highest bidder is " + auctionModel.highestBidder.name + " with a bid of " + auctionModel.highestBid + " gold.";
         }
 
         if(! Elfenroads.Control.isCurrentPlayer()){
-            toPresent = toPresent + " " + auctionModel.currentPlayer.name + " is placing a bid...";
+            turnText.text = "Please wait, " + auctionModel.currentPlayer.name + " is placing a bid...";
         }else{
-            toPresent = toPresent + "Place your bid:";
+            turnText.text = "Your turn! Place a bid or pass:";
         }
-        currentHighestBidText.text = toPresent;
         currentBidText.text = thisPlayerBid + "";
     }
 
@@ -151,7 +151,7 @@ public class AuctionController : MonoBehaviour
         Destroy(invalidBox, 2f);
     }
 
-    public void updateLayoutGroup(RectTransform targetLayoutGroup, List<Counter> countersToShow) { 
+    public void updateLayoutGroup(RectTransform targetLayoutGroup, List<Counter> countersToShow, bool scheduled) { 
         Debug.Log("Model was updated!");
         //First, destroy all children
         foreach(Transform child in targetLayoutGroup){
@@ -159,17 +159,19 @@ public class AuctionController : MonoBehaviour
             DestroyImmediate(child.gameObject);
         }
         targetLayoutGroup.DetachChildren();
+        if(scheduled && countersToShow.Count <= 1){
+            return;
+        }
         int first = 0;
         //Now, loop through the cards of the model, instantiating appropriate counter each time.
         foreach(Counter c in countersToShow){
-            if(first == 0 && countersToShow.Count != 1){
+            if(first == 0 && scheduled){
                 first++;
                 continue;
             }
             switch(c){
                 case TransportationCounter tc:
                 {
-                    //Debug.Log("Transport type of " + c.id + " is: " + tc.transportType);
                     switch(tc.transportType){
                         case TransportType.Dragon:
                         {  

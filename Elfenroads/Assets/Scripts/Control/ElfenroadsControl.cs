@@ -24,7 +24,7 @@ namespace Controls {
         public GameObject FinishRoundCanvas;
         public GameObject EndOfGameCanvas;
         public GameObject DrawCardsCanvas;
-        public GameObject AuctionMainCanvas;
+        public GameObject AuctionCanvas;
         public GameObject SelectCounterCanvas;
         public DrawCountersController drawCountersController;
         public DrawCardsController drawCardsController;
@@ -132,6 +132,7 @@ namespace Controls {
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dc.currentPlayer;
+                    //Open the window if it was closed due to a map button.
                     if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
                         DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
                     }
@@ -233,10 +234,13 @@ namespace Controls {
                     break;
                 }
                 case Auction a:{
-                    AuctionMainCanvas.SetActive(true);
+                    AuctionCanvas.SetActive(true);
                     PlayerCounters.SetActive(true);
                     PlayerCards.SetActive(false);
                     currentPlayer = a.currentPlayer;
+                    if(!AuctionCanvas.transform.GetChild(0).gameObject.activeSelf){
+                        AuctionCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                    }
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     auctionController.updateAuction(a);
@@ -252,7 +256,7 @@ namespace Controls {
         private void disableCanvases(){
             DrawCardsCanvas.SetActive(false);
             DrawCounterCanvas.SetActive(false);
-            AuctionMainCanvas.SetActive(false);
+            AuctionCanvas.SetActive(false);
             PlanTravelCanvas.SetActive(false);
             MoveBootCanvas.SetActive(false);
             FinishRoundCanvas.SetActive(false);
