@@ -36,7 +36,7 @@ namespace Models
                 foreach (T item in deserialized) {
                     T counter = (T) ModelStore.Get(item.id);
                     counter.isFaceUp = item.isFaceUp;
-                    toUpdate.Add((T) ModelStore.Get(item.id));
+                    toUpdate.Add(counter);
                 }
                 return true;
             }
