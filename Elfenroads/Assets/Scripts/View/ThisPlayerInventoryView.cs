@@ -71,6 +71,15 @@ public class ThisPlayerInventoryView : MonoBehaviour
         updateTexts();
     }
 
+    public void resetDraggablePositions(){
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+             playerCounters.GetComponent<GridLayoutGroup>().spacing = new Vector2(85f, 10f);
+             foreach(Transform child in playerCounters.transform){
+                child.gameObject.GetComponent<DragScript>().resetStartingPositions();
+             }
+         }
+    }
+
     public void updateTexts(){
         Player curPlayer = Elfenroads.Model.getCurrentPlayer();
         if(curPlayer == null){

@@ -130,6 +130,7 @@ namespace Controls {
                     PlayerCounters.SetActive(true);
                     PlayerCards.SetActive(false);
                     LockCamera?.Invoke(null, EventArgs.Empty);
+                    LockDraggables?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dc.currentPlayer;
                     if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
                         DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
@@ -144,8 +145,7 @@ namespace Controls {
                     infoWindowController.UpdateDrawCounterHelp();
                     break;
                 }
-                case PlanTravelRoutes pt:{
-                    Debug.Log("Phase is PlanTravelRoutes!");
+                case PlanTravelRoutes pt:{;
                     PlanTravelCanvas.SetActive(true);
                     PlayerCounters.SetActive(true);
                     PlayerCards.SetActive(false);
@@ -161,6 +161,7 @@ namespace Controls {
                     if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
                         PlanTravelCanvas.transform.GetChild(0).gameObject.SetActive(true);
                         PlanTravelCanvas.transform.GetChild(1).gameObject.SetActive(true);
+                        GameObject.Find("PlayerHand").GetComponent<ThisPlayerInventoryView>().resetDraggablePositions();
                     }
                     break;
                 }
@@ -209,6 +210,8 @@ namespace Controls {
                 }
                 case DrawCards dCa:{
                     DrawCardsCanvas.SetActive(true);
+                    PlayerCounters.SetActive(false);
+                    PlayerCards.SetActive(true);
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dCa.currentPlayer;
@@ -221,6 +224,8 @@ namespace Controls {
                 }
                 case SelectCounter sc:{
                     SelectCounterCanvas.SetActive(true);
+                    PlayerCounters.SetActive(false);
+                    PlayerCards.SetActive(true);
                     currentPlayer = sc.currentPlayer;
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);

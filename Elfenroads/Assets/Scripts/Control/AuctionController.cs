@@ -39,7 +39,7 @@ public class AuctionController : MonoBehaviour
     //Called every time we get state and it is currently an auction.
     public void updateAuction(Auction auction){
         auctionModel = auction;
-        if( (counterUpForAuction != null) && (auctionModel.getCurrentAuctioningCounter().id != counterUpForAuction.id)){
+        if( (counterUpForAuction != null) && (auctionModel.getCurrentAuctioningCounter().id != counterUpForAuction.id)){ //Not working...
             soldCounterText.text = auctionModel.highestBidder + " obtained:";
             List<Counter> soldCounter = new List<Counter>();
             soldCounter.Add(counterUpForAuction);
@@ -52,12 +52,20 @@ public class AuctionController : MonoBehaviour
         List<Counter> currentCounter = new List<Counter>();
         currentCounter.Add(auctionModel.getCurrentAuctioningCounter());
         updateLayoutGroup(currentCounterLayoutGroup, currentCounter);
+        string toPresent = "";
 
         if(auctionModel.highestBidder == null){
-            currentHighestBidText.text = "There are no bids on this counter yet. Place your bid:";
+            toPresent = toPresent + "There are no bids on this counter yet.";
         }else{
-            currentHighestBidText.text = "The current highest bidder is " + auctionModel.highestBidder.name + " with a bid of " + auctionModel.highestBid + " gold. Place your bid:";
+            toPresent = toPresent + "The current highest bidder is " + auctionModel.highestBidder.name + " with a bid of " + auctionModel.highestBid + " gold.";
         }
+
+        if(! Elfenroads.Control.isCurrentPlayer()){
+            toPresent = toPresent + " " + auctionModel.currentPlayer.name + " is placing a bid...";
+        }else{
+            toPresent = toPresent + "Place your bid:";
+        }
+        currentHighestBidText.text = toPresent;
         currentBidText.text = thisPlayerBid + "";
     }
 
@@ -101,8 +109,8 @@ public class AuctionController : MonoBehaviour
             invalidMessage("Not your turn!");
             return;
         }
-        if (thisPlayerBid - 1 < auctionModel.highestBid || thisPlayerBid - 1 == 0){
-            invalidMessage("You can only bid higher!");
+        if (thisPlayerBid - 1 <= auctionModel.highestBid || thisPlayerBid - 1 == 0){
+            invalidMessage("You can only bid higher than the current price!");
             return;
         }
         thisPlayerBid = thisPlayerBid - 1;

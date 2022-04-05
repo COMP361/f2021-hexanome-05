@@ -307,6 +307,11 @@ public class PlanTravelController : MonoBehaviour
     }
 
     public void toggleDoubleSpell(){
+        if(! Elfenroads.Control.isCurrentPlayer()){
+            //Inform player they are not the current player.
+            invalidMessage("Not your turn!");
+            return;
+        }
         if(usingExchange){
             invalidMessage("You can only use one spell at a time!");
             return;
@@ -355,6 +360,12 @@ public class PlanTravelController : MonoBehaviour
     }
 
     public void toggleExchangeSpell(){
+        if(! Elfenroads.Control.isCurrentPlayer()){
+            //Inform player they are not the current player.
+            invalidMessage("Not your turn!");
+            return;
+        }
+
         if(usingDouble){
             invalidMessage("You can only use one spell at a time!");
             return;
