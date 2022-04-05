@@ -27,23 +27,19 @@ namespace Models
                 return true;
             }
 
-            /// <summary>
-            /// Similar to Update(), but treats the list as a mathematical set.
-            /// </summary>
-            /// <param name="toUpdate">list to be updated</param>
-            /// <param name="deserialized">deserialized update</param>
-            /// <typeparam name="T">list item type</typeparam>
-            /// <returns>true if the list changed, false otherwise.</returns>
-            // public static bool UpdateUnordered<T>(this List<T> toUpdate, List<T> deserialized) where T : GuidModel {
-            //     if (toUpdate.Except(deserialized).Any() || deserialized.Except(toUpdate).Any()) {
-            //         toUpdate.Clear();
-            //         foreach (T item in deserialized) {
-            //             toUpdate.Add((T) ModelStore.Get(item.id));
-            //         }
-            //         return true;
-            //     }
-            //     return false;
-            // }
+            public static bool Update<T>(this List<T> toUpdate, List<Counter> deserialized) where T : Counter {
+                if (toUpdate.SequenceEqual(deserialized, CounterEqualityComparer.Instance)) {
+                    return false;
+                }
+
+                toUpdate.Clear();
+                foreach (T item in deserialized) {
+                    T counter = (T) ModelStore.Get(item.id);
+                    counter.isFaceUp = item.isFaceUp;
+                    toUpdate.Add((T) ModelStore.Get(item.id));
+                }
+                return true;
+            }
 
             /// <summary>
             /// Updates the list, and calls .Update() on each item in the list.
@@ -63,8 +59,6 @@ namespace Models
                 for (int i = 0; i < toUpdate.Count; i++) {
                     results.Add(toUpdate[i].Update(deserialized[i]));
                 }
-                // IEnumerable<bool> results = toUpdate.Zip<T, T, bool>(deserialized,
-                //                            (itemToUpdate, itemDeserialized) => { return itemToUpdate.Update(itemDeserialized); });
                 
                 // check if at least one item was modified
                 if (results.Any( (result) => { return result; })) {
@@ -72,6 +66,38 @@ namespace Models
                 }
 
                 return modified;
+            }
+        }
+
+        class CounterEqualityComparer : IEqualityComparer<Counter> {
+            private static CounterEqualityComparer _instance;
+            public static CounterEqualityComparer Instance {
+                get {
+                    if (_instance == null) {
+                        _instance = new CounterEqualityComparer();
+                    }
+
+                    return _instance;
+                }
+                private set {
+                    _instance = value;
+                }
+            }
+
+
+            public bool Equals(Counter c1, Counter c2) {
+                if (c2 == null && c1 == null) {
+                    return true;
+                }
+                else if (c1 == null || c2 == null) {
+                    return false;
+                }
+                
+                return c1.id == c2.id && c1.isFaceUp == c2.isFaceUp;
+            }
+
+            public int GetHashCode(Counter c) {
+                return c.id.GetHashCode();
             }
         }
     }
