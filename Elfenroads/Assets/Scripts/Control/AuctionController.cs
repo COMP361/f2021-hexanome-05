@@ -39,26 +39,26 @@ public class AuctionController : MonoBehaviour
     //Called every time we get state and it is currently an auction.
     public void updateAuction(Auction auction){
         auctionModel = auction;
-
-        thisPlayerBid = auctionModel.highestBid + 1;
-
-        updateLayoutGroup(countersLeftLayoutGroup, auctionModel.countersForAuction);
-        List<Counter> currentCounter = new List<Counter>();
-        currentCounter.Add(auctionModel.getCurrentAuctioningCounter());
-        updateLayoutGroup(currentCounterLayoutGroup, currentCounter);
-
-        currentHighestBidText.text = "The current highest bidder is " + auctionModel.highestBidder + " with a bid of " + auctionModel.highestBid + " gold. Place your bid:";
-        currentBidText.text = auctionModel.highestBid + "";
-
         if( (counterUpForAuction != null) && (auctionModel.getCurrentAuctioningCounter().id != counterUpForAuction.id)){
-            //Enable popup window here ***
             soldCounterText.text = auctionModel.highestBidder + " obtained:";
             List<Counter> soldCounter = new List<Counter>();
             soldCounter.Add(counterUpForAuction);
             updateLayoutGroup(soldCounterLayoutGroup, soldCounter);
         }
 
+        thisPlayerBid = auctionModel.highestBid + 1;
         counterUpForAuction = auctionModel.getCurrentAuctioningCounter();
+        updateLayoutGroup(countersLeftLayoutGroup, auctionModel.countersForAuction);
+        List<Counter> currentCounter = new List<Counter>();
+        currentCounter.Add(auctionModel.getCurrentAuctioningCounter());
+        updateLayoutGroup(currentCounterLayoutGroup, currentCounter);
+
+        if(auctionModel.highestBidder == null){
+            currentHighestBidText.text = "There are no bids on this counter yet. Place your bid:";
+        }else{
+            currentHighestBidText.text = "The current highest bidder is " + auctionModel.highestBidder.name + " with a bid of " + auctionModel.highestBid + " gold. Place your bid:";
+        }
+        currentBidText.text = thisPlayerBid + "";
     }
 
     public void passAuction(){
@@ -72,7 +72,7 @@ public class AuctionController : MonoBehaviour
             return;
         }
         
-        Elfenroads.Control.passAuction();
+        Elfenroads.Control.placeBid(0);
     }
 
 
@@ -97,7 +97,11 @@ public class AuctionController : MonoBehaviour
     }
 
     public void minusClicked(){
-        if (thisPlayerBid - 1 < auctionModel.highestBid){
+        if(! Elfenroads.Control.isCurrentPlayer()){
+            invalidMessage("Not your turn!");
+            return;
+        }
+        if (thisPlayerBid - 1 < auctionModel.highestBid || thisPlayerBid - 1 == 0){
             invalidMessage("You can only bid higher!");
             return;
         }
@@ -106,6 +110,14 @@ public class AuctionController : MonoBehaviour
     }
 
     public void plusClicked(){
+        if(! Elfenroads.Control.isCurrentPlayer()){
+            invalidMessage("Not your turn!");
+            return;
+        }
+        if(thisPlayerBid + 1 > auctionModel.currentPlayer.inventory.gold){
+            invalidMessage("Not enough gold!");
+            return;
+        }
         thisPlayerBid = thisPlayerBid + 1;
         updateBid(thisPlayerBid);
     }
@@ -139,9 +151,13 @@ public class AuctionController : MonoBehaviour
             DestroyImmediate(child.gameObject);
         }
         targetLayoutGroup.DetachChildren();
-
+        int first = 0;
         //Now, loop through the cards of the model, instantiating appropriate counter each time.
         foreach(Counter c in countersToShow){
+            if(first == 0 && countersToShow.Count != 1){
+                first++;
+                continue;
+            }
             switch(c){
                 case TransportationCounter tc:
                 {

@@ -121,6 +121,8 @@ namespace Models {
                     return dCa.currentPlayer;
                 case SelectCounter sc:
                     return sc.currentPlayer;
+                case Auction a:
+                    return a.currentPlayer;
                 default:
                     Debug.Log("Phase not implemented!");
                     break;

@@ -10040,7 +10040,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 61.2
+  m_fontSize: 45.9
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -16175,7 +16175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0acaa34d63760b34188df4e5e8af899a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetWindow: {fileID: 0}
+  targetWindow: {fileID: 9144220660536410174}
   playerInfoController: {fileID: 791982035}
   infoWindowController: {fileID: 1435120665}
 --- !u!114 &839738616
@@ -18385,7 +18385,6 @@ GameObject:
   - component: {fileID: 951514553}
   - component: {fileID: 951514552}
   - component: {fileID: 951514551}
-  - component: {fileID: 951514550}
   m_Layer: 5
   m_Name: AuctionedCounter
   m_TagString: Untagged
@@ -18413,30 +18412,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &951514550
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 951514548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4405169175344604f86f9680e3063bdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dragonCounterPrefab: {fileID: 3809492794757087743, guid: d90e944c94a80ab48a2249dc9e9b3da0, type: 3}
-  trollCounterPrefab: {fileID: 3809492794757087743, guid: cafb96764d813654681ffb85a6a744ea, type: 3}
-  cloudCounterPrefab: {fileID: 3809492794757087743, guid: 9efffb6a60a71bd4bb6b9783e0b1303e, type: 3}
-  cycleCounterPrefab: {fileID: 3809492794757087743, guid: 6daaa44b34d18ba469f081f82772279c, type: 3}
-  unicornCounterPrefab: {fileID: 3809492794757087743, guid: 514fbbafd6931ab40997a59a8cc27bdf, type: 3}
-  pigCounterPrefab: {fileID: 3809492794757087743, guid: c7b24330eb0ba0540aa0fbe7e3dbfdbf, type: 3}
-  landObstaclePrefab: {fileID: 3809492794757087743, guid: d01a921585fad01498b5cd2ae88d1ccd, type: 3}
-  seaObstaclePrefab: {fileID: 3809492794757087743, guid: cf32c3b46cf51944ca80be4befddfbd6, type: 3}
-  goldCounterPrefab: {fileID: 3809492794757087743, guid: 9a2585525937e6e4989c7bf0339df5da, type: 3}
-  doubleCounterPrefab: {fileID: 3809492794757087743, guid: 7512344bfd4005045be760b18d844fb6, type: 3}
-  exchangeCounterPrefab: {fileID: 3809492794757087743, guid: 949fefd6b5575e8429f0f0e273bfb3dc, type: 3}
-  currentCounterLayoutGroup: {fileID: 951514549}
 --- !u!114 &951514551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25085,7 +25060,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1286055677
 Transform:
   m_ObjectHideFlags: 0
@@ -25116,12 +25091,12 @@ MonoBehaviour:
   ResultCanvas: {fileID: 1383807064}
   invalidMovePrefab: {fileID: 6005364027087520367, guid: f53cc4ef353f181438149e9657fc493d, type: 3}
   messagePrefab: {fileID: 6005364027087520367, guid: 694a2b26dc8c090429e138adff49379c, type: 3}
-  countersLeftLayoutGroup: {fileID: 0}
-  currentCounterLayoutGroup: {fileID: 0}
-  soldCounterLayoutGroup: {fileID: 0}
-  currentHighestBidText: {fileID: 0}
-  currentBidText: {fileID: 0}
-  soldCounterText: {fileID: 0}
+  countersLeftLayoutGroup: {fileID: 9144220660343788676}
+  currentCounterLayoutGroup: {fileID: 9144220661926121330}
+  soldCounterLayoutGroup: {fileID: 951514549}
+  currentHighestBidText: {fileID: 9144220660904010991}
+  currentBidText: {fileID: 9144220660291204974}
+  soldCounterText: {fileID: 977904914}
   dragonCounterPrefab: {fileID: 3809492794757087743, guid: d90e944c94a80ab48a2249dc9e9b3da0, type: 3}
   trollCounterPrefab: {fileID: 3809492794757087743, guid: cafb96764d813654681ffb85a6a744ea, type: 3}
   cloudCounterPrefab: {fileID: 3809492794757087743, guid: 9efffb6a60a71bd4bb6b9783e0b1303e, type: 3}
@@ -43839,7 +43814,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 421.632, y: -328.148}
+  m_AnchoredPosition: {x: 421.632, y: -246.11101}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5348241974295152195
@@ -43912,7 +43887,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1286055678}
         m_TargetAssemblyTypeName: AuctionController, Elfenroads
         m_MethodName: plusClicked
         m_Mode: 1
@@ -44384,7 +44359,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1286055678}
         m_TargetAssemblyTypeName: AuctionController, Elfenroads
         m_MethodName: minusClicked
         m_Mode: 1
@@ -44546,7 +44521,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.35
+  m_fontSize: 34
   m_fontSizeBase: 65
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -44701,7 +44676,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1286055678}
         m_TargetAssemblyTypeName: AuctionController, Elfenroads
         m_MethodName: placeBid
         m_Mode: 1
@@ -44842,7 +44817,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1286055678}
         m_TargetAssemblyTypeName: AuctionController, Elfenroads
         m_MethodName: passAuction
         m_Mode: 1
@@ -45187,7 +45162,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '>'
+  m_text: +
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8cd2689fcdc2b6a4d9e9b07a7fe0e017, type: 2}
   m_sharedMaterial: {fileID: -764607382435083489, guid: 8cd2689fcdc2b6a4d9e9b07a7fe0e017, type: 2}
@@ -45214,7 +45189,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 68
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -45455,7 +45430,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <
+  m_text: '-'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8cd2689fcdc2b6a4d9e9b07a7fe0e017, type: 2}
   m_sharedMaterial: {fileID: -764607382435083489, guid: 8cd2689fcdc2b6a4d9e9b07a7fe0e017, type: 2}
@@ -45482,7 +45457,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 68
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1

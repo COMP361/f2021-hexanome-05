@@ -229,6 +229,8 @@ namespace Controls {
                 }
                 case Auction a:{
                     AuctionMainCanvas.SetActive(true);
+                    PlayerCounters.SetActive(true);
+                    PlayerCards.SetActive(false);
                     currentPlayer = a.currentPlayer;
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
@@ -313,13 +315,6 @@ namespace Controls {
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(SessionInfo.Instance().getClient().clientCredentials.username).id);
             json.Add("bid_amount", amountToBid);
             socket.Instance.Emit("PlaceBid", json.ToString(), false);
-        }
-
-        public void passAuction(){
-            JObject json = new JObject();
-            json.Add("game_id", SessionInfo.Instance().getSessionID());
-            json.Add("player_id", Elfenroads.Model.game.GetPlayer(SessionInfo.Instance().getClient().clientCredentials.username).id);
-            socket.Instance.Emit("PassAuction", json.ToString(), false);
         }
 
         public void placeCounter(Guid counterGuid, Guid roadGuid){
