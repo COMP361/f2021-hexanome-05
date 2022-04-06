@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using Newtonsoft.Json.Linq;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
@@ -13,12 +14,31 @@ public class LobbyScript : MonoBehaviour
 
     //Known bug: When a session does not already exist (for the user), when they press "create" the game tells them they already have a session (it still creates the session - the warning message is the thing that's wrong) ***
     IEnumerator pollingRoutine(){ //Just asks the LS for sessions every second, and displays the result.
-        while(true){
-            #pragma warning disable 4014
-            thisClient.refreshSessions();
-            #pragma warning restore 4014
-            yield return new WaitForSeconds(1f);
+        // while(true){
+            // #pragma warning disable 4014
+            // thisClient.refreshSessions();
+            // #pragma warning restore 4014
+            // yield return new WaitForSeconds(1f);
+        // }
+        const string LS_PATH = "https://mysandbox.icu/LobbyService";
+
+        UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
+        UnityWebRequestAsyncOperation operation = request.SendWebRequest();
+
+        int returnCode = 408;
+        
+        while(request.responseCode == 408){
+            HttpResponse<String> httpReply = Unirest.get(serverUpdateUrl).asString();
+            returnCode = httpReply.getStatus();            
+        } 
+        if (request.responseCode == 200){
+                RefreshSuccessEvent(request.downloadHandler.text);
+                thisClient.refreshSessions();
         }
+        else {
+            RefreshFailureEvent(request.error + "\n" + request.downloadHandler.text); 
+        }
+        request.Dispose();
     }
 
     public TMPro.TMP_Text infoText;
