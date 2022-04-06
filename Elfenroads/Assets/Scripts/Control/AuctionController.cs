@@ -38,14 +38,17 @@ public class AuctionController : MonoBehaviour
     private Counter counterUpForAuction;
     private int thisPlayerBid;
 
+    private string previousHighestBidder;
+
     //Called every time we get state and it is currently an auction.
     public void updateAuction(Auction auction){
         auctionModel = auction;
-        if( (counterUpForAuction != null) && (auctionModel.getCurrentAuctioningCounter().id != counterUpForAuction.id)){ //Not working...
-            soldCounterText.text = auctionModel.highestBidder + " obtained:";
+        if( (counterUpForAuction != null) && (auctionModel.getCurrentAuctioningCounter().id != counterUpForAuction.id)){
+            soldCounterText.text = previousHighestBidder + " obtained:";
             List<Counter> soldCounter = new List<Counter>();
             soldCounter.Add(counterUpForAuction);
             updateLayoutGroup(soldCounterLayoutGroup, soldCounter, false);
+            ResultCanvas.SetActive(true); 
         }
 
         thisPlayerBid = auctionModel.highestBid + 1;
@@ -79,6 +82,8 @@ public class AuctionController : MonoBehaviour
             invalidMessage("Not your turn!");
             return;
         }
+
+        previousHighestBidder = auctionModel.highestBidder.name;
         
         Elfenroads.Control.placeBid(0);
     }
@@ -96,6 +101,7 @@ public class AuctionController : MonoBehaviour
         }
         
         if (thisPlayerBid > auctionModel.highestBid){
+            previousHighestBidder = "You";
             Elfenroads.Control.placeBid(thisPlayerBid);
         }
         else{
