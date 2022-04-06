@@ -17,7 +17,7 @@ public class ToggleMapScript : MonoBehaviour
             return;
         }
 
-        if(Elfenroads.Model.game.currentPhase is DrawCounters || Elfenroads.Model.game.currentPhase is FinishRound){
+        //if(Elfenroads.Model.game.currentPhase is DrawCounters || Elfenroads.Model.game.currentPhase is FinishRound || Elfenroads.Model.game.currentPhase is SelectCounter || Elfenroads.Model.game.currentPhase is Auction){
             if(targetWindow.activeSelf){
                 targetWindow.SetActive(false);
                 Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
@@ -26,5 +26,5 @@ public class ToggleMapScript : MonoBehaviour
                 Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
             }
         }
-    }
+    //}
 }

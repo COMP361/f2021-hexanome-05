@@ -24,7 +24,8 @@ namespace Controls {
         public GameObject FinishRoundCanvas;
         public GameObject EndOfGameCanvas;
         public GameObject DrawCardsCanvas;
-        public GameObject AuctionMainCanvas;
+        public GameObject AuctionCanvas;
+        public GameObject SelectCounterCanvas;
         public DrawCountersController drawCountersController;
         public DrawCardsController drawCardsController;
         public PlanTravelController planTravelController;
@@ -34,6 +35,7 @@ namespace Controls {
         public InfoWindowController infoWindowController;
         public GameOverController gameOverController;
         public AuctionController auctionController;
+        public SelectCounterController selectCounterController;
 
         public GameObject PlayerCounters;
         public GameObject PlayerCards;
@@ -128,7 +130,9 @@ namespace Controls {
                     PlayerCounters.SetActive(true);
                     PlayerCards.SetActive(false);
                     LockCamera?.Invoke(null, EventArgs.Empty);
+                    LockDraggables?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dc.currentPlayer;
+                    //Open the window if it was closed due to a map button.
                     if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
                         DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
                     }
@@ -142,8 +146,7 @@ namespace Controls {
                     infoWindowController.UpdateDrawCounterHelp();
                     break;
                 }
-                case PlanTravelRoutes pt:{
-                    Debug.Log("Phase is PlanTravelRoutes!");
+                case PlanTravelRoutes pt:{;
                     PlanTravelCanvas.SetActive(true);
                     PlayerCounters.SetActive(true);
                     PlayerCards.SetActive(false);
@@ -159,6 +162,7 @@ namespace Controls {
                     if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
                         PlanTravelCanvas.transform.GetChild(0).gameObject.SetActive(true);
                         PlanTravelCanvas.transform.GetChild(1).gameObject.SetActive(true);
+                        GameObject.Find("PlayerHand").GetComponent<ThisPlayerInventoryView>().resetDraggablePositions();
                     }
                     break;
                 }
@@ -207,30 +211,41 @@ namespace Controls {
                 }
                 case DrawCards dCa:{
                     DrawCardsCanvas.SetActive(true);
+                    PlayerCounters.SetActive(false);
+                    PlayerCards.SetActive(true);
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dCa.currentPlayer;
+                    //Activate the window, if it was deactivated.
                     if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
                         DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
                     }
                     drawCardsController.updateFaceUpCards();
                     break;
                 }
-                /*
-                case SelectCounters sc{
-                    
+                case SelectCounter sc:{
+                    SelectCounterCanvas.SetActive(true);
+                    PlayerCounters.SetActive(false);
+                    PlayerCards.SetActive(true);
+                    currentPlayer = sc.currentPlayer;
+                    LockCamera?.Invoke(null, EventArgs.Empty);
+                    LockDraggables?.Invoke(null, EventArgs.Empty);
+                    selectCounterController.setupSelectCounter(sc);
                     break;
                 }
-                */
                 case Auction a:{
-                    AuctionMainCanvas.SetActive(true);
+                    AuctionCanvas.SetActive(true);
+                    PlayerCounters.SetActive(true);
+                    PlayerCards.SetActive(false);
                     currentPlayer = a.currentPlayer;
+                    if(!AuctionCanvas.transform.GetChild(0).gameObject.activeSelf){
+                        AuctionCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                    }
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     auctionController.updateAuction(a);
                     break;
                 }
-                
                 default:{
                     Debug.Log("Phase not implemented!");
                     break;
@@ -239,12 +254,14 @@ namespace Controls {
         }
 
         private void disableCanvases(){
+            DrawCardsCanvas.SetActive(false);
             DrawCounterCanvas.SetActive(false);
-            AuctionMainCanvas.SetActive(false);
+            AuctionCanvas.SetActive(false);
             PlanTravelCanvas.SetActive(false);
             MoveBootCanvas.SetActive(false);
             FinishRoundCanvas.SetActive(false);
             EndOfGameCanvas.SetActive(false);
+            SelectCounterCanvas.SetActive(false);
         }
 
 
@@ -307,13 +324,6 @@ namespace Controls {
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(SessionInfo.Instance().getClient().clientCredentials.username).id);
             json.Add("bid_amount", amountToBid);
             socket.Instance.Emit("PlaceBid", json.ToString(), false);
-        }
-
-        public void passAuction(){
-            JObject json = new JObject();
-            json.Add("game_id", SessionInfo.Instance().getSessionID());
-            json.Add("player_id", Elfenroads.Model.game.GetPlayer(SessionInfo.Instance().getClient().clientCredentials.username).id);
-            socket.Instance.Emit("PassAuction", json.ToString(), false);
         }
 
         public void placeCounter(Guid counterGuid, Guid roadGuid){

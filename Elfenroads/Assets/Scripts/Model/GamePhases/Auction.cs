@@ -9,7 +9,7 @@ namespace Models
         override public event EventHandler Updated;
         public List<Counter> countersForAuction { protected set; get; }
         public int highestBid { protected set; get; }
-        public Player highestBidder { protected set; get; }
+        public Player highestBidder { protected set; get; } // remember that this can be null.
         public Player currentPlayer { protected set; get; }
 
         public Auction(List<Counter> countersForAuction) {
@@ -48,9 +48,17 @@ namespace Models
                 modified = true;
             }
 
-            if ( !highestBidder.Equals(updateTypecast.highestBidder) ) {
-                highestBidder = (Player) ModelStore.Get(updateTypecast.highestBidder.id);
-                modified = true;
+            if (highestBidder == null) {
+                if (updateTypecast.highestBidder != null) {
+                    highestBidder = updateTypecast.highestBidder;
+                    modified = true;
+                }
+            }
+            else {
+                if ( !highestBidder.Equals(updateTypecast.highestBidder) ) {
+                    highestBidder = updateTypecast.highestBidder == null ? null : (Player) ModelStore.Get(updateTypecast.highestBidder.id);
+                    modified = true;
+                }
             }
 
             if ( !currentPlayer.Equals(updateTypecast.currentPlayer) ) {

@@ -125,7 +125,7 @@ public class PlayerInfoController : MonoBehaviour
         playerName.text = targetPlayer.name + "'s Inventory!";
         string toPresent = "Points: " + targetPlayer.inventory.townPieces.Count;
         if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
-            toPresent = "   -   Gold: " + targetPlayer.inventory.gold;
+            toPresent = toPresent + "   -   Gold: " + targetPlayer.inventory.gold;
         }
 
         if(targetPlayer.id == Elfenroads.Model.game.startingPlayer.id){

@@ -52,7 +52,7 @@ public class ThisPlayerInventoryView : MonoBehaviour
 
     void onModelUpdated(object sender, EventArgs e) {
         //Here, needs to add counters to the GridLayoutGroup according to the model. Instantiated Counters must also have their "CounterViewHelper" component's "Guid" fields set appropriately.
-        if(Elfenroads.Model.game.currentPhase is DrawCounters || Elfenroads.Model.game.currentPhase is PlanTravelRoutes){
+        if(Elfenroads.Model.game.currentPhase is DrawCounters || Elfenroads.Model.game.currentPhase is PlanTravelRoutes || Elfenroads.Model.game.currentPhase is Auction){
             playerCounters.SetActive(true);
             playerCards.SetActive(false);
         }else{
@@ -69,6 +69,15 @@ public class ThisPlayerInventoryView : MonoBehaviour
         //Finally, we'll set the "Stats":
         playerStats.transform.GetChild(0).gameObject.GetComponent<TMPro.TMP_Text>().text = playerModel.name;
         updateTexts();
+    }
+
+    public void resetDraggablePositions(){
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+             playerCounters.GetComponent<GridLayoutGroup>().spacing = new Vector2(85f, 10f);
+             foreach(Transform child in playerCounters.transform){
+                child.gameObject.GetComponent<DragScript>().resetStartingPositions();
+             }
+         }
     }
 
     public void updateTexts(){
