@@ -83,7 +83,9 @@ public class AuctionController : MonoBehaviour
             return;
         }
 
-        previousHighestBidder = auctionModel.highestBidder.name;
+        if(auctionModel.highestBidder != null){
+            previousHighestBidder = auctionModel.highestBidder.name;
+        }
         
         Elfenroads.Control.placeBid(0);
     }
