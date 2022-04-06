@@ -345,10 +345,11 @@ namespace Controls {
             socket.Instance.Emit("PlayDouble", json.ToString(), false); 
         }
 
-        public void playExchangeCounter(Guid road1, Guid counter1, Guid road2, Guid counter2){
+        public void playExchangeCounter(Guid spellGuid, Guid road1, Guid counter1, Guid road2, Guid counter2){
             JObject json = new JObject();
             json.Add("game_id", SessionInfo.Instance().getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(SessionInfo.Instance().getClient().clientCredentials.username).id);
+            json.Add("spell_id", spellGuid);
             json.Add("roadOne_id", road1);
             json.Add("counterOne_id", counter1);
             json.Add("roadTwo_id", road2);

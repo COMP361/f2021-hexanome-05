@@ -426,8 +426,8 @@ public class PlanTravelController : MonoBehaviour
                 invalidMessage("Invalid swap!");
                 return;
             }
-            //If we make it here, the swap is valid. *** Talk with server to figure out parameters) ***
-            Elfenroads.Control.playExchangeCounter(firstRoad.id, firstCounter.id, counterRoad.id, clickedCounter.id);
+            //If we make it here, the swap is valid.
+            Elfenroads.Control.playExchangeCounter(currentExchange, firstRoad.id, firstCounter.id, counterRoad.id, clickedCounter.id);
             turnOffSpells();
         }
     }
