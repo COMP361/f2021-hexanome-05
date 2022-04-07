@@ -9,19 +9,16 @@ public class AuctionController : MonoBehaviour
     public Auction auctionModel;
     public GameObject AuctionCanvas;
     public GameObject PlayerInventoryCanvas;
-    //public GameObject ResultCanvas;
 
     public GameObject invalidMovePrefab;
     public GameObject messagePrefab;
     public GameObject auctionResultWindowPrefab;
     public RectTransform countersLeftLayoutGroup;
     public RectTransform currentCounterLayoutGroup;
-    // public RectTransform soldCounterLayoutGroup;
     public TMPro.TMP_Text currentHighestBidText;
     public TMPro.TMP_Text turnText;
     public TMPro.TMP_Text passedPlayersText;
     public TMPro.TMP_Text currentBidText;
-    //public TMPro.TMP_Text soldCounterText;
 
     
     [Header("Counter Prefabs")]
@@ -46,11 +43,18 @@ public class AuctionController : MonoBehaviour
     public void updateAuction(Auction auction){
         auctionModel = auction;
         if( (counterUpForAuction != null) && (auctionModel.getCurrentAuctioningCounter().id != counterUpForAuction.id)){
-            //soldCounterText.text = previousHighestBidder + " obtained:";
             List<Counter> soldCounter = new List<Counter>();
             soldCounter.Add(counterUpForAuction);
-            // updateLayoutGroup(soldCounterLayoutGroup, soldCounter, false);
-            // ResultCanvas.SetActive(true); 
+            if (previousHighestBidder == null){
+                previousHighestBidder = "Nobody obtained:";
+            }
+            else {
+                previousHighestBidder = previousHighestBidder + " obtained:";
+            }
+            string message = previousHighestBidder;
+            spawnAuctionResultWindow(message, soldCounter);
+
+            previousHighestBidder = null;
         }
 
         thisPlayerBid = auctionModel.highestBid + 1;
@@ -144,10 +148,6 @@ public class AuctionController : MonoBehaviour
         currentBidText.text = "" + thisPlayerBid;
     }
 
-    public void iSeeClicked(){
-        // ResultCanvas.SetActive(false); 
-    }
-
     public void playerTurnMessage(string message){
         GameObject messageBox = Instantiate(messagePrefab, AuctionCanvas.transform.position, Quaternion.identity, AuctionCanvas.transform);
         messageBox.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = message;
@@ -161,9 +161,12 @@ public class AuctionController : MonoBehaviour
         Destroy(invalidBox, 2f);
     }
 
-    public void spawnAuctionResultWindow(){
+    public void spawnAuctionResultWindow(string message, List<Counter> soldCounter){
         GameObject window = Instantiate(auctionResultWindowPrefab, PlayerInventoryCanvas.transform.position, Quaternion.identity, PlayerInventoryCanvas.transform);
-        // Set text and counter here.
+        window.GetComponentInChildren<TMPro.TMP_Text>().text = message;
+        GameObject auctionedCounter = window.transform.Find("AuctionedCounter").gameObject;
+        RectTransform soldCounterLayoutGroup = auctionedCounter.GetComponentInChildren<RectTransform>();
+        updateLayoutGroup(soldCounterLayoutGroup, soldCounter, false);
         Destroy(window, 1.9f);
     }
 

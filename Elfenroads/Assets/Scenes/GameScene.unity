@@ -10399,7 +10399,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.9
+  m_fontSize: 45.85
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -25212,17 +25212,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AuctionCanvas: {fileID: 921140961}
-  ResultCanvas: {fileID: 0}
+  PlayerInventoryCanvas: {fileID: 876790250}
   invalidMovePrefab: {fileID: 6005364027087520367, guid: f53cc4ef353f181438149e9657fc493d, type: 3}
   messagePrefab: {fileID: 6005364027087520367, guid: 694a2b26dc8c090429e138adff49379c, type: 3}
+  auctionResultWindowPrefab: {fileID: 3729550399021943838, guid: 7e51fec5eb9a212419e2b4c4a0233db8, type: 3}
   countersLeftLayoutGroup: {fileID: 9144220660343788676}
   currentCounterLayoutGroup: {fileID: 9144220661926121330}
-  soldCounterLayoutGroup: {fileID: 0}
   currentHighestBidText: {fileID: 9144220660904010991}
   turnText: {fileID: 9144220661211936871}
   passedPlayersText: {fileID: 983660077}
   currentBidText: {fileID: 9144220660291204974}
-  soldCounterText: {fileID: 0}
   dragonCounterPrefab: {fileID: 3809492794757087743, guid: d90e944c94a80ab48a2249dc9e9b3da0, type: 3}
   trollCounterPrefab: {fileID: 3809492794757087743, guid: cafb96764d813654681ffb85a6a744ea, type: 3}
   cloudCounterPrefab: {fileID: 3809492794757087743, guid: 9efffb6a60a71bd4bb6b9783e0b1303e, type: 3}
