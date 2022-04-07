@@ -8,18 +8,20 @@ public class AuctionController : MonoBehaviour
 
     public Auction auctionModel;
     public GameObject AuctionCanvas;
-    public GameObject ResultCanvas;
+    public GameObject PlayerInventoryCanvas;
+    //public GameObject ResultCanvas;
 
     public GameObject invalidMovePrefab;
     public GameObject messagePrefab;
+    public GameObject auctionResultWindowPrefab;
     public RectTransform countersLeftLayoutGroup;
     public RectTransform currentCounterLayoutGroup;
-    public RectTransform soldCounterLayoutGroup;
+    // public RectTransform soldCounterLayoutGroup;
     public TMPro.TMP_Text currentHighestBidText;
     public TMPro.TMP_Text turnText;
     public TMPro.TMP_Text passedPlayersText;
     public TMPro.TMP_Text currentBidText;
-    public TMPro.TMP_Text soldCounterText;
+    //public TMPro.TMP_Text soldCounterText;
 
     
     [Header("Counter Prefabs")]
@@ -44,11 +46,11 @@ public class AuctionController : MonoBehaviour
     public void updateAuction(Auction auction){
         auctionModel = auction;
         if( (counterUpForAuction != null) && (auctionModel.getCurrentAuctioningCounter().id != counterUpForAuction.id)){
-            soldCounterText.text = previousHighestBidder + " obtained:";
+            //soldCounterText.text = previousHighestBidder + " obtained:";
             List<Counter> soldCounter = new List<Counter>();
             soldCounter.Add(counterUpForAuction);
-            updateLayoutGroup(soldCounterLayoutGroup, soldCounter, false);
-            ResultCanvas.SetActive(true); 
+            // updateLayoutGroup(soldCounterLayoutGroup, soldCounter, false);
+            // ResultCanvas.SetActive(true); 
         }
 
         thisPlayerBid = auctionModel.highestBid + 1;
@@ -143,7 +145,7 @@ public class AuctionController : MonoBehaviour
     }
 
     public void iSeeClicked(){
-        ResultCanvas.SetActive(false); 
+        // ResultCanvas.SetActive(false); 
     }
 
     public void playerTurnMessage(string message){
@@ -157,6 +159,12 @@ public class AuctionController : MonoBehaviour
         GameObject invalidBox = Instantiate(invalidMovePrefab, Input.mousePosition, Quaternion.identity, AuctionCanvas.transform);
         invalidBox.GetComponent<TMPro.TMP_Text>().text = message;
         Destroy(invalidBox, 2f);
+    }
+
+    public void spawnAuctionResultWindow(){
+        GameObject window = Instantiate(auctionResultWindowPrefab, PlayerInventoryCanvas.transform.position, Quaternion.identity, PlayerInventoryCanvas.transform);
+        // Set text and counter here.
+        Destroy(window, 1.9f);
     }
 
     public void updateLayoutGroup(RectTransform targetLayoutGroup, List<Counter> countersToShow, bool scheduled) { 
