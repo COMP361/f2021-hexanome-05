@@ -73,42 +73,42 @@ public class RoadView : MonoBehaviour {
                         case TransportType.Dragon:
                         {  
                             GameObject parameter = Instantiate(dragonCounterPrefab, Vector3.zero, Quaternion.identity);
-                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.ElfCycle:
                         {
                             GameObject parameter = Instantiate(cycleCounterPrefab, Vector3.zero, Quaternion.identity);
-                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.MagicCloud:
                         {
                             GameObject parameter = Instantiate(cloudCounterPrefab, Vector3.zero, Quaternion.identity);
-                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.TrollWagon:
                         {
                             GameObject parameter = Instantiate(trollCounterPrefab, Vector3.zero, Quaternion.identity);
-                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.GiantPig:
                         {
                             GameObject parameter = Instantiate(pigCounterPrefab, Vector3.zero, Quaternion.identity);
-                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
                         case TransportType.Unicorn:
                         {
                             GameObject parameter = Instantiate(unicornCounterPrefab, Vector3.zero, Quaternion.identity);
-                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                            parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                             counters.addToSlot(parameter, this.gameObject);
                             break;
                         }
@@ -119,7 +119,7 @@ public class RoadView : MonoBehaviour {
                 case GoldCounter gc:
                 {
                     GameObject parameter = Instantiate(goldCounterPrefab, Vector3.zero, Quaternion.identity);
-                    parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                    parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                     counters.addToSlot(parameter, this.gameObject);
                     break;
                 }
@@ -127,11 +127,11 @@ public class RoadView : MonoBehaviour {
                 {
                     if(obc.obstacleType == ObstacleType.Land){
                         GameObject parameter = Instantiate(landObstaclePrefab, Vector3.zero, Quaternion.identity);
-                        parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                        parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                         counters.addToSlot(parameter, this.gameObject);
                     }else{
                         GameObject parameter = Instantiate(seaObstaclePrefab, Vector3.zero, Quaternion.identity);
-                        parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad);
+                        parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                         counters.addToSlot(parameter, this.gameObject);
                     }
                     break;

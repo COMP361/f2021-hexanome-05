@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 4959312200108055269}
   - component: {fileID: 4959312200108055268}
   - component: {fileID: -3743233807842752328}
-  m_Layer: 0
+  - component: {fileID: 284071348882207566}
+  m_Layer: 7
   m_Name: PigCounter
-  m_TagString: Untagged
+  m_TagString: Counter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,3 +96,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d82c4eb02628db045923c3bb90d1eca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!60 &284071348882207566
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4959312200108055275}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.69, y: 1.69}
+    newSize: {x: 1.69, y: 1.69}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.84499997, y: -0.515}
+      - {x: 0.84499997, y: 0.60499996}
+      - {x: 0.655, y: 0.815}
+      - {x: 0.545, y: 0.84499997}
+      - {x: -0.60499996, y: 0.84499997}
+      - {x: -0.825, y: 0.655}
+      - {x: -0.84499997, y: 0.555}
+      - {x: -0.84499997, y: -0.59499997}
+      - {x: -0.655, y: -0.815}
+      - {x: -0.545, y: -0.84499997}
+      - {x: 0.59499997, y: -0.84499997}
+      - {x: 0.79499996, y: -0.685}
+      - {x: 0.835, y: -0.585}

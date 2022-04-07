@@ -396,6 +396,7 @@ public class PlanTravelController : MonoBehaviour
     }
 
     public void counterClicked(Counter clickedCounter, Road counterRoad){
+        Debug.Log("Counter clicked (in controller)");
         if(!usingExchange){
             invalidMessage("Swapping requires an exchange spell!");
             return;
