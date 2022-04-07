@@ -119,7 +119,6 @@ public class RoadView : MonoBehaviour {
                 case GoldCounter gc:
                 {
                     GameObject parameter = Instantiate(goldCounterPrefab, Vector3.zero, Quaternion.identity);
-                    parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                     counters.addToSlot(parameter, this.gameObject);
                     break;
                 }
@@ -127,11 +126,9 @@ public class RoadView : MonoBehaviour {
                 {
                     if(obc.obstacleType == ObstacleType.Land){
                         GameObject parameter = Instantiate(landObstaclePrefab, Vector3.zero, Quaternion.identity);
-                        parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                         counters.addToSlot(parameter, this.gameObject);
                     }else{
                         GameObject parameter = Instantiate(seaObstaclePrefab, Vector3.zero, Quaternion.identity);
-                        parameter.GetComponent<CounterClickerScript>().setCounterAndRoad(c, modelRoad, PlanTravelController);
                         counters.addToSlot(parameter, this.gameObject);
                     }
                     break;

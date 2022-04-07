@@ -53,6 +53,7 @@ namespace Controls {
         public EventHandler UnlockDraggables;
         private Player thisPlayer;
         public Player currentPlayer;
+        private bool wasAuction = false;
 
         private void cameraLock(object sender, EventArgs e){
             cameraLocked = true;
@@ -147,6 +148,10 @@ namespace Controls {
                     break;
                 }
                 case PlanTravelRoutes pt:{;
+                    if(wasAuction){
+                        auctionController.showLastCounter();
+                        wasAuction = false;
+                    }
                     PlanTravelCanvas.SetActive(true);
                     PlayerCounters.SetActive(true);
                     PlayerCards.SetActive(false);
@@ -244,6 +249,7 @@ namespace Controls {
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     auctionController.updateAuction(a);
+                    wasAuction = true;
                     break;
                 }
                 default:{

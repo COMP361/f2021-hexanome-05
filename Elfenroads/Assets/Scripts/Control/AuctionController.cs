@@ -46,7 +46,7 @@ public class AuctionController : MonoBehaviour
             List<Counter> soldCounter = new List<Counter>();
             soldCounter.Add(counterUpForAuction);
             if (previousHighestBidder == null){
-                previousHighestBidder = "Nobody obtained:";
+                previousHighestBidder = "Counter discarded:";
             }
             else {
                 previousHighestBidder = previousHighestBidder + " obtained:";
@@ -64,6 +64,26 @@ public class AuctionController : MonoBehaviour
         currentCounter.Add(auctionModel.getCurrentAuctioningCounter());
         updateLayoutGroup(currentCounterLayoutGroup, currentCounter, false);
 
+        string passed = "Players Passed: " ;
+        for(int i = 0; i < auctionModel.playersPassed.Count ; i++){
+            if(auctionModel.playersPassed.Count == 1){
+                passed = passed + auctionModel.playersPassed[i].name;
+            }else{
+                if(i == auctionModel.playersPassed.Count - 2){
+                    passed = passed + auctionModel.playersPassed[i].name + " and ";
+                }else if (i == auctionModel.playersPassed.Count - 1){  
+                    passed = passed + auctionModel.playersPassed[i].name;
+                }else{
+                    passed = passed + auctionModel.playersPassed[i].name + ", ";
+                }
+            }
+        }
+
+        if(auctionModel.playersPassed.Count == 0){
+            passed = "No players have passed on this counter yet.";
+        }
+        passedPlayersText.text = passed;
+
         if(auctionModel.highestBidder == null){
             currentHighestBidText.text = "There are no bids on this counter yet.";
         }else{
@@ -76,6 +96,19 @@ public class AuctionController : MonoBehaviour
             turnText.text = "Your turn! Place a bid or pass:";
         }
         currentBidText.text = thisPlayerBid + "";
+    }
+
+    public void showLastCounter(){
+        List<Counter> soldCounter = new List<Counter>();
+            soldCounter.Add(counterUpForAuction);
+        if (previousHighestBidder == null){
+                previousHighestBidder = "Counter discarded:";
+            }
+            else {
+                previousHighestBidder = previousHighestBidder + " obtained:";
+            }
+            string message = previousHighestBidder;
+            spawnAuctionResultWindow(message, soldCounter);
     }
 
     public void passAuction(){
