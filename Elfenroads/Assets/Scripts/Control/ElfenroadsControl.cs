@@ -91,6 +91,7 @@ namespace Controls {
         socket = GameObject.Find("Listener").GetComponent<SocketIOCommunicator>();
         if(SessionInfo.Instance().isSaveGame()){
             //If we have a savegame, we skip much of these steps and immediately begin listening for the GameState.
+            Debug.Log("Turning on socket");
             socket.Instance.On("GameState", stateRecieved);
             socket.Instance.On("Quit", quit);
             isListening = true;
