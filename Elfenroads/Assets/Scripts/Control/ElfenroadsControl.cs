@@ -54,6 +54,8 @@ namespace Controls {
         private Player thisPlayer;
         public Player currentPlayer;
         private bool wasAuction = false;
+        public bool hasBeenSetup = false;
+        private bool isListening = false;
 
         private void cameraLock(object sender, EventArgs e){
             cameraLocked = true;
@@ -87,6 +89,14 @@ namespace Controls {
         //(While this happens, other clients simply get a "waiting for host to decide the gamemode" message)
         if(GameObject.Find("Listener") == null) return;
         socket = GameObject.Find("Listener").GetComponent<SocketIOCommunicator>();
+        if(SessionInfo.Instance().isSaveGame()){
+            //If we have a savegame, we skip much of these steps and immediately begin listening for the GameState.
+            Debug.Log("Turning on socket");
+            socket.Instance.On("GameState", stateRecieved);
+            socket.Instance.On("Quit", quit);
+            isListening = true;
+            return;
+        }
 
         string playerName = SessionInfo.Instance().getClient().clientCredentials.username;
         Debug.Log("Session info player name: " + playerName + ", Host player name: " + SessionInfo.Instance().getClient().getSessionByID(SessionInfo.Instance().getSessionID()).hostPlayerName + ", ID: " + SessionInfo.Instance().getSessionID());
@@ -108,14 +118,22 @@ namespace Controls {
         }
 
         public void beginListening(){
-            socket.Instance.On("GameState", stateRecieved); 
+            if(!isListening){
+                socket.Instance.On("GameState", stateRecieved); 
+                isListening = true;
+            }
         }
 
         public void stateRecieved(string input){
             Debug.Log(input);
             var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
             Game newGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
-            Elfenroads.Model.updatedGame(newGame);
+            if(hasBeenSetup){ //If the setup has been completed, we call "updatedGame".
+                Elfenroads.Model.updatedGame(newGame);
+            }else{ //Otherwise, perform the initialGame setup.
+                Elfenroads.Model.initialGame(newGame);
+            }
+
         }
 
         //Called after an update has been integrated to the Model. Reads the current phase, and presents the appropriate canvas to the Player. (Depending on the phase, should lock/unlock the camera as well)

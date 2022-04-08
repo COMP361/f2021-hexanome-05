@@ -10399,7 +10399,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.85
+  m_fontSize: 45.9
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -40950,6 +40950,7 @@ MonoBehaviour:
   DrawCardsCanvas: {fileID: 1409636409}
   AuctionCanvas: {fileID: 921140961}
   SelectCounterCanvas: {fileID: 9820864}
+  STOPCanvas: {fileID: 0}
   drawCountersController: {fileID: 16797347}
   drawCardsController: {fileID: 1089241967}
   planTravelController: {fileID: 86473973}
@@ -40966,6 +40967,7 @@ MonoBehaviour:
   ChooseBootController: {fileID: 884027286}
   cameraLocked: 1
   draggablesLocked: 1
+  hasBeenSetup: 0
 --- !u!4 &2009043945
 Transform:
   m_ObjectHideFlags: 0

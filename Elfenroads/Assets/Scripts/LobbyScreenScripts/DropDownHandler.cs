@@ -18,4 +18,12 @@ public class DropDownHandler : MonoBehaviour
     {
         SessionInfo.Instance().savegame_id = dropdown.options[dropdown.value].text;
     }
+
+    void Update(){
+        if(Client.Instance().mySession != null){
+            dropdown.interactable = false;
+        }else{
+            dropdown.interactable = true;
+        }
+    }
 }
