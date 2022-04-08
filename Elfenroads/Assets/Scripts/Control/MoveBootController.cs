@@ -298,6 +298,9 @@ namespace Controls
                 helperWindow.SetActive(false);
                 caravanMode = false;
                 Elfenroads.Control.moveBoot(targetTown.id, discardList);
+                if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                    goldAccrued += targetTown.goldValue;
+                }
                 witchInUse = false;
                 currentWitch = Guid.Empty;
                 return;
