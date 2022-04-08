@@ -75,12 +75,12 @@ public class ThisPlayerInventoryView : MonoBehaviour
         if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
              playerCounters.GetComponent<GridLayoutGroup>().spacing = new Vector2(85f, 10f);
          }
-         if(Elfenroads.Model.game.currentPhase is DrawCounters || Elfenroads.Model.game.currentPhase is PlanTravelRoutes || Elfenroads.Model.game.currentPhase is SelectCounter){
+         if(Elfenroads.Model.game.currentPhase is DrawCounters || Elfenroads.Model.game.currentPhase is PlanTravelRoutes || Elfenroads.Model.game.currentPhase is SelectCounter || Elfenroads.Model.game.currentPhase is FinishRound){
             foreach(Transform child in playerCounters.transform){
                 child.gameObject.GetComponent<DragScript>().resetStartingPositions();
             }
          }
-         if(Elfenroads.Model.game.currentPhase is DrawCards || Elfenroads.Model.game.currentPhase is FinishRound || Elfenroads.Model.game.currentPhase is MoveBoot || Elfenroads.Model.game.currentPhase is Auction)
+         if(Elfenroads.Model.game.currentPhase is DrawCards || Elfenroads.Model.game.currentPhase is MoveBoot || Elfenroads.Model.game.currentPhase is Auction)
          foreach(Transform child in playerCards.transform){
              child.gameObject.GetComponent<DragScript>().resetStartingPositions();
          }

@@ -220,8 +220,8 @@ namespace Controls {
                 case FinishRound fr:{ //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
                     Debug.Log("Phase is FinishRound!");
                     FinishRoundCanvas.SetActive(true);
-                    PlayerCounters.SetActive(false);
-                    PlayerCards.SetActive(true);
+                    PlayerCounters.SetActive(true);
+                    PlayerCards.SetActive(false);
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     finishRoundController.initialSetup(thisPlayer);
@@ -246,6 +246,7 @@ namespace Controls {
                         DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
                     }
                     drawCardsController.updateFaceUpCards();
+                    infoWindowController.UpdateDrawCardsHelp();
                     break;
                 }
                 case SelectCounter sc:{
@@ -256,6 +257,7 @@ namespace Controls {
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     selectCounterController.setupSelectCounter(sc);
+                    infoWindowController.UpdateSelectCounterHelp();
                     break;
                 }
                 case Auction a:{
@@ -274,6 +276,7 @@ namespace Controls {
                         auctionController.updateAuction(a);
                     }
                     wasAuction = true;
+                    infoWindowController.UpdateAuctionHelp();
                     break;
                 }
                 default:{

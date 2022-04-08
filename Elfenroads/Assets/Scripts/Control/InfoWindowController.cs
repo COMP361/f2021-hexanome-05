@@ -23,17 +23,48 @@ public class InfoWindowController : MonoBehaviour
 	{
         helpWindow.SetActive(false);
         PhaseName.text = "Choose Your Boot";
-        PhaseExplanation.text = "Please click on any of the select buttons to choose your boot." + "\n" +
+        PhaseExplanation.text = "Click on any of the select buttons to choose your boot." + "\n" +
         "A grey button indicates that another player has already chosen this boot.";
 	}
 
     public void UpdateDrawCounterHelp(){
         PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber +" - Draw Counters";
         PhaseExplanation.text = "The goal of this phase is to add counters to your inventory for use in the PlanTravel phase." + "\n" +
-                                "- Please click on the desired counter to keep it. You could also click the counter pile to draw randomly." + "\n" +
+                                "- Click on the desired counter to keep it. You could also click the counter pile to draw randomly." + "\n" +
                                 "- Your inventory is shown at the bottom of the screen. Click 'expand' to see your cards!" + "\n" +
                                 "- The map button in the top right corner will toggle the map on and off." + "\n" +
                                 "- Once in the map view, you can use WASD to pan around the map, or zoom in/out with the mouse wheel.";
+    }
+
+    public void UpdateDrawCardsHelp(){
+        PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber +" - Draw Cards";
+        PhaseExplanation.text = "The goal of this phase is to add cards to your inventory for use in the MoveBoot phase." + "\n" +
+                                "- Click on the desired card to keep it. You could also click the card pile to draw randomly." + "\n" +
+                                "- Alternatively, if there is gold in the gold-card deck, you can take that instead. Should you draw a gold card randomly, it is added to the deck and you get another turn immediately." + "\n" +
+                                "- Your inventory is shown at the bottom of the screen. Click 'expand' to see your counters!" + "\n" +
+                                "- The map button in the top right corner will toggle the map on and off." + "\n" +
+                                "- Once in the map view, you can use WASD to pan around the map, or zoom in/out with the mouse wheel.";
+    }
+
+    public void UpdateAuctionHelp(){
+        PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber +" - Auction";
+        PhaseExplanation.text = "In this phase, participate in an auction with other players to buy counters!" + "\n" +
+                                "- The current counter being auctioned is shown on the top-left. Beside this, you can keep track of the highest bidder and the players who have passed." + "\n" +
+                                "- You can adjust your bid (when it is your turn) using the '+' and '-' buttons. Don't worry - they won't allow you to bid more than you have!" + "\n" +
+                                "- Don't forget to keep an eye on the counters scheduled for the auction, shown on the bottom of the window. The next one will always be the left-most counter!" + "\n" +
+                                "- The map button in the top right corner will toggle the map on and off." + "\n" +
+                                "- Once in the map view, you can use WASD to pan around the map, or zoom in/out with the mouse wheel.";
+    }
+
+    public void UpdateSelectCounterHelp(){
+        PhaseName.text = "Round " + Elfenroads.Model.game.roundNumber +" - Select Counter";
+        PhaseExplanation.text = "This phase is easy - all you need to do is select which counter you'd like to hide from the other players!" + "\n" +
+                                "- If it is your turn, you'll be presented with two counters. Just click the one you'd like to hide from other players!" + "\n" +
+                                "- Don't worry about the other one - it'll still be added to your inventory, but other players will be able to see it though the 'expand' button." + "\n" +
+                                "- Your inventory is shown at the bottom of the screen. Click 'expand' to see more details!" + "\n" +
+                                "- The map button in the top right corner will toggle the map on and off." + "\n" +
+                                "- Once in the map view, you can use WASD to pan around the map, or zoom in/out with the mouse wheel."  + "\n" +
+                                "- When it isn't your turn, you can just kick back and wait for your opponents to be finished. Spend this time to study the map!";
     }
 
     public void UpdatePlanTravelRoutesHelp(){
@@ -62,15 +93,15 @@ public class InfoWindowController : MonoBehaviour
                                     "- To move your boot, drag the card type you want to use on the target road, lake or stream. You will accumulate gold according to a town's gold value for each move." + "\n" +
                                     "- Alternatively, you can click a road to play a 'Caravan', where you play 3 or 4 of any card." + "\n" +
                                     "- You can move until you are satisfied, at which point you can click 'EndTurn'." + "\n" +
-                                    "- Once ending, you can cash in your accumulated gold, or draw two TravelCards from the supply.";
+                                    "- Once ending, you can cash in your accumulated gold, or draw two TravelCards from the supply." + "\n" +
+                                    "- You can click the 'Witch' Button to activate her. While under its effect, you can click on a Town for a magic flight, or drag cards as usual, avoiding obstacle costs. Click again to cancel.";
         }else if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
             PhaseExplanation.text = "The goal of this phase is to play cards on roads with counters to visit Towns and earn points!" + "\n" +
                                     "- You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" +
                                     "- To move your boot, drag the card type you want to use on the target road, lake or stream. You will accumulate gold according to a town's gold value for each move." + "\n" +
                                     "- Alternatively, you can click a road to play a 'Caravan', where you play 3 or 4 of any card." + "\n" +
                                     "- You can move until you are satisfied, at which point you can click 'EndTurn'." + "\n" +
-                                    "- Once ending, you can cash in your accumulated gold, or draw two TravelCards from the supply." + "\n" +
-                                    "- You can click the 'Witch' Button to activate her. While under its effect, you can click on a Town for a magic flight, or drag cards as usual, avoiding obstacle costs. Click the button again to cancel.";
+                                    "- Once ending, you can cash in your accumulated gold, or draw two TravelCards from the supply.";
         }else{
             PhaseExplanation.text = "The goal of this phase is to play cards on roads with counters to visit Towns and earn points!" + "\n" +
                                     "- You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" +
