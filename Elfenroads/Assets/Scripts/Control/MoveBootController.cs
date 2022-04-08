@@ -46,6 +46,8 @@ namespace Controls
         private bool witchInUse = false;
         private Guid currentWitch = Guid.Empty;
 
+        private Road targetRoad;
+
         void Start() {
             roadViews = new List<RoadView>();
             foreach (GameObject road in roadObjects) {
@@ -72,7 +74,7 @@ namespace Controls
         }
 
         private void onRoadClicked(object sender, EventArgs args) { 
-            Road targetRoad = (Road) sender;
+                targetRoad = (Road) sender;
                 if(! Elfenroads.Control.isCurrentPlayer()){
                     //Inform player they are not the current player.
                     invalidMessage("Not your turn!");
@@ -299,10 +301,22 @@ namespace Controls
                 caravanMode = false;
                 Elfenroads.Control.moveBoot(targetTown.id, discardList);
                 if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
-                    goldAccrued += targetTown.goldValue;
+                    bool hasGoldCounter = false;
+                    foreach(Counter c in targetRoad.counters){
+                        if(c is GoldCounter){
+                            hasGoldCounter = true;
+                            break;
+                        }
+                    }
+                    if(hasGoldCounter){
+                        goldAccrued += (2 * targetTown.goldValue);
+                    }else{
+                        goldAccrued += targetTown.goldValue;
+                    }
                 }
                 witchInUse = false;
                 currentWitch = Guid.Empty;
+                targetRoad = null;
                 return;
             }
         }
@@ -333,6 +347,7 @@ namespace Controls
             endTurnButton.SetActive(true);
             helperWindow.SetActive(false);
             caravanMode = false;
+            targetRoad = null;
             Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
             Elfenroads.Control.UnlockDraggables?.Invoke(null, EventArgs.Empty);
         }
@@ -556,7 +571,18 @@ namespace Controls
                     Guid town = road.end.id;
                     Debug.Log("Moving to town " + road.end.name + " which has ID: " + road.end.id);
                     if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
-                        goldAccrued += road.end.goldValue;
+                        bool hasGoldCounter = false;
+                        foreach(Counter c in road.counters){
+                            if(c is GoldCounter){
+                                hasGoldCounter = true;
+                                break;
+                            }
+                        }
+                        if(hasGoldCounter){
+                            goldAccrued += (2 * road.end.goldValue);
+                        }else{
+                            goldAccrued += road.end.goldValue;
+                        }
                     }
                     Elfenroads.Control.moveBoot(town, cardsToPass);
                     witchInUse = false;
@@ -566,7 +592,18 @@ namespace Controls
                     Guid town = road.start.id;
                     Debug.Log("Moving to town " + road.start.name + " which has ID: " + road.start.id);
                     if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
-                        goldAccrued += road.start.goldValue;
+                        bool hasGoldCounter = false;
+                        foreach(Counter c in road.counters){
+                            if(c is GoldCounter){
+                                hasGoldCounter = true;
+                                break;
+                            }
+                        }
+                        if(hasGoldCounter){
+                            goldAccrued += (2 * road.end.goldValue);
+                        }else{
+                            goldAccrued += road.end.goldValue;
+                        }
                     }
                     Elfenroads.Control.moveBoot(town, cardsToPass);
                     witchInUse = false;
