@@ -26,6 +26,7 @@ namespace Controls {
         public GameObject DrawCardsCanvas;
         public GameObject AuctionCanvas;
         public GameObject SelectCounterCanvas;
+        public GameObject menuButton;
         public DrawCountersController drawCountersController;
         public DrawCardsController drawCardsController;
         public PlanTravelController planTravelController;
@@ -142,6 +143,7 @@ namespace Controls {
             playerInfoController.closeWindow();
             infoWindowController.CloseHelpWindow();
             playerInfoController.updateViews();
+            menuButton.SetActive(true);
 
             switch(Elfenroads.Model.game.currentPhase){
                 case DrawCounters dc:{
@@ -165,7 +167,7 @@ namespace Controls {
                     infoWindowController.UpdateDrawCounterHelp();
                     break;
                 }
-                case PlanTravelRoutes pt:{;
+                case PlanTravelRoutes pt:{
                     if(wasAuction){
                         auctionController.showLastCounter();
                         wasAuction = false;
@@ -218,8 +220,8 @@ namespace Controls {
                 case FinishRound fr:{ //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
                     Debug.Log("Phase is FinishRound!");
                     FinishRoundCanvas.SetActive(true);
-                    PlayerCounters.SetActive(true);
-                    PlayerCards.SetActive(false);
+                    PlayerCounters.SetActive(false);
+                    PlayerCards.SetActive(true);
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     finishRoundController.initialSetup(thisPlayer);
@@ -248,8 +250,8 @@ namespace Controls {
                 }
                 case SelectCounter sc:{
                     SelectCounterCanvas.SetActive(true);
-                    PlayerCounters.SetActive(false);
-                    PlayerCards.SetActive(true);
+                    PlayerCounters.SetActive(true);
+                    PlayerCards.SetActive(false);
                     currentPlayer = sc.currentPlayer;
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
@@ -258,8 +260,8 @@ namespace Controls {
                 }
                 case Auction a:{
                     AuctionCanvas.SetActive(true);
-                    PlayerCounters.SetActive(true);
-                    PlayerCards.SetActive(false);
+                    PlayerCounters.SetActive(false);
+                    PlayerCards.SetActive(true);
                     currentPlayer = a.currentPlayer;
                     if(!AuctionCanvas.transform.GetChild(0).gameObject.activeSelf){
                         AuctionCanvas.transform.GetChild(0).gameObject.SetActive(true);
@@ -275,6 +277,7 @@ namespace Controls {
                     break;
                 }
             }
+            Invoke("resetDraggables", 0.5f);
         }
 
         private void disableCanvases(){
@@ -288,6 +291,9 @@ namespace Controls {
             SelectCounterCanvas.SetActive(false);
         }
 
+        private void resetDraggables(){
+            GameObject.Find("PlayerHand").GetComponent<ThisPlayerInventoryView>().resetDraggablePositions();
+        }
 
 
         //Called after validation from "DrawCounters" phase, sends a command to the Server for the currentPlayer to add the specified counter to their inventory.

@@ -74,9 +74,15 @@ public class ThisPlayerInventoryView : MonoBehaviour
     public void resetDraggablePositions(){
         if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
              playerCounters.GetComponent<GridLayoutGroup>().spacing = new Vector2(85f, 10f);
-             foreach(Transform child in playerCounters.transform){
+         }
+         if(Elfenroads.Model.game.currentPhase is DrawCounters || Elfenroads.Model.game.currentPhase is PlanTravelRoutes || Elfenroads.Model.game.currentPhase is SelectCounter){
+            foreach(Transform child in playerCounters.transform){
                 child.gameObject.GetComponent<DragScript>().resetStartingPositions();
-             }
+            }
+         }
+         if(Elfenroads.Model.game.currentPhase is DrawCards || Elfenroads.Model.game.currentPhase is FinishRound || Elfenroads.Model.game.currentPhase is MoveBoot || Elfenroads.Model.game.currentPhase is Auction)
+         foreach(Transform child in playerCards.transform){
+             child.gameObject.GetComponent<DragScript>().resetStartingPositions();
          }
     }
 

@@ -12288,7 +12288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &652062612
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40950,7 +40950,7 @@ MonoBehaviour:
   DrawCardsCanvas: {fileID: 1409636409}
   AuctionCanvas: {fileID: 921140961}
   SelectCounterCanvas: {fileID: 9820864}
-  STOPCanvas: {fileID: 0}
+  menuButton: {fileID: 652062611}
   drawCountersController: {fileID: 16797347}
   drawCardsController: {fileID: 1089241967}
   planTravelController: {fileID: 86473973}
