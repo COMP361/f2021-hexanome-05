@@ -268,7 +268,11 @@ namespace Controls {
                     }
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
-                    auctionController.updateAuction(a);
+                    if(!wasAuction){
+                        auctionController.initialAuction(a);
+                    }else{
+                        auctionController.updateAuction(a);
+                    }
                     wasAuction = true;
                     break;
                 }
