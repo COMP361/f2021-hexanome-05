@@ -125,6 +125,11 @@ namespace Controls {
             }
         }
 
+        public void stopListening(){
+            socket.Instance.Off("GameState");
+            socket.Instance.Off("Quit");
+        }
+
         public void stateRecieved(string input){
             Debug.Log(input);
             var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
