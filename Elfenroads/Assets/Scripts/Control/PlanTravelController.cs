@@ -343,6 +343,7 @@ public class PlanTravelController : MonoBehaviour
         usingExchange = false;
         currentDouble = Guid.Empty;
         currentExchange = Guid.Empty;
+        firstCounter.GetComponent<CounterClickerScript>().isSelected = false;
         firstCounter = null;
         firstRoad = null;
         //*** Also stop highlighting the spells here.
@@ -374,6 +375,7 @@ public class PlanTravelController : MonoBehaviour
             usingExchange = false;
             currentExchange = Guid.Empty;
             firstCounter = null;
+            firstCounter.GetComponent<CounterClickerScript>().isSelected = false;
             firstRoad = null;
             return;
         }
@@ -407,8 +409,19 @@ public class PlanTravelController : MonoBehaviour
             firstRoad = counterRoad;
             //**Inform first/clickedCounter of selection, make it glow
             affirmMessage("Counter selected for swap!");
+            clickedCounter.GetComponent<CounterClickerScript>().isSelected = true;
             return;
         }else{ //Case where the second counter has been selected.
+
+            //If it is the same counter which was already selected, deselect it.
+            if(clickedCounter == firstCounter){
+                firstCounter = null;
+                firstRoad = null;
+                clickedCounter.GetComponent<CounterClickerScript>().isSelected = false;
+                affirmMessage("Selection cancelled!");
+                return;
+            }
+
             //Find out if the second counter is on the same road as the first.
             if(((TransportationCounter) firstCounter.GetComponent<CounterClickerScript>().myCounter).transportType == tc.transportType){
                 invalidMessage("Can't swap identical counters!");
