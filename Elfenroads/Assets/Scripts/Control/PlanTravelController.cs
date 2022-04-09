@@ -377,7 +377,9 @@ public class PlanTravelController : MonoBehaviour
             usingExchange = false;
             currentExchange = Guid.Empty;
             firstCounter = null;
-            firstCounter.GetComponent<CounterClickerScript>().isSelected = false;
+            if(firstCounter != null){
+                firstCounter.GetComponent<CounterClickerScript>().isSelected = false;
+            }
             firstRoad = null;
             return;
         }

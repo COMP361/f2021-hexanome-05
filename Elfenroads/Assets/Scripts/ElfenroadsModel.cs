@@ -69,10 +69,13 @@ namespace Models {
                 foreach(Card c in p.inventory.cards){
                     ModelStore.Add(c);
                 }
+                foreach(TownPiece tp in p.inventory.townPieces){
+                    ModelStore.Add(tp);
+                }
             }
 
             foreach(Road r in game.board.roads){
-                //ModelStore.Add(r);
+                ModelStore.Add(r);
                 foreach(Counter c in r.counters){
                     ModelStore.Add(c);
                 }
@@ -81,6 +84,9 @@ namespace Models {
                 ModelStore.Add(c);
             }
             foreach(Card c in game.cards.cards){
+                ModelStore.Add(c);
+            }
+            foreach(Card c in game.discardPile.cards){
                 ModelStore.Add(c);
             }
 

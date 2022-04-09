@@ -254,12 +254,12 @@ public class ThisPlayerInventoryView : MonoBehaviour
                 }
                 case WitchCard wc:
                 {
-                    Debug.Log("Elfengold - Do later");
+                    Debug.Log("Witch cards don't show up on the player hand!");
                     break;
                 }
                 case GoldCard gc:
                 {
-                    Debug.Log("Elfengold - Do later");
+                    Debug.Log("GoldCards don't show up on the player hand!");
                     break;
                 }
                 default: Debug.Log("Card is of undefined type!") ; break;

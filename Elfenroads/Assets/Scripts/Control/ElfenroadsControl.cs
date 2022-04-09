@@ -134,6 +134,7 @@ namespace Controls {
             Debug.Log(input);
             var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
             Game newGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
+            
             if(hasBeenSetup){ //If the setup has been completed, we call "updatedGame".
                 Elfenroads.Model.updatedGame(newGame);
             }else{ //Otherwise, perform the initialGame setup.
@@ -289,7 +290,7 @@ namespace Controls {
                     break;
                 }
             }
-            Invoke("resetDraggables", 0.5f); //Needs work.
+            Invoke("resetDraggables", 0.15f); //Needs work.
         }
 
         private void disableCanvases(){

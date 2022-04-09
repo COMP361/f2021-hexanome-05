@@ -28,6 +28,7 @@ namespace Models{
         }
 
         public static GuidModel Get(Guid id) {
+            Debug.Log("Trying to get key:" + id);
             return StoreInstance().dict[id];
         }
     }
