@@ -7,7 +7,7 @@ using Models;
 
 public class SelectCounterController : MonoBehaviour, GuidHelperContainer
 {
-    public GameObject countersLayout;
+    public RectTransform countersLayout;
     public GameObject mainWindow;
     public GameObject waitingWindow;
     public GameObject mainMapButton;
@@ -38,7 +38,11 @@ public class SelectCounterController : MonoBehaviour, GuidHelperContainer
             mainMapButton.SetActive(true);
             smallMapButton.SetActive(false);
         
-            
+            foreach(Transform child in countersLayout){
+                child.SetParent(null);
+                DestroyImmediate(child.gameObject);
+            }
+            countersLayout.DetachChildren();
 
             //Then, create the prefabs for the two counters here.
             foreach(Counter c in sc.counters){

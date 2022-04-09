@@ -600,9 +600,9 @@ namespace Controls
                             }
                         }
                         if(hasGoldCounter){
-                            goldAccrued += (2 * road.end.goldValue);
+                            goldAccrued += (2 * road.start.goldValue);
                         }else{
-                            goldAccrued += road.end.goldValue;
+                            goldAccrued += road.start.goldValue;
                         }
                     }
                     Elfenroads.Control.moveBoot(town, cardsToPass);

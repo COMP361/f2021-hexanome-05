@@ -20,7 +20,7 @@ public class PlanTravelController : MonoBehaviour
     private Guid currentDouble = Guid.Empty;
     private bool usingExchange = false;
     private Guid currentExchange = Guid.Empty;
-    private TransportationCounter firstCounter = null;
+    private GameObject firstCounter = null;
     private Road firstRoad = null;
 
 
@@ -395,30 +395,26 @@ public class PlanTravelController : MonoBehaviour
             }
     }
 
-    public void counterClicked(Counter clickedCounter, Road counterRoad){
-        Debug.Log("Counter clicked (in controller)");
+    public void counterClicked(GameObject clickedCounter, Road counterRoad){
         if(!usingExchange){
             invalidMessage("Swapping requires an exchange spell!");
             return;
         }
-        if(!(clickedCounter is TransportationCounter)){
-            invalidMessage("Can only swap transportation counters!");
-            return;
-        }
-        TransportationCounter tc = (TransportationCounter) clickedCounter;
+        TransportationCounter tc = (TransportationCounter) clickedCounter.GetComponent<CounterClickerScript>().myCounter;
         //Case where the first counter has been selected.
         if(firstCounter == null || firstRoad == null){
-            firstCounter = tc;
+            firstCounter = clickedCounter;
             firstRoad = counterRoad;
+            //**Inform first/clickedCounter of selection, make it glow
             affirmMessage("Counter selected for swap!");
             return;
         }else{ //Case where the second counter has been selected.
             //Find out if the second counter is on the same road as the first.
-            if(firstCounter.transportType == tc.transportType){
+            if(((TransportationCounter) firstCounter.GetComponent<CounterClickerScript>().myCounter).transportType == tc.transportType){
                 invalidMessage("Can't swap identical counters!");
             }
             //Figure out if the first counter is compatible with the second counter's road.
-            if(!compatibleWithRoad(firstCounter.transportType, counterRoad.roadType)){
+            if(!compatibleWithRoad(((TransportationCounter) firstCounter.GetComponent<CounterClickerScript>().myCounter).transportType, counterRoad.roadType)){
                 invalidMessage("Invalid swap!");
                 return;
             }
@@ -428,7 +424,7 @@ public class PlanTravelController : MonoBehaviour
                 return;
             }
             //If we make it here, the swap is valid.
-            Elfenroads.Control.playExchangeCounter(currentExchange, firstRoad.id, firstCounter.id, counterRoad.id, clickedCounter.id);
+            Elfenroads.Control.playExchangeCounter(currentExchange, firstRoad.id, firstCounter.GetComponent<CounterClickerScript>().myCounter.id, counterRoad.id, clickedCounter.GetComponent<CounterClickerScript>().myCounter.id);
             turnOffSpells();
         }
     }

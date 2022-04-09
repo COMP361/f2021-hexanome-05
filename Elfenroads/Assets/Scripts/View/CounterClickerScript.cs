@@ -20,7 +20,7 @@ public class CounterClickerScript : MonoBehaviour
         //Inform the Controller if it is ElfenGold.
         Debug.Log("Counter was clicked!");
         if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold) && Elfenroads.Model.game.currentPhase is PlanTravelRoutes){
-            myController.counterClicked(myCounter, myRoad);
+            myController.counterClicked(this.gameObject, myRoad);
         }
     }
 }
