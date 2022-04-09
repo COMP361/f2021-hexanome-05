@@ -343,7 +343,9 @@ public class PlanTravelController : MonoBehaviour
         usingExchange = false;
         currentDouble = Guid.Empty;
         currentExchange = Guid.Empty;
-        firstCounter.GetComponent<CounterClickerScript>().isSelected = false;
+        if(firstCounter != null){
+            firstCounter.GetComponent<CounterClickerScript>().isSelected = false;
+        }
         firstCounter = null;
         firstRoad = null;
         //*** Also stop highlighting the spells here.
