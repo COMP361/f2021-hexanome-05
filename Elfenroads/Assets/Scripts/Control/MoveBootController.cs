@@ -122,6 +122,9 @@ namespace Controls
                     //Transfer this card from topCards to ToDiscard
                     Debug.Log("Transferring from topCards to ToDiscard!");
                     transferToBottom(card);
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        updateHelperWindowCardCount();
+                    }
                     return;
                 }
             }
@@ -130,6 +133,9 @@ namespace Controls
                     //Transfer this card from topCards to ToDiscard
                     Debug.Log("Transferring from topCards to ToDiscard");
                     transferToTop(card);
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        updateHelperWindowCardCount();
+                    }
                     return;
                 }
             }
@@ -184,6 +190,19 @@ namespace Controls
             }
 
             if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                if(Elfenroads.Control.getThisPlayer().inventory.cards.Count > 15){
+                    //Open the "discard cards" window.
+                    loadPlayerCards();
+                    //Now, we can enable the window.
+                    endTurnButton.SetActive(false);
+                    helperWindow.SetActive(true);
+                    caravanMode = false;
+                    Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
+                    Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
+                    topText.text = "Choose cards to discard until fifteen or less are left (currently contains " + Elfenroads.Control.getThisPlayer().inventory.cards.Count + " cards):";
+                    bottomText.text = "Discarded Cards: ";
+                    return;
+                }
                 EGHelperWindow.SetActive(true);
                 EGHelperWindow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Would you like to end your turn by drawing two travel cards or by taking your " + goldAccrued + " accumulated gold?";
                 EGHelperWindow.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Take " + goldAccrued + " Gold";
@@ -193,7 +212,6 @@ namespace Controls
                 endTurnButton.SetActive(false);
                 return;
             }
-
 
             //This is callled if "endTurn" was pressed. If the player has less than or equal to 4 travelcards, simply call endTurn on ElfenroadsControl with an empty list. May need Elfenroad change here?***
             int numCards = Elfenroads.Control.getThisPlayer().inventory.cards.Count;
@@ -215,6 +233,10 @@ namespace Controls
                 bottomText.text = "Discarded Cards: ";
             }
         }
+
+    private void updateHelperWindowCardCount(){
+        topText.text = "Choose cards to discard until fifteen or less are left (currently contains " + topCards.Count + " cards):";
+    }
 
     private void loadPlayerCards(){
         bottomCards = new List<GameObject>();
@@ -323,8 +345,9 @@ namespace Controls
 
         //Called by the "confirm" button. If there is the proper amount of cards in the "bottomCards" array, their guids are passed to Control to emit to the server, and both arrays/GridLayoutGroups are cleared.
         private void confirmDiscardCards(){
-            if(topCards.Count != 4){
-                invalidMessage("You must keep exactly 4 cards!");
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                if(topCards.Count > 15){
+                invalidMessage("You must keep 15 or less cards!");
                 return;
             }else{
                 List<Guid> discardList = new List<Guid>();
@@ -335,9 +358,28 @@ namespace Controls
                 endTurnButton.SetActive(true);
                 helperWindow.SetActive(false);
                 caravanMode = false;
-                Elfenroads.Control.endTurn(discardList);
+                Elfenroads.Control.endAndTakeGold(goldAccrued, discardList);
                 goldAccrued = 0;
                 return;
+            }
+
+            }else{
+                if(topCards.Count != 4){
+                    invalidMessage("You must keep exactly 4 cards!");
+                    return;
+                }else{
+                    List<Guid> discardList = new List<Guid>();
+                    foreach(GameObject card in bottomCards){ 
+                        discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
+                    }
+                    clearDiscard();
+                    endTurnButton.SetActive(true);
+                    helperWindow.SetActive(false);
+                    caravanMode = false;
+                    Elfenroads.Control.endTurn(discardList);
+                    goldAccrued = 0;
+                    return;
+                }
             }
         }
 
@@ -386,7 +428,7 @@ namespace Controls
         }
 
         public void EGendAndTakeGold(){
-            Elfenroads.Control.endAndTakeGold(goldAccrued);
+            Elfenroads.Control.endAndTakeGold(goldAccrued, new List<Guid>());
             cancelElfenGold();
             goldAccrued = 0;
         }

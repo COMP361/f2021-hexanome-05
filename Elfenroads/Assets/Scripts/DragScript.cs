@@ -27,7 +27,7 @@ public class DragScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDr
         r.localPosition = targetPosition;
     }
 
-    public IEnumerator getPositions(){
+    public IEnumerator getPositions(){ //This is a coroutine because layouts only update at the end of frame, so if we do this beforehand the starting position will be wrong.
         yield return new WaitForEndOfFrame();
         startingPos = draggableElement.localPosition;
     }

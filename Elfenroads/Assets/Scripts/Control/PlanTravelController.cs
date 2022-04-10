@@ -42,6 +42,7 @@ public class PlanTravelController : MonoBehaviour
         }else{
             //We're done, and can call Control.
             Elfenroads.Control.passTurn();
+            turnOffSpells();
         }
     }
 
@@ -248,6 +249,7 @@ public class PlanTravelController : MonoBehaviour
                 return;
             }else if(hasObstacleOrGold(road)){
                 invalidMessage("Obstacle or GoldCounter already exists!");
+                return;
             }
             //Then, verify that the Player has a gold counter.
                 bool ownsIt = false;
@@ -429,6 +431,7 @@ public class PlanTravelController : MonoBehaviour
             //Find out if the second counter is on the same road as the first.
             if(((TransportationCounter) firstCounter.GetComponent<CounterClickerScript>().myCounter).transportType == tc.transportType){
                 invalidMessage("Can't swap identical counters!");
+                return;
             }
             //Figure out if the first counter is compatible with the second counter's road.
             if(!compatibleWithRoad(((TransportationCounter) firstCounter.GetComponent<CounterClickerScript>().myCounter).transportType, counterRoad.roadType)){

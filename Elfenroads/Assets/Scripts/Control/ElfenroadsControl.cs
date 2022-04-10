@@ -441,11 +441,13 @@ namespace Controls {
             socket.Instance.Emit("MagicFlight", json.ToString(), false);
         }
 
-        public void endAndTakeGold(int amount){
+        public void endAndTakeGold(int amount, List<Guid> cardsToDiscard){
             JObject json = new JObject();
             json.Add("game_id", SessionInfo.Instance().getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(SessionInfo.Instance().getClient().clientCredentials.username).id);
             json.Add("gold", amount);
+            JArray array = JArray.FromObject(cardsToDiscard);
+            json.Add("card_ids", array);
             socket.Instance.Emit("endAndTakeGold", json.ToString(), false);
         }
 
