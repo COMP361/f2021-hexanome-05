@@ -38,7 +38,7 @@ public class LobbyScript : MonoBehaviour
             request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
             returnCode = (int)request.responseCode;
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0);
         }
 
         if (returnCode == 200){
@@ -50,7 +50,7 @@ public class LobbyScript : MonoBehaviour
 
         request.Dispose();
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0);
     }
 
     public TMPro.TMP_Text infoText;
