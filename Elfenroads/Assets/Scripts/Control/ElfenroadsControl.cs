@@ -199,7 +199,6 @@ namespace Controls {
                     if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
                         PlanTravelCanvas.transform.GetChild(0).gameObject.SetActive(true);
                         PlanTravelCanvas.transform.GetChild(1).gameObject.SetActive(true);
-                        GameObject.Find("PlayerHand").GetComponent<ThisPlayerInventoryView>().resetDraggablePositions();
                     }
                     if(firstCounterPhase){
                         Invoke("resetDraggables", 0.05f);
