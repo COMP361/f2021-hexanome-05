@@ -44,6 +44,7 @@ public class LoginScript : MonoBehaviour
         thisClient.clientCredentials = new ClientCredentials();
         thisClient.mySession = null;
         thisClient.thisSessionID = null;
+        SessionInfo.Instance().savegame_id = "";    
         if(usernameBox.GetComponent<TMP_InputField>().text == "" || passwordBox.GetComponent<TMP_InputField>().text == ""){
             return;
         }else{

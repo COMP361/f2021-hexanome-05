@@ -215,7 +215,8 @@ namespace Controls
 
             //This is callled if "endTurn" was pressed. If the player has less than or equal to 4 travelcards, simply call endTurn on ElfenroadsControl with an empty list. May need Elfenroad change here?***
             int numCards = Elfenroads.Control.getThisPlayer().inventory.cards.Count;
-            if(numCards <= 4){
+            if(numCards <= 4 || ((Elfenroads.Model.game.variant.HasFlag(Game.Variant.LongerGame) && Elfenroads.Model.game.roundNumber == 4)) 
+                || ((!Elfenroads.Model.game.variant.HasFlag(Game.Variant.LongerGame) && Elfenroads.Model.game.roundNumber == 3))){
                 List<Guid> emptyList = new List<Guid>();
                 Elfenroads.Control.endTurn(emptyList);
                 goldAccrued = 0;

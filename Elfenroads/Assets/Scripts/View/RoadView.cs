@@ -45,7 +45,7 @@ public class RoadView : MonoBehaviour {
         List<Slot> tSlots = target.getSlots();
         foreach(Slot s in tSlots){
             if(s.obj != null){
-                Debug.Log("Removed " + s.obj + " from " + gameObject.name);
+                //Debug.Log("Removed " + s.obj + " from " + gameObject.name);
                 Destroy(s.obj);
                 s.obj = null;
             }
@@ -60,7 +60,7 @@ public class RoadView : MonoBehaviour {
      }
 
     void onModelUpdated(object sender, EventArgs e) {
-        Debug.Log("Roadview updated!");
+        //Debug.Log("Roadview updated!");
         //First, remove all counters from the slots.
         removeAllFromSlots(counters);
 
