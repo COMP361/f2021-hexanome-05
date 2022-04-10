@@ -11,46 +11,162 @@ using Firesplash.UnityAssets.SocketIO;
 
 public class LobbyScript : MonoBehaviour
 {
+    private Task<List<SessionJSON>> longPollingTask;
+    string sessionsLongPollingHash = null;
 
     //Known bug: When a session does not already exist (for the user), when they press "create" the game tells them they already have a session (it still creates the session - the warning message is the thing that's wrong) ***
-    IEnumerator pollingRoutine(){ //Just asks the LS for sessions every second, and displays the result.
-        // while(true){
-        //     #pragma warning disable 4014
-        //     thisClient.refreshSessions();
-        //     #pragma warning restore 4014
-        //     yield return new WaitForSeconds(1f);
-        // }
+    // IEnumerator pollingRoutine(){ //Just asks the LS for sessions every second, and displays the result.
+    //     // while(true){
+    //     //     #pragma warning disable 4014
+    //     //     thisClient.refreshSessions();
+    //     //     #pragma warning restore 4014
+    //     //     yield return new WaitForSeconds(1f);
+    //     // }
 
-        //Load in the beginning
+    //     //Load in the beginning
 
-        const string LS_PATH = "https://mysandbox.icu/LobbyService";
+    //     const string LS_PATH = "https://mysandbox.icu/LobbyService";
 
-        UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
+    //     UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
 
-        //Return Codes: 200(success), 408(request timeout)
-        //https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
-        int returnCode = (int)request.responseCode;
-
-        thisClient.refreshSessions();
+    //     //Return Codes: 200(success), 408(request timeout)
+    //     //https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+    //     int returnCode = 408;
         
-        while (returnCode == 408){
-            //Polling
-            request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
-            returnCode = (int)request.responseCode;
+    //     thisClient.refreshSessions();
 
-            yield return new WaitForSeconds(0);
+    //     while (returnCode == 408){
+
+    //         //Polling
+    //         request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
+    //         returnCode = (int)request.responseCode;
+    //         Debug.Log("Very Interesting");
+
+    //         yield return new WaitForSeconds(1f);
+    //     }
+
+    //     if (returnCode == 200){
+    //         Debug.Log("Interesting");
+    //         thisClient.refreshSessions();
+    //     } else {
+    //         Debug.Log("not interesting" + returnCode);
+    //     }
+
+    //     request.Dispose();
+
+    //     yield return new WaitForSeconds(1f);
+    // }
+
+    public class SessionJSON {
+        public string id;
+        public string creator;
+        public GameParameters gameParameters;
+        public bool launched;
+        public string[] players;
+        public Dictionary<string, string> playerLocations;
+        public string savegameid;
+    }
+
+    public class GameParameters {
+        public string location;
+        public int maxSessionPlayers;
+        public int minSessionPlayers;
+        public string name;
+        public string webSupport;
+    }
+
+    public Task<List<SessionJSON>> GetSessions() {
+        if (sessionsLongPollingHash == null) {
+            return getSessionsSetHash();
+        }
+        else {
+            return sessionsLongPoll();
+        }
+    }
+
+    protected async Task<List<SessionJSON>> getSessionsSetHash() {
+        UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
+        
+        var tcs = new TaskCompletionSource<string>();
+
+        request.SendWebRequest().completed += (AsyncOperation operation) => {
+            UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
+            if (request.error == null) {
+                tcs.SetResult(request.downloadHandler.text);
+            }
+            else {
+                tcs.SetException(new Exception(request.error));
+            }
+            request.Dispose();
+        };
+
+        try {
+            string payload = await tcs.Task;
+
+            using (MD5 md5 = MD5.Create()) {
+                var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(payload));
+                sessionsLongPollingHash = new string(Encoding.UTF8.GetChars(hash));
+            }
+
+            return deserializeSessions(payload);
+        }
+        catch (Exception e) {
+            Debug.LogException(e);
+            return new List<SessionJSON>();
+        }
+    }
+
+     protected IEnumerator sessionsLongPoll() {
+        UnityWebRequest request;
+        string payload;
+        do {
+            request = UnityWebRequest.Get(LS_PATH + "/api/sessions?hash=" + sessionsLongPollingHash);
+            request.SendWebRequest();
+
+            (AsyncOperation operation) => {
+                UnityWebRequest request = ((UnityWebRequestAsyncOperation) operation).webRequest;
+                if (request.error == null) {
+                    tcs.SetResult(request.downloadHandler.text);
+                }
+                else {
+                    tcs.SetException(new Exception(request.error));
+                }
+                request.Dispose();
+            };
+
+            payload = await tcs.Task;
+        } while (request.responseCode == 408);
+
+        try {
+            using (MD5 md5 = MD5.Create()) {
+                var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(payload));
+                sessionsLongPollingHash = new string(Encoding.UTF8.GetChars(hash));
+            }
+
+            return deserializeSessions(payload);
+        }
+        catch (Exception e) {
+            Debug.LogException(e);
+            return new List<SessionJSON>();
+        }
+    }
+
+    protected List<SessionJSON> deserializeSessions(string json) {
+        var sessions = new List<SessionJSON>();
+
+        JObject result = JObject.Parse(json);
+
+        if (!result.ContainsKey("sessions")) {
+            return sessions;
         }
 
-        if (returnCode == 200){
-            thisClient.refreshSessions();
-            // RefreshSuccessEvent(request.downloadHandler.text);
-        } else {
-            // RefreshFailureEvent(request.error + "\n" + request.downloadHandler.text); 
+        foreach (JProperty jsession in ((JObject) result["sessions"]).Properties()) {
+            SessionJSON session = ((JObject) jsession.Value).ToObject<SessionJSON>();
+            session.id = jsession.Name;
+            sessions.Add(session);
         }
 
-        request.Dispose();
-
-        yield return new WaitForSeconds(0);
+        return sessions;
     }
 
     public TMPro.TMP_Text infoText;
@@ -71,7 +187,7 @@ public class LobbyScript : MonoBehaviour
     private Client thisClient;
 
 
-    void OnEnable(){
+    async void OnEnable(){
 
         //First, create Client object and get the button.
         thisClient = Client.Instance();
@@ -109,7 +225,10 @@ public class LobbyScript : MonoBehaviour
 
         //Next, start polling. For now, this coroutine will simply get an update and display it every second. Later on, if time permits, can make this more sophisticated via the scheme described here, checking for return codes 408 and 200.
         //https://github.com/kartoffelquadrat/AsyncRestLib#client-long-poll-counterpart (This would likely require changing the LobbyService.cs script, as well as the refreshSuccess function(s)).
-        StartCoroutine("pollingRoutine");
+        while (true) {
+            longPollingTask = GetSessions();
+            
+        }
     }
 
     public void testCallback(string message){
