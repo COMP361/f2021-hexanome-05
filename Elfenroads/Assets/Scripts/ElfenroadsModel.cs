@@ -28,6 +28,12 @@ namespace Models {
         public void initialGame(Game g){
             //First, we set the game.
             game = g;
+            foreach (Road road in game.board.roads) {
+            Town startTown = game.board.GetTown(road.start.id);
+            Town endTown = game.board.GetTown(road.end.id);
+            road.setStart(startTown);
+            road.endStart(endTown);
+        }
             //Second, loop through TownObjects, calling "setAndSubscribeToModel" on each one with the Model-counterpart as a parameter.
             foreach(GameObject t in townObjects){
                 t.GetComponent<TownView>().setAndSubscribeToModel(game.board.GetTown(t.name));

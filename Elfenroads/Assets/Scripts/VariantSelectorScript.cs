@@ -15,6 +15,6 @@ public class VariantSelectorScript : MonoBehaviour
         SessionInfo.Instance().isLongerGame = isLongerGame;
         SessionInfo.Instance().isHomeTown = isHomeTown;
         SessionInfo.Instance().isElvenWitch = isElvenWitch;
-        SessionInfo.Instance().isRandomDistribution = isElvenWitch;
+        SessionInfo.Instance().isRandomDistribution = isRandomDistribution;
     }
 }

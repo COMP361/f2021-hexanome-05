@@ -61,6 +61,10 @@ public class SessionInfo
 
     public Game.Variant getVariant() {
         Game.Variant variant = 0;
+        Debug.Log("Elfengold: " + isElfenGold);
+        Debug.Log("Witch: " + isElvenWitch);
+        Debug.Log("HomeTown: " + isHomeTown);
+        Debug.Log("Random: " + isRandomDistribution);
         
         if (isElfenGold) {
             variant |= Game.Variant.Elfengold;

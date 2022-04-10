@@ -18,6 +18,7 @@ namespace Controls
         public GameObject EGHelperWindow;
         public TMPro.TMP_Text topText;
         public TMPro.TMP_Text bottomText;
+        public GameObject goldReminder;
         public GameObject endTurnButton;
         public GameObject witchButton;
         public RectTransform topLayoutGroup;
@@ -32,6 +33,7 @@ namespace Controls
         public GameObject unicornCardPrefab;
         public GameObject pigCardPrefab;
         public GameObject raftCardPrefab;
+        public GameObject witchCardPrefab;
 
         public List<GameObject> roadObjects;
         private List<RoadView> roadViews;
@@ -103,12 +105,15 @@ namespace Controls
                     loadPlayerCards();
                     endTurnButton.SetActive(false);
                     helperWindow.SetActive(true);
+                    //Don't disable the witch here - but make the button unclickable.
                     Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
                     Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
                     targetRoadCost = 3;
-                    foreach(Counter c in targetRoad.counters){
-                        if(c is ObstacleCounter){
-                            targetRoadCost = 4;
+                    if(!witchInUse){ //If there's no witch, add the cost of an obstacle (if there is one)
+                        foreach(Counter c in targetRoad.counters){
+                            if(c is ObstacleCounter){
+                                targetRoadCost = 4;
+                            }
                         }
                     }
                     topText.text = "Select the " + targetRoadCost + " cards you will use for this caravan:";
@@ -196,14 +201,21 @@ namespace Controls
                     //Now, we can enable the window.
                     endTurnButton.SetActive(false);
                     helperWindow.SetActive(true);
+                    witchInUse = false;
+                    currentWitch = Guid.Empty;
                     caravanMode = false;
                     Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
                     Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
                     topText.text = "Choose cards to discard until fifteen or less are left (currently contains " + Elfenroads.Control.getThisPlayer().inventory.cards.Count + " cards):";
+                    goldReminder.SetActive(true);
+                    goldReminder.GetComponent<TMPro.TMP_Text>().text = "Don't worry - you'll still get your " + goldAccrued + " accrued gold!";
                     bottomText.text = "Discarded Cards: ";
+                    
                     return;
                 }
                 EGHelperWindow.SetActive(true);
+                witchInUse = false;
+                currentWitch = Guid.Empty;
                 EGHelperWindow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Would you like to end your turn by drawing two travel cards or by taking your " + goldAccrued + " accumulated gold?";
                 EGHelperWindow.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Take " + goldAccrued + " Gold";
                 caravanMode = false;
@@ -227,6 +239,8 @@ namespace Controls
                 //Now, we can enable the window.
                 endTurnButton.SetActive(false);
                 helperWindow.SetActive(true);
+                witchInUse = false;
+                currentWitch = Guid.Empty;
                 caravanMode = false;
                 Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
                 Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
@@ -242,6 +256,7 @@ namespace Controls
     private void loadPlayerCards(){
         bottomCards = new List<GameObject>();
         topCards = new List<GameObject>();
+        bool witchHasBeenSkipped = false;
         foreach(Card c in Elfenroads.Control.getThisPlayer().inventory.cards){
             switch(c){
                 case TravelCard tc:
@@ -286,7 +301,28 @@ namespace Controls
                     }
                     break;
                 }
-                default: Debug.Log("Card is of undefined type!") ; break; // Note: WitchCard will be a button instead, since it can do two things. Will need to add some kind of 'witchmode' button/boolean. ***
+                case WitchCard wc:{
+                    //If the cards are being loaded and it isn't caravanMode, we want to show the witch.
+                    if(!caravanMode){
+                        createAndAddToLayout(witchCardPrefab,c);
+                        break;
+                    }else{
+                        //If it is caravan mode and a witch is in use, we want to show only the 'extra' witches (since one is in use to bypass the obstacle.)
+                        if(witchInUse){
+                            if(witchHasBeenSkipped){
+                                createAndAddToLayout(witchCardPrefab,c);
+                                break;
+                            }else{
+                                witchHasBeenSkipped = true;
+                            }
+                        }else{
+                            createAndAddToLayout(witchCardPrefab,c);
+                            break;
+                        }
+                    }
+                    break;
+                }
+                default: Debug.Log("Card is of undefined type!") ; break; 
             }
         }
     }
@@ -317,6 +353,9 @@ namespace Controls
                 List<Guid> discardList = new List<Guid>();
                 foreach(GameObject card in bottomCards){ 
                     discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
+                }
+                if(witchInUse){ //If we were using a caravan with a witch, add it here.
+                    discardList.Add(currentWitch);
                 }
                 clearDiscard();
                 endTurnButton.SetActive(true);
@@ -391,6 +430,7 @@ namespace Controls
             helperWindow.SetActive(false);
             caravanMode = false;
             targetRoad = null;
+            goldReminder.SetActive(false);
             Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
             Elfenroads.Control.UnlockDraggables?.Invoke(null, EventArgs.Empty);
         }
@@ -435,6 +475,16 @@ namespace Controls
         }
 
         public void toggleWitch(){
+            if(! Elfenroads.Control.isCurrentPlayer()){
+                //Inform player they are not the current player.
+                invalidMessage("Not your turn!");
+                return;
+            }
+            if(playerInfoController.windowOpen || infoWindowController.isOpen || helperWindow.activeSelf || EGHelperWindow.activeSelf){
+                invalidMessage("Close any open windows first!");
+                return;
+            }
+
             if(witchInUse){
                 witchInUse = false;
                 return;
