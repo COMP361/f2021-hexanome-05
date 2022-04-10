@@ -54,7 +54,12 @@ public class FinishRoundController : MonoBehaviour, GuidHelperContainer
         }
         Debug.Log("Counters including obstacles: " + countIncludeObstacle);
         Debug.Log("Counters not including obstacles: " + countNotIncludeObstacle);
-        if( (Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold) && countIncludeObstacle <= 2) || (Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfenland) && countNotIncludeObstacle <= 1) ){ //Here?
+        if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold) && countIncludeObstacle <= 2){
+            mainWindow.SetActive(false);
+            toggleMapButton.SetActive(false);
+            waitingWindow.SetActive(true);
+            return;
+        }else if(! (Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)) && countNotIncludeObstacle <= 1){
             mainWindow.SetActive(false);
             toggleMapButton.SetActive(false);
             waitingWindow.SetActive(true);

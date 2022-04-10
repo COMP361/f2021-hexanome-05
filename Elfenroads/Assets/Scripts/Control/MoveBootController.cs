@@ -394,12 +394,12 @@ namespace Controls
                 foreach(GameObject card in bottomCards){ 
                     discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
                 }
-                clearDiscard();
                 endTurnButton.SetActive(true);
                 helperWindow.SetActive(false);
                 caravanMode = false;
                 Elfenroads.Control.endAndTakeGold(goldAccrued, discardList);
                 goldAccrued = 0;
+                clearDiscard();
                 return;
             }
 
@@ -412,12 +412,12 @@ namespace Controls
                     foreach(GameObject card in bottomCards){ 
                         discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
                     }
-                    clearDiscard();
                     endTurnButton.SetActive(true);
                     helperWindow.SetActive(false);
                     caravanMode = false;
                     Elfenroads.Control.endTurn(discardList);
                     goldAccrued = 0;
+                    clearDiscard();
                     return;
                 }
             }
