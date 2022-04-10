@@ -21,20 +21,24 @@ public class LobbyScript : MonoBehaviour
         //     yield return new WaitForSeconds(1f);
         // }
 
+        //Load in the beginning
+
         const string LS_PATH = "https://mysandbox.icu/LobbyService";
 
         UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
-        UnityWebRequestAsyncOperation operation = request.SendWebRequest();
 
         //Return Codes: 200(success), 408(request timeout)
         //https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
-        int returnCode = 408;
+        int returnCode = (int)request.responseCode;
+
+        thisClient.refreshSessions();
         
         while (returnCode == 408){
             //Polling
-            UnityWebRequest response = UnityWebRequest.Get(LS_PATH + "/api/sessions");
-            returnCode = (int)response.responseCode;
-            yield return new WaitForSeconds(0);
+            request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
+            returnCode = (int)request.responseCode;
+
+            yield return new WaitForSeconds(1f);
         }
 
         if (returnCode == 200){
@@ -46,7 +50,7 @@ public class LobbyScript : MonoBehaviour
 
         request.Dispose();
 
-        yield return new WaitForSeconds(0);
+        yield return new WaitForSeconds(1f);
     }
 
     public TMPro.TMP_Text infoText;
