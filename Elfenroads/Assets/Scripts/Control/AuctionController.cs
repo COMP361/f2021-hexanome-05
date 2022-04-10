@@ -213,6 +213,11 @@ public class AuctionController : MonoBehaviour
             invalidMessage("Not your turn!");
             return;
         }
+
+        if(Elfenroads.Control.getThisPlayer().inventory.gold < thisPlayerBid){
+            invalidMessage("You don't have enough gold for this bid!");
+            return;
+        }
         
         if (thisPlayerBid > auctionModel.highestBid){
             previousHighestBidder = "You";
