@@ -57,6 +57,8 @@ namespace Controls {
         private bool wasAuction = false;
         public bool hasBeenSetup = false;
         private bool isListening = false;
+        private bool firstCardPhase = true;
+        private bool firstCounterPhase = true;
 
         private void cameraLock(object sender, EventArgs e){
             cameraLocked = true;
@@ -171,6 +173,10 @@ namespace Controls {
                         prompt.text = currentPlayer.name + " is drawing a counter...";
                     }
                     infoWindowController.UpdateDrawCounterHelp();
+                    if(firstCounterPhase){
+                        Invoke("resetDraggables", 0.05f);
+                        firstCounterPhase = false;
+                    }
                     break;
                 }
                 case PlanTravelRoutes pt:{
@@ -194,6 +200,10 @@ namespace Controls {
                         PlanTravelCanvas.transform.GetChild(0).gameObject.SetActive(true);
                         PlanTravelCanvas.transform.GetChild(1).gameObject.SetActive(true);
                         GameObject.Find("PlayerHand").GetComponent<ThisPlayerInventoryView>().resetDraggablePositions();
+                    }
+                    if(firstCounterPhase){
+                        Invoke("resetDraggables", 0.05f);
+                        firstCounterPhase = false;
                     }
                     break;
                 }
@@ -221,6 +231,10 @@ namespace Controls {
                         MoveBootCanvas.transform.GetChild(1).gameObject.SetActive(true);
                     }
                     moveBootController.updateEGStuff();
+                    if(firstCardPhase){
+                        Invoke("resetDraggables", 0.05f);
+                        firstCardPhase = false;
+                    }
                     break;
                 }
                 case FinishRound fr:{ //Operating under the assumption this is called ONCE PER ROUND, due to how it works.
@@ -233,6 +247,10 @@ namespace Controls {
                     finishRoundController.initialSetup(thisPlayer);
                     //currentPlayer = null; //*** Would this break things?
                     infoWindowController.UpdateFinishRoundHelp();
+                    if(firstCounterPhase){
+                        Invoke("resetDraggables", 0.05f);
+                        firstCounterPhase = false;
+                    }
                     break;
                 }
                 case GameOver go:{
@@ -253,6 +271,10 @@ namespace Controls {
                     }
                     drawCardsController.updateFaceUpCards();
                     infoWindowController.UpdateDrawCardsHelp();
+                    if(firstCardPhase){
+                        Invoke("resetDraggables", 0.05f);
+                        firstCardPhase = false;
+                    }
                     break;
                 }
                 case SelectCounter sc:{
@@ -264,6 +286,10 @@ namespace Controls {
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     selectCounterController.setupSelectCounter(sc);
                     infoWindowController.UpdateSelectCounterHelp();
+                    if(firstCounterPhase){
+                        Invoke("resetDraggables", 0.05f);
+                        firstCounterPhase = false;
+                    }
                     break;
                 }
                 case Auction a:{
@@ -283,6 +309,10 @@ namespace Controls {
                     }
                     wasAuction = true;
                     infoWindowController.UpdateAuctionHelp();
+                    if(firstCardPhase){
+                        Invoke("resetDraggables", 0.05f);
+                        firstCardPhase = false;
+                    }
                     break;
                 }
                 default:{
@@ -290,7 +320,6 @@ namespace Controls {
                     break;
                 }
             }
-            Invoke("resetDraggables", 0.15f); //Needs work.
         }
 
         private void disableCanvases(){
