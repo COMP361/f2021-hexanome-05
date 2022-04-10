@@ -8,18 +8,17 @@ public class AuctionController : MonoBehaviour
 
     public Auction auctionModel;
     public GameObject AuctionCanvas;
-    public GameObject ResultCanvas;
+    public GameObject PlayerInventoryCanvas;
 
     public GameObject invalidMovePrefab;
     public GameObject messagePrefab;
+    public GameObject auctionResultWindowPrefab;
     public RectTransform countersLeftLayoutGroup;
     public RectTransform currentCounterLayoutGroup;
-    public RectTransform soldCounterLayoutGroup;
     public TMPro.TMP_Text currentHighestBidText;
     public TMPro.TMP_Text turnText;
     public TMPro.TMP_Text passedPlayersText;
     public TMPro.TMP_Text currentBidText;
-    public TMPro.TMP_Text soldCounterText;
 
     
     [Header("Counter Prefabs")]
@@ -37,18 +36,16 @@ public class AuctionController : MonoBehaviour
 
     private Counter counterUpForAuction;
     private int thisPlayerBid;
+    Dictionary<Player, int> counterCount;
 
     private string previousHighestBidder;
 
-    //Called every time we get state and it is currently an auction.
-    public void updateAuction(Auction auction){
+    public void initialAuction(Auction auction){
+        counterCount = new Dictionary<Player, int>();
         auctionModel = auction;
-        if( (counterUpForAuction != null) && (auctionModel.getCurrentAuctioningCounter().id != counterUpForAuction.id)){
-            soldCounterText.text = previousHighestBidder + " obtained:";
-            List<Counter> soldCounter = new List<Counter>();
-            soldCounter.Add(counterUpForAuction);
-            updateLayoutGroup(soldCounterLayoutGroup, soldCounter, false);
-            ResultCanvas.SetActive(true); 
+
+        foreach(Player p in Elfenroads.Model.game.players){
+            counterCount.Add(p, p.inventory.counters.Count);
         }
 
         thisPlayerBid = auctionModel.highestBid + 1;
@@ -57,6 +54,96 @@ public class AuctionController : MonoBehaviour
         List<Counter> currentCounter = new List<Counter>();
         currentCounter.Add(auctionModel.getCurrentAuctioningCounter());
         updateLayoutGroup(currentCounterLayoutGroup, currentCounter, false);
+
+        string passed = "Players Passed: " ;
+        for(int i = 0; i < auctionModel.playersPassed.Count ; i++){
+            if(auctionModel.playersPassed.Count == 1){
+                passed = passed + auctionModel.playersPassed[i].name;
+            }else{
+                if(i == auctionModel.playersPassed.Count - 2){
+                    passed = passed + auctionModel.playersPassed[i].name + " and ";
+                }else if (i == auctionModel.playersPassed.Count - 1){  
+                    passed = passed + auctionModel.playersPassed[i].name;
+                }else{
+                    passed = passed + auctionModel.playersPassed[i].name + ", ";
+                }
+            }
+        }
+
+        if(auctionModel.playersPassed.Count == 0){
+            passed = "No players have passed on this counter yet.";
+        }
+        passedPlayersText.text = passed;
+
+        if(auctionModel.highestBidder == null){
+            currentHighestBidText.text = "There are no bids on this counter yet.";
+        }else{
+            currentHighestBidText.text = "The current highest bidder is " + auctionModel.highestBidder.name + " with a bid of " + auctionModel.highestBid + " gold.";
+        }
+
+        if(! Elfenroads.Control.isCurrentPlayer()){
+            turnText.text = "Please wait, " + auctionModel.currentPlayer.name + " is placing a bid...";
+        }else{
+            turnText.text = "Your turn! Place a bid or pass:";
+        }
+        currentBidText.text = thisPlayerBid + "";
+
+    }
+
+    //Called every time we get state and it is currently an auction.
+    public void updateAuction(Auction auction){
+        auctionModel = auction;
+        string message = "";
+        if( (counterUpForAuction != null) && (auctionModel.getCurrentAuctioningCounter().id != counterUpForAuction.id)){
+            List<Counter> soldCounter = new List<Counter>();
+            soldCounter.Add(counterUpForAuction);
+            Player winner = null;
+            foreach(KeyValuePair<Player, int> kvp in counterCount){
+                if(kvp.Key.inventory.counters.Count != kvp.Value){
+                    //This is the one who bought the counter.
+                    winner = kvp.Key;
+                    counterCount.Remove(kvp.Key);
+                    counterCount.Add(winner, winner.inventory.counters.Count);
+                    if(Elfenroads.Control.getThisPlayer().name == winner.name){
+                        message = "You obtained:";
+                    }else{
+                        message = winner.name + " obtained:";
+                    }
+                    break;
+                }
+            }
+            if(winner == null){
+                message = "Counter discarded:";
+            }
+            spawnAuctionResultWindow(message, soldCounter);
+        }
+
+        thisPlayerBid = auctionModel.highestBid + 1;
+        counterUpForAuction = auctionModel.getCurrentAuctioningCounter();
+        updateLayoutGroup(countersLeftLayoutGroup, auctionModel.countersForAuction, true);
+        List<Counter> currentCounter = new List<Counter>();
+        currentCounter.Add(auctionModel.getCurrentAuctioningCounter());
+        updateLayoutGroup(currentCounterLayoutGroup, currentCounter, false);
+
+        string passed = "Players Passed: " ;
+        for(int i = 0; i < auctionModel.playersPassed.Count ; i++){
+            if(auctionModel.playersPassed.Count == 1){
+                passed = passed + auctionModel.playersPassed[i].name;
+            }else{
+                if(i == auctionModel.playersPassed.Count - 2){
+                    passed = passed + auctionModel.playersPassed[i].name + " and ";
+                }else if (i == auctionModel.playersPassed.Count - 1){  
+                    passed = passed + auctionModel.playersPassed[i].name;
+                }else{
+                    passed = passed + auctionModel.playersPassed[i].name + ", ";
+                }
+            }
+        }
+
+        if(auctionModel.playersPassed.Count == 0){
+            passed = "No players have passed on this counter yet.";
+        }
+        passedPlayersText.text = passed;
 
         if(auctionModel.highestBidder == null){
             currentHighestBidText.text = "There are no bids on this counter yet.";
@@ -72,6 +159,31 @@ public class AuctionController : MonoBehaviour
         currentBidText.text = thisPlayerBid + "";
     }
 
+    public void showLastCounter(){
+        string message = "";
+        List<Counter> soldCounter = new List<Counter>();
+        soldCounter.Add(counterUpForAuction);
+        Player winner = null;
+        foreach(KeyValuePair<Player, int> kvp in counterCount){
+            if(kvp.Key.inventory.counters.Count != kvp.Value){
+                //This is the one who bought the counter.
+                winner = kvp.Key;
+                counterCount.Remove(kvp.Key);
+                counterCount.Add(winner, winner.inventory.counters.Count);
+                if(Elfenroads.Control.getThisPlayer().name == winner.name){
+                    message = "You obtained:";
+                }else{
+                    message = winner.name + " obtained:";
+                }
+                break;
+            }
+        }
+        if(winner == null){
+            message = "Counter discarded:";
+        }
+        spawnAuctionResultWindow(message, soldCounter);
+    }
+
     public void passAuction(){
         if(! (Elfenroads.Model.game.currentPhase is Auction)){
             invalidMessage("Incorrect phase!");
@@ -83,7 +195,9 @@ public class AuctionController : MonoBehaviour
             return;
         }
 
-        previousHighestBidder = auctionModel.highestBidder.name;
+        if(auctionModel.highestBidder != null){
+            previousHighestBidder = auctionModel.highestBidder.name;
+        }
         
         Elfenroads.Control.placeBid(0);
     }
@@ -140,10 +254,6 @@ public class AuctionController : MonoBehaviour
         currentBidText.text = "" + thisPlayerBid;
     }
 
-    public void iSeeClicked(){
-        ResultCanvas.SetActive(false); 
-    }
-
     public void playerTurnMessage(string message){
         GameObject messageBox = Instantiate(messagePrefab, AuctionCanvas.transform.position, Quaternion.identity, AuctionCanvas.transform);
         messageBox.transform.GetChild(1).gameObject.GetComponent<TMPro.TMP_Text>().text = message;
@@ -155,6 +265,15 @@ public class AuctionController : MonoBehaviour
         GameObject invalidBox = Instantiate(invalidMovePrefab, Input.mousePosition, Quaternion.identity, AuctionCanvas.transform);
         invalidBox.GetComponent<TMPro.TMP_Text>().text = message;
         Destroy(invalidBox, 2f);
+    }
+
+    public void spawnAuctionResultWindow(string message, List<Counter> soldCounter){
+        GameObject window = Instantiate(auctionResultWindowPrefab, PlayerInventoryCanvas.transform.position, Quaternion.identity, PlayerInventoryCanvas.transform);
+        window.GetComponentInChildren<TMPro.TMP_Text>().text = message;
+        GameObject auctionedCounter = window.transform.Find("AuctionedCounter").gameObject;
+        RectTransform soldCounterLayoutGroup = auctionedCounter.GetComponentInChildren<RectTransform>();
+        updateLayoutGroup(soldCounterLayoutGroup, soldCounter, false);
+        Destroy(window, 1.9f);
     }
 
     public void updateLayoutGroup(RectTransform targetLayoutGroup, List<Counter> countersToShow, bool scheduled) { 

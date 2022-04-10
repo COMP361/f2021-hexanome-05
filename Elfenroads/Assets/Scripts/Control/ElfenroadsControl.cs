@@ -26,6 +26,7 @@ namespace Controls {
         public GameObject DrawCardsCanvas;
         public GameObject AuctionCanvas;
         public GameObject SelectCounterCanvas;
+        public GameObject menuButton;
         public DrawCountersController drawCountersController;
         public DrawCardsController drawCardsController;
         public PlanTravelController planTravelController;
@@ -53,6 +54,9 @@ namespace Controls {
         public EventHandler UnlockDraggables;
         private Player thisPlayer;
         public Player currentPlayer;
+        private bool wasAuction = false;
+        public bool hasBeenSetup = false;
+        private bool isListening = false;
 
         private void cameraLock(object sender, EventArgs e){
             cameraLocked = true;
@@ -86,6 +90,14 @@ namespace Controls {
         //(While this happens, other clients simply get a "waiting for host to decide the gamemode" message)
         if(GameObject.Find("Listener") == null) return;
         socket = GameObject.Find("Listener").GetComponent<SocketIOCommunicator>();
+        if(SessionInfo.Instance().isSaveGame()){
+            //If we have a savegame, we skip much of these steps and immediately begin listening for the GameState.
+            Debug.Log("Turning on socket");
+            socket.Instance.On("GameState", stateRecieved);
+            socket.Instance.On("Quit", quit);
+            isListening = true;
+            return;
+        }
 
         string playerName = SessionInfo.Instance().getClient().clientCredentials.username;
         Debug.Log("Session info player name: " + playerName + ", Host player name: " + SessionInfo.Instance().getClient().getSessionByID(SessionInfo.Instance().getSessionID()).hostPlayerName + ", ID: " + SessionInfo.Instance().getSessionID());
@@ -107,14 +119,28 @@ namespace Controls {
         }
 
         public void beginListening(){
-            socket.Instance.On("GameState", stateRecieved); 
+            if(!isListening){
+                socket.Instance.On("GameState", stateRecieved); 
+                isListening = true;
+            }
+        }
+
+        public void stopListening(){
+            socket.Instance.Off("GameState");
+            socket.Instance.Off("Quit");
         }
 
         public void stateRecieved(string input){
             Debug.Log(input);
             var jset = new Newtonsoft.Json.JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects, MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead, ReferenceLoopHandling = ReferenceLoopHandling.Serialize };
             Game newGame = Newtonsoft.Json.JsonConvert.DeserializeObject<Game>(input, jset);
-            Elfenroads.Model.updatedGame(newGame);
+            
+            if(hasBeenSetup){ //If the setup has been completed, we call "updatedGame".
+                Elfenroads.Model.updatedGame(newGame);
+            }else{ //Otherwise, perform the initialGame setup.
+                Elfenroads.Model.initialGame(newGame);
+            }
+
         }
 
         //Called after an update has been integrated to the Model. Reads the current phase, and presents the appropriate canvas to the Player. (Depending on the phase, should lock/unlock the camera as well)
@@ -123,6 +149,7 @@ namespace Controls {
             playerInfoController.closeWindow();
             infoWindowController.CloseHelpWindow();
             playerInfoController.updateViews();
+            menuButton.SetActive(true);
 
             switch(Elfenroads.Model.game.currentPhase){
                 case DrawCounters dc:{
@@ -146,7 +173,11 @@ namespace Controls {
                     infoWindowController.UpdateDrawCounterHelp();
                     break;
                 }
-                case PlanTravelRoutes pt:{;
+                case PlanTravelRoutes pt:{
+                    if(wasAuction){
+                        auctionController.showLastCounter();
+                        wasAuction = false;
+                    }
                     PlanTravelCanvas.SetActive(true);
                     PlayerCounters.SetActive(true);
                     PlayerCards.SetActive(false);
@@ -221,29 +252,37 @@ namespace Controls {
                         DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
                     }
                     drawCardsController.updateFaceUpCards();
+                    infoWindowController.UpdateDrawCardsHelp();
                     break;
                 }
                 case SelectCounter sc:{
                     SelectCounterCanvas.SetActive(true);
-                    PlayerCounters.SetActive(false);
-                    PlayerCards.SetActive(true);
+                    PlayerCounters.SetActive(true);
+                    PlayerCards.SetActive(false);
                     currentPlayer = sc.currentPlayer;
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     selectCounterController.setupSelectCounter(sc);
+                    infoWindowController.UpdateSelectCounterHelp();
                     break;
                 }
                 case Auction a:{
                     AuctionCanvas.SetActive(true);
-                    PlayerCounters.SetActive(true);
-                    PlayerCards.SetActive(false);
+                    PlayerCounters.SetActive(false);
+                    PlayerCards.SetActive(true);
                     currentPlayer = a.currentPlayer;
                     if(!AuctionCanvas.transform.GetChild(0).gameObject.activeSelf){
                         AuctionCanvas.transform.GetChild(0).gameObject.SetActive(true);
                     }
                     LockCamera?.Invoke(null, EventArgs.Empty);
                     LockDraggables?.Invoke(null, EventArgs.Empty);
-                    auctionController.updateAuction(a);
+                    if(!wasAuction){
+                        auctionController.initialAuction(a);
+                    }else{
+                        auctionController.updateAuction(a);
+                    }
+                    wasAuction = true;
+                    infoWindowController.UpdateAuctionHelp();
                     break;
                 }
                 default:{
@@ -251,6 +290,7 @@ namespace Controls {
                     break;
                 }
             }
+            Invoke("resetDraggables", 0.15f); //Needs work.
         }
 
         private void disableCanvases(){
@@ -264,6 +304,9 @@ namespace Controls {
             SelectCounterCanvas.SetActive(false);
         }
 
+        private void resetDraggables(){
+            GameObject.Find("PlayerHand").GetComponent<ThisPlayerInventoryView>().resetDraggablePositions();
+        }
 
 
         //Called after validation from "DrawCounters" phase, sends a command to the Server for the currentPlayer to add the specified counter to their inventory.
@@ -345,10 +388,11 @@ namespace Controls {
             socket.Instance.Emit("PlayDouble", json.ToString(), false); 
         }
 
-        public void playExchangeCounter(Guid road1, Guid counter1, Guid road2, Guid counter2){
+        public void playExchangeCounter(Guid spellGuid, Guid road1, Guid counter1, Guid road2, Guid counter2){
             JObject json = new JObject();
             json.Add("game_id", SessionInfo.Instance().getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(SessionInfo.Instance().getClient().clientCredentials.username).id);
+            json.Add("spell_id", spellGuid);
             json.Add("roadOne_id", road1);
             json.Add("counterOne_id", counter1);
             json.Add("roadTwo_id", road2);
@@ -397,11 +441,13 @@ namespace Controls {
             socket.Instance.Emit("MagicFlight", json.ToString(), false);
         }
 
-        public void endAndTakeGold(int amount){
+        public void endAndTakeGold(int amount, List<Guid> cardsToDiscard){
             JObject json = new JObject();
             json.Add("game_id", SessionInfo.Instance().getSessionID());
             json.Add("player_id", Elfenroads.Model.game.GetPlayer(SessionInfo.Instance().getClient().clientCredentials.username).id);
             json.Add("gold", amount);
+            JArray array = JArray.FromObject(cardsToDiscard);
+            json.Add("card_ids", array);
             socket.Instance.Emit("endAndTakeGold", json.ToString(), false);
         }
 

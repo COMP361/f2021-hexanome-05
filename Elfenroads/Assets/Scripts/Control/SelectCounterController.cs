@@ -7,9 +7,11 @@ using Models;
 
 public class SelectCounterController : MonoBehaviour, GuidHelperContainer
 {
-    public GameObject countersLayout;
+    public RectTransform countersLayout;
     public GameObject mainWindow;
     public GameObject waitingWindow;
+    public GameObject mainMapButton;
+    public GameObject smallMapButton;
 
     public GameObject dragonCounterPrefab;
     public GameObject trollCounterPrefab;
@@ -28,11 +30,19 @@ public class SelectCounterController : MonoBehaviour, GuidHelperContainer
             waitingWindow.SetActive(true);
             waitingWindow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Waiting for " + Elfenroads.Control.currentPlayer.name + " to make a selection...";
             mainWindow.SetActive(false);
+            mainMapButton.SetActive(false);
+            smallMapButton.SetActive(true);
         }else{
             waitingWindow.SetActive(false);
             mainWindow.SetActive(true);
+            mainMapButton.SetActive(true);
+            smallMapButton.SetActive(false);
         
-            
+            foreach(Transform child in countersLayout){
+                child.SetParent(null);
+                DestroyImmediate(child.gameObject);
+            }
+            countersLayout.DetachChildren();
 
             //Then, create the prefabs for the two counters here.
             foreach(Counter c in sc.counters){

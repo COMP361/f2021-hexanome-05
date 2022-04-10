@@ -165,6 +165,7 @@ public class LobbyScript : MonoBehaviour
         infoText.text = "Deletion successful!";
         Debug.Log("Delete success: " + input);
         thisClient.hasSessionCreated = false;
+        thisClient.mySession = null;
         wasDeleted = true;
         await thisClient.refreshSessions();
     }
@@ -190,6 +191,7 @@ public class LobbyScript : MonoBehaviour
         await thisClient.refreshSessions();
         //Now that the session has been joined, we can turn on the sioCom.Instance.
         sioCom.Instance.Emit("join", thisClient.thisSessionID,true);
+        SessionInfo.Instance().savegame_id = thisClient.mySession.saveID;
         sioCom.Instance.On("Launch", callback);
         //Debug.Log(this.thisClient.thisSessionID);
     }
@@ -204,6 +206,7 @@ public class LobbyScript : MonoBehaviour
         Debug.Log("Leave success: " + input);
         await thisClient.refreshSessions();
         sioCom.Instance.Emit("leave", thisClient.thisSessionID,true);
+        thisClient.mySession = null;
         sioCom.Instance.Off("Launch", callback);
 
     }
@@ -235,7 +238,7 @@ public class LobbyScript : MonoBehaviour
         List<Session> foundSessions = new List<Session>();
         foreach(string ID in sessionIDs){
             #pragma warning disable 0618
-            foundSessions.Add(new Session(WWW.EscapeURL(ID), trueObj[ID]["creator"].ToString(), trueObj[ID]["players"].ToString(), trueObj[ID]["launched"].ToString()));
+            foundSessions.Add(new Session(WWW.EscapeURL(ID), trueObj[ID]["creator"].ToString(), trueObj[ID]["players"].ToString(), trueObj[ID]["launched"].ToString(), trueObj[ID]["savegameid"].ToString()));
             #pragma warning restore 0618
             if(trueObj[ID]["creator"].ToString() == thisClient.clientCredentials.username){
                 thisClient.hasSessionCreated = true; //If our client is a host in one of the recieved session
@@ -252,6 +255,8 @@ public class LobbyScript : MonoBehaviour
                 thisClient.mySession = session;
                 //persistentObject.GetComponent<SessionInfo>().setClient();
                 SessionInfo.Instance().setClient();
+            }else{
+                thisClient.mySession = null;
             }
         }
         //Call something here to visually update the rows of the table based on the client info (excluding launched sessions). These rows should include a "Launch" button if it is the current client's session, and a "join" button otherwise.

@@ -46,6 +46,8 @@ namespace Controls
         private bool witchInUse = false;
         private Guid currentWitch = Guid.Empty;
 
+        private Road targetRoad;
+
         void Start() {
             roadViews = new List<RoadView>();
             foreach (GameObject road in roadObjects) {
@@ -72,7 +74,7 @@ namespace Controls
         }
 
         private void onRoadClicked(object sender, EventArgs args) { 
-            Road targetRoad = (Road) sender;
+                targetRoad = (Road) sender;
                 if(! Elfenroads.Control.isCurrentPlayer()){
                     //Inform player they are not the current player.
                     invalidMessage("Not your turn!");
@@ -120,6 +122,9 @@ namespace Controls
                     //Transfer this card from topCards to ToDiscard
                     Debug.Log("Transferring from topCards to ToDiscard!");
                     transferToBottom(card);
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        updateHelperWindowCardCount();
+                    }
                     return;
                 }
             }
@@ -128,6 +133,9 @@ namespace Controls
                     //Transfer this card from topCards to ToDiscard
                     Debug.Log("Transferring from topCards to ToDiscard");
                     transferToTop(card);
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                        updateHelperWindowCardCount();
+                    }
                     return;
                 }
             }
@@ -182,6 +190,19 @@ namespace Controls
             }
 
             if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                if(Elfenroads.Control.getThisPlayer().inventory.cards.Count > 15){
+                    //Open the "discard cards" window.
+                    loadPlayerCards();
+                    //Now, we can enable the window.
+                    endTurnButton.SetActive(false);
+                    helperWindow.SetActive(true);
+                    caravanMode = false;
+                    Elfenroads.Control.LockCamera?.Invoke(null, EventArgs.Empty);
+                    Elfenroads.Control.LockDraggables?.Invoke(null, EventArgs.Empty);
+                    topText.text = "Choose cards to discard until fifteen or less are left (currently contains " + Elfenroads.Control.getThisPlayer().inventory.cards.Count + " cards):";
+                    bottomText.text = "Discarded Cards: ";
+                    return;
+                }
                 EGHelperWindow.SetActive(true);
                 EGHelperWindow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Would you like to end your turn by drawing two travel cards or by taking your " + goldAccrued + " accumulated gold?";
                 EGHelperWindow.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = "Take " + goldAccrued + " Gold";
@@ -192,10 +213,10 @@ namespace Controls
                 return;
             }
 
-
             //This is callled if "endTurn" was pressed. If the player has less than or equal to 4 travelcards, simply call endTurn on ElfenroadsControl with an empty list. May need Elfenroad change here?***
             int numCards = Elfenroads.Control.getThisPlayer().inventory.cards.Count;
-            if(numCards <= 4){
+            if(numCards <= 4 || ((Elfenroads.Model.game.variant.HasFlag(Game.Variant.LongerGame) && Elfenroads.Model.game.roundNumber == 4)) 
+                || ((!Elfenroads.Model.game.variant.HasFlag(Game.Variant.LongerGame) && Elfenroads.Model.game.roundNumber == 3))){
                 List<Guid> emptyList = new List<Guid>();
                 Elfenroads.Control.endTurn(emptyList);
                 goldAccrued = 0;
@@ -213,6 +234,10 @@ namespace Controls
                 bottomText.text = "Discarded Cards: ";
             }
         }
+
+    private void updateHelperWindowCardCount(){
+        topText.text = "Choose cards to discard until fifteen or less are left (currently contains " + topCards.Count + " cards):";
+    }
 
     private void loadPlayerCards(){
         bottomCards = new List<GameObject>();
@@ -298,16 +323,32 @@ namespace Controls
                 helperWindow.SetActive(false);
                 caravanMode = false;
                 Elfenroads.Control.moveBoot(targetTown.id, discardList);
+                if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                    bool hasGoldCounter = false;
+                    foreach(Counter c in targetRoad.counters){
+                        if(c is GoldCounter){
+                            hasGoldCounter = true;
+                            break;
+                        }
+                    }
+                    if(hasGoldCounter){
+                        goldAccrued += (2 * targetTown.goldValue);
+                    }else{
+                        goldAccrued += targetTown.goldValue;
+                    }
+                }
                 witchInUse = false;
                 currentWitch = Guid.Empty;
+                targetRoad = null;
                 return;
             }
         }
 
         //Called by the "confirm" button. If there is the proper amount of cards in the "bottomCards" array, their guids are passed to Control to emit to the server, and both arrays/GridLayoutGroups are cleared.
         private void confirmDiscardCards(){
-            if(topCards.Count != 4){
-                invalidMessage("You must keep exactly 4 cards!");
+            if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                if(topCards.Count > 15){
+                invalidMessage("You must keep 15 or less cards!");
                 return;
             }else{
                 List<Guid> discardList = new List<Guid>();
@@ -318,9 +359,28 @@ namespace Controls
                 endTurnButton.SetActive(true);
                 helperWindow.SetActive(false);
                 caravanMode = false;
-                Elfenroads.Control.endTurn(discardList);
+                Elfenroads.Control.endAndTakeGold(goldAccrued, discardList);
                 goldAccrued = 0;
                 return;
+            }
+
+            }else{
+                if(topCards.Count != 4){
+                    invalidMessage("You must keep exactly 4 cards!");
+                    return;
+                }else{
+                    List<Guid> discardList = new List<Guid>();
+                    foreach(GameObject card in bottomCards){ 
+                        discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
+                    }
+                    clearDiscard();
+                    endTurnButton.SetActive(true);
+                    helperWindow.SetActive(false);
+                    caravanMode = false;
+                    Elfenroads.Control.endTurn(discardList);
+                    goldAccrued = 0;
+                    return;
+                }
             }
         }
 
@@ -330,6 +390,7 @@ namespace Controls
             endTurnButton.SetActive(true);
             helperWindow.SetActive(false);
             caravanMode = false;
+            targetRoad = null;
             Elfenroads.Control.UnlockCamera?.Invoke(null, EventArgs.Empty);
             Elfenroads.Control.UnlockDraggables?.Invoke(null, EventArgs.Empty);
         }
@@ -368,7 +429,7 @@ namespace Controls
         }
 
         public void EGendAndTakeGold(){
-            Elfenroads.Control.endAndTakeGold(goldAccrued);
+            Elfenroads.Control.endAndTakeGold(goldAccrued, new List<Guid>());
             cancelElfenGold();
             goldAccrued = 0;
         }
@@ -553,7 +614,18 @@ namespace Controls
                     Guid town = road.end.id;
                     Debug.Log("Moving to town " + road.end.name + " which has ID: " + road.end.id);
                     if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
-                        goldAccrued += road.end.goldValue;
+                        bool hasGoldCounter = false;
+                        foreach(Counter c in road.counters){
+                            if(c is GoldCounter){
+                                hasGoldCounter = true;
+                                break;
+                            }
+                        }
+                        if(hasGoldCounter){
+                            goldAccrued += (2 * road.end.goldValue);
+                        }else{
+                            goldAccrued += road.end.goldValue;
+                        }
                     }
                     Elfenroads.Control.moveBoot(town, cardsToPass);
                     witchInUse = false;
@@ -563,7 +635,18 @@ namespace Controls
                     Guid town = road.start.id;
                     Debug.Log("Moving to town " + road.start.name + " which has ID: " + road.start.id);
                     if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
-                        goldAccrued += road.start.goldValue;
+                        bool hasGoldCounter = false;
+                        foreach(Counter c in road.counters){
+                            if(c is GoldCounter){
+                                hasGoldCounter = true;
+                                break;
+                            }
+                        }
+                        if(hasGoldCounter){
+                            goldAccrued += (2 * road.start.goldValue);
+                        }else{
+                            goldAccrued += road.start.goldValue;
+                        }
                     }
                     Elfenroads.Control.moveBoot(town, cardsToPass);
                     witchInUse = false;

@@ -10,6 +10,15 @@ public class GameOverController : MonoBehaviour
     public TMPro.TMP_Text leaderBoardText;
 
     public void updateTexts(){
+
+        string playerName = SessionInfo.Instance().getClient().clientCredentials.username;
+        if(playerName == SessionInfo.Instance().getClient().getSessionByID(SessionInfo.Instance().getSessionID()).hostPlayerName){
+            //The host sends a "quit" request to the server, after a few seconds.
+            Invoke("endOfGameQuit", 3f);
+        }
+        //Then, sockets are turned off.
+        Elfenroads.Control.stopListening();
+
         //Represents player score and name.
         List<KeyValuePair<int, Player>> scores = new List<KeyValuePair<int, Player>>();
         
@@ -153,6 +162,10 @@ public class GameOverController : MonoBehaviour
 			}
 		}
 		return results;
+    }
+
+    private void endOfGameQuit(){
+        Elfenroads.Control.requestQuit();
     }
 
 

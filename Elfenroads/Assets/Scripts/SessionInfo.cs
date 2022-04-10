@@ -50,6 +50,10 @@ public class SessionInfo
         return thisClient.thisSessionID;
     }
 
+    public bool isSaveGame(){
+        return savegame_id != "";
+    }
+
     public void setIsElfenGold(bool input){
         isElfenGold = input;
         Debug.Log("isElfenGold set to: " + input);

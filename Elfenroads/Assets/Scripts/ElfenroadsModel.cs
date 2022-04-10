@@ -69,6 +69,16 @@ namespace Models {
                 foreach(Card c in p.inventory.cards){
                     ModelStore.Add(c);
                 }
+                foreach(TownPiece tp in p.inventory.townPieces){
+                    ModelStore.Add(tp);
+                }
+            }
+
+            foreach(Road r in game.board.roads){
+                ModelStore.Add(r);
+                foreach(Counter c in r.counters){
+                    ModelStore.Add(c);
+                }
             }
             foreach(Counter c in game.counterPile.counters){
                 ModelStore.Add(c);
@@ -76,21 +86,42 @@ namespace Models {
             foreach(Card c in game.cards.cards){
                 ModelStore.Add(c);
             }
-
-            //Add items to store depending on whether or not we're in ElfenGold or ElfenLand.
-            if(game.variant.HasFlag(Game.Variant.Elfengold)){
-                foreach(Counter c in ((SelectCounter) game.currentPhase).counters){
-                    ModelStore.Add(c);
-                }
-            }else{
-                foreach(Counter c in game.faceUpCounters){
+            foreach(Card c in game.discardPile.cards){
                 ModelStore.Add(c);
+            }
+
+            foreach(Card c in game.faceUpCards){
+                ModelStore.Add(c);
+            }
+
+            foreach(Card c in game.goldCardDeck){
+                ModelStore.Add(c);
+            }
+
+            foreach(Counter c in game.faceUpCounters){
+                ModelStore.Add(c);
+            }
+
+            //Add items to store depending on which phase we're in:
+            switch(game.currentPhase){
+                case Auction a:{
+                    foreach(Counter c in a.countersForAuction){
+                        ModelStore.Add(c);
+                    }
+                    break;
+                }
+                case SelectCounter sc:{
+                    foreach(Counter c in sc.counters){
+                        ModelStore.Add(c);
+                    }
+                    break;
                 }
             }
 
             //Now that the Model is fully integrated, we can tell the main Game controller to prepare the screen accordingly, and begin listening for GameState updates.
             Elfenroads.Control.prepareScreen();
             Elfenroads.Control.beginListening();
+            Elfenroads.Control.hasBeenSetup = true;
         }
 
         //Called when a new, non-initial GameState is received.

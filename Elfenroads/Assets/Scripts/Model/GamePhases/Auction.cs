@@ -11,6 +11,7 @@ namespace Models
         public int highestBid { protected set; get; }
         public Player highestBidder { protected set; get; } // remember that this can be null.
         public Player currentPlayer { protected set; get; }
+        public List<Player> playersPassed { protected set; get; }
 
         public Auction(List<Counter> countersForAuction) {
             this.countersForAuction = new List<Counter>(countersForAuction);
@@ -24,11 +25,12 @@ namespace Models
 
 
         [Newtonsoft.Json.JsonConstructor]
-        protected Auction(List<Counter> countersForAuction, int highestBid, Player highestBidder, Player currentPlayer) {
+        protected Auction(List<Counter> countersForAuction, int highestBid, Player highestBidder, Player currentPlayer, List<Player> playersPassed) {
             this.countersForAuction = countersForAuction;
             this.highestBid = highestBid;
             this.highestBidder = highestBidder;
             this.currentPlayer = currentPlayer;
+            this.playersPassed = playersPassed;
         }
 
         override public bool isCompatible(GamePhase update) {
@@ -40,6 +42,10 @@ namespace Models
             bool modified = false;
 
             if (countersForAuction.Update(updateTypecast.countersForAuction)) {
+                modified = true;
+            }
+
+            if (playersPassed.Update(updateTypecast.playersPassed)) {
                 modified = true;
             }
 

@@ -8,8 +8,9 @@ public class Session
     public string hostPlayerName;
     public List<string> players;
     public bool launched; 
+    public string saveID;
 
-    public Session(string aSessionID, string aHostName, string aPlayers, string aLaunchState){
+    public Session(string aSessionID, string aHostName, string aPlayers, string aLaunchState, string saveId){
         sessionID = aSessionID;
         hostPlayerName = aHostName;
         //Now, we need to parse the latter two stings into an array and a bool.
@@ -19,7 +20,7 @@ public class Session
         foreach(Match m in mc){
             players.Add(m.ToString().Trim('"'));
         }
-        
+        saveID = saveId;
         if(aLaunchState == "true" || aLaunchState == "True"){
             launched = true;
         }else{
