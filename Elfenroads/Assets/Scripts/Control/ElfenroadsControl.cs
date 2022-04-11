@@ -199,7 +199,6 @@ namespace Controls {
                     if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
                         PlanTravelCanvas.transform.GetChild(0).gameObject.SetActive(true);
                         PlanTravelCanvas.transform.GetChild(1).gameObject.SetActive(true);
-                        GameObject.Find("PlayerHand").GetComponent<ThisPlayerInventoryView>().resetDraggablePositions();
                     }
                     if(firstCounterPhase){
                         Invoke("resetDraggables", 0.05f);
@@ -266,8 +265,8 @@ namespace Controls {
                     LockDraggables?.Invoke(null, EventArgs.Empty);
                     currentPlayer = dCa.currentPlayer;
                     //Activate the window, if it was deactivated.
-                    if(!DrawCounterCanvas.transform.GetChild(0).gameObject.activeSelf){
-                        DrawCounterCanvas.transform.GetChild(0).gameObject.SetActive(true);
+                    if(! DrawCardsCanvas.transform.GetChild(0).gameObject.activeSelf){
+                        DrawCardsCanvas.transform.GetChild(0).gameObject.SetActive(true);
                     }
                     drawCardsController.updateFaceUpCards();
                     infoWindowController.UpdateDrawCardsHelp();

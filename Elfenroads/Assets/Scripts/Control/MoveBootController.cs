@@ -127,7 +127,7 @@ namespace Controls
                     //Transfer this card from topCards to ToDiscard
                     Debug.Log("Transferring from topCards to ToDiscard!");
                     transferToBottom(card);
-                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold) && ! caravanMode){
                         updateHelperWindowCardCount();
                     }
                     return;
@@ -138,7 +138,7 @@ namespace Controls
                     //Transfer this card from topCards to ToDiscard
                     Debug.Log("Transferring from topCards to ToDiscard");
                     transferToTop(card);
-                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
+                    if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold) && ! caravanMode){
                         updateHelperWindowCardCount();
                     }
                     return;
@@ -394,12 +394,12 @@ namespace Controls
                 foreach(GameObject card in bottomCards){ 
                     discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
                 }
-                clearDiscard();
                 endTurnButton.SetActive(true);
                 helperWindow.SetActive(false);
                 caravanMode = false;
                 Elfenroads.Control.endAndTakeGold(goldAccrued, discardList);
                 goldAccrued = 0;
+                clearDiscard();
                 return;
             }
 
@@ -412,12 +412,12 @@ namespace Controls
                     foreach(GameObject card in bottomCards){ 
                         discardList.Add(card.GetComponent<GuidViewHelper>().getGuid());
                     }
-                    clearDiscard();
                     endTurnButton.SetActive(true);
                     helperWindow.SetActive(false);
                     caravanMode = false;
                     Elfenroads.Control.endTurn(discardList);
                     goldAccrued = 0;
+                    clearDiscard();
                     return;
                 }
             }
