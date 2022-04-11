@@ -13,7 +13,6 @@ using System.Text;
 
 public class LobbyScript : MonoBehaviour
 {
-    IEnumerator sessionUpdateCoroutine = null;
     List<SessionJSON> sessions = new List<SessionJSON>();
     string sessionsLongPollingHash = null;
     const string LS_PATH = "https://mysandbox.icu/LobbyService";
@@ -87,7 +86,6 @@ public class LobbyScript : MonoBehaviour
         UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
 
         yield return request.SendWebRequest();
-
         while (!request.isDone) {
             yield return new WaitForEndOfFrame();
         }
@@ -99,10 +97,15 @@ public class LobbyScript : MonoBehaviour
 
             using (MD5 md5 = MD5.Create()) {
                 var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(request.downloadHandler.text));
-                sessionsLongPollingHash = new string(Encoding.UTF8.GetChars(hash));
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hash.Length; i++) {
+                    sb.Append(hash[i].ToString("x2"));
+                }
+                sessionsLongPollingHash = sb.ToString();
             }
 
             sessions = deserializeSessions(request.downloadHandler.text);
+            
         }
 
         request.Dispose();
@@ -111,14 +114,14 @@ public class LobbyScript : MonoBehaviour
     IEnumerator sessionsLongPoll() {
         while (true) {
             UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions?hash=" + sessionsLongPollingHash);
-            request.timeout = 30;
+            request.timeout = 300000000; //Fuck me
 
             request.SendWebRequest();
 
             while (!request.isDone) {
                 yield return new WaitForEndOfFrame();
             }
-
+            Debug.Log(request.responseCode);
             if (request.responseCode == 408) {
                 request.Dispose();
                 continue;
@@ -131,7 +134,11 @@ public class LobbyScript : MonoBehaviour
 
                 using (MD5 md5 = MD5.Create()) {
                     var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(request.downloadHandler.text));
-                    sessionsLongPollingHash = new string(Encoding.UTF8.GetChars(hash));
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < hash.Length; i++) {
+                        sb.Append(hash[i].ToString("x2"));
+                    }
+                    sessionsLongPollingHash = sb.ToString();
                 }
 
                 sessions = deserializeSessions(request.downloadHandler.text);
@@ -178,6 +185,39 @@ public class LobbyScript : MonoBehaviour
     private Client thisClient;
 
 
+    IEnumerator onEnableCoroutine(){
+        while (true) {
+            yield return StartCoroutine(UpdateSessions());
+            bool isHostOrPlayer = false;
+            foreach (SessionJSON sesh in sessions) {
+                // are we the host?
+                if (sesh.creator == thisClient.clientCredentials.username) {
+                    isHostOrPlayer = true;
+                    thisClient.mySession = new Session(sesh.id, sesh.creator, sesh.players, sesh.launched, sesh.savegameid, sesh.gameParameters.maxSessionPlayers);
+                    thisClient.hasSessionCreated = true;
+                    thisClient.thisSessionID = sesh.id;
+                    break;
+                }
+
+                // are we a player in some sesh?
+                foreach (string player in sesh.players) {
+                    if (player == thisClient.clientCredentials.username){
+                        isHostOrPlayer = true;
+                        thisClient.mySession = new Session(sesh.id, sesh.creator, sesh.players, sesh.launched, sesh.savegameid, sesh.gameParameters.maxSessionPlayers);
+                        thisClient.thisSessionID = sesh.id;
+                        break;
+                    }
+                }
+            }
+
+            if (!isHostOrPlayer) {
+                thisClient.mySession = null;
+                thisClient.thisSessionID = null;
+            }
+            displaySessions();
+        }
+    }
+
     void OnEnable() {
 
         //First, create Client object and get the button.
@@ -212,17 +252,16 @@ public class LobbyScript : MonoBehaviour
         // Debug.Log("Socket status: " + sioCom.Instance.Status);
         thisClient.setSocket(sioCom);
         sioCom.Instance.Connect();
-        sioCom.Instance.On("join", (msg) => testCallback(msg.ToString()));
+        //sioCom.Instance.On("join", (msg) => testCallback(msg.ToString()));
 
+        StartCoroutine(onEnableCoroutine());
         //Next, start polling. For now, this coroutine will simply get an update and display it every second. Later on, if time permits, can make this more sophisticated via the scheme described here, checking for return codes 408 and 200.
         //https://github.com/kartoffelquadrat/AsyncRestLib#client-long-poll-counterpart (This would likely require changing the LobbyService.cs script, as well as the refreshSuccess function(s)).
-        sessionUpdateCoroutine = UpdateSessions();
-        StartCoroutine(sessionUpdateCoroutine);
     }
 
-    public void testCallback(string message){
-        Debug.Log("Reached test callback method! Message recieved is: '" + message + "'");
-    }
+    // public void testCallback(string message){
+    //     Debug.Log("Reached test callback method! Message recieved is: '" + message + "'");
+    // }
 
     public void changeInfoText(string input){
         infoText.text = input;
@@ -258,18 +297,13 @@ public class LobbyScript : MonoBehaviour
         //Load the next scene, stopping the polling coroutine.
         //try{
         //Debug.Log("reached callback method!");
-        StopCoroutine("pollingRoutine");
+        StopAllCoroutines();
         Debug.Log("This client id is: " + thisClient.thisSessionID);
-        //Debug.Log("Couroutine stopped! Turning off the socket!");
         //sioCom.Instance.Off("Launch"); // Gives a warning, but may not even be necessary. ***
         //sioCom.Instance.Close();
         Debug.Log("Socket ID in lobby: " + thisClient.socket.Instance.SocketID);
         Debug.Log("Before loading scene, socket status: " + thisClient.socket.Instance.Status);
-        //Debug.Log("About to load scene!");
         SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
-        // }catch (Exception e){
-        //     Debug.Log(e.Message);
-        // }
     }
 
 
@@ -278,7 +312,6 @@ public class LobbyScript : MonoBehaviour
         Debug.Log("Delete success: " + input);
         thisClient.hasSessionCreated = false;
         thisClient.mySession = null;
-        wasDeleted = true;
         await thisClient.refreshSessions();
     }
 
@@ -287,10 +320,9 @@ public class LobbyScript : MonoBehaviour
         Debug.Log("Delete failure: " + error);
     }
 
-    //May be unnecessary.
+    //May be unnecessary. *** (Maybe open the socket here?)
     public void launchSuccess(string input) {
         Debug.Log("Launch success: " + input);
-        StopCoroutine(sessionUpdateCoroutine);
     }
     //May be unecessary.
     public void launchFailure(string error){
@@ -337,78 +369,56 @@ public class LobbyScript : MonoBehaviour
     private void refreshSuccess(string result){
         //Debug.Log("Refresh str: " + result);
         //Debug.Log(result);
-        thisClient.hasSessionCreated = false;
-        var jsonString = result.Replace('"', '\"');
+        // thisClient.hasSessionCreated = false;
+        // var jsonString = result.Replace('"', '\"');
 
-        //After getting a bunch of sessions, we need to use the result string to create rows.
-        //From the result string, we only need to store the session ID, launch state, host player and players somewhere - parameters will be the same for all games so those don't matter. (THOUGH LATER WILL NEED TO DEAL WITH SAVEFILES HERE)
-        JObject myObj = JObject.Parse(jsonString);
-        JObject trueObj = JObject.Parse(myObj["sessions"].ToString()); 
-        List<string> sessionIDs = new List<string>();
-        foreach(JProperty prop in trueObj.Properties()){
-            sessionIDs.Add(prop.Name);
-        }
-        List<Session> foundSessions = new List<Session>();
-        foreach(string ID in sessionIDs){
-            #pragma warning disable 0618
-            foundSessions.Add(new Session(WWW.EscapeURL(ID), trueObj[ID]["creator"].ToString(), trueObj[ID]["players"].ToString(), trueObj[ID]["launched"].ToString(), trueObj[ID]["savegameid"].ToString()));
-            #pragma warning restore 0618
-            if(trueObj[ID]["creator"].ToString() == thisClient.clientCredentials.username){
-                thisClient.hasSessionCreated = true; //If our client is a host in one of the recieved session
-                thisClient.thisSessionID = ID;
-            }
-        }
-        thisClient.sessions = foundSessions; //Set the client's new list of found sessions.
+        // //After getting a bunch of sessions, we need to use the result string to create rows.
+        // //From the result string, we only need to store the session ID, launch state, host player and players somewhere - parameters will be the same for all games so those don't matter. (THOUGH LATER WILL NEED TO DEAL WITH SAVEFILES HERE)
+        // JObject myObj = JObject.Parse(jsonString);
+        // JObject trueObj = JObject.Parse(myObj["sessions"].ToString()); 
+        // List<string> sessionIDs = new List<string>();
+        // foreach(JProperty prop in trueObj.Properties()){
+        //     sessionIDs.Add(prop.Name);
+        // }
+        // List<Session> foundSessions = new List<Session>();
+        // foreach(string ID in sessionIDs){
+        //     #pragma warning disable 0618
+        //     foundSessions.Add(new Session(WWW.EscapeURL(ID), trueObj[ID]["creator"].ToString(), trueObj[ID]["players"].ToString(), trueObj[ID]["launched"].ToString(), trueObj[ID]["savegameid"].ToString()));
+        //     #pragma warning restore 0618
+        //     if(trueObj[ID]["creator"].ToString() == thisClient.clientCredentials.username){
+        //         thisClient.hasSessionCreated = true; //If our client is a host in one of the recieved session
+        //         thisClient.thisSessionID = ID;
+        //     }
+        // }
+        // thisClient.sessions = foundSessions; //Set the client's new list of found sessions.
 
-        foreach (Session session in foundSessions)
-        {
-            if (session.players.Contains(thisClient.clientCredentials.username))
-            {
-                thisClient.thisSessionID = session.sessionID;
-                thisClient.mySession = session;
-                //persistentObject.GetComponent<SessionInfo>().setClient();
-                SessionInfo.Instance().setClient();
-            }else{
-                thisClient.mySession = null;
-            }
-        }
-        //Call something here to visually update the rows of the table based on the client info (excluding launched sessions). These rows should include a "Launch" button if it is the current client's session, and a "join" button otherwise.
-        displaySessions(foundSessions);
+        // foreach (Session session in foundSessions)
+        // {
+        //     if (session.players.Contains(thisClient.clientCredentials.username))
+        //     {
+        //         thisClient.thisSessionID = session.sessionID;
+        //         thisClient.mySession = session;
+        //         //persistentObject.GetComponent<SessionInfo>().setClient();
+        //         SessionInfo.Instance().setClient();
+        //     }else{
+        //         thisClient.mySession = null;
+        //     }
+        // }
+        // //Call something here to visually update the rows of the table based on the client info (excluding launched sessions). These rows should include a "Launch" button if it is the current client's session, and a "join" button otherwise.
+        // displaySessions();
     }
-    
-    private bool wasDeleted = false;
 
-    private void displaySessions(List<Session> foundSessions) {
-        bool createdRowExists = false;
-        GameObject existingRow = null;
-
-        if(tableRow == null){
-            return;
+    private void displaySessions() {
+        Debug.Log("DisplaySessions called");
+        List<Session> foundSessions = new List<Session>();
+        foreach (SessionJSON sesh in sessions) {
+            foundSessions.Add(new Session(sesh.id, sesh.creator, sesh.players, sesh.launched, sesh.savegameid, sesh.gameParameters.maxSessionPlayers));
         }
-        foreach (Transform child in tableRow.transform) {
-            if(child == null){
-                return;
-            }else if(child.transform.GetChild(0).gameObject.GetComponent<TMPro.TMP_Text>().text == thisClient.clientCredentials.username && !wasDeleted){
-                createdRowExists = true;
-                existingRow = child.gameObject;
-                wasDeleted = false;
-            }else{
-                Destroy(child.gameObject);
-            }
-        }
-
-        foreach(Session session in foundSessions) {
-            if(session.hostPlayerName == Client.Instance().clientCredentials.username && createdRowExists){
-                if(session.players.Count >= 2 && existingRow.transform.childCount != 4){ //Change this value
-                    GameObject instantiatedButton = Instantiate(launchButton, existingRow.transform);
-                    instantiatedButton.transform.SetSiblingIndex(2);
-                    instantiatedButton.GetComponent<LaunchScript>().setSession(session);
-                    existingRow.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = session.players.Count + "/6";
-                }
-                continue;
-            }
+        
+        foreach(SessionJSON session in sessions) {
             //Make the new row.
-            if( session.launched && ( (!(Client.Instance().clientCredentials.username == "Elfenroads")) || (session.players.Contains(Client.Instance().clientCredentials.username)) ) ){ //If we find a session which was launched, no point to show it.
+            List<string> playersList = new List<string>(session.players);
+            if( session.launched && ( (!(Client.Instance().clientCredentials.username == "Elfenroads")) || (playersList.Contains(Client.Instance().clientCredentials.username)) ) ){ //If we find a session which was launched, no point to show it.
                 continue;
             }
             if(tableRow == null){
@@ -418,26 +428,27 @@ public class LobbyScript : MonoBehaviour
             GameObject instantiatedRow = Instantiate(tableRowPrefab, tableRow.transform); //0 is hostname, 1 is ready players
             //Set the strings for "Hostname" and "readyPlayers"
             try{
-                instantiatedRow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = session.hostPlayerName;
-                instantiatedRow.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = session.players.Count + "/6";
+                Session legacySession = new Session(session.id, session.creator, session.players, session.launched, session.savegameid, session.gameParameters.maxSessionPlayers);
+                instantiatedRow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = session.creator;
+                instantiatedRow.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = session.players.Length + "/" + session.gameParameters.maxSessionPlayers;
 
                 //Based on session attributes, decide what button (if any) should be added.
-                if (Client.Instance().clientCredentials.username == session.hostPlayerName && session.players.Count >= 2) {
+                if (Client.Instance().clientCredentials.username == session.creator && session.players.Length >= 2) {
                     GameObject instantiatedButton = Instantiate(launchButton, instantiatedRow.transform);
-                    instantiatedButton.GetComponent<LaunchScript>().setSession(session);
-                } else if ((Client.Instance().clientCredentials.username == session.hostPlayerName && session.players.Count < 2) || session.players.Contains(Client.Instance().clientCredentials.username)) {
+                    instantiatedButton.GetComponent<LaunchScript>().setSession(legacySession);
+                } else if ((Client.Instance().clientCredentials.username == session.creator && session.players.Length < 2) || playersList.Contains(Client.Instance().clientCredentials.username)) {
                     //Why is this here?
                 } else{
                     GameObject instantiatedButton = Instantiate(joinButton, instantiatedRow.transform);
-                    instantiatedButton.GetComponent<JoinScript>().setSession(session);
+                    instantiatedButton.GetComponent<JoinScript>().setSession(legacySession);
                 }
 
-                if(Client.Instance().clientCredentials.username == session.hostPlayerName || Client.Instance().clientCredentials.username == "Elfenroads"){
+                if (Client.Instance().clientCredentials.username == session.creator || Client.Instance().clientCredentials.username == "Elfenroads"){
                     GameObject instantiatedButton = Instantiate(deleteButton, instantiatedRow.transform);
-                    instantiatedButton.GetComponent<DeleteScript>().setSession(session);
-                }else if(session.players.Contains(Client.Instance().clientCredentials.username) && (Client.Instance().clientCredentials.username != session.hostPlayerName)){
+                    instantiatedButton.GetComponent<DeleteScript>().setSession(legacySession);
+                } else if(playersList.Contains(Client.Instance().clientCredentials.username) && (Client.Instance().clientCredentials.username != session.creator)){
                     GameObject instantiatedButton = Instantiate(leaveButton, instantiatedRow.transform);
-                    instantiatedButton.GetComponent<LeaveScript>().setSession(session);
+                    instantiatedButton.GetComponent<LeaveScript>().setSession(legacySession);
                 }
 
             }catch (Exception e){ //Try-catch put here for the case where "displaySessions" was running at the exact time the session was launched.
