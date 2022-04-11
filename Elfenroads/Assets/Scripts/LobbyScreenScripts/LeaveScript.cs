@@ -19,12 +19,11 @@ public class LeaveScript : MonoBehaviour
         mySession = aSession;
     }
 
-    private async void leaveGame(){
+    private void leaveGame(){
         if(mySession == null){
             Debug.Log("Error in leaveButton, session was never set");
         }else{
             client.leave(mySession);
-            await client.refreshSessions();
         }
     }
 }

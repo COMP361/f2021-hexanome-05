@@ -19,12 +19,12 @@ public class JoinScript : MonoBehaviour
         mySession = aSession;
     }
 
-    private async void joinGame(){
-        if(mySession == null){
-            Debug.Log("Error in joinButton, session was never set");
+    private void joinGame(){
+        if(Client.Instance().mySession != null){
+            Debug.Log("Can't join - you already have a session!");
+            GameObject.Find("Lobby Screen").GetComponent<LobbyScript>().changeInfoText("Can't join - you already have a session!");
         }else{
             client.join(mySession);
-            await client.refreshSessions();
         }
     }
 }

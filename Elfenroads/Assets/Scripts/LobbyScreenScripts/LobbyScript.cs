@@ -270,7 +270,8 @@ public class LobbyScript : MonoBehaviour
     }
 
     void OnDisable() {
-        StopAllCoroutines();
+        StopAllCoroutines(); 
+        createSessionButton.onClick.RemoveAllListeners();
     }
 
     public void testCallback(string message){
@@ -287,7 +288,7 @@ public class LobbyScript : MonoBehaviour
     }
 
     private void createSessionAttempt(){
-        thisClient.createSession(); 
+        thisClient.createSession();
     }
 
     private void createFailure(string inputError){
@@ -359,6 +360,7 @@ public class LobbyScript : MonoBehaviour
         Debug.Log("Session ID right before we join:" + thisClient.thisSessionID);
         sioCom.Instance.Emit("join", thisClient.thisSessionID, true);
         sioCom.Instance.On("Launch", callback);
+        createSessionButton.interactable = false;
     }
 
     public void joinFailure(string error){
@@ -373,6 +375,7 @@ public class LobbyScript : MonoBehaviour
         thisClient.mySession = null;
         thisClient.thisSessionID = null;
         sioCom.Instance.Off("Launch", callback);
+        createSessionButton.interactable = true;
     }
 
     public void leaveFailure(string error){
