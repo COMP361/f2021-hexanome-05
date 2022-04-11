@@ -94,7 +94,7 @@ public class InfoWindowController : MonoBehaviour
                                     "- Alternatively, you can click a road to play a 'Caravan', where you play 3 or 4 of any card." + "\n" +
                                     "- You can move until you are satisfied, at which point you can click 'EndTurn'." + "\n" +
                                     "- Once ending, you can cash in your accumulated gold, or draw two TravelCards from the supply." + "\n" +
-                                    "- You can click the 'Witch' Button to activate her. While under its effect, you can click on a Town for a magic flight, or drag cards as usual, avoiding obstacle costs. Click again to cancel.";
+                                    "- You can click the 'Witch' Button to activate her. While under its effect, you can click on a Town for a magic flight, or move using the cards or caravans while avoiding obstacle costs. Click again to cancel.";
         }else if(Elfenroads.Model.game.variant.HasFlag(Game.Variant.Elfengold)){
             PhaseExplanation.text = "The goal of this phase is to play cards on roads with counters to visit Towns and earn points!" + "\n" +
                                     "- You can use WASD to pan around the map, or zoom in/out with the mouse wheel." + "\n" +
