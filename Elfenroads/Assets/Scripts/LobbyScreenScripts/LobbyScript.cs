@@ -117,14 +117,14 @@ public class LobbyScript : MonoBehaviour
         Debug.Log("Enter sessionsLongPoll()");
         while (true) {
             UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions?hash=" + sessionsLongPollingHash);
-            request.timeout = 300000000; //Fuck me
+            request.timeout = 600; // 10 minutes is reasonable
 
             request.SendWebRequest();
 
             while (!request.isDone) {
                 yield return new WaitForEndOfFrame();
             }
-            Debug.Log(request.responseCode);
+            
             if (request.responseCode == 408) {
                 request.Dispose();
                 continue;
@@ -225,6 +225,17 @@ public class LobbyScript : MonoBehaviour
         }
     }
 
+    IEnumerator TokenRefreshCoroutine() {
+        while (true) {
+            yield return new WaitForSecondsRealtime(1f);
+            thisClient.tokenTimeout--;
+            if (thisClient.tokenTimeout < 30) {
+                thisClient.RefreshAccessToken();
+                yield return new WaitForSecondsRealtime(5f);
+            }
+        }
+    }
+
     void OnEnable() {
         sessions = new List<SessionJSON>();
         sessionsLongPollingHash = null;
@@ -265,6 +276,7 @@ public class LobbyScript : MonoBehaviour
         SessionInfo.Instance().setClient();
         clearTableRow();
         StartCoroutine(onEnableCoroutine());
+        StartCoroutine(TokenRefreshCoroutine());
         //Next, start polling. For now, this coroutine will simply get an update and display it every second. Later on, if time permits, can make this more sophisticated via the scheme described here, checking for return codes 408 and 200.
         //https://github.com/kartoffelquadrat/AsyncRestLib#client-long-poll-counterpart (This would likely require changing the LobbyService.cs script, as well as the refreshSuccess function(s)).
     }

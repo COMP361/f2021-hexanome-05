@@ -31,6 +31,7 @@ public class Client : ClientInterface
     public SocketIOCommunicator socket;
     public string thisSessionID;
     public Session mySession;
+    public int tokenTimeout;
 
     public event LoginSuccess LoginSuccessEvent;
     public event LoginFailure LoginFailureEvent;
@@ -84,6 +85,10 @@ public class Client : ClientInterface
         clientCredentials.username = username;
         clientCredentials.password = password;
         lobbyService.Login(username, password);
+    }
+
+    public void RefreshAccessToken(){
+        lobbyService.RefreshAccessToken();
     }
 
     // public void getRole(){

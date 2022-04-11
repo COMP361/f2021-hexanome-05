@@ -91,6 +91,22 @@ public class LobbyService
         request.Dispose();
     }
 
+    //The login operation.
+    public void RefreshAccessToken() {
+        
+        WWWForm data = new WWWForm(); // Using this class is a must for generating POST data, I learned this the hard way!
+        data.AddField("grant_type", "refresh_token");
+        data.AddField("refresh_token", Client.Instance().clientCredentials.refreshToken);
+
+        UnityWebRequest request = UnityWebRequest.Post(LS_PATH + "/oauth/token", data);
+
+        // base64 encoded string for "bgp-client-name:bgp-client-pw"
+        request.SetRequestHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
+        
+        request.SendWebRequest().completed += OnLoginCompleted;
+    }
+
+
     public void getRole(string token){
         UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/oauth/role?access_token=" + token);
         UnityWebRequestAsyncOperation operation = request.SendWebRequest();
