@@ -9,8 +9,6 @@ public class LoginScript : MonoBehaviour
 {
     private Button loginButton;
     public TMPro.TMP_Text loginInfoText;
-    public Button loginRyanButton;
-    public Button loginJoergButton;
     public Button loginElfenroadsButton;
     private Client thisClient;
 
@@ -30,8 +28,6 @@ public class LoginScript : MonoBehaviour
 
         //Add onclick listener to button for "login" function.
         loginButton.onClick.AddListener(login);
-        loginRyanButton.onClick.AddListener(loginRyan);
-        loginJoergButton.onClick.AddListener(loginJoerg);
         loginElfenroadsButton.onClick.AddListener(loginElfenroads);
 
         thisClient.LoginSuccessEvent += loginSuccessResult;
@@ -54,17 +50,6 @@ public class LoginScript : MonoBehaviour
             thisClient.Login(usernameBox.GetComponent<TMP_InputField>().text,passwordBox.GetComponent<TMP_InputField>().text);
         }
     }
-
-    void loginRyan(){
-        loginInfoText.text = "Logging in...";
-        thisClient.Login("ryan", "abc123_ABC123");
-    }
-
-    void loginJoerg(){  
-        loginInfoText.text = "Logging in...";
-        thisClient.Login("joerg", "abc123_ABC123");
-    }
-
     void loginElfenroads(){
         loginInfoText.text = "Logging in...";
         thisClient.Login("Elfenroads", "$#Y+qDctAF3Fvk?@");
