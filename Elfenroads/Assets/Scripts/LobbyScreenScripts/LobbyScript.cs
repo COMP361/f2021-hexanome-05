@@ -211,6 +211,7 @@ public class LobbyScript : MonoBehaviour
                         thisClient.mySession = new Session(sesh.id, sesh.creator, sesh.players, sesh.launched, sesh.savegameid, sesh.gameParameters.maxSessionPlayers);
                         thisClient.thisSessionID = sesh.id;
                         SessionInfo.Instance().savegame_id = thisClient.mySession.saveID;
+                        GameObject.Find("Dropdown").GetComponent<DropDownHandler>().hasJoined = true;
                         break;
                     }
                 }
@@ -220,6 +221,7 @@ public class LobbyScript : MonoBehaviour
                 thisClient.mySession = null;
                 thisClient.thisSessionID = null;
                 SessionInfo.Instance().savegame_id = "";
+                GameObject.Find("Dropdown").GetComponent<DropDownHandler>().hasJoined = false;
             }
             displaySessions();
         }

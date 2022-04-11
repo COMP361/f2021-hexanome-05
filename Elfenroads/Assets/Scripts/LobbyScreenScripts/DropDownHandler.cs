@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class DropDownHandler : MonoBehaviour
 {
     public Dropdown dropdown;
-
+    public bool hasJoined = false;
     async void OnEnable()
     {
         var savegames = await Client.Instance().getSavegames();
@@ -25,6 +25,13 @@ public class DropDownHandler : MonoBehaviour
             dropdown.interactable = false;
         }else{
             dropdown.interactable = true;
+        }
+        if(!hasJoined){
+            if(dropdown.value == 0){
+            SessionInfo.Instance().savegame_id = "";
+            }else{
+                SessionInfo.Instance().savegame_id = dropdown.options[dropdown.value].text;
+            }  
         }
     }
 }
