@@ -102,8 +102,7 @@ namespace Controls {
         }
 
         string playerName = SessionInfo.Instance().getClient().clientCredentials.username;
-        Debug.Log("Session info player name: " + playerName + ", Host player name: " + SessionInfo.Instance().getClient().getSessionByID(SessionInfo.Instance().getSessionID()).hostPlayerName + ", ID: " + SessionInfo.Instance().getSessionID());
-        if(playerName == SessionInfo.Instance().getClient().getSessionByID(SessionInfo.Instance().getSessionID()).hostPlayerName){
+        if(playerName == SessionInfo.Instance().getClient().mySession.hostPlayerName){
             JObject json = new JObject();
             json.Add("game_id", SessionInfo.Instance().getClient().thisSessionID);
             Debug.Log(SessionInfo.Instance().getVariant());

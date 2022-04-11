@@ -83,6 +83,7 @@ public class LobbyScript : MonoBehaviour
     }
 
     IEnumerator getSessionsSetHash() {
+        Debug.Log("Enter getSessionsSetHash()");
         UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions");
 
         yield return request.SendWebRequest();
@@ -104,14 +105,16 @@ public class LobbyScript : MonoBehaviour
                 sessionsLongPollingHash = sb.ToString();
             }
 
+            Debug.Log($"Response: {request.downloadHandler.text}");
+
             sessions = deserializeSessions(request.downloadHandler.text);
-            
         }
 
         request.Dispose();
     }
 
     IEnumerator sessionsLongPoll() {
+        Debug.Log("Enter sessionsLongPoll()");
         while (true) {
             UnityWebRequest request = UnityWebRequest.Get(LS_PATH + "/api/sessions?hash=" + sessionsLongPollingHash);
             request.timeout = 300000000; //Fuck me
@@ -140,6 +143,7 @@ public class LobbyScript : MonoBehaviour
                     }
                     sessionsLongPollingHash = sb.ToString();
                 }
+                Debug.Log($"Response: {request.downloadHandler.text}");
 
                 sessions = deserializeSessions(request.downloadHandler.text);
             }
@@ -196,6 +200,7 @@ public class LobbyScript : MonoBehaviour
                     thisClient.mySession = new Session(sesh.id, sesh.creator, sesh.players, sesh.launched, sesh.savegameid, sesh.gameParameters.maxSessionPlayers);
                     thisClient.hasSessionCreated = true;
                     thisClient.thisSessionID = sesh.id;
+                    SessionInfo.Instance().savegame_id = thisClient.mySession.saveID;
                     break;
                 }
 
@@ -205,6 +210,7 @@ public class LobbyScript : MonoBehaviour
                         isHostOrPlayer = true;
                         thisClient.mySession = new Session(sesh.id, sesh.creator, sesh.players, sesh.launched, sesh.savegameid, sesh.gameParameters.maxSessionPlayers);
                         thisClient.thisSessionID = sesh.id;
+                        SessionInfo.Instance().savegame_id = thisClient.mySession.saveID;
                         break;
                     }
                 }
@@ -213,12 +219,15 @@ public class LobbyScript : MonoBehaviour
             if (!isHostOrPlayer) {
                 thisClient.mySession = null;
                 thisClient.thisSessionID = null;
+                SessionInfo.Instance().savegame_id = "";
             }
             displaySessions();
         }
     }
 
     void OnEnable() {
+        sessions = new List<SessionJSON>();
+        sessionsLongPollingHash = null;
 
         //First, create Client object and get the button.
         thisClient = Client.Instance();
@@ -252,16 +261,21 @@ public class LobbyScript : MonoBehaviour
         // Debug.Log("Socket status: " + sioCom.Instance.Status);
         thisClient.setSocket(sioCom);
         sioCom.Instance.Connect();
-        //sioCom.Instance.On("join", (msg) => testCallback(msg.ToString()));
-
+        sioCom.Instance.On("join", (msg) => testCallback(msg.ToString()));
+        SessionInfo.Instance().setClient();
+        clearTableRow();
         StartCoroutine(onEnableCoroutine());
         //Next, start polling. For now, this coroutine will simply get an update and display it every second. Later on, if time permits, can make this more sophisticated via the scheme described here, checking for return codes 408 and 200.
         //https://github.com/kartoffelquadrat/AsyncRestLib#client-long-poll-counterpart (This would likely require changing the LobbyService.cs script, as well as the refreshSuccess function(s)).
     }
 
-    // public void testCallback(string message){
-    //     Debug.Log("Reached test callback method! Message recieved is: '" + message + "'");
-    // }
+    void OnDisable() {
+        StopAllCoroutines();
+    }
+
+    public void testCallback(string message){
+        Debug.Log("Reached test callback method! Message recieved is: '" + message + "'");
+    }
 
     public void changeInfoText(string input){
         infoText.text = input;
@@ -281,15 +295,15 @@ public class LobbyScript : MonoBehaviour
         Debug.Log(inputError);
     }
 
-    private async Task createSuccessResult(string result){
-        Debug.Log("CreateSuccess called.");
+    private void createSuccessResult(string result){
+        Debug.Log("CreateSuccess called: " + result);
 
         thisClient.hasSessionCreated = true;
         infoText.text = "Creation sucessful!";
-        await thisClient.refreshSessions();
         //Now that the session has been created, we can turn on the sioCom.Instance.
-        Debug.Log("On create, session id is: " + thisClient.thisSessionID);
-        sioCom.Instance.Emit("join", thisClient.thisSessionID, true);
+        Debug.Log("Session ID result:" + result);
+        Debug.Log("Session ID right before we join:" + thisClient.thisSessionID);
+        sioCom.Instance.Emit("join", result, true);
         sioCom.Instance.On("Launch", callback);
     }
 
@@ -307,12 +321,11 @@ public class LobbyScript : MonoBehaviour
     }
 
 
-     public async Task deleteSuccess(string input){
+     public void deleteSuccess(string input){
         infoText.text = "Deletion successful!";
         Debug.Log("Delete success: " + input);
         thisClient.hasSessionCreated = false;
         thisClient.mySession = null;
-        await thisClient.refreshSessions();
     }
 
     public void deleteFailure(string error){
@@ -330,15 +343,22 @@ public class LobbyScript : MonoBehaviour
         //Debug.Log("Launch failure: " + error);
     }
 
-    public async Task joinSuccess(string input){
+    public void joinSuccess(string input){
         infoText.text = "Join successful!";
         Debug.Log("Join success: " + input);
-        await thisClient.refreshSessions();
         //Now that the session has been joined, we can turn on the sioCom.Instance.
-        sioCom.Instance.Emit("join", thisClient.thisSessionID,true);
-        SessionInfo.Instance().savegame_id = thisClient.mySession.saveID;
-        sioCom.Instance.On("Launch", callback);
+        //***
+        StartCoroutine(joinSuccessCoroutine());
         //Debug.Log(this.thisClient.thisSessionID);
+    }
+
+    IEnumerator joinSuccessCoroutine() {
+        while (thisClient.thisSessionID == null) {
+            yield return new WaitForEndOfFrame();
+        }
+        Debug.Log("Session ID right before we join:" + thisClient.thisSessionID);
+        sioCom.Instance.Emit("join", thisClient.thisSessionID, true);
+        sioCom.Instance.On("Launch", callback);
     }
 
     public void joinFailure(string error){
@@ -346,14 +366,13 @@ public class LobbyScript : MonoBehaviour
         Debug.Log("Join failure: " + error);
     }
 
-    public async Task leaveSuccess(string input){
+    public void leaveSuccess(string input){
         infoText.text = "Leave successful!";
         Debug.Log("Leave success: " + input);
-        await thisClient.refreshSessions();
         sioCom.Instance.Emit("leave", thisClient.thisSessionID,true);
         thisClient.mySession = null;
+        thisClient.thisSessionID = null;
         sioCom.Instance.Off("Launch", callback);
-
     }
 
     public void leaveFailure(string error){
@@ -408,13 +427,18 @@ public class LobbyScript : MonoBehaviour
         // displaySessions();
     }
 
+    private void clearTableRow(){
+        foreach(Transform child in tableRow.transform){
+            Destroy(child.gameObject);
+        }
+    }
+
     private void displaySessions() {
         Debug.Log("DisplaySessions called");
-        List<Session> foundSessions = new List<Session>();
-        foreach (SessionJSON sesh in sessions) {
-            foundSessions.Add(new Session(sesh.id, sesh.creator, sesh.players, sesh.launched, sesh.savegameid, sesh.gameParameters.maxSessionPlayers));
-        }
         
+        //Delete all tablerow children
+        clearTableRow();
+
         foreach(SessionJSON session in sessions) {
             //Make the new row.
             List<string> playersList = new List<string>(session.players);
