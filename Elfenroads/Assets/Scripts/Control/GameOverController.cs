@@ -12,7 +12,7 @@ public class GameOverController : MonoBehaviour
     public void updateTexts(){
 
         string playerName = SessionInfo.Instance().getClient().clientCredentials.username;
-        if(playerName == SessionInfo.Instance().getClient().getSessionByID(SessionInfo.Instance().getSessionID()).hostPlayerName){
+        if(playerName == SessionInfo.Instance().getClient().mySession.hostPlayerName){
             //The host sends a "quit" request to the server, after a few seconds.
             Invoke("endOfGameQuit", 3f);
         }

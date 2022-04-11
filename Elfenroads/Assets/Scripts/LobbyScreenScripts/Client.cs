@@ -143,12 +143,11 @@ public class Client : ClientInterface
         //       *call Server for registration status here*
 
 
-        if(!hasSessionCreated){ //If the client doesn't already have a created session, we can create one.
+        if(!hasSessionCreated || mySession == null){ //If the client doesn't already have a created session, we can create one.
             lobbyService.createSession(clientCredentials.username, clientCredentials.accessToken);
-            hasSessionCreated = true;
             return;
         }else{
-            GameObject.Find("Lobby Screen").GetComponent<LobbyScript>().changeInfoText("You already have a session!");
+            GameObject.Find("Lobby Screen").GetComponent<LobbyScript>().changeInfoText("You already have a session or are already in another game!");
             return; //Otherwise, we don't want to allow someone to create a bunch of sessions so we just return.
         }
     }

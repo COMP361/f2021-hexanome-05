@@ -6,16 +6,16 @@ public delegate void RoleSuccess(string responseText);
 public delegate void RoleFailure(string error);
 public delegate void RefreshSuccess(string responseText);
 public delegate void RefreshFailure(string error);
-public delegate Task CreateSuccess(string responseText);
+public delegate void CreateSuccess(string responseText);
 public delegate void CreateFailure(string error);
 
-public delegate Task JoinSuccess(string responseText); //Joining doesn't seem to return anything... But will at least try to use this to test whether or not it works.
+public delegate void JoinSuccess(string responseText); //Joining doesn't seem to return anything... But will at least try to use this to test whether or not it works.
 public delegate void JoinFailure(string error);
-public delegate Task LeaveSuccess(string responseText); 
+public delegate void LeaveSuccess(string responseText); 
 public delegate void LeaveFailure(string error);
 public delegate void LaunchSuccess(string responseText);
 public delegate void LaunchFailure(string error);
-public delegate Task DeleteSuccess(string responseText);
+public delegate void DeleteSuccess(string responseText);
 public delegate void DeleteFailure(string error);
 
 public interface ClientInterface

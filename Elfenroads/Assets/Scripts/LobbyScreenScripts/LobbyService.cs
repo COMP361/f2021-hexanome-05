@@ -199,6 +199,7 @@ public class LobbyService
             // LeaveSuccessEvent(request.downloadHandler.text);
             //Potentially since there is no session to be displayed anymore.
             Debug.Log("Leave successful!");
+            LeaveSuccessEvent("success");
         }
         else {
             LeaveFailureEvent(request.error + "\n" + request.downloadHandler.text); 
