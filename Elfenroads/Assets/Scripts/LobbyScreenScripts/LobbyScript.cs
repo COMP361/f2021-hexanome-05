@@ -454,10 +454,11 @@ public class LobbyScript : MonoBehaviour
 
             GameObject instantiatedRow = Instantiate(tableRowPrefab, tableRow.transform); //0 is hostname, 1 is ready players
             //Set the strings for "Hostname" and "readyPlayers"
-            try{
+            try {
                 Session legacySession = new Session(session.id, session.creator, session.players, session.launched, session.savegameid, session.gameParameters.maxSessionPlayers);
                 instantiatedRow.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text = session.creator;
                 instantiatedRow.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = session.players.Length + "/" + session.gameParameters.maxSessionPlayers;
+                instantiatedRow.transform.GetChild(2).GetComponent<TMPro.TMP_Text>().text = session.savegameid;
 
                 //Based on session attributes, decide what button (if any) should be added.
                 if (Client.Instance().clientCredentials.username == session.creator && session.players.Length >= 2) {
