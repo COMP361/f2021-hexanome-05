@@ -20,7 +20,7 @@ The Lobby and matchmaking system used for this project was provided to the stude
 ![LobbyDemo](./Images/LobbyDemo.gif)
 
 ### Gameplay
-The game UI is very intuitive, allowing various complicated actions to be done seamlessly in quick succession. Shown below is an example of the "Move Boot" phase with a "Elfen Witch" variant of the "ElfenGold" expansion, while moving using a Caravan on a road containing an obstacle. Note that the map can be zoomed in and out, and that all of these actions are sent in real-time to all player devices:
+The game UI is very intuitive, allowing various complicated actions to be done seamlessly in quick succession. Shown below is an example of the "Move Boot" phase with a "Elfen Witch" variant of the "ElfenGold" expansion, while moving using a Caravan on a road containing an obstacle as well as a witch's flight and movement on streams. Note that the map can be zoomed in and out, that all of these actions are sent in real-time to all player devices, and that a savegame can be created on any step through the top-left "Menu" button:
 ![MoveBootDemo](./Images/MoveBootDemo.gif)
 
 And don't worry if you don't know the game's rules (or you just need to brush up on them) - every phase of the game includes an info screen which can be accessed on the top-right of the game screen, and incorrect actions will tell you what you did wrong as shown below:
@@ -28,14 +28,15 @@ And don't worry if you don't know the game's rules (or you just need to brush up
 
 ### Photo Gallery
 Below are several pictures displaying the UI from various phases of a typical game of Elfenroads:
-The 'Draw Card' phase of ElfenGold:
+
+- The 'Draw Card' phase of ElfenGold:
 ![DrawCard](./Images/DrawCardScreenShot.png)
 
-The 'Finish Round' phase of ElfenLand:
+- The 'Finish Round' phase of ElfenLand:
 ![DiscardCounter](./Images/DiscardCounterScreenShot.png)
 
-The 'Auction' phase of ElfenGold:
+- The 'Auction' phase of ElfenGold:
 ![Auction](./Images/AuctionScreenShot.png)
 
-Finally, an example of the 'end of game' screen:
+- Finally, an example of the 'end of game' screen:
 ![WinScreen](./Images/WinScreen.png)
