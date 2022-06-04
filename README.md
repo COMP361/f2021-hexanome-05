@@ -1,12 +1,16 @@
-# f2021-hexanome-05
+# COMP361 Elfenroads Project
+This project is a result of the 2021-2022 COMP361 class, where over the course of two semesters our aim was to create an online virtual version of Alan R. Moon's popular board game "Elfenland", including its expansion "Elfengold" as well as their variants (This version of the game is often shortened to Elfenroads, more info on the game can be found [here](https://boardgamegeek.com/boardgame/180325/elfenroads). 
 ## Installation
-Use Unity version 2020.3.21f1 LTS (64-bit). Select `Elfenroads` as the project root during import.
-## Workflow
-We will be using [Github flow](https://guides.github.com/introduction/flow/):
-1. Create a branch for the topic/feature you want to work on (or check if it exists already).
-2. Work on the branch.
-3. When you want to merge your branch into `main`, create a pull request.
-4. Review the changes and merge
+This project was made using Unity version 2020.3.21f1 LTS (64-bit). Select `Elfenroads` as the project root during import, and build/run it as you would any other unity project.
+## Contributors
+The following seven students participated in the creation of this project:
+- [Maxim Boucher](https://github.com/Thorzag)
+- [Adja Coulibaly](https://github.com/adjabeepboop)
+- [Christopher Cui](https://github.com/chriscui47)
+- [Xiang Meng](https://github.com/xm2j)
+- [Danial Motamedi Mehr](https://github.com/danial23)
+- [Alex Rojco](https://github.com/alexrojco)
+- [Luis Yoon](https://github.com/Luisy619)
 
-If there are conflicts, discuss a solution with the rest of the team.
-Remember to keep your branches up to date.
+## Features
+
