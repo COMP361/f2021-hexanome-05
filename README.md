@@ -16,7 +16,7 @@ The following seven students participated in the creation of this project:
 
 ### Lobby
 
-The Lobby and matchmaking system used for this project was provided to the students by the teachers. This "LobbyService" can be found [here](https://github.com/kartoffelquadrat/LobbyService). It allows for quick creation of game sessions (in the case of this game, for up to six players) as well as game-save functionality. Below is a short demo of what launching a game of Elfenroads could look like:
+A session-creation system and API used in this project was provided to the students by the teachers. This "LobbyService" can be found [here](https://github.com/kartoffelquadrat/LobbyService). It allows for quick creation of game sessions (in the case of this game, for up to six players) as well as game-save functionality. Below is a short demo of what launching a game of Elfenroads could look like:
 ![LobbyDemo](./Images/LobbyDemo.gif)
 
 ### Gameplay
