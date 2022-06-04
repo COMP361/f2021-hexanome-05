@@ -1,5 +1,5 @@
 # COMP361 Elfenroads Project
-This project is a result of the 2021-2022 COMP361 class, where over the course of two semesters our aim was to create an online virtual version of Alan R. Moon's popular board game "Elfenland", including its expansion "Elfengold" as well as their variants (This version of the game is often shortened to Elfenroads, more info on the game can be found [here](https://boardgamegeek.com/boardgame/180325/elfenroads). 
+This project was built during McGill University's 2021-2022 COMP361 class, where over the course of two semesters our aim was to create an online multiplayer version of Alan R. Moon's popular board game "Elfenland", including its expansion "Elfengold" as well as their variants (This version of the game is often shortened to Elfenroads, more info on the game can be found [here](https://boardgamegeek.com/boardgame/180325/elfenroads)). 
 ## Installation
 This project was made using Unity version 2020.3.21f1 LTS (64-bit). Select `Elfenroads` as the project root during import, and build/run it as you would any other unity project.
 ## Contributors
