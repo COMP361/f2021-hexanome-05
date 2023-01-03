@@ -4,7 +4,7 @@ This project was built during McGill University's 2021-2022 [COMP361 class](http
 This project was made using Unity version 2020.3.21f1 LTS (64-bit). Select `Elfenroads` as the project root during import, and build/run it as you would any other unity project.
 ## Contributors
 The following seven students participated in the creation of this project:
-- [Maxim Boucher](https://github.com/Thorzag)
+- [Maxim Boucher](https://github.com/MaxBouch14)
 - [Adja Coulibaly](https://github.com/adjabeepboop)
 - [Christopher Cui](https://github.com/chriscui47)
 - [Xiang Meng](https://github.com/xm2j)
