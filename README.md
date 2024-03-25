@@ -1,7 +1,7 @@
 # COMP361 ElfenRoads Project
 This project was built during McGill University's 2021-2022 [COMP361 class](https://www.mcgill.ca/study/2022-2023/courses/comp-361d1), where over the course of two semesters our aim was to create an online multiplayer version of Alan R. Moon's popular board game "ElfenLand", including its expansion "ElfenGold" as well as their variants (This version of the game is often shortened to ElfenRoads, more info on the game can be found [here](https://boardgamegeek.com/boardgame/180325/elfenroads)). 
 ## Installation
-This project was made using Unity version 2020.3.21f1 LTS (64-bit). Select `Elfenroads` as the project root during import, and build/run it as you would any other unity project.
+This project was made using Unity version 2020.3.21f1 LTS (64-bit). Select `Elfenroads` as the project root during import, and build/run it as you would any other unity project. Then, download and run the LobbyService found [here](https://github.com/kartoffelquadrat/LobbyService).
 ## Contributors
 The following seven students participated in the creation of this project:
 - [Maxim Boucher](https://github.com/MaxBouch14)
